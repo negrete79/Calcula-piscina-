@@ -2,92 +2,269 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0096D6">
-<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Calc. do Elias">
 <title>Calculadora do Elias — Método Copo Americano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--azul:#0096D6;--azul-forte:#007BB3;--borda:#D8ECF6;--agua:#E1F4FC;--agua-2:#F2FAFE;--ink:#0A2E42;--ink-2:#33657F;--verde:#0E7C5B;--verde-bg:#E7F7F0;--verde-bd:#BFE7D6;--verm:#B3362B;--verm-bg:#FCEEEC;--verm-bd:#F1C8C3;--ambar:#9A5B0B;--ambar-bg:#FFF6E4;--ambar-bd:#F2D9A8;--radius:20px}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Nunito,sans-serif;color:var(--ink);background:#fff}
-header.topo{background:var(--azul);color:#fff;padding:12px 16px 46px;position:relative}
-nav.steps{max-width:640px;margin:18px auto;display:flex;gap:8px;padding:0 18px}
-.no{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2.5px solid var(--borda);font:800 15px Baloo 2;cursor:pointer}
-.no.atual{border-color:var(--azul);color:var(--azul);transform:scale(1.12)}
-.no.feito{background:var(--verde-bg);border-color:var(--verde-bd);color:var(--verde)}
-.lig{flex:1;height:3px;background:var(--borda);margin-top:20px}
-.lig.ok{background:#7FC8A9}
-main{max-width:640px;margin:0 auto;padding:8px 18px 40px}
-section{display:none}section.ativa{display:block}
-.card{background:#fff;border:1px solid var(--borda);border-radius:20px;padding:20px;box-shadow:0 10px 28px rgba(0,90,140,.1);margin-top:12px}
-.btn{background:var(--azul);color:#fff;border:none;border-radius:15px;padding:15px 22px;font:800 15px Nunito;cursor:pointer}
-.campo label{font-size:12px;font-weight:800;color:var(--ink-2)}
-.in-wrap{display:flex;background:var(--agua-2);border:2px solid var(--borda);border-radius:13px;height:48px;margin:6px 0 12px}
-.in-wrap input{flex:1;border:none;background:transparent;padding:0 13px;font:800 16px Nunito;outline:none}
-.resultado{margin-top:18px;background:var(--azul);color:#fff;border-radius:20px;padding:22px}
-.an-sc{border:1.5px solid var(--borda);border-radius:12px;padding:9px;text-align:center}
-.an-sc.ok{background:var(--verde-bg);border-color:var(--verde-bd)}
-.an-sc.ruim{background:var(--verm-bg);border-color:var(--verm-bd)}
-.an-sc.medio{background:var(--ambar-bg);border-color:var(--ambar-bd)}
-.an-fix{display:flex;gap:11px;background:var(--agua-2);border:1.5px solid var(--borda);border-left:4px solid var(--ambar);border-radius:12px;padding:10px;margin-top:8px}
-</style>
-</head>
-<body>
-<header class="topo">
-<h1>Calculadora do Elias — Método Copo Americano</h1>
-<p>SEM MISTÉRIO, DIRETO AO PONTO</p>
-</header>
-<nav class="steps">
-<div class="no atual" onclick="ir(1)">1</div><div class="lig" id="l1"></div>
-<div class="no" onclick="ir(2)" id="n2">2</div><div class="lig" id="l2"></div>
-<div class="no" onclick="ir(3)" id="n3">3</div>
-</nav>
-<main>
-<section id="s1" class="ativa">
-<div class="card">
-<h2>1. Volume da piscina</h2>
-<label>Formato</label>
-<select id="formato" onchange="calcVol()"><option value="ret">Retangular</option><option value="red">Redonda</option><option value="ova">Oval</option></select>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-<div class="campo"><label>Comp (m)</label><div class="in-wrap"><input id="comp" type="number" oninput="calcVol()"></div></div>
-<div class="campo"><label>Larg (m)</label><div class="in-wrap"><input id="larg" type="number" oninput="calcVol()"></div></div>
-<div class="campo"><label>Prof rasa</label><div class="in-wrap"><input id="prasa" type="number" step="0.1" oninput="calcVol()"></div></div>
-<div class="campo"><label>Prof funda</label><div class="in-wrap"><input id="pfunda" type="number" step="0.1" oninput="calcVol()"></div></div>
-</div>
-<div id="resVol" class="resultado" style="display:none"></div>
-<button class="btn" onclick="ir(2)">Próximo →</button>
-</div>
-</section>
-<section id="s2">
-<div class="card">
-<h2>2. Revestimento</h2>
-<select id="revest"><option>Vinil</option><option>Fibra</option><option>Cerâmica</option></select>
-<button class="btn" onclick="ir(3)">Próximo →</button>
-</div>
-</section>
-<section id="s3">
-<div class="card">
-<h2>3. Análise - CORREÇÃO DO BUG DO PRINT</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-<div class="campo"><label>Alcalinidade (ppm) alvo 80-120</label><div class="in-wrap"><input id="alc" type="number" oninput="analisar()"></div></div>
-<div class="campo"><label>pH alvo 7,2-7,4</label><div class="in-wrap"><input id="ph" type="number" step="0.1" oninput="analisar()"></div></div>
-<div class="campo"><label>Cloro (ppm)</label><div class="in-wrap"><input id="clo" type="number" step="0.1" oninput="analisar()"></div></div>
-</div>
-<div id="cardsStatus" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px"></div>
-<div id="fixes"></div>
-<div id="doseBox" style="margin-top:14px"></div>
-</div>
-</section>
-</main>
-<script>
-let volumeLitros=0, agua='cristalina';
-function ir(n){document.querySelectorAll('section').forEach(s=>s.classList.remove('ativa'));document.getElementById('s'+n).classList.add('ativa');document.querySelectorAll('.lig').forEach((el,i)=>{el.classList.toggle('ok',i+1<n)});window.scrollTo({top:0,behavior:'smooth'})}
-function calcVol(){const c=parseFloat(comp.value)||0,l=parseFloat(larg.value)||0,pr=parseFloat(prasa.value)||0,pf=parseFloat(pfunda.value)||0;const prof=(pr+pf)/2||pr||pf;let m3=0;if(formato.value=='ret')m3=c*l*prof;else m3=c*l*prof*0.785;volumeLitros=m3*1000;if(m3>0){resVol.style.display='block';resVol.innerHTML=`<b>${Math.round(volumeLitros).toLocaleString('pt-BR')} L</b> - ${m3.toFixed(1)} m³ - Prof média ${prof.toFixed(2)}m<br>${(volumeLitros/45000).toFixed(1)} copos padrão`;localStorage.setItem('vol',volumeLitros)}analisar()}
-// FUNÇÕES CORRIGIDAS - ISSO QUE CONSERTA SEU PRINT
-function statusAlc(v){if(isNaN(v))return{v:'-',cls:'',label:'-'};if(v<80)return{v:v+' ppm',cls:'ruim',label:'BAIXA'};if(v>120)return{v:v+' ppm',cls:'medio',label:'ALTA'};return{v:v+' ppm',cls:'ok',label:'NA FAIXA'}}
-function statusPH(v){if(isNaN(v))return{v:'-',cls:'',label:'-'};if(v<7.2)return{v:v.toFixed(1).replace('.',','),cls:'ruim',label:'BAIXO'};if(v>7.4)return{v:v.toFixed(1).replace('.',','),cls:'ruim',label:'ALTO'};return{v:v.toFixed(1).replace('.',','),cls:'ok',label:'NA FAIXA'}}
-function statusCloro(v,verde){if(isNaN(v))return{v:'-',cls:'',label:'-'};if(verde){if(v<2.5)return{v:v.toFixed(1)+' ppm',cls:'ruim',label:'BAIXO - CHOQUE'};if(v>5)return{v:v.toFixed(1)+' ppm',cls:'medio',label:'ALTO'};return{v:v.toFixed(1)+' ppm',cls:'ok',label:'EM CHOQUE'}}else{if(v<1)return{v:v.toFixed(1)+' ppm',cls:'ruim',label:'BAIXO'};if(v>3)return{v:v.toFixed(1)+' ppm',cls:'medio',label:'ALTO'};return{v:v.toFixed(1)+' ppm',cls:'ok',label:'NA FAIXA'}}}
-function analisar(){const alc=parseFloat(document.getElementById('alc').value),ph=parseFloat(document.getElementById('ph').value),clo=parseFloat(document.getElementById('clo').value);const sAlc=statusAlc(alc),sPH=statusPH(ph),sClo=statusCloro(clo,agua=='verde');cardsStatus.innerHTML=`<div class="an-sc ${sAlc.cls}"><small>ALCALINIDADE</small><br><b>${sAlc.v}</b><br>${sAlc.label}</div><div class="an-sc ${sPH.cls}"><small>PH</small><br><b>${sPH.v}</b><br>${sPH.label}</div><div class="an-sc ${sClo.cls}"><small>CLORO</small><br><b>${sClo.v}</b><br>${sClo.label}</div>`;let f='';if(!isNaN(alc)&&alc<80&&volumeLitros>0){const g=(100-alc)*1.5*(volumeLitros/1000);f+=`<div class="an-fix"><b>${(g/1000).toFixed(1).replace('.',',')} kg (${(g/190).toFixed(1)} copos) Bicarbonato</b><br><small>Dilua 5 copos por vez no balde! Nunca tudo.</small></div>`}fixes.innerHTML=f;const copo=volumeLitros/45000;doseBox.innerHTML=volumeLitros>0?`<div class="card" style="border-left:6px solid #0096D6"><b>Manutenção:</b> ${copo.toFixed(1)} copos (${Math.round(copo*190)}g) cloro 65%<br><b>Choque água verde:</b> ${(copo*3).toFixed(1)} copos</div>`:'Informe volume';}
-</script>
-</body>
-</html>
+  :root{
+    --azul:#0096D6; --azul-forte:#007BB3; --azul-claro:#3FB2E4;
+    --ink:#0A2E42; --ink-2:#33657F; --ink-3:#6E93A8;
+    --agua:#E1F4FC; --agua-2:#F2FAFE; --borda:#D8ECF6;
+    --ambar:#9A5B0B; --ambar-bg:#FFF6E4; --ambar-bd:#F2D9A8;
+    --verde:#0E7C5B; --verde-bg:#E7F7F0; --verde-bd:#BFE7D6;
+    --verm:#B3362B; --verm-bg:#FCEEEC; --verm-bd:#F1C8C3;
+    --radius:20px;
+    --sombra:0 10px 28px rgba(0,90,140,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  [hidden]{display:none !important}
+  html,body{overflow-x:hidden}
+  html{scroll-behavior:smooth}
+  body{font-family:'Nunito',ui-rounded,'Segoe UI',sans-serif;color:var(--ink);background:#fff;
+    background-image:radial-gradient(#EAF6FD 1.5px, transparent 1.6px);background-size:26px 26px;
+    min-height:100vh;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.num{font-family:'Baloo 2','Trebuchet MS',sans-serif}
+  .ic{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  header.topo{background:var(--azul);color:#fff;position:relative;padding:12px 16px 46px}
+  .topo-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px}
+  .mini-mascote{width:46px;height:50px;flex:0 0 auto;filter:drop-shadow(0 3px 4px rgba(0,40,70,.25))}
+  .titulo{min-width:0;flex:1}
+  .titulo h1{font-size:clamp(14px,4.3vw,20px);font-weight:800;line-height:1.12}
+  .titulo p{font-size:clamp(9px,2.5vw,11.5px);font-weight:700;color:#CFEDFB;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+  .topo-dir{margin-left:auto;display:flex;align-items:center;gap:7px;flex:0 0 auto}
+  .badge-net{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 10px;
+    font-size:10.5px;font-weight:800;letter-spacing:.4px;
+    background:rgba(120,235,180,.16);border:1px solid rgba(150,240,195,.5);color:#C9F7DF}
+  .badge-net .ic{width:12px;height:12px}
+  .badge-net.off{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.4);color:#FDE9C8}
+  .btn-topo{display:inline-flex;align-items:center;gap:5px;background:#fff;color:var(--azul-forte);
+    border:none;border-radius:999px;padding:7px 12px;font:800 12px 'Nunito';cursor:pointer;
+    box-shadow:0 3px 8px rgba(0,40,70,.2);flex:0 0 auto}
+  .btn-topo:active{transform:scale(.96)}
+  .btn-topo .ic{width:13px;height:13px}
+  .header-wave{position:absolute;left:0;right:0;bottom:-1px;height:38px;overflow:hidden;pointer-events:none}
+  .header-wave svg{display:block;width:100%;height:100%}
+  .header-wave .w1{animation:respira 4.5s ease-in-out infinite}
+  .header-wave .w2{animation:respira 6s ease-in-out infinite reverse}
+  @keyframes respira{50%{transform:translateY(4px)}}
+
+  nav.steps{max-width:640px;margin:18px auto 6px;padding:0 18px;display:flex;align-items:center;gap:8px}
+  .no{width:44px;height:44px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;cursor:pointer;
+    background:#fff;border:2.5px solid var(--borda);color:var(--ink-3);font:800 15px 'Baloo 2';transition:.25s}
+  .no:hover{border-color:var(--azul-claro)}
+  .no.atual{border-color:var(--azul);color:var(--azul);transform:scale(1.12);box-shadow:0 4px 12px rgba(0,150,214,.25);background:#fff}
+  .no.feito{background:var(--verde-bg);border-color:var(--verde-bd);color:var(--verde)}
+  .no.feito .ic{width:18px;height:18px;stroke-width:3}
+  .lig{flex:1;height:3px;border-radius:3px;background:var(--borda);transition:.3s}
+  .lig.ok{background:#7FC8A9}
+
+  main, #guiaView{max-width:640px;margin:0 auto;padding:8px 18px 40px}
+  section, .g-painel{display:none}
+  section.ativa, .g-painel.ativa{display:block;animation:sobe .35s ease both}
+  @keyframes sobe{from{opacity:0;transform:translateY(16px)}}
+  .card{background:#fff;border:1px solid var(--borda);border-radius:var(--radius);box-shadow:var(--sombra);padding:20px}
+  .sec-head{display:flex;align-items:center;gap:12px;margin:14px 0 16px}
+  .sec-head .ic-box{width:42px;height:42px;border-radius:14px;background:var(--agua);color:var(--azul-forte);display:grid;place-items:center;flex:0 0 auto}
+  .sec-head .ic{width:21px;height:21px}
+  .sec-head h2{font-size:clamp(17px,5vw,20px);font-weight:800;line-height:1.1}
+  .sec-head p{font-size:clamp(12px,3.4vw,13px);color:var(--ink-2)}
+
+  .hero{display:grid;grid-template-columns:1fr 200px;gap:14px;align-items:start}
+  .hero-mascote{position:sticky;top:14px;text-align:center;padding-top:6px}
+  .hero-mascote svg{width:180px;max-width:100%;height:auto;animation:flutuar 4.5s ease-in-out infinite;filter:drop-shadow(0 10px 14px rgba(0,60,100,.14))}
+  @keyframes flutuar{50%{transform:translateY(-9px) rotate(1.4deg)}}
+  .hero-mascote.pulo svg{animation:pulo .8s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pulo{30%{transform:translateY(-20px) rotate(-4deg)}60%{transform:translateY(0)}80%{transform:translateY(-7px)}}
+  .fala{position:relative;background:var(--agua);border:1.5px solid var(--borda);border-radius:16px;
+    padding:12px 14px;font-size:13px;font-weight:700;color:var(--azul-forte);margin-top:10px;text-align:left}
+  .fala::before{content:'';position:absolute;top:-9px;left:50%;width:16px;height:16px;background:var(--agua);
+    border-left:1.5px solid var(--borda);border-top:1.5px solid var(--borda);transform:translateX(-50%) rotate(45deg)}
+  .fala.pop{animation:pop .3s ease}
+  @keyframes pop{50%{transform:scale(1.04)}}
+
+  .campo{min-width:0}
+  .campo label{display:block;font-size:12px;font-weight:800;color:var(--ink-2);margin-bottom:6px}
+  .in-wrap{display:flex;align-items:center;background:var(--agua-2);border:2px solid var(--borda);
+    border-radius:13px;height:48px;transition:.18s;overflow:hidden}
+  .in-wrap:focus-within{border-color:var(--azul);background:#fff;box-shadow:0 0 0 3px rgba(0,150,214,.13)}
+  .in-wrap input{flex:1;min-width:0;border:none;outline:none;background:transparent;
+    padding:0 4px 0 13px;font:800 16px 'Nunito';color:var(--ink);height:100%}
+  .in-wrap input::placeholder{color:#9FBCCD;font-weight:600}
+  .in-wrap .un{flex:0 0 auto;margin:0 7px 0 2px;padding:0 8px;height:25px;display:inline-flex;
+    align-items:center;border-radius:7px;background:#fff;border:1.5px solid var(--borda);
+    font-size:10.5px;font-weight:800;color:var(--ink-3)}
+  .campos{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px}
+  .pill-media{grid-column:1/-1;display:flex;align-items:center;gap:9px;background:var(--agua-2);
+    border:1.5px dashed var(--azul-claro);border-radius:13px;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--azul-forte)}
+  .pill-media .ic{width:17px;height:17px;flex:0 0 auto}
+  .nota-irregular{grid-column:1/-1;display:none;font-size:12.5px;color:var(--ink-2);background:#FFFBEF;
+    border:1.5px dashed var(--ambar-bd);border-radius:12px;padding:10px 13px;line-height:1.45}
+  .nota-irregular.mostra{display:block}
+  .formatos{display:flex;gap:8px;margin-bottom:18px}
+  .formatos button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    padding:11px 4px 9px;background:#fff;border:2px solid var(--borda);border-radius:15px;cursor:pointer;color:var(--ink-2);
+    font:800 clamp(10px,2.8vw,12px) 'Nunito';transition:.2s;text-align:center}
+  .formatos button .ic{width:23px;height:23px;flex:0 0 auto}
+  .formatos button:hover{border-color:var(--azul-claro);color:var(--azul-forte)}
+  .formatos button.sel{border-color:var(--azul);background:var(--agua-2);color:var(--azul-forte)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--azul);color:#fff;
+    border:none;border-radius:15px;padding:15px 22px;font:800 clamp(14px,4vw,15.5px) 'Nunito';cursor:pointer;
+    box-shadow:0 7px 18px rgba(0,150,214,.30);transition:.18s}
+  .btn:hover{background:var(--azul-forte);transform:translateY(-2px)}
+  .btn:active{transform:translateY(0) scale(.98)}
+  .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:#fff;color:var(--azul-forte);border:2px solid var(--borda);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--azul);background:var(--agua-2)}
+  .acoes{margin-top:18px}
+
+  .resultado{margin-top:18px;background:var(--azul);border-radius:var(--radius);color:#fff;position:relative;
+    overflow:hidden;padding:26px 22px 56px;box-shadow:0 12px 30px rgba(0,120,180,.30)}
+  .resultado .rot{font-size:clamp(10.5px,3vw,12px);font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#BFE6F7}
+  .vol-num{font-size:clamp(36px,12vw,56px);font-weight:800;line-height:1;letter-spacing:-1px}
+  .vol-sub{font-size:clamp(13px,3.6vw,15px);font-weight:800;color:#D8F1FC}
+  .vol-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .vol-m3,.vol-copo{display:inline-flex;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;
+    padding:6px 14px;font-size:clamp(11.5px,3.1vw,13.5px);font-weight:800;background:rgba(255,255,255,.10)}
+  .onda{position:absolute;left:0;right:0;bottom:0;height:32px;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='32'%3E%3Cpath d='M0 16 Q15 3 30 16 T60 16 T90 16 T120 16 V32 H0 Z' fill='%23ffffff' fill-opacity='.32'/%3E%3C/svg%3E");
+    background-repeat:repeat-x;background-size:120px 32px;animation:corre 2.6s linear infinite}
+  .onda.o2{bottom:6px;opacity:.55;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='32'%3E%3Cpath d='M0 16 Q15 5 30 16 T60 16 T90 16 T120 16 V32 H0 Z' fill='%23ffffff' fill-opacity='.5'/%3E%3C/svg%3E");
+    animation:corre 4.4s linear infinite reverse}
+  @keyframes corre{to{background-position-x:120px}}
+  .bolha{position:absolute;bottom:14px;border-radius:50%;background:rgba(255,255,255,.16);
+    border:1.5px solid rgba(255,255,255,.55);pointer-events:none}
+  .resultado .ir{margin-top:16px;position:relative;z-index:2}
+
+  .rev-lista{display:flex;flex-direction:column;gap:11px}
+  .rev{display:flex;align-items:center;gap:13px;padding:14px 15px;background:#fff;border:2px solid var(--borda);
+    border-radius:17px;cursor:pointer;transition:.2s}
+  .rev:hover{border-color:var(--azul-claro)}
+  .rev.sel{border-color:var(--azul);background:var(--agua-2)}
+  .rev .r-ic{width:44px;height:44px;border-radius:13px;background:var(--agua);color:var(--azul-forte);display:grid;place-items:center;flex:0 0 auto}
+  .rev .r-ic .ic{width:22px;height:22px}
+  .rev .r-tx{flex:1;min-width:0}
+  .rev .r-tx b{display:block;font:800 clamp(13.5px,3.7vw,15.5px) 'Nunito';color:var(--ink)}
+  .rev .r-tx span{font-size:clamp(11.5px,3.1vw,12.5px);color:var(--ink-2)}
+  .rev .radio{width:21px;height:21px;border-radius:50%;border:2.5px solid var(--borda);flex:0 0 auto;position:relative;transition:.2s}
+  .rev.sel .radio{border-color:var(--azul)}
+  .rev.sel .radio::after{content:'';position:absolute;inset:3.5px;border-radius:50%;background:var(--azul)}
+  .dica{margin-top:16px;display:none;background:var(--agua-2);border:1.5px solid var(--borda);border-radius:17px;padding:16px;gap:13px}
+  .dica.mostra{display:flex;animation:sobe .3s ease}
+  .dica .d-masc{width:60px;flex:0 0 auto}
+  .dica .d-tx b{display:block;font:800 15px 'Baloo 2';color:var(--azul-forte);margin-bottom:4px}
+  .dica .d-tx p{font-size:13.5px;line-height:1.55;color:var(--ink-2)}
+  .dica .d-tx strong{color:var(--ink)}
+
+  .an-card{background:#fff;border:1.5px solid var(--borda);border-radius:18px;margin-bottom:14px;
+    overflow:hidden;box-shadow:var(--sombra)}
+  .an-top{background:linear-gradient(135deg,#0096D6,#007BB3);color:#fff;padding:14px 16px;
+    display:flex;align-items:center;gap:11px}
+  .an-top .at-ic{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.18);
+    border:1.5px solid rgba(255,255,255,.4);display:grid;place-items:center;flex:0 0 auto}
+  .an-top .at-ic .ic{width:18px;height:18px}
+  .an-top b{display:block;font:800 15px 'Nunito'}
+  .an-top span{font-size:11.5px;color:#CFEDFB;line-height:1.4;display:block;margin-top:1px}
+  .an-corpo{padding:14px}
+  .an-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .an-field{min-width:0}
+  .an-field label{text-align:center;font-size:11px;margin-bottom:5px;line-height:1.2}
+  .an-field label em{font-style:normal;font-size:9.5px;color:var(--ink-3);display:block;font-weight:800}
+  .an-field .in-wrap{height:44px;border-radius:11px}
+  .an-field input{padding:0 4px;text-align:center;font-size:15px}
+  .an-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:11px}
+  .an-sc{background:var(--agua-2);border:1.5px solid var(--borda);border-radius:12px;
+    padding:9px 4px 8px;text-align:center;min-width:0}
+  .an-sc small{display:block;font-size:9px;font-weight:800;letter-spacing:.4px;
+    text-transform:uppercase;color:var(--ink-3)}
+  .an-sc .v{display:block;font:800 17px 'Baloo 2';color:var(--ink);line-height:1.15;margin-top:2px;white-space:nowrap;overflow:hidden}
+  .an-sc .v i{font-style:normal;font-size:10px;font-weight:800;color:var(--ink-3)}
+  .an-sc .st{display:inline-block;margin-top:4px;border-radius:999px;padding:2px 8px;
+    font:800 8.5px 'Nunito';letter-spacing:.4px;text-transform:uppercase;background:#fff;border:1px solid var(--borda);color:var(--ink-3)}
+  .an-sc.ok{background:var(--verde-bg);border-color:var(--verde-bd)}
+  .an-sc.ok .v{color:var(--verde)} .an-sc.ok .st{color:var(--verde);border-color:var(--verde-bd)}
+  .an-sc.medio{background:var(--ambar-bg);border-color:var(--ambar-bd)}
+  .an-sc.medio .v{color:var(--ambar)} .an-sc.medio .st{color:var(--ambar);border-color:var(--ambar-bd)}
+  .an-sc.ruim{background:var(--verm-bg);border-color:var(--verm-bd)}
+  .an-sc.ruim .v{color:var(--verm)} .an-sc.ruim .st{color:var(--verm);border-color:var(--verm-bd)}
+  .an-sc.vazio{border-style:dashed}
+  .an-fixes{margin-top:4px}
+  .an-fix{background:var(--agua-2);border:1.5px solid var(--borda);border-left:4px solid var(--ambar);
+    border-radius:12px;padding:11px 13px;margin-top:8px}
+  .an-fix.f-cl{border-left-color:var(--azul)}
+  .an-fix .f-q{display:inline-block;font:800 16px 'Baloo 2';color:var(--azul-forte);
+    background:#fff;border:1.5px solid var(--borda);border-radius:10px;padding:7px 13px;margin-bottom:8px}
+  .an-fix .f-t b{display:block;font:800 13.5px 'Nunito';color:var(--ink);margin-bottom:3px}
+  .an-fix .f-t span{display:block;font-size:13px;color:var(--ink-2);line-height:1.55}
+  .an-fix .f-aviso{margin-top:8px;background:var(--ambar-bg);border:1px solid var(--ambar-bd);border-radius:9px;
+    padding:9px 11px;font-size:12.5px;font-weight:700;color:var(--ambar);line-height:1.55}
+  .an-warn{display:flex;gap:9px;background:var(--verm-bg);border:1.5px solid var(--verm-bd);border-radius:12px;
+    padding:10px 12px;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--verm);line-height:1.5}
+  .an-warn .ic{width:16px;height:16px;flex:0 0 auto;margin-top:1px}
+  .an-vazio{margin-top:11px;font-size:12.5px;color:var(--ink-3);font-weight:600;
+    background:var(--agua-2);border:1.5px dashed var(--borda);border-radius:12px;padding:11px 13px;line-height:1.5}
+  .an-ordem{margin-top:11px;background:var(--agua-2);border:1.5px dashed var(--azul-claro);border-radius:12px;
+    padding:10px 12px;font-size:12.3px;font-weight:700;color:var(--azul-forte);line-height:1.55}
+  .an-pe{display:flex;justify-content:flex-end;margin-top:9px}
+  .an-limpar{background:none;border:none;color:var(--ink-3);font:800 11.5px 'Nunito';cursor:pointer;
+    text-decoration:underline;padding:4px 2px}
+  .an-limpar:hover{color:var(--verm)}
+
+  .dose-painel{border-left:6px solid var(--azul)}
+  .dose-painel.choque{border-left-color:#E39A17}
+  .dose-titulo{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3)}
+  .dose-pool{margin-top:4px;font-size:clamp(13px,3.6vw,14.5px);font-weight:700;color:var(--ink-2)}
+  .dose-pool b{color:var(--ink);font-weight:800}
+  .dose-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .dose-top .num{font-size:clamp(38px,12vw,54px);font-weight:800;color:var(--azul-forte);line-height:1}
+  .dose-painel.choque .dose-top .num{color:var(--ambar)}
+  .dose-top .lbl{font:800 clamp(12.5px,3.6vw,15px) 'Nunito';color:var(--ink-2)}
+  .dose-prat{margin-top:6px;font-size:clamp(13px,3.5vw,14px);font-weight:800;color:var(--ink);line-height:1.5}
+  .nota-dose{display:none;margin-top:11px;align-items:flex-start;gap:8px;background:var(--agua-2);border:1.5px solid var(--borda);
+    color:var(--azul-forte);border-radius:11px;padding:9px 12px;font:700 12.5px 'Nunito';line-height:1.5}
+  .nota-dose.mostra{display:flex}
+  .nota-dose .ic{width:15px;height:15px;flex:0 0 auto;margin-top:1px}
+  .bloq-dose{display:none;margin-top:11px;align-items:flex-start;gap:8px;background:var(--verm-bg);border:1.5px solid var(--verm-bd);
+    color:var(--verm);border-radius:11px;padding:9px 12px;font:800 12.5px 'Nunito';line-height:1.5}
+  .bloq-dose.mostra{display:flex}
+  .bloq-dose .ic{width:15px;height:15px;flex:0 0 auto;margin-top:1px}
+  .ajuste{display:none;margin-top:11px;align-items:flex-start;gap:8px;background:var(--ambar-bg);border:1.5px solid var(--ambar-bd);
+    color:var(--ambar);border-radius:11px;padding:9px 12px;font:700 12.5px 'Nunito'}
+  .ajuste.mostra{display:flex}
+  .ajuste .ic{width:15px;height:15px;flex:0 0 auto;margin-top:1px}
+  .equiv{margin-top:16px;border-top:1.5px solid var(--borda)}
+  .eq-linha{display:flex;align-items:center;gap:10px;padding:10px 2px;font-size:clamp(12.3px,3.4vw,14px);flex-wrap:wrap}
+  .eq-linha+.eq-linha{border-top:1.5px dashed var(--borda)}
+  .eq-linha .ic{width:18px;height:18px;color:var(--azul);flex:0 0 auto}
+  .eq-linha span{color:var(--ink-2);font-weight:700;flex:1;min-width:110px}
+  .eq-linha b{font-size:clamp(13px,3.6vw,15px);font-weight:800;white-space:nowrap;text-align:right}
+  .orient{margin-top:16px;border-radius:13px;padding:12px 14px;font-size:12.8px;line-height:1.6;font-weight:600;color:var(--ink-2)}
+  .orient.m{background:var(--agua-2);border:1.5px solid var(--borda)}
+  .orient.c{background:var(--ambar-bg);border:1.5px solid var(--ambar-bd);color:var(--ambar)}
+  .orient b{font-weight:800}
+  .dose-painel.choque .orient.c{display:block}
+  .dose-painel .orient.c{display:none}
+  .dose-painel.choque .orient.m{display:none}
+
+  #climaBox{margin-bottom:14px}
+  .clima-card{background:linear-gradient(135deg,#EAF7FF,#F6FCFF);border:1.5px solid var(--borda);border-radius:17px;padding:13px 15px}
+  .clima-ok{display:flex;align-items:center;gap:12px}
+  .clima-ok .c-ic{width:clamp(40px,10vw,50px);height:clamp(40px,10vw,50px);color:var(--azul);flex:0 0 auto}
+  .clima-ok .c-dados{flex:1;min-width:0}
+  .clima-ok .c-temp{font:800 clamp(21px,6.5vw,27px) 'Baloo 2';line-height:1;color:var(--ink)}
+  .clima-ok .c-desc{font:800 12.5px 'Nunito';color:var(--azul-forte)}
+  .clima-ok .c-loc{font-size:11px;color:var(--ink-3);display:flex;align-items:center;gap:4px;margin-top:2px;min-width:0}
+  .clima-ok .c-loc .ic{width:11px;height:11px;flex:0 0 auto}
+  .clima-ok .c-loc span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .clima-ok .c-hora{font-size:10px;color:var(--ink-3)}
+  .c-atualiza{background:#fff;border:1.5px solid var(--borda);color:var(--ink-3);width:32px;height:32px;
+    border-radius:10px;cursor:pointer;display:grid;place-items:center;flex:0 0 auto;align-self:flex-start}
+  .
