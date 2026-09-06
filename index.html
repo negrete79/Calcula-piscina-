@@ -24,6 +24,8 @@
     --sombra:0 10px 28px rgba(0,90,140,.10);
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  /* ===== CORREÇÃO CRÍTICA: hidden SEMPRE vence display do CSS ===== */
+  [hidden]{display:none !important}
   html,body{overflow-x:hidden}
   html{scroll-behavior:smooth}
   body{font-family:'Nunito',ui-rounded,'Segoe UI',sans-serif;color:var(--ink);background:#fff;
@@ -33,12 +35,12 @@
   .ic{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
   /* ============ TOPO ============ */
-  header.topo{background:var(--azul);color:#fff;position:relative;padding:14px 18px 46px}
-  .topo-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;min-height:44px}
-  .mini-mascote{width:48px;height:52px;flex:0 0 auto;filter:drop-shadow(0 3px 4px rgba(0,40,70,.25))}
-  .titulo{min-width:0}
-  .titulo h1{font-size:clamp(15px,4.4vw,20px);font-weight:800;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .titulo p{font-size:clamp(9.5px,2.6vw,12px);font-weight:700;color:#CFEDFB;letter-spacing:.6px;text-transform:uppercase}
+  header.topo{background:var(--azul);color:#fff;position:relative;padding:12px 16px 46px}
+  .topo-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px}
+  .mini-mascote{width:46px;height:50px;flex:0 0 auto;filter:drop-shadow(0 3px 4px rgba(0,40,70,.25))}
+  .titulo{min-width:0;flex:1}
+  .titulo h1{font-size:clamp(14px,4.3vw,20px);font-weight:800;line-height:1.12}
+  .titulo p{font-size:clamp(9px,2.5vw,11.5px);font-weight:700;color:#CFEDFB;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
   .topo-dir{margin-left:auto;display:flex;align-items:center;gap:7px;flex:0 0 auto}
   .badge-net{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 10px;
     font-size:10.5px;font-weight:800;letter-spacing:.4px;
@@ -130,7 +132,6 @@
   /* ============ RESULTADO ============ */
   .resultado{margin-top:18px;background:var(--azul);border-radius:var(--radius);color:#fff;position:relative;
     overflow:hidden;padding:26px 22px 56px;box-shadow:0 12px 30px rgba(0,120,180,.30)}
-  .resultado[hidden]{display:none}
   .resultado .rot{font-size:clamp(10.5px,3vw,12px);font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#BFE6F7}
   .vol-num{font-size:clamp(36px,12vw,56px);font-weight:800;line-height:1;letter-spacing:-1px}
   .vol-sub{font-size:clamp(13px,3.6vw,15px);font-weight:800;color:#D8F1FC}
@@ -189,10 +190,8 @@
   .an-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:11px}
   .an-sc{background:var(--agua-2);border:1.5px solid var(--borda);border-radius:12px;
     padding:9px 4px 8px;text-align:center;min-width:0}
-  .an-sc small{display:block;font-size:9px;font-weight:800;letter-spacing:.4px;
-    text-transform:uppercase;color:var(--ink-3)}
-  .an-sc .v{display:block;font:800 17px 'Baloo 2';color:var(--ink);line-height:1.15;margin-top:2px;
-    white-space:nowrap;overflow:hidden}
+  .an-sc small{display:block;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-3)}
+  .an-sc .v{display:block;font:800 17px 'Baloo 2';color:var(--ink);line-height:1.15;margin-top:2px;white-space:nowrap;overflow:hidden}
   .an-sc .v i{font-style:normal;font-size:10px;font-weight:800;color:var(--ink-3)}
   .an-sc .st{display:inline-block;margin-top:4px;border-radius:999px;padding:2px 8px;
     font:800 8.5px 'Nunito';letter-spacing:.4px;text-transform:uppercase;background:#fff;border:1px solid var(--borda);color:var(--ink-3)}
@@ -205,8 +204,7 @@
   .an-sc.vazio{border-style:dashed}
   .an-fixes{margin-top:4px}
   .an-fix{display:flex;align-items:center;gap:11px;background:var(--agua-2);
-    border:1.5px solid var(--borda);border-left:4px solid var(--ambar);border-radius:12px;
-    padding:10px 12px;margin-top:8px}
+    border:1.5px solid var(--borda);border-left:4px solid var(--ambar);border-radius:12px;padding:10px 12px;margin-top:8px}
   .an-fix.f-cl{border-left-color:var(--azul)}
   .an-fix .f-q{flex:0 0 auto;min-width:76px;text-align:center;font:800 15px 'Baloo 2';
     color:var(--azul-forte);background:#fff;border:1.5px solid var(--borda);border-radius:10px;padding:8px 6px}
@@ -344,8 +342,7 @@
   .guia-head > div{min-width:0}
   .guia-head h2{font-size:clamp(17px,5.2vw,21px);font-weight:800}
   .guia-head p{font-size:12px;color:var(--ink-2)}
-  .g-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;scrollbar-width:none}
-  .g-tabs::-webkit-scrollbar{display:none}
+  .g-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
   .g-tabs button{flex:0 0 auto;white-space:nowrap;border:2px solid var(--borda);background:#fff;color:var(--ink-2);
     border-radius:999px;padding:8px 15px;font:800 12.5px 'Nunito';cursor:pointer;
     display:inline-flex;align-items:center;gap:6px;transition:.2s}
@@ -356,10 +353,14 @@
     display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
   .g-card > h3 .ic{width:18px;height:18px;flex:0 0 auto}
   .g-card p{font-size:13.5px;line-height:1.6;color:var(--ink-2);overflow-wrap:break-word}
-  .g-card p b, .g-card li b{color:var(--ink)}
+  .g-card p b, .g-card li b, .dl-v b{color:var(--ink)}
   .g-card ul{list-style:none}
   .g-card ul li{font-size:13.5px;line-height:1.6;color:var(--ink-2);padding:6px 0 6px 24px;position:relative;overflow-wrap:break-word}
   .g-card ul li::before{content:'';position:absolute;left:4px;top:13px;width:8px;height:8px;border-radius:50%;background:var(--azul-claro)}
+  .dl-row{display:flex;gap:10px;padding:9px 0;border-bottom:1.5px dashed var(--borda)}
+  .dl-row:last-child{border-bottom:none}
+  .dl-k{flex:0 0 38%;min-width:0;font:800 12.8px 'Nunito';color:var(--ink);line-height:1.5;overflow-wrap:anywhere}
+  .dl-v{flex:1;min-width:0;font-size:12.8px;color:var(--ink-2);line-height:1.5;overflow-wrap:anywhere}
   .pos-item{display:flex;gap:12px;padding:11px 0;border-bottom:1.5px dashed var(--borda)}
   .pos-item:last-child{border-bottom:none}
   .pos-item > div{min-width:0;flex:1}
@@ -397,18 +398,58 @@
   .g-alerta div{font-size:13.5px;line-height:1.55;color:#7A241C;font-weight:600;min-width:0}
   .g-alerta div b{font-weight:800}
   .valvula-svg{display:block;margin:4px auto 14px;width:min(300px,94%);height:auto}
-  .mini-tbl{width:100%;border-collapse:collapse;font-size:12.8px;table-layout:fixed}
-  .mini-tbl td{padding:9px 9px;border-bottom:1.5px dashed var(--borda);color:var(--ink-2);line-height:1.45;
-    overflow-wrap:break-word;word-wrap:break-word}
-  .mini-tbl td:first-child{font-weight:800;color:var(--ink);width:37%}
   .btn-limpa{background:#fff;border:2px solid var(--borda);color:var(--ink-2);border-radius:12px;
     padding:9px 14px;font:800 12.5px 'Nunito';cursor:pointer;margin-top:12px}
   .btn-limpa:hover{border-color:var(--azul);color:var(--azul-forte)}
 
+  /* ================================================================
+     MODAL LISTA DE COMPRAS
+  ================================================================ */
+  .md-fundo{position:fixed;inset:0;background:rgba(6,35,55,.55);z-index:200;
+    display:flex;align-items:flex-end;justify-content:center}
+  .md-box{background:#fff;width:min(560px,100%);max-height:88vh;border-radius:22px 22px 0 0;
+    display:flex;flex-direction:column;animation:mdSobe .3s ease}
+  @keyframes mdSobe{from{transform:translateY(40px);opacity:0}}
+  .md-head{display:flex;align-items:center;gap:11px;padding:15px 18px;border-bottom:2px solid var(--agua)}
+  .md-head .m-ic{width:38px;height:38px;border-radius:12px;background:var(--agua);color:var(--azul-forte);display:grid;place-items:center;flex:0 0 auto}
+  .md-head .m-ic .ic{width:19px;height:19px}
+  .md-head > div{flex:1;min-width:0}
+  .md-head b{display:block;font:800 16.5px 'Nunito'}
+  .md-head span{font-size:11.5px;color:var(--ink-3)}
+  .md-x{width:34px;height:34px;border-radius:10px;border:2px solid var(--borda);background:#fff;color:var(--ink-2);cursor:pointer;display:grid;place-items:center;flex:0 0 auto}
+  .md-x .ic{width:15px;height:15px}
+  .md-corpo{overflow-y:auto;padding:13px 18px;-webkit-overflow-scrolling:touch}
+  .lc-nota{font-size:12.3px;color:var(--ink-2);background:var(--agua-2);border:1.5px dashed var(--borda);
+    border-radius:11px;padding:9px 12px;line-height:1.5}
+  .lc-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 0 4px}
+  .lc-sec{font:800 11.5px 'Nunito';letter-spacing:1px;text-transform:uppercase;color:var(--azul-forte)}
+  .lc-nm{background:none;border:none;color:var(--azul-forte);font:800 11px 'Nunito';cursor:pointer;
+    text-decoration:underline;padding:4px 2px}
+  .lc-nm:hover{color:var(--azul)}
+  .lc-item{display:flex;align-items:flex-start;gap:10px;padding:10px 2px;border-bottom:1.5px dashed var(--borda);cursor:pointer}
+  .lc-item:last-child{border-bottom:none}
+  .lc-ck{width:22px;height:22px;border-radius:7px;border:2.5px solid var(--borda);flex:0 0 auto;display:grid;place-items:center;color:#fff;margin-top:1px;transition:.15s;background:#fff}
+  .lc-item input{display:none}
+  .lc-item input:checked + .lc-ck{background:var(--verde);border-color:var(--verde)}
+  .lc-ck .ic{width:13px;height:13px;opacity:0;stroke-width:3}
+  .lc-item input:checked + .lc-ck .ic{opacity:1}
+  .lc-tx{flex:1;min-width:0}
+  .lc-tx b{display:block;font:800 13.5px 'Nunito';color:var(--ink);overflow-wrap:break-word;line-height:1.35}
+  .lc-item:not(.nao) .lc-tx b{color:var(--ink)}
+  .lc-tx span{display:block;font-size:11.8px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .lc-tag{display:inline-block;background:var(--verde-bg);color:var(--verde);border:1px solid var(--verde-bd);
+    border-radius:5px;font:800 8.5px 'Nunito';padding:1px 5px;margin-left:5px;vertical-align:1px;letter-spacing:.5px}
+  .md-foot{display:flex;gap:10px;padding:13px 18px calc(13px + env(safe-area-inset-bottom));border-top:2px solid var(--agua)}
+  .md-foot .btn{flex:1;padding:13px 10px}
+  @media (min-width:560px){
+    .md-fundo{align-items:center;padding:20px}
+    .md-box{border-radius:22px;max-height:82vh}
+  }
+
   footer{max-width:640px;margin:0 auto;padding:0 18px 34px;text-align:center;font-size:12px;color:var(--ink-3);line-height:1.7}
   footer b{color:var(--ink-2)}
 
-  #toasts{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:99;display:flex;flex-direction:column;gap:8px;width:min(92vw,420px)}
+  #toasts{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;gap:8px;width:min(92vw,420px)}
   .toast{background:var(--ink);color:#fff;border-radius:13px;padding:13px 16px;font:700 13.5px 'Nunito';
     box-shadow:0 10px 26px rgba(0,20,40,.35);display:flex;align-items:center;gap:9px;animation:tin .3s ease}
   .toast .ic{width:17px;height:17px;color:#7CD4F5;flex:0 0 auto}
@@ -423,8 +464,11 @@
     .acess-grid{grid-template-columns:1fr}
   }
   @media (max-width:480px){
-    header.topo{padding:11px 13px 42px}
-    .mini-mascote{width:42px;height:46px}
+    header.topo{padding:10px 13px 42px}
+    .mini-mascote{width:40px;height:44px}
+    .badge-net span{display:none}
+    .badge-net{padding:5px 8px}
+    .btn-topo{padding:6px 10px;font-size:11px}
     main,#guiaView{padding:8px 13px 34px}
     nav.steps{padding:0 13px;margin-top:15px}
     .no{width:40px;height:40px;font-size:14px}
@@ -470,20 +514,17 @@
     tbody td{padding:9px 10px}
     td .p-nome{font-size:12.8px}
     td .p-dose{font-size:13px}
-    /* abas do guia: quebram em linha, nada corta no canto */
-    .g-tabs{flex-wrap:wrap;overflow:visible;gap:7px;padding-bottom:0}
+    .dl-k,.dl-v{font-size:12.2px}
+    .dl-k{flex-basis:36%}
     .g-card{padding:14px;border-radius:15px}
     .g-card ul li{font-size:13px}
-    .pos-item p,.mini-tbl td,.acess p{font-size:12.2px}
+    .pos-item p,.acess p{font-size:12.2px}
     .guia-head .voltar{width:38px;height:38px}
     .tbl-notas{font-size:11.8px}
     .fala{font-size:12.5px;padding:10px 12px}
     footer{padding:0 13px 30px}
   }
   @media (max-width:360px){
-    .badge-net span{display:none}
-    .badge-net{padding:5px 8px}
-    .btn-topo{padding:6px 9px;font-size:11px}
     .campos{grid-template-columns:1fr}
     .an-fix .f-q{min-width:58px;font-size:12.5px}
   }
@@ -559,7 +600,6 @@
       </g>
     </symbol>
 
-    <!-- ======= VÁLVULA: viewBox 300x260 com TODOS os rótulos dentro da área ======= -->
     <symbol id="valvulaG" viewBox="0 0 300 260">
       <circle cx="150" cy="130" r="78" fill="#E1F4FC" stroke="#0096D6" stroke-width="4"/>
       <circle cx="150" cy="130" r="28" fill="#0077B0"/>
@@ -601,6 +641,10 @@
     <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 15V3.5M7 10l5 5 5-5"/><path d="M4 20.5h16"/></symbol>
     <symbol id="i-spoon" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="3.4" ry="3.6"/><path d="M12 9.6V21"/></symbol>
     <symbol id="i-scale" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M12 7V4M8 4h8"/><path d="M7 13h10"/><path d="M9.5 16.5h5"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.3L21 8H6"/><circle cx="10" cy="20.3" r="1.3"/><circle cx="17.5" cy="20.3" r="1.3"/></symbol>
+    <symbol id="i-float" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.2"/><path d="M12 3.2v4.4M12 16.4v4.4M3.2 12h4.4M16.4 12h4.4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-pdf" viewBox="0 0 24 24"><path d="M13 2.5H7a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5Z"/><path d="M13 2.5v6h6"/><path d="M8.5 17v-4h1.3a1.2 1.2 0 0 1 0 2.4H8.5M12.8 17v-4h1a1.6 2 0 0 1 0 4ZM17.5 17v-4"/></symbol>
     <symbol id="i-sh-rect" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/></symbol>
     <symbol id="i-sh-circ" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/></symbol>
     <symbol id="i-sh-oval" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9.5" ry="6.5"/></symbol>
@@ -618,7 +662,6 @@
     <symbol id="i-test" viewBox="0 0 24 24"><path d="M9 2h6"/><path d="M10 2v7l-3.5 8a2.8 2.8 0 0 0 2.6 3.9h5.8a2.8 2.8 0 0 0 2.6-3.9L14 9V2"/><path d="M7.8 14.5h8.4"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 20 6v6c0 5-3.4 8.4-8 9.5C7.4 20.4 4 17 4 12V6Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></symbol>
-    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M3 8c2.5-2.5 5.5-2.5 9 0s6.5 2.5 9 0M3 14c2.5-2.5 5.5-2.5 9 0s6.5 2.5 9 0M3 20c2.5-2.5 5.5-2.5 9 0s6.5 2.5 9 0"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></symbol>
     <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3 8.5"/><path d="M3 3v5.5h5.5"/></symbol>
     <symbol id="i-broom" viewBox="0 0 24 24"><path d="m14 3 7 7-5 5-7-7Z"/><path d="M9 8 4 13c-1.5 1.5-1.5 5 0 7 2 1.5 5.5 1.5 7 0l5-5"/></symbol>
@@ -756,7 +799,6 @@
 
       <div id="s3Slot"></div>
 
-      <!-- ===== ANÁLISE DA ÁGUA ===== -->
       <div class="an-card">
         <div class="an-top">
           <span class="at-ic"><svg class="ic"><use href="#i-test"/></svg></span>
@@ -843,7 +885,8 @@
     </p>
     <div class="fim-acoes">
       <button class="btn ghost" data-voltar="3"><svg class="ic"><use href="#i-arr-l"/></svg>Voltar</button>
-      <button class="btn" id="btnGuia2" style="background:var(--verde)"><svg class="ic"><use href="#i-book"/></svg>Guia completo</button>
+      <button class="btn" id="btnLista" style="background:#E39A17"><svg class="ic"><use href="#i-cart"/></svg>Lista de compras</button>
+      <button class="btn" id="btnGuia2" style="background:var(--verde)"><svg class="ic"><use href="#i-book"/></svg>Guia</button>
       <button class="btn" id="btnRefazer" style="background:var(--ink)"><svg class="ic"><use href="#i-refresh"/></svg>Refazer</button>
     </div>
   </section>
@@ -890,30 +933,30 @@
   <div class="g-painel" id="g-agua">
     <div class="g-card">
       <h3><svg class="ic"><use href="#i-test"/></svg>Os 3 números da água perfeita</h3>
-      <table class="mini-tbl">
-        <tr><td>Alcalinidade</td><td><b>80 a 120 ppm</b>. É a âncora do pH — se o pH vive oscilando, corrija a alcalinidade primeiro.</td></tr>
-        <tr><td>pH</td><td><b>7,2 a 7,4</b>. pH errado anula o cloro e irrita pele e olhos.</td></tr>
-        <tr><td>Cloro livre</td><td><b>1 a 3 ppm</b>. Abaixo de 1 não desinfeta; acima de 5, ninguém entra.</td></tr>
-      </table>
-      <p style="margin-top:9px"><b>Por que essa ordem?</b> Alcalinidade baixa faz o pH disparar sem motivo; pH errado anula o cloro. Corrigindo nessa sequência — alcalinidade → pH → cloro — o tratamento "pega" de primeira. É a ordem que o app usa na análise.</p>
+      <div class="dl">
+        <div class="dl-row"><div class="dl-k">Alcalinidade</div><div class="dl-v"><b>80 a 120 ppm</b>. É a âncora do pH — se o pH vive oscilando, corrija a alcalinidade primeiro.</div></div>
+        <div class="dl-row"><div class="dl-k">pH</div><div class="dl-v"><b>7,2 a 7,4</b>. pH errado anula o cloro e irrita pele e olhos.</div></div>
+        <div class="dl-row"><div class="dl-k">Cloro livre</div><div class="dl-v"><b>1 a 3 ppm</b>. Abaixo de 1 não desinfeta; acima de 5, ninguém entra.</div></div>
+      </div>
+      <p style="margin-top:9px"><b>Por que essa ordem?</b> Alcalinidade baixa faz o pH disparar sem motivo; pH errado anula o cloro. Corrigindo nessa sequência — alcalinidade → pH → cloro — o tratamento "pega" de primeira.</p>
     </div>
     <div class="g-card">
       <h3><svg class="ic"><use href="#i-scale"/></svg>Como medir as doses</h3>
-      <table class="mini-tbl">
-        <tr><td>Colher de sopa cheia</td><td>≈ <b>15 g</b> de granulado</td></tr>
-        <tr><td>Colher de chá cheia</td><td>≈ <b>5 g</b> de granulado</td></tr>
-        <tr><td>Balança de cozinha</td><td>O jeito <b>exato</b> — cada grama conta em piscinas pequenas.</td></tr>
-      </table>
+      <div class="dl">
+        <div class="dl-row"><div class="dl-k">Colher de sopa cheia</div><div class="dl-v">≈ <b>15 g</b> de granulado</div></div>
+        <div class="dl-row"><div class="dl-k">Colher de chá cheia</div><div class="dl-v">≈ <b>5 g</b> de granulado</div></div>
+        <div class="dl-row"><div class="dl-k">Balança de cozinha</div><div class="dl-v">O jeito <b>exato</b> — cada grama conta em piscinas pequenas.</div></div>
+      </div>
     </div>
     <div class="g-card">
       <h3><svg class="ic"><use href="#i-drop"/></svg>Diagnóstico rápido</h3>
-      <table class="mini-tbl">
-        <tr><td>Cristalina</td><td>Rotina semanal.</td></tr>
-        <tr><td>Turva</td><td>Filtro 12 h + clarificante + aspirar. pH antes!</td></tr>
-        <tr><td>Esverdeada</td><td>Escovar + choque + algicida + filtro 24 h.</td></tr>
-        <tr><td>Encardida</td><td>Choque em dobro + decantador. Caso sério.</td></tr>
-        <tr><td>Cheiro forte de cloro</td><td>É cloro combinado (cloraminas) = falta de cloro livre. Choque resolve.</td></tr>
-      </table>
+      <div class="dl">
+        <div class="dl-row"><div class="dl-k">Cristalina</div><div class="dl-v">Rotina semanal.</div></div>
+        <div class="dl-row"><div class="dl-k">Turva</div><div class="dl-v">Filtro 12 h + clarificante + aspirar. pH antes!</div></div>
+        <div class="dl-row"><div class="dl-k">Esverdeada</div><div class="dl-v">Escovar + choque + algicida + filtro 24 h.</div></div>
+        <div class="dl-row"><div class="dl-k">Encardida</div><div class="dl-v">Choque em dobro + decantador. Caso sério.</div></div>
+        <div class="dl-row"><div class="dl-k">Cheiro forte de cloro</div><div class="dl-v">É cloro combinado (cloraminas) = falta de cloro livre. Choque resolve.</div></div>
+      </div>
     </div>
   </div>
 
@@ -945,12 +988,12 @@
     </div>
     <div class="g-card">
       <h3><svg class="ic"><use href="#i-broom"/></svg>Limpeza por tipo de filtro</h3>
-      <table class="mini-tbl">
-        <tr><td>Areia</td><td>Retrolavagem semanal. Areia dura 3–5 anos.</td></tr>
-        <tr><td>Cartucho</td><td>Lavar com mangueira a cada 2–4 semanas; trocar em 1–2 anos.</td></tr>
-        <tr><td>Diatomáceas</td><td>Retrolavar + repor o pó filtrante.</td></tr>
-        <tr><td>Pré-filtro da bomba</td><td>Cesto: limpar 1–2x por semana, bomba desligada.</td></tr>
-      </table>
+      <div class="dl">
+        <div class="dl-row"><div class="dl-k">Areia</div><div class="dl-v">Retrolavagem semanal. A areia dura de 3 a 5 anos.</div></div>
+        <div class="dl-row"><div class="dl-k">Cartucho</div><div class="dl-v">Lavar com mangueira a cada 2–4 semanas; trocar em 1–2 anos.</div></div>
+        <div class="dl-row"><div class="dl-k">Diatomáceas</div><div class="dl-v">Retrolavar e repor o pó filtrante.</div></div>
+        <div class="dl-row"><div class="dl-k">Pré-filtro da bomba</div><div class="dl-v">Cesto: limpar 1–2x por semana, com a bomba desligada.</div></div>
+      </div>
     </div>
     <div class="g-card">
       <h3><svg class="ic"><use href="#i-alert"/></svg>Regras de ouro</h3>
@@ -963,6 +1006,7 @@
     <div class="g-card">
       <h3><svg class="ic"><use href="#i-net"/></svg>Kit essencial do tratador</h3>
       <div class="acess-grid">
+        <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-float"/></svg></span><b>Flutuador dosador</b><span>Cloro lento • troca a pastilha a cada 5–7 dias</span><p>Solta a pastilha de cloro devagar e mantém o cloro estável entre as dosagens semanais.</p></div>
         <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-test"/></svg></span><b>Kit de teste</b><span>pH • cloro • alcalinidade</span><p>Alimenta a análise do app. O acessório mais importante.</p></div>
         <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-net"/></svg></span><b>Peneira / folheira</b><span>2–3x por semana</span><p>Folhas afundadas viram comida de alga.</p></div>
         <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-brush"/></svg></span><b>Escova</b><span>1x por semana</span><p>Macia para vinil/fibra; aço só em cerâmica.</p></div>
@@ -984,12 +1028,12 @@
     </div>
     <div class="g-card">
       <h3><svg class="ic"><use href="#i-drop"/></svg>Quanto tempo filtrar?</h3>
-      <table class="mini-tbl">
-        <tr><td>Verão</td><td><b>6 a 8 h/dia</b></td></tr>
-        <tr><td>Meia-estação</td><td><b>5 a 6 h/dia</b></td></tr>
-        <tr><td>Inverno</td><td><b>4 a 5 h/dia</b></td></tr>
-        <tr><td>Pós-tratamento</td><td><b>12 a 24 h seguidas</b></td></tr>
-      </table>
+      <div class="dl">
+        <div class="dl-row"><div class="dl-k">Verão</div><div class="dl-v"><b>6 a 8 h por dia</b></div></div>
+        <div class="dl-row"><div class="dl-k">Meia-estação</div><div class="dl-v"><b>5 a 6 h por dia</b></div></div>
+        <div class="dl-row"><div class="dl-k">Inverno</div><div class="dl-v"><b>4 a 5 h por dia</b></div></div>
+        <div class="dl-row"><div class="dl-k">Pós-tratamento</div><div class="dl-v"><b>12 a 24 h seguidas</b></div></div>
+      </div>
       <p style="margin-top:9px">Regra prática: <b>volume ÷ vazão da bomba (L/h) = horas mínimas</b>.</p>
     </div>
   </div>
@@ -1014,10 +1058,34 @@
   </div>
 </div>
 
+<!-- ============ MODAL LISTA DE COMPRAS ============ -->
+<div class="md-fundo" id="mdCompra" hidden>
+  <div class="md-box" role="dialog" aria-modal="true" aria-label="Lista de compras da piscina">
+    <div class="md-head">
+      <span class="m-ic"><svg class="ic"><use href="#i-cart"/></svg></span>
+      <div><b>Lista de compras do mês</b><span id="lcSub">Para a sua piscina</span></div>
+      <button class="md-x" id="lcFechar" aria-label="Fechar"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="md-corpo">
+      <p class="lc-nota">MARCADO = falta comprar • DESMARCADO = já tenho em casa. Os químicos mostram o consumo do MÊS na sua piscina e a embalagem certa para comprar.</p>
+      <div class="lc-topo">
+        <span class="lc-sec">Químicos (recarga do mês)</span>
+        <button class="lc-nm" id="lcNovoMes" type="button">recomeçar mês</button>
+      </div>
+      <div id="lcQuim"></div>
+      <div class="lc-topo"><span class="lc-sec">Acessórios (compra única)</span></div>
+      <div id="lcAcess"></div>
+    </div>
+    <div class="md-foot">
+      <button class="btn ghost" id="lcCompart"><svg class="ic"><use href="#i-copy"/></svg>Compartilhar</button>
+      <button class="btn" id="lcPDF" style="background:var(--verde)"><svg class="ic"><use href="#i-pdf"/></svg>Baixar PDF</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <b>Calculadora do Elias — Método Copo Americano</b><br>
-  Criado por Elias Costa • Cálculo e guias funcionam 100% offline<br>
-  Clima: busca automática e silenciosa, 1x ao abrir
+  Criado por Elias Costa • Cálculo, guias e PDF 100% offline
 </footer>
 
 <div id="toasts" aria-live="polite"></div>
@@ -1074,10 +1142,10 @@
   function emFrac(q, um, muitos){
     if(!(q>0)) return '—';
     muitos = muitos || (um+'s');
-    if(q < 0.115) return 'menos de ⅛ de ' + um;
+    if(q < 0.115) return 'menos de 1/8 de ' + um;
     var cheios = Math.floor(q + 1e-9);
     var r = Math.round((q - cheios) * 8);
-    var map = {1:'⅛',2:'¼',3:'⅜',4:'½',5:'⅝',6:'¾',7:'⅞'};
+    var map = {1:'1/8',2:'1/4',3:'3/8',4:'1/2',5:'5/8',6:'3/4',7:'7/8'};
     if(r===8){ cheios++; r=0; }
     var parts = [];
     if(cheios>0) parts.push(cheios + ' ' + (cheios>1 ? muitos : um));
@@ -1138,7 +1206,7 @@
     var vol = FORMAS[state.formato].calc(d,m);
     if(vol<=0){ toast('Medidas inválidas — confira os números.','i-alert'); return; }
     setVolume(Math.round(vol), true);
-    fala('Pronto! '+fmt(vol)+' litros. Agora mede a água se tiver o kit — as correções saem exatas!');
+    fala('Pronto! '+fmt(vol)+' litros. Agora mede a água se tiver o kit!');
     var box=$('#mascoteBox'); box.classList.remove('pulo'); void box.offsetWidth; box.classList.add('pulo');
     bolhas(14);
   }
@@ -1638,10 +1706,11 @@
     renderDose();
   });
 
-  /* ============ TABELA ============ */
+  /* ============ TABELA DE PRODUTOS ============ */
   var PRODUTOS = [
     {nome:'Cloro granulado 65%', uso:'Manutenção semanal', base:190, un:'g', essencial:['cristalina','turva'], ajustaCalor:true},
     {nome:'Cloro granulado 65%', uso:'Choque (1 aplicação)', base:570, un:'g', essencial:['esverdeada','encardida'], multChoque:true},
+    {nome:'Pastilha de cloro lento 200 g', uso:'No flutuador dosador, trocar a cada 5–7 dias', base:300, un:'g', ref:true},
     {nome:'Cloro líquido 10–12%', uso:'Alternativa líquida (manutenção)', base:860, un:'ml', ajustaCalor:true},
     {nome:'Algicida manutenção', uso:'A cada 15 dias', base:2000, un:'ml'},
     {nome:'Algicida choque', uso:'Contra algas (água esverdeada)', base:4000, un:'ml', essencial:['esverdeada','encardida']},
@@ -1747,6 +1816,7 @@
     ['Conferir o nível da água (meio do skimmer)','Todo dia'],
     ['Testar alcalinidade, pH e cloro','2x por semana'],
     ['Dose de cloro à noite, diluída no balde','1x por semana'],
+    ['Conferir pastilha do flutuador','Semanalmente'],
     ['Escovar paredes, cantos e escadas','1x por semana'],
     ['Aspirar o fundo','1x por semana'],
     ['Limpar cestos do skimmer e da bomba','1–2x por semana'],
@@ -1776,6 +1846,262 @@
     renderChecks(); toast('Checklist zerado — nova semana começando!','i-check');
   });
 
+  /* ================================================================
+     LISTA DE COMPRAS MENSAL — em embalagens (kg, L, unidade)
+  ================================================================ */
+  var LISTA_CK = 'elias-lista-ck-v2';
+  var listaChecks = {};
+  try{ listaChecks = JSON.parse(localStorage.getItem(LISTA_CK)||'{}'); }catch(e){}
+  var temEstadoLista = function(){ return Object.keys(listaChecks).length > 0; };
+
+  /* padrão: químicos do mês marcados; situacionais e acessórios desmarcados */
+  var LISTA_DEF = {
+    q0:true, q1:true, q2:true, q3:false, q4:false, q5:false, q6:false, q7:true, q8:true, q9:true,
+    a0:true, a1:true, a2:true, a3:true, a4:true, a5:false, a6:true, a7:true, a8:false
+  };
+  function listaOn(k){
+    if(temEstadoLista()) return listaChecks[k] === true;
+    return LISTA_DEF[k] === true;
+  }
+
+  function itensLista(){
+    var v = state.volume || 45000;
+    var m3 = v/1000, f = v/45000;
+    var esc = state.revestimento;
+    var gSem = DOSE_MANUT_G_M3 * m3;            /* g cloro/semana */
+    var gMes = gSem * 4.3;                       /* g cloro/mês */
+    var choqueG = DOSE_CHOQUE_G_M3 * m3;
+
+    /* cloro granulado: embalagem certa para o mês */
+    var clQ, clD;
+    if(gMes < 260){ clQ='1 pacote de 1 kg'; clD='você usa ~'+fmtG(gMes)+' g/mês — dura mais de 3 meses'; }
+    else if(gMes < 700){ clQ='1 pacote de 2,5 kg'; clD='você usa ~'+fmtG(gMes)+' g/mês — fecha o mês com reserva para choque'; }
+    else if(gMes < 1800){ clQ='2 pacotes de 2,5 kg'; clD='você usa ~'+fmt(Math.round(gMes))+' g/mês'; }
+    else { clQ='1 balde de 5 kg + 1 pacote de 2,5 kg'; clD='você usa ~'+fmt(Math.round(gMes))+' g/mês'; }
+
+    /* pastilhas: consumo mensal em unidades */
+    var pastMes = (300*f/200) * 4.3;
+    var paQ, paD;
+    if(pastMes < 1){
+      paQ='1 frasco de 1 kg (5 pastilhas)';
+      paD='1 pastilha dura ~'+Math.max(2, Math.round(4.3/Math.max(0.1,pastMes)))+' semanas no flutuador';
+    } else {
+      paQ=Math.ceil(pastMes)+' pastilhas por mês';
+      paD='compre frasco de '+(pastMes>12?'5 kg (25 un)':'1 ou 2 kg (5–10 un)');
+    }
+
+    /* algicida manutenção: 2 aplicações/mês */
+    var algMes = 2000*f*2;
+    var alQ = algMes<=1200 ? '1 frasco de 1 L' : algMes<=2200 ? '1 galão de 2 L' : '2 galões de 2 L';
+    var alD = 'você usa ~'+fmt(Math.round(algMes))+' ml/mês (1 dose a cada 15 dias)';
+
+    var acChoq = 4000*f;
+    var acQ2 = acChoq<=2200 ? '1 galão de 2 L (reserva)' : '2 galões de 5 L (reserva)';
+    var acD2 = 'contra algas: '+fmt(Math.round(acChoq))+' ml por choque';
+
+    var clari = 500*f;
+    var deca = 1000*f;
+    var est = 1500*f;
+    var acMl = 250*f;
+    var barG = 150*f;
+    var bicG = 1400*f;
+
+    var nomeEscova = esc==='ceramica' ? 'Escova de aço' : 'Escova macia';
+
+    return {
+      quim:[
+        {k:'q0', n:'Cloro granulado 65% — '+clQ, d:clD+' • choque usa '+fmtG(choqueG)+' g'},
+        {k:'q1', n:'Pastilha de cloro lento 200 g — '+paQ, d:paD+' • vai no flutuador dosador'},
+        {k:'q2', n:'Algicida de manutenção — '+alQ, d:alD},
+        {k:'q3', n:'Algicida choque — '+acQ2, d:acD2},
+        {k:'q4', n:'Clarificante — 1 frasco de 1 L', d:'uso: '+fmt(Math.round(clari))+' ml quando a água turvar'},
+        {k:'q5', n:'Decantador (ferri) — 1 frasco de 1 L', d:'uso: '+fmt(Math.round(deca))+' ml por aplicação (sujeira no fundo)'},
+        {k:'q6', n:'Estabilizador — 1 embalagem de 1 kg', d:'na abertura: ~'+fmt(Math.round(est))+' g — manter 20–30 ppm'},
+        {k:'q7', n:'Ácido muriático — '+((acMl<=150)?'1 galão de 1 L':'1 galão de 5 L'), d:'baixa pH e alcalinidade: '+fmt(Math.round(acMl))+' ml por correção típica'},
+        {k:'q8', n:'Elevador de pH (barrilha) — 1 kg', d:'sobe o pH: '+fmt(Math.round(barG))+' g por correção'},
+        {k:'q9', n:'Bicarbonato de sódio — 1 kg', d:'sobe a alcalinidade: '+fmt(Math.round(bicG))+' g por correção'}
+      ],
+      acess:[
+        {k:'a0', n:'Flutuador dosador — 1 unidade', d:'solta a pastilha de cloro lento aos poucos'},
+        {k:'a1', n:'Kit de teste — 1 unidade', d:'alcalinidade + pH + cloro (fitas ou conta-gotas)'},
+        {k:'a2', n:'Peneira + cabo telescópico — 1 jogo', d:'limpeza da superfície, 2–3x por semana'},
+        {k:'a3', n:nomeEscova+' — 1 unidade', d:'paredes e cantos, 1x por semana'+(esc==='ceramica'?' (liberada para cerâmica)':'')},
+        {k:'a4', n:'Aspirador + mangueira — 1 jogo', d:'limpeza do fundo, 1x por semana'},
+        {k:'a5', n:'Balança de cozinha — 1 unidade', d:'precisão de 1 g para as doses exatas em gramas'},
+        {k:'a6', n:'Balde de 15–20 L — 1 unidade', d:'para diluir SEMPRE o cloro antes de aplicar'},
+        {k:'a7', n:'Luvas + óculos — 1 kit', d:'cloro queima pele e olhos'},
+        {k:'a8', n:'Capa térmica — 1 unidade (opcional)', d:'economiza cloro e bloqueia folhas'}
+      ]
+    };
+  }
+  var _itensCache = null;
+  function renderLista(){
+    var it = itensLista(); _itensCache = it;
+    $('#lcSub').textContent = 'Para sua piscina de '+fmt(state.volume||45000)+' L';
+    function item(i, arr){
+      var on = listaOn(i.k);
+      return '<label class="lc-item'+(on?'':' nao')+'"><input type="checkbox" data-k="'+i.k+'" '+(on?'checked':'')+'>'+
+        '<span class="lc-ck"><svg class="ic"><use href="#i-check"/></svg></span>'+
+        '<span class="lc-tx"><b>'+i.n+'</b><span>'+i.d+'</span></span></label>';
+    }
+    $('#lcQuim').innerHTML = it.quim.map(item).join('');
+    $('#lcAcess').innerHTML = it.acess.map(item).join('');
+  }
+  $('#mdCompra').addEventListener('change', function(e){
+    var inp = e.target.closest('input[data-k]'); if(!inp) return;
+    var k = inp.dataset.k, on = inp.checked;
+    listaChecks[k] = on;
+    try{ localStorage.setItem(LISTA_CK, JSON.stringify(listaChecks)); }catch(err){}
+    inp.closest('.lc-item').classList.toggle('nao', !on);
+  });
+  $('#lcNovoMes').addEventListener('click', function(){
+    /* químicos voltam ao padrão do mês; acessórios mantêm o que você já marcou */
+    Object.keys(LISTA_DEF).forEach(function(k){
+      if(k.charAt(0)==='q') listaChecks[k] = LISTA_DEF[k];
+    });
+    try{ localStorage.setItem(LISTA_CK, JSON.stringify(listaChecks)); }catch(e){}
+    renderLista();
+    toast('Mês novo! Químicos marcados de novo.','i-check');
+  });
+  function abrirLista(){ renderLista(); $('#mdCompra').hidden = false; document.body.style.overflow='hidden'; }
+  function fecharLista(){ $('#mdCompra').hidden = true; document.body.style.overflow=''; }
+  $('#btnLista').addEventListener('click', abrirLista);
+  $('#lcFechar').addEventListener('click', fecharLista);
+  $('#mdCompra').addEventListener('click', function(e){ if(e.target===this) fecharLista(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && !$('#mdCompra').hidden) fecharLista();
+  });
+
+  function selecionados(){
+    var it = _itensCache || itensLista();
+    var L = [];
+    it.quim.forEach(function(i){ if(listaOn(i.k)) L.push(i); });
+    it.acess.forEach(function(i){ if(listaOn(i.k)) L.push(i); });
+    return L;
+  }
+
+  /* ============ GERADOR DE PDF 100% OFFLINE (JS puro, com quebra de linha) ============ */
+  function latin1(s){
+    var b = new Uint8Array(s.length);
+    for(var i=0;i<s.length;i++){ var c = s.charCodeAt(i); b[i] = c<256 ? c : 63; }
+    return b;
+  }
+  function pdfLimpa(s){
+    s = String(s);
+    var map = {'–':'-','—':'-','•':'-','·':'-','≈':'~','≤':'<=','→':'->','³':'3','²':'2',
+               '⅛':'1/8','¼':String.fromCharCode(188),'½':String.fromCharCode(189),'¾':String.fromCharCode(190),
+               '⅜':'3/8','⅝':'5/8','⅞':'7/8'};
+    s = s.replace(/[–—•·≈≤→³²⅛¼½¾⅜⅝⅞]/g, function(c){ return map[c]||c; });
+    var out = '';
+    for(var i=0;i<s.length;i++){
+      var c = s.charCodeAt(i);
+      out += (c>=32 && c<256) ? s.charAt(i) : '?';
+    }
+    return out;
+  }
+  function pdfEsc(s){ return s.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)'); }
+  function pdfWrap(txt, maxc){
+    var words = txt.split(' '), lines = [], cur = '';
+    words.forEach(function(w){
+      if((cur? cur+' '+w : w).length > maxc){ if(cur) lines.push(cur); cur = w; }
+      else cur = (cur? cur+' ' : '') + w;
+    });
+    if(cur) lines.push(cur);
+    return lines.length ? lines : [''];
+  }
+
+  function gerarPDF(nomeArq, titulo, subtitulo, blocos){
+    var W=595, H=842, M=50, BOT=56;
+    function montarConteudo(){
+      var pags=[], c=[], y=H-64;
+      function pushLine(f,sz,txt){
+        if(y-(sz+5) < BOT){ pags.push(c.join('\n')); c=[]; y=H-64; }
+        c.push('BT /F'+f+' '+sz+' Tf 1 0 0 1 '+M+' '+Math.round(y)+' Tm ('+txt+') Tj ET');
+        y -= sz+5;
+      }
+      function wl(f,sz,txt,pad){
+        y -= (pad||0);
+        pdfWrap(pdfLimpa(txt), f===1?88:62).forEach(function(L){ pushLine(f,sz,pdfEsc(L)); });
+      }
+      wl(2,15, titulo);
+      wl(1,9,  subtitulo, 6);
+      blocos.forEach(function(b){
+        if(b.t==='h') wl(2,11, b.s, 8);
+        else wl(1,10, '- '+b.s);
+      });
+      wl(1,8, '* Comprado pelo app Calculadora do Elias. Confira sempre o rotulo do fabricante.', 10);
+      pags.push(c.join('\n'));
+      return pags;
+    }
+    var conts = montarConteudo();
+    var n = conts.length, kids = [];
+    for(var i=0;i<n;i++) kids.push((5+2*i)+' 0 R');
+    var objs = [];
+    objs[1] = '<< /Type /Catalog /Pages 2 0 R >>';
+    objs[2] = '<< /Type /Pages /Kids ['+kids.join(' ')+'] /Count '+n+' >>';
+    objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+    objs[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+    for(var i=0;i<n;i++){
+      objs[5+2*i] = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents '+(6+2*i)+' 0 R >>';
+      objs[6+2*i] = {stream: conts[i]};
+    }
+    var parts = [], total = 0;
+    function emitStr(s){ var b = latin1(s); parts.push(b); total += b.length; }
+    emitStr('%PDF-1.4\n');
+    var offsets = [];
+    var maxId = objs.length - 1;
+    for(var id=1; id<=maxId; id++){
+      offsets[id] = total;
+      var o = objs[id];
+      if(typeof o === 'string'){
+        emitStr(id+' 0 obj\n'+o+'\nendobj\n');
+      } else {
+        var sb = latin1(o.stream);
+        emitStr(id+' 0 obj\n<< /Length '+sb.length+' >>\nstream\n');
+        parts.push(sb); total += sb.length;
+        emitStr('\nendstream\nendobj\n');
+      }
+    }
+    var xrefPos = total;
+    var x = 'xref\n0 '+(maxId+1)+'\n0000000000 65535 f \n';
+    for(var id=1; id<=maxId; id++){
+      x += ('0000000000'+offsets[id]).slice(-10)+' 00000 n \n';
+    }
+    emitStr(x);
+    emitStr('trailer << /Size '+(maxId+1)+' /Root 1 0 R >>\nstartxref\n'+xrefPos+'\n%%EOF');
+    var blob = new Blob(parts, {type:'application/pdf'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = nomeArq;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+  }
+
+  $('#lcPDF').addEventListener('click', function(){
+    var sel = selecionados();
+    if(!sel.length){ toast('Marque ao menos um item para comprar.','i-alert'); return; }
+    var d = new Date();
+    var dataTxt = ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear()+
+      ' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+    gerarPDF('lista-compras-piscina.pdf',
+      'Lista de compras do mês - Piscina',
+      'Calculadora do Elias | Piscina: '+fmt(state.volume||45000)+' L | Gerado em '+dataTxt,
+      sel.map(function(i){ return {t:'i', s:i.n+' | '+i.d}; }));
+    toast('PDF baixado! Abra em qualquer leitor.','i-check');
+  });
+  $('#lcCompart').addEventListener('click', function(){
+    var sel = selecionados();
+    if(!sel.length){ toast('Marque ao menos um item para comprar.','i-alert'); return; }
+    var L = ['LISTA DE COMPRAS DO MÊS - PISCINA ('+fmt(state.volume||45000)+' L)',''];
+    sel.forEach(function(i){ L.push('[ ] '+i.n+' - '+i.d); });
+    L.push('','Enviado pela Calculadora do Elias');
+    var txt = L.join('\n');
+    function ok(){ toast('Lista copiada! Cole no WhatsApp da loja.','i-check'); }
+    if(navigator.share){ navigator.share({title:'Lista de compras - Piscina', text:txt}).catch(function(){}); }
+    else if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(ok,function(){ fb(txt); ok(); }); }
+    else { fb(txt); ok(); }
+  });
+
   /* ============ PWA ============ */
   function iconeData(size){
     var c=document.createElement('canvas'); c.width=c.height=size;
@@ -1799,7 +2125,7 @@
   }
   try{
     var manifest = {name:'Calculadora do Elias — Método Copo Americano', short_name:'Calc. do Elias',
-      description:'Tratamento de piscinas com análise da água. Offline.',
+      description:'Tratamento de piscinas com análise da água, lista de compras e guia. Offline.',
       start_url:location.href, display:'standalone', background_color:'#ffffff', theme_color:'#0096D6',
       icons:[{src:iconeData(192),sizes:'192x192',type:'image/png',purpose:'any maskable'},
              {src:iconeData(512),sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
@@ -1812,13 +2138,14 @@
   if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){
     try{
       var sw = "self.addEventListener('install',e=>self.skipWaiting());"+
-        "self.addEventListener('activate',e=>self.clients.claim());"+
-        "self.addEventListener('fetch',e=>{e.respondWith(caches.open('elias-v6').then(c=>c.match(e.request).then(r=>r||fetch(e.request).then(res=>{if(e.request.method==='GET'){c.put(e.request,res.clone());}return res;}).catch(()=>r))))});";
+        "self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.indexOf('elias-')===0&&k!=='elias-v8').map(k=>caches.delete(k)))).then(()=>self.clients.claim())));"+
+        "self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(function(res){var cp=res.clone();caches.open('elias-v8').then(function(c){c.put(e.request,cp);});return res;}).catch(function(){return caches.match(e.request);}))});";
       navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/javascript'}))).catch(function(){});
     }catch(e){}
   }
 
-  /* --- Instalar: aparece só quando pode, SOME ao instalar --- */
+  /* --- Instalar: flag PERMANENTE — depois de instalar, nunca mais aparece --- */
+  var KEY_INST = 'elias-app-instalado';
   function estaInstalado(){
     if(window.matchMedia && (window.matchMedia('(display-mode: standalone)').matches ||
                              window.matchMedia('(display-mode: fullscreen)').matches ||
@@ -1828,28 +2155,34 @@
     if(window.navigator && window.navigator.standalone === true) return true;
     return false;
   }
-  var deferredPrompt = null;
+  function jaInstalado(){
+    try{ if(localStorage.getItem(KEY_INST)==='1') return true; }catch(e){}
+    return estaInstalado();
+  }
   function someInstalar(){ deferredPrompt = null; $('#btnInstalar').hidden = true; }
+  function marcaInstalado(){
+    try{ localStorage.setItem(KEY_INST,'1'); }catch(e){}
+    someInstalar();
+    toast('App instalado! O ícone do Elias está na sua tela inicial.','i-check');
+  }
+  var deferredPrompt = null;
   window.addEventListener('beforeinstallprompt', function(e){
     e.preventDefault();
-    if(estaInstalado()) return;
+    if(jaInstalado()) return;
     deferredPrompt = e;
     $('#btnInstalar').hidden = false;
   });
-  window.addEventListener('appinstalled', function(){
-    someInstalar();
-    toast('App instalado! O ícone do Elias está na sua tela inicial.','i-check');
-  });
-  window.addEventListener('pageshow', function(){ if(estaInstalado()) someInstalar(); });
+  window.addEventListener('appinstalled', marcaInstalado);
+  window.addEventListener('pageshow', function(){ if(jaInstalado()) someInstalar(); });
   $('#btnInstalar').addEventListener('click', function(){
     if(!deferredPrompt) return;
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(function(res){
-      if(res && res.outcome === 'accepted'){ someInstalar(); }
+      if(res && res.outcome === 'accepted'){ marcaInstalado(); }
       else { deferredPrompt = null; }
     });
   });
-  if(estaInstalado()) someInstalar();
+  if(jaInstalado()) someInstalar();
 
   /* ============ RESTAURAÇÃO ============ */
   renderCampos();
