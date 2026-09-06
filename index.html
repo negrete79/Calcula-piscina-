@@ -127,13 +127,13 @@ section.ativa,.g-painel.ativa{display:block;animation:sobe .35s ease both}
 .an-top b{display:block;font:800 15px 'Nunito'}
 .an-top span{font-size:11.5px;color:#CFEDFB;line-height:1.4;display:block;margin-top:1px}
 .an-corpo{padding:14px}
-.an-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.an-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .an-field{min-width:0}
 .an-field label{text-align:center;font-size:11px;margin-bottom:5px;line-height:1.2}
 .an-field label em{font-style:normal;font-size:9.5px;color:var(--ink-3);display:block;font-weight:800}
 .an-field .in-wrap{height:44px;border-radius:11px}
 .an-field input{padding:0 4px;text-align:center;font-size:15px}
-.an-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:11px}
+.an-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
 .an-sc{background:var(--agua-2);border:1.5px solid var(--borda);border-radius:12px;padding:9px 4px 8px;text-align:center;min-width:0}
 .an-sc small{display:block;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-3)}
 .an-sc .v{display:block;font:800 17px 'Baloo 2';color:var(--ink);line-height:1.15;margin-top:2px;white-space:nowrap;overflow:hidden}
@@ -445,11 +445,12 @@ footer b{color:var(--ink-2)}
 <section id="s3"><div class="sec-head"><span class="ic-box"><svg class="ic"><use href="#i-flask"/></svg></span><div><h2>Tratamento da sua piscina</h2><p>Mediu a água? As correções saem exatas, na ordem certa</p></div></div>
 <div class="card">
 <div id="s3Slot"></div>
-<div class="an-card"><div class="an-top"><span class="at-ic"><svg class="ic"><use href="#i-test"/></svg></span><div><b>Análise da água</b><span>Mediu no kit ou fita? Digite abaixo — correções na ordem: 1º alcalinidade, 2º pH, 3º cloro</span></div></div>
+<div class="an-card"><div class="an-top"><span class="at-ic"><svg class="ic"><use href="#i-test"/></svg></span><div><b>Análise da água</b><span>Mediu no kit ou fita? Digite abaixo — ordem: 1º alcalinidade, 2º pH, 3º cloro, 4º dureza</span></div></div>
 <div class="an-corpo"><div class="an-grid">
 <div class="an-field"><label for="anAT">Alcalinidade<em>ppm · alvo 80–120</em></label><div class="in-wrap"><input id="anAT" type="text" inputmode="decimal" placeholder="90"></div></div>
 <div class="an-field"><label for="anPH">pH<em>alvo 7,2–7,4</em></label><div class="in-wrap"><input id="anPH" type="text" inputmode="decimal" placeholder="7,4"></div></div>
 <div class="an-field"><label for="anCL">Cloro livre<em>ppm · alvo 1–3</em></label><div class="in-wrap"><input id="anCL" type="text" inputmode="decimal" placeholder="1,5"></div></div>
+<div class="an-field"><label for="anCH">Dureza cálcica<em>ppm · alvo 200–400</em></label><div class="in-wrap"><input id="anCH" type="text" inputmode="decimal" placeholder="300"></div></div>
 </div>
 <div class="an-cards" id="anCards"></div><div class="an-fixes" id="anFixes"></div><div class="an-ordem" id="anOrdem" hidden></div>
 <div class="an-pe"><button class="an-limpar" id="anLimpar" type="button">limpar análise</button></div></div></div>
@@ -482,7 +483,7 @@ footer b{color:var(--ink-2)}
 
 <section id="s4"><div class="sec-head"><span class="ic-box"><svg class="ic"><use href="#i-flask"/></svg></span><div><h2>Tabela de produtos</h2><p id="tblSub">Doses calculadas para a sua piscina</p></div></div>
 <div class="tbl-scroll"><table><thead><tr><th>Produto</th><th id="thSua">Sua piscina</th></tr></thead><tbody id="tbodyProd"></tbody></table></div>
-<p class="tbl-notas">* Doses de referência para pequenos ajustes — o valor exato depende da análise da água. Confira sempre o rótulo do fabricante. Este app não substitui a análise semanal (pH, cloro livre, alcalinidade).</p>
+<p class="tbl-notas">* Doses de referência para pequenos ajustes — o valor exato depende da análise da água. Confira sempre o rótulo do fabricante. Este app não substitui a análise semanal (pH, cloro livre, alcalinidade, dureza).</p>
 <div class="fim-acoes"><button class="btn ghost" data-voltar="3"><svg class="ic"><use href="#i-arr-l"/></svg>Voltar</button><button class="btn" id="btnLista" style="background:#E39A17"><svg class="ic"><use href="#i-cart"/></svg>Lista de compras</button><button class="btn" id="btnGuia2" style="background:var(--verde)"><svg class="ic"><use href="#i-book"/></svg>Guia</button><button class="btn" id="btnRefazer" style="background:var(--ink)"><svg class="ic"><use href="#i-refresh"/></svg>Refazer</button></div>
 </section>
 </main>
@@ -497,9 +498,9 @@ footer b{color:var(--ink-2)}
 </div>
 
 <div class="g-painel" id="g-agua">
-<div class="g-card"><h3><svg class="ic"><use href="#i-test"/></svg>Os 3 números da água perfeita</h3><div class="dl"><div class="dl-row"><div class="dl-k">Alcalinidade</div><div class="dl-v"><b>80 a 120 ppm</b>. É a âncora do pH — se o pH vive oscilando, corrija a alcalinidade primeiro.</div></div><div class="dl-row"><div class="dl-k">pH</div><div class="dl-v"><b>7,2 a 7,4</b>. pH errado anula o cloro e irrita pele e olhos.</div></div><div class="dl-row"><div class="dl-k">Cloro livre</div><div class="dl-v"><b>1 a 3 ppm</b> (água cristalina) ou <b>3 a 5 ppm</b> durante o choque de água verde. Acima de 5, ninguém entra.</div></div></div><p style="margin-top:9px"><b>Por que essa ordem?</b> Alcalinidade baixa faz o pH disparar sem motivo; pH errado anula o cloro. Corrigindo nessa sequência — alcalinidade → pH → cloro — o tratamento "pega" de primeira.</p></div>
+<div class="g-card"><h3><svg class="ic"><use href="#i-test"/></svg>Os 4 números da água perfeita</h3><div class="dl"><div class="dl-row"><div class="dl-k">Alcalinidade</div><div class="dl-v"><b>80 a 120 ppm</b>. É a âncora do pH — se o pH vive oscilando, corrija a alcalinidade primeiro.</div></div><div class="dl-row"><div class="dl-k">pH</div><div class="dl-v"><b>7,2 a 7,4</b>. pH errado anula o cloro e irrita pele e olhos.</div></div><div class="dl-row"><div class="dl-k">Cloro livre</div><div class="dl-v"><b>1 a 3 ppm</b> (água cristalina) ou <b>3 a 5 ppm</b> durante o choque de água verde. Acima de 5, ninguém entra.</div></div><div class="dl-row"><div class="dl-k">Dureza cálcica</div><div class="dl-v"><b>200 a 400 ppm</b> (ideal 250). Baixa = água corrosiva, corrói metais e a costura do vinil — corrige com <b>cloreto de cálcio</b>. Alta = incrustações brancas — só resolve <b>diluindo</b> parte da água.</div></div></div><p style="margin-top:9px"><b>Por que essa ordem?</b> Alcalinidade baixa faz o pH disparar sem motivo; pH errado anula o cloro. Corrigindo nessa sequência — alcalinidade → pH → cloro — o tratamento "pega" de primeira. A dureza não tem ordem obrigatória.</p></div>
 <div class="g-card"><h3><svg class="ic"><use href="#i-scale"/></svg>Como medir as doses</h3><div class="dl"><div class="dl-row"><div class="dl-k">Colher de sopa cheia</div><div class="dl-v">≈ <b>15 g</b> de granulado</div></div><div class="dl-row"><div class="dl-k">Colher de chá cheia</div><div class="dl-v">≈ <b>5 g</b> de granulado</div></div><div class="dl-row"><div class="dl-k">Balança de cozinha</div><div class="dl-v">O jeito <b>exato</b> — cada grama conta em piscinas pequenas.</div></div></div></div>
-<div class="g-card"><h3><svg class="ic"><use href="#i-drop"/></svg>Diagnóstico rápido</h3><div class="dl"><div class="dl-row"><div class="dl-k">Cristalina</div><div class="dl-v">Rotina semanal.</div></div><div class="dl-row"><div class="dl-k">Turva</div><div class="dl-v">Filtro 12 h + clarificante + aspirar. pH antes!</div></div><div class="dl-row"><div class="dl-k">Esverdeada</div><div class="dl-v">Escovar + choque + algicida + filtro 24 h.</div></div><div class="dl-row"><div class="dl-k">Encardida</div><div class="dl-v">Choque em dobro + decantador. Caso sério.</div></div><div class="dl-row"><div class="dl-k">Cheiro forte de cloro</div><div class="dl-v">É cloro combinado (cloraminas) = falta de cloro livre. Choque resolve.</div></div></div></div>
+<div class="g-card"><h3><svg class="ic"><use href="#i-drop"/></svg>Diagnóstico rápido</h3><div class="dl"><div class="dl-row"><div class="dl-k">Cristalina</div><div class="dl-v">Rotina semanal.</div></div><div class="dl-row"><div class="dl-k">Turva</div><div class="dl-v">Filtro 12 h + clarificante + aspirar. pH antes!</div></div><div class="dl-row"><div class="dl-k">Esverdeada</div><div class="dl-v">Escovar + choque + algicida + filtro 24 h.</div></div><div class="dl-row"><div class="dl-k">Encardida</div><div class="dl-v">Choque em dobro + decantador. Caso sério.</div></div><div class="dl-row"><div class="dl-k">Incrustação branca</div><div class="dl-v">Dureza alta + pH alto. Corrija o pH e avalie diluição.</div></div><div class="dl-row"><div class="dl-k">Cheiro forte de cloro</div><div class="dl-v">É cloro combinado (cloraminas) = falta de cloro livre. Choque resolve.</div></div></div></div>
 </div>
 
 <div class="g-painel" id="g-filtro">
@@ -507,7 +508,7 @@ footer b{color:var(--ink-2)}
 <div class="pos-item"><span class="pos-badge">1</span><div><b>FILTRAR</b><small>Uso diário</small><p>Verão 6–8 h/dia; inverno 4–6 h.</p></div></div>
 <div class="pos-item"><span class="pos-badge">2</span><div><b>RETROLAVAR</b><small>Limpa a areia</small><p>Quando o manômetro marcar ~10 lbs acima do normal, ou a cada 1–2 semanas.</p></div></div>
 <div class="pos-item"><span class="pos-badge">3</span><div><b>ENXAGUAR</b><small>20–30 segundos</small><p>Sempre após a retrolavagem. Nunca pule.</p></div></div>
-<div class="pos-item"><span class="pos-badge">4</span><div><b>ESGOTAR</b><small>Direto no esgoto</small><p>Baixar nível após chuva ou aspirar sujeira pesada.</p></div></div>
+<div class="pos-item"><span class="pos-badge">4</span><div><b>ESGOTAR</b><small>Direto no esgoto</small><p>Baixar nível após chuva, aspirar sujeira pesada ou diluir dureza alta.</p></div></div>
 <div class="pos-item"><span class="pos-badge">5</span><div><b>RECIRCULAR</b><small>Circula sem filtrar</small><p>Homogeneizar produtos em emergência.</p></div></div>
 <div class="pos-item"><span class="pos-badge">6</span><div><b>FECHADO</b><small>Nunca com bomba ligada!</small><p>A pressão estoura selos e juntas.</p></div></div>
 </div></div>
@@ -518,7 +519,7 @@ footer b{color:var(--ink-2)}
 
 <div class="g-painel" id="g-acessorios"><div class="g-card"><h3><svg class="ic"><use href="#i-net"/></svg>Kit essencial do tratador</h3><div class="acess-grid">
 <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-float"/></svg></span><b>Flutuador dosador</b><span>Cloro lento • troca a pastilha a cada 5–7 dias</span><p>Solta a pastilha de cloro devagar e mantém o cloro estável entre as dosagens semanais.</p></div>
-<div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-test"/></svg></span><b>Kit de teste</b><span>pH • cloro • alcalinidade</span><p>Alimenta a análise do app. O acessório mais importante.</p></div>
+<div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-test"/></svg></span><b>Kit de teste</b><span>pH • cloro • alcalinidade • dureza</span><p>Alimenta a análise do app. O acessório mais importante.</p></div>
 <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-net"/></svg></span><b>Peneira / folheira</b><span>2–3x por semana</span><p>Folhas afundadas viram comida de alga.</p></div>
 <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-brush"/></svg></span><b>Escova</b><span>1x por semana</span><p>Macia para vinil/fibra; aço só em cerâmica.</p></div>
 <div class="acess"><span class="a-ic"><svg class="ic"><use href="#i-vac"/></svg></span><b>Aspirador</b><span>1x por semana</span><p>Devagar, para não levantar sujeira.</p></div>
@@ -559,7 +560,7 @@ var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s
 
 /* ============ ESTADO ============ */
 var CHAVE='elias-piscina-v4';
-var state={formato:'retangular',revestimento:null,volume:null,modo:'manutencao',agua:'cristalina',clima:null,climaLocal:null,analise:{ph:null,cl:null,at:null}};
+var state={formato:'retangular',revestimento:null,volume:null,modo:'manutencao',agua:'cristalina',clima:null,climaLocal:null,analise:{ph:null,cl:null,at:null,ch:null}};
 (function(){var raw=null;try{raw=localStorage.getItem(CHAVE)||localStorage.getItem('elias-piscina-v3')}catch(e){}
 if(!raw)return;try{var o=JSON.parse(raw);
 if(['retangular','redonda','oval','irregular'].indexOf(o.formato)>=0)state.formato=o.formato;
@@ -569,7 +570,7 @@ if(o.modo==='choque')state.modo='choque';
 if(typeof o.volume==='number'&&isFinite(o.volume)&&o.volume>0&&o.volume<2e7)state.volume=Math.round(o.volume);
 if(o.clima&&typeof o.clima.temp==='number')state.clima=o.clima;
 if(typeof o.climaLocal==='string')state.climaLocal=o.climaLocal.slice(0,60);
-if(o.analise&&typeof o.analise==='object'){['ph','cl','at'].forEach(function(k){var v=o.analise[k];state.analise[k]=(typeof v==='number'&&isFinite(v)&&v>0)?v:null})}}catch(e){}})();
+if(o.analise&&typeof o.analise==='object'){['ph','cl','at','ch'].forEach(function(k){var v=o.analise[k];state.analise[k]=(typeof v==='number'&&isFinite(v)&&v>0)?v:null})}}catch(e){}})();
 function save(){try{localStorage.setItem(CHAVE,JSON.stringify(state))}catch(e){}}
 
 /* ============ HELPERS ============ */
@@ -599,7 +600,7 @@ function setVolume(vol,animar){state.volume=vol;save();var r=$('#resultado');r.h
 function contar(el,alvo,dur){var t0=performance.now();(function f(t){var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(alvo*e));if(p<1)requestAnimationFrame(f)})(t0)}
 function bolhas(n){var h=$('#resultado');if(h.hidden)return;var H=h.offsetHeight;for(var i=0;i<n;i++){var b=document.createElement('i');b.className='bolha';var t=6+Math.random()*13;b.style.cssText='left:'+(4+Math.random()*90)+'%;width:'+t+'px;height:'+t+'px;';h.appendChild(b);b.animate([{transform:'translateY(0)',opacity:0},{opacity:1,offset:.15},{transform:'translateY(-'+(H-24)+'px)',opacity:0}],{duration:900+Math.random()*900,easing:'cubic-bezier(.2,.6,.3,1)'}).onfinish=(function(el){return function(){el.remove()}})(b)}}
 
-/* ============ NAVEGAÇÃO — etapas anteriores à atual ficam verdes ============ */
+/* ============ NAVEGAÇÃO ============ */
 var etapaAtual=1;
 function pintaNos(){$$('.no').forEach(function(no){var i=+no.dataset.step;var feito=(i<etapaAtual)||(i===1&&!!state.volume)||(i===2&&!!state.revestimento);var atual=(i===etapaAtual);no.classList.toggle('atual',atual);no.classList.toggle('feito',feito&&!atual);no.innerHTML=(feito&&!atual)?'<svg class="ic"><use href="#i-check"/></svg>':String(i)})}
 function goTo(n,ss){if(n>1&&!state.volume){toast('Calcule o volume da piscina primeiro.','i-alert');return}if(n>2&&!state.revestimento){toast('Escolha o revestimento na etapa 2.','i-alert');return}
@@ -617,7 +618,7 @@ var DICAS={vinil:'Com vinil, regra de ouro: <strong>nunca jogue cloro direto na 
 function renderDica(t){$('#dicaTxt').innerHTML=DICAS[t];$('#dica').classList.add('mostra')}
  $$('.rev').forEach(function(l){l.addEventListener('click',function(){$$('.rev').forEach(function(x){x.classList.remove('sel')});l.classList.add('sel');l.querySelector('input').checked=true;state.revestimento=l.dataset.r;save();renderDica(state.revestimento);atualizarSteps()})});
 
-/* ============ CLIMA — automático, silencioso, 1x ao abrir ============ */
+/* ============ CLIMA ============ */
 var WMO={0:'Céu limpo',1:'Predomínio de sol',2:'Parcialmente nublado',3:'Nublado',45:'Neblina',48:'Neblina gelada',51:'Garoa fraca',53:'Garoa',55:'Garoa forte',61:'Chuva fraca',63:'Chuva moderada',65:'Chuva forte',66:'Chuva congelante',67:'Chuva congelante forte',71:'Neve fraca',73:'Neve',75:'Neve forte',80:'Pancadas de chuva',81:'Pancadas de chuva',82:'Pancadas fortes',85:'Pancadas de neve',86:'Pancadas de neve',95:'Tempestade',96:'Tempestade com granizo',99:'Tempestade com granizo'};
 function tipoClima(c){if(c===0||c===1)return'sun';if(c===2)return'parcial';if(c===3||c===45||c===48)return'cloud';if((c>=51&&c<=67)||(c>=80&&c<=82))return'rain';if((c>=71&&c<=77)||c===85||c===86)return'snow';if(c>=95)return'storm';return'cloud'}
 function fetchT(url,ms){ms=ms||10000;if(window.AbortController){var ctl=new AbortController();var t=setTimeout(function(){ctl.abort()},ms);return fetch(url,{signal:ctl.signal}).then(function(r){clearTimeout(t);return r},function(e){clearTimeout(t);throw e})}return fetch(url)}
@@ -656,7 +657,7 @@ window.addEventListener('online',function(){atualizaBadgeNet();autoClimaFeito=fa
 window.addEventListener('offline',function(){atualizaBadgeNet();renderClima()});
 
 /* ============ MOTOR DE DOSE ============ */
-var DOSE_MANUT_G_M3=190/45,DOSE_CHOQUE_G_M3=570/45,ML_POR_G=860/190,COLHER_SOPA_G=15,COLHER_CHA_G=5,COPO_G=190,G_POR_PPM_M3=1.54;
+var DOSE_MANUT_G_M3=190/45,DOSE_CHOQUE_G_M3=570/45,ML_POR_G=860/190,COLHER_SOPA_G=15,COLHER_CHA_G=5,COPO_G=190,G_POR_PPM_M3=1.54,G_CA_POR_PPM_M3=3.7;
 function fatorCalor(){return(state.clima&&state.clima.temp>=28)?1.25:1}
 function fatorDobro(){return(AGUA[state.agua]&&AGUA[state.agua].modo==='choque2')?2:1}
 function aguaVerde(){return state.agua==='esverdeada'||state.agua==='encardida'}
@@ -665,18 +666,20 @@ function doseManutBase(){return(state.volume/1000)*DOSE_MANUT_G_M3*fatorDobro()*
 /* ============ STATUS (regras exatas) ============ */
 function stPH(v){return v==null?null:(v<7.2?'medio':v>7.4?'ruim':'ok')}
 function stAT(v){return v==null?null:(v<80?'medio':v>120?'medio':'ok')}
+function stCH(v){return v==null?null:(v<200?'medio':v>400?'medio':'ok')}
 function stCL(v,agua){if(v==null)return null;
 if(agua==='esverdeada'||agua==='encardida'){if(v<2.5)return'ruim';if(v<3)return'medio';if(v<=5)return'ok';return'medio'}
 if(v<1)return'ruim';if(v<=3)return'ok';return'medio'}
 
 /* ============ ANÁLISE DA ÁGUA ============ */
 function leVal(id,max){var v=parseFloat(($(id).value||'').replace(',','.'));return(isFinite(v)&&v>0&&v<=max)?v:null}
-function leAnalise(){return{at:leVal('#anAT',300),ph:leVal('#anPH',14),cl:leVal('#anCL',20)}}
-function temAnalise(a){return!!(a&&(a.ph!=null||a.cl!=null||a.at!=null))}
+function leAnalise(){return{at:leVal('#anAT',300),ph:leVal('#anPH',14),cl:leVal('#anCL',20),ch:leVal('#anCH',1000)}}
+function temAnalise(a){return!!(a&&(a.ph!=null||a.cl!=null||a.at!=null||a.ch!=null))}
  $('#anAT').addEventListener('input',function(){renderAnalise();renderDose();renderTabela()});
  $('#anPH').addEventListener('input',function(){renderAnalise();renderDose();renderTabela()});
  $('#anCL').addEventListener('input',function(){renderAnalise();renderDose();renderTabela()});
- $('#anLimpar').addEventListener('click',function(){$('#anAT').value='';$('#anPH').value='';$('#anCL').value='';state.analise={ph:null,cl:null,at:null};save();renderAnalise();renderDose();renderTabela();toast('Análise limpa.','i-check')});
+ $('#anCH').addEventListener('input',function(){renderAnalise();renderDose();renderTabela()});
+ $('#anLimpar').addEventListener('click',function(){$('#anAT').value='';$('#anPH').value='';$('#anCL').value='';$('#anCH').value='';state.analise={ph:null,cl:null,at:null,ch:null};save();renderAnalise();renderDose();renderTabela();toast('Análise limpa.','i-check')});
 
 function renderAnalise(){var a=leAnalise();state.analise=a;save();
 var m3=state.volume?state.volume/1000:null,ordem=[],fixes='',warns='',verde=aguaVerde();
@@ -684,26 +687,31 @@ function card(lab,val,dec,un,st,pill){var cls=st||'vazio';var v=val!=null?fmt(va
 var pillAT=a.at==null?'':(a.at<80?'baixa':a.at>120?'alta':'na faixa');
 var pillPH=a.ph==null?'':(a.ph<7.2?'baixo':a.ph>7.4?'alto':'na faixa');
 var pillCL=a.cl==null?'':(verde?(a.cl<2.5?'precisa choque':(a.cl<3?'quase na faixa':(a.cl<=5?'em choque':'alto'))):(a.cl<1?'baixo':(a.cl<=3?'na faixa':'alto')));
- $('#anCards').innerHTML=card('Alcalinidade',a.at,0,'ppm',stAT(a.at),pillAT)+card('pH',a.ph,1,'',stPH(a.ph),pillPH)+card('Cloro livre',a.cl,1,'ppm',stCL(a.cl,state.agua),pillCL);
+var pillCH=a.ch==null?'':(a.ch<200?'baixa':a.ch>400?'alta':'na faixa');
+ $('#anCards').innerHTML=card('Alcalinidade',a.at,0,'ppm',stAT(a.at),pillAT)+card('pH',a.ph,1,'',stPH(a.ph),pillPH)+card('Cloro livre',a.cl,1,'ppm',stCL(a.cl,state.agua),pillCL)+card('Dureza cálcica',a.ch,0,'ppm',stCH(a.ch),pillCH);
 var box=$('#anFixes');
 if(!state.volume){box.innerHTML='<div class="an-vazio">Calcule o volume na etapa 1 para eu calcular as correções exatas para a sua piscina.</div>';$('#anOrdem').hidden=true;return}
 if(!temAnalise(a)){box.innerHTML='<div class="an-vazio">Preencha ao menos um valor acima — o diagnóstico e as correções aparecem aqui na hora, calculados para os seus '+fmt(state.volume)+' L.</div>';$('#anOrdem').hidden=true;return}
 function fix(q,nome,como,aviso,cls){return '<div class="an-fix '+(cls||'')+'"><div class="f-q">'+q+'</div><div class="f-t"><b>'+nome+'</b><span>'+como+'</span></div>'+(aviso?'<div class="f-aviso">'+aviso+'</div>':'')+'</div>'}
-/* 1º ALCALINIDADE — gramas = (100 - atual) × 1,5 × (L/1000) */
+/* 1º ALCALINIDADE */
 if(a.at!=null){if(a.at<80){var gBic=(100-a.at)*1.5*m3;fixes+=fix(fmtQuant(gBic),'Bicarbonato de sódio','Circule 2 h com o filtro ligado e reteste. Vem primeiro: alcalinidade baixa faz o pH disparar.',guiaCopos(gBic/COPO_G));ordem.push('corrigir a alcalinidade')}
 else if(a.at>120){var mlAcAT=((a.at-100)/10)*20*m3;fixes+=fix(fmtQtd(mlAcAT,'ml'),'Ácido muriático','Diluído no balde (sempre o ácido na água). Ele também derruba o pH — reteste os dois antes de nova dose.');ordem.push('baixar a alcalinidade')}}
-/* 2º pH — acima de 7,4 já é ALTO */
+/* 2º pH */
 if(a.ph!=null){if(a.ph<7.2){var gBar=(7.4-a.ph)*7.5*m3;fixes+=fix(fmtQuant(gBar),'Elevador de pH (barrilha)','Filtro ligado. pH baixo corrói metais e desperdiça cloro. Reteste em 4 h.',guiaCopos(gBar/COPO_G));ordem.push('subir o pH')}
 else if(a.ph>7.4){var mlAc=(a.ph-7.4)*60*m3;fixes+=fix(fmtQtd(mlAc,'ml'),'Redutor de pH (ácido muriático)','Diluído no balde, espalhando na água com o filtro ligado. pH acima de 7,4 anula o cloro. Reteste em 4 h.');ordem.push('baixar o pH')}}
-/* 3º CLORO — por tipo de água */
+/* 3º CLORO */
 if(a.cl!=null){if(verde){if(a.cl<2.5){var gChoq=m3*DOSE_CHOQUE_G_M3*fatorDobro();fixes+=fix(fmtQuant(gChoq),'Cloro granulado 65% — CHOQUE','Água verde pede cloro entre 3 e 5 ppm. À noite, filtro ligado por 8 h, sem banho por 12–24 h. É a dose de choque abaixo.',guiaCopos(gChoq/COPO_G),'f-cl');ordem.push('fazer o choque de cloro')}
 else if(a.cl>5){warns+='<div class="an-warn"><svg class="ic"><use href="#i-alert"/></svg><span>Cloro em '+fmt(a.cl,1)+' ppm — acima da janela de choque (3–5). <b>Filtro rodando e reteste amanhã.</b></span></div>';ordem.push('aguardar o cloro cair')}}
 else{if(a.cl<1){var gRep=(2-a.cl)*G_POR_PPM_M3*m3;fixes+=fix(fmtQuant(gRep),'Cloro granulado 65% (reposição)','À noite, filtro ligado — sobe de '+fmt(a.cl,1)+' para 2,0 ppm. Já está incluído na dose principal abaixo.',guiaCopos(gRep/COPO_G),'f-cl');ordem.push('repor o cloro')}
 else if(a.cl>5){warns+='<div class="an-warn"><svg class="ic"><use href="#i-alert"/></svg><span><b>Ninguém entra na piscina</b> com cloro acima de 5 ppm. Filtro rodando e reteste amanhã.</span></div>';ordem.push('aguardar o cloro cair')}
 else if(a.cl>3){warns+='<div class="an-warn"><svg class="ic"><use href="#i-alert"/></svg><span>Cloro em '+fmt(a.cl,1)+' ppm — <b>ALTO, não dosifique hoje</b> e evite o banho até cair para 3 ppm. Reteste amanhã.</span></div>';ordem.push('aguardar o cloro cair')}}}
+/* 4º DUREZA CÁLCICA — baixa: cloreto de cálcio (3,7 g por ppm por m³, alvo 250) · alta: diluição */
+if(a.ch!=null){
+if(a.ch<200){var gCa=(250-a.ch)*G_CA_POR_PPM_M3*m3;fixes+=fix(fmtQuant(gCa),'Elevador de dureza (cloreto de cálcio)','Dilua no balde com água da piscina e espalhe com o filtro ligado. Dureza baixa deixa a água corrosiva — come metais, reboco e a costura do vinil. Reteste em 24 h. Pode aplicar junto com as demais correções.',guiaCopos(gCa/COPO_G));ordem.push('corrigir a dureza cálcica')}
+else if(a.ch>400){var pct=Math.round(((a.ch-250)/a.ch)*100);warns+='<div class="an-warn"><svg class="ic"><use href="#i-alert"/></svg><span>Dureza '+fmt(a.ch,0)+' ppm — <b>alto demais para corrigir com produto</b>. A solução é diluir: troque <b>~'+pct+'% da água</b> por água de abastecimento mais macia (esgote pela válvula ESGOTAR e reabastaça). Mantenha o pH em 7,2 para evitar incrustações brancas.</span></div>';ordem.push('diluir a água para baixar a dureza')}}
 box.innerHTML=fixes+warns;
 var oEl=$('#anOrdem');
-if(ordem.length){oEl.hidden=false;oEl.innerHTML='Ordem de hoje: '+ordem.map(function(o,i){return '<b>'+(i+1)+'º</b> '+o}).join(' → ')+' → <b>por último</b>, a dose de cloro abaixo (com a água equilibrada, o cloro rende o dobro).'}
+if(ordem.length){oEl.hidden=false;oEl.innerHTML='Ordem de hoje: '+ordem.map(function(o,i){return '<b>'+(i+1)+'º</b> '+o}).join(' → ')+(ordem.length>1?' (dureza pode ser aplicada em qualquer momento, com o filtro ligado).':' → <b>por último</b>, a dose de cloro abaixo (com a água equilibrada, o cloro rende o dobro).')}
 else if(!fixes.length&&!warns.length){oEl.hidden=false;oEl.innerHTML='Tudo na régua! É só aplicar a dose de manutenção abaixo.'}
 else{oEl.hidden=true}}
 
@@ -716,7 +724,7 @@ if(state.agua==='encardida')fala('Caso sério! Choque em dobro, filtro ligado e 
 if(state.agua==='turva')fala('Água turva resolve com clarificante e filtro ligado. Confere o pH primeiro, hein?');
 if(state.agua==='cristalina')fala('Água cristalina! É só manter o ritmo semanal. Parabéns!')})});
 
-/* ============ DOSE (com correção pendente acima) ============ */
+/* ============ DOSE ============ */
 function fmtCopos(g){var c=g/COPO_G;if(c<0.25)return 'dose pequena — meça em gramas';return emFrac(c,'copo')}
 function fmtColheres(g){var c=g/COLHER_SOPA_G;if(c>=4)return fmt(Math.round(c))+' colheres';return emFrac(c,'colher de sopa','colheres de sopa')}
 function renderDose(){if(!state.volume)return;
@@ -726,6 +734,7 @@ if(an.at!=null&&an.at<80)corr.push('<b>'+fmtQuant((100-an.at)*1.5*m3)+' de bicar
 if(an.at!=null&&an.at>120)corr.push('<b>'+fmtQtd(((an.at-100)/10)*20*m3,'ml')+' de ácido muriático</b> (alcalinidade '+fmt(an.at,0)+' → 100)');
 if(an.ph!=null&&an.ph<7.2)corr.push('<b>'+fmtQuant((7.4-an.ph)*7.5*m3)+' de barrilha</b> (pH '+fmt(an.ph,1)+' → 7,4)');
 if(an.ph!=null&&an.ph>7.4)corr.push('<b>'+fmtQtd((an.ph-7.4)*60*m3,'ml')+' de ácido muriático</b> (pH '+fmt(an.ph,1)+' → 7,4)');
+if(an.ch!=null&&an.ch<200)corr.push('<b>'+fmtQuant((250-an.ch)*G_CA_POR_PPM_M3*m3)+' de cloreto de cálcio</b> (dureza '+fmt(an.ch,0)+' → 250)');
 if(choque){g=m3*DOSE_CHOQUE_G_M3*fatorDobro();
 if(an.cl!=null&&an.cl>(verde?5:3)){bloq=verde?'Cloro em '+fmt(an.cl,1)+' ppm — acima da janela de choque (3–5). Filtre e reteste quando cair abaixo de 5 ppm.':'Cloro já está em '+fmt(an.cl,1)+' ppm (alto). Choque agora desperdiça produto — reteste quando cair para a faixa (1–3).'}}
 else{g=m3*DOSE_MANUT_G_M3*fatorDobro()*fatorCalor();
@@ -754,14 +763,13 @@ else{aj.classList.remove('mostra')}}
  $('#segMan').addEventListener('click',function(){state.modo='manutencao';save();$('#segMan').classList.add('sel');$('#segCho').classList.remove('sel');renderDose()});
  $('#segCho').addEventListener('click',function(){state.modo='choque';save();$('#segCho').classList.add('sel');$('#segMan').classList.remove('sel');renderDose()});
 
-/* ============ TABELA — linha do produto ganha AGORA + dose real pela análise ============ */
-var PRODUTOS=[{nome:'Cloro granulado 65%',uso:'Manutenção semanal',base:190,un:'g',essencial:['cristalina','turva'],ajustaCalor:true},{nome:'Cloro granulado 65%',uso:'Choque (1 aplicação)',base:570,un:'g',essencial:['esverdeada','encardida'],multChoque:true},{nome:'Pastilha de cloro lento 200 g',uso:'No flutuador dosador, trocar a cada 5–7 dias',base:300,un:'g',ref:true},{nome:'Cloro líquido 10–12%',uso:'Alternativa líquida (manutenção)',base:860,un:'ml',ajustaCalor:true},{nome:'Algicida manutenção',uso:'A cada 15 dias',base:2000,un:'ml'},{nome:'Algicida choque',uso:'Contra algas (água esverdeada)',base:4000,un:'ml',essencial:['esverdeada','encardida']},{nome:'Clarificante',uso:'Água turva / leitosa',base:500,un:'ml',essencial:['turva']},{nome:'Decantador (sulfato de alumínio)',uso:'Sujeira pesada no fundo',base:1000,un:'g',essencial:['encardida']},{nome:'Estabilizador (ácido cianúrico)',uso:'Protege o cloro do sol',base:1500,un:'g',ref:true},{nome:'Redutor de pH (ácido muriático)',uso:'pH acima de 7,4*',base:250,un:'ml',ref:true},{nome:'Elevador de pH (barrilha)',uso:'pH abaixo de 7,2*',base:150,un:'g',ref:true},{nome:'Bicarbonato de sódio',uso:'Alcalinidade abaixo de 80 ppm*',base:1500,un:'g',ref:true}];
+/* ============ TABELA ============ */
+var PRODUTOS=[{nome:'Cloro granulado 65%',uso:'Manutenção semanal',base:190,un:'g',essencial:['cristalina','turva'],ajustaCalor:true},{nome:'Cloro granulado 65%',uso:'Choque (1 aplicação)',base:570,un:'g',essencial:['esverdeada','encardida'],multChoque:true},{nome:'Pastilha de cloro lento 200 g',uso:'No flutuador dosador, trocar a cada 5–7 dias',base:300,un:'g',ref:true},{nome:'Cloro líquido 10–12%',uso:'Alternativa líquida (manutenção)',base:860,un:'ml',ajustaCalor:true},{nome:'Algicida manutenção',uso:'A cada 15 dias',base:2000,un:'ml'},{nome:'Algicida choque',uso:'Contra algas (água esverdeada)',base:4000,un:'ml',essencial:['esverdeada','encardida']},{nome:'Clarificante',uso:'Água turva / leitosa',base:500,un:'ml',essencial:['turva']},{nome:'Decantador (sulfato de alumínio)',uso:'Sujeira pesada no fundo',base:1000,un:'g',essencial:['encardida']},{nome:'Estabilizador (ácido cianúrico)',uso:'Protege o cloro do sol',base:1500,un:'g',ref:true},{nome:'Redutor de pH (ácido muriático)',uso:'pH acima de 7,4*',base:250,un:'ml',ref:true},{nome:'Elevador de pH (barrilha)',uso:'pH abaixo de 7,2*',base:150,un:'g',ref:true},{nome:'Bicarbonato de sódio',uso:'Alcalinidade abaixo de 80 ppm*',base:1500,un:'g',ref:true},{nome:'Elevador de dureza (cloreto de cálcio)',uso:'Dureza abaixo de 200 ppm (alvo 250)*',base:8325,un:'g',ref:true}];
 function doseProduto(p){var f=1;if(p.multChoque){f*=fatorDobro()}else if(p.ajustaCalor&&state.modo==='manutencao'){f*=fatorCalor()}return p.base*(state.volume/45000)*f}
 function renderTabela(){if(!state.volume)return;
 var m3=state.volume/1000,an=state.analise||{};
 var sub='Tudo calculado para '+fmt(state.volume)+' L';if(state.clima&&state.clima.temp>=28)sub+=' • +25% pelo calor de hoje';
  $('#tblSub').textContent=sub;$('#thSua').textContent='Sua piscina ('+fmt(state.volume)+' L)';
-/* dose REAL por análise: a linha do produto ganha AGORA e a referência vira a correção real */
 function override(nome){
 if(nome==='Redutor de pH (ácido muriático)'){
 if(an.ph!=null&&an.ph>7.4)return{tag:'Correção AGORA: pH '+fmt(an.ph,1)+' → 7,4',txt:fmtQtd((an.ph-7.4)*60*m3,'ml')};
@@ -770,6 +778,8 @@ if(nome==='Elevador de pH (barrilha)'&&an.ph!=null&&an.ph<7.2){
 return{tag:'Correção AGORA: pH '+fmt(an.ph,1)+' → 7,4',txt:fmtQuant((7.4-an.ph)*7.5*m3)}}
 if(nome==='Bicarbonato de sódio'&&an.at!=null&&an.at<80){
 return{tag:'Correção AGORA: alcalinidade '+fmt(an.at,0)+' → 100',txt:fmtQuant((100-an.at)*1.5*m3)}}
+if(nome==='Elevador de dureza (cloreto de cálcio)'&&an.ch!=null&&an.ch<200){
+return{tag:'Correção AGORA: dureza '+fmt(an.ch,0)+' → 250',txt:fmtQuant((250-an.ch)*G_CA_POR_PPM_M3*m3)}}
 return null}
  $('#tbodyProd').innerHTML=PRODUTOS.map(function(p){
 var agora=(p.essencial&&p.essencial.indexOf(state.agua)>=0);
@@ -779,17 +789,18 @@ var ov=override(p.nome);
 if(ov){agora=true;uso=ov.tag;dose=ov.txt;ref='<span class="p-ref">dose real pela sua análise — substitui a referência</span>'}
 return '<tr'+(agora?' class="destaque"':'')+'><td><div class="p-nome">'+p.nome+(agora?'<span class="tag-agora">AGORA</span>':'')+'</div><div class="p-uso">'+uso+'</div></td><td><div class="p-dose">'+dose+extra+ref+'</div></td></tr>'}).join('')}
 
-/* ============ RESUMO (com correções resolvidas + ordem) ============ */
+/* ============ RESUMO ============ */
 function resumo(){var a=AGUA[state.agua]||AGUA.cristalina,m3=state.volume/1000,nomes={vinil:'Vinil',fibra:'Fibra de vidro',ceramica:'Cerâmica/Azulejo'};
 var L=['CALCULADORA DO ELIAS — resumo da piscina','Volume: '+fmt(state.volume)+' L ('+fmt(m3,1)+' m³)','Revestimento: '+(nomes[state.revestimento]||'não informado')];
 if(state.clima)L.push('Clima: '+(WMO[state.clima.code]||'—')+', '+Math.round(state.clima.temp)+'°C');
 L.push('Estado da água: '+a.titulo);
 var an=state.analise;
-if(temAnalise(an)){L.push('','ANÁLISE DA ÁGUA (ordem: 1º alcalinidade, 2º pH, 3º cloro):');
+if(temAnalise(an)){L.push('','ANÁLISE DA ÁGUA (ordem: 1º alcalinidade, 2º pH, 3º cloro, 4º dureza):');
 if(an.at!=null)L.push('- Alcalinidade: '+fmt(an.at,0)+' ppm (alvo 100, faixa 80-120)'+(an.at<80?' → BAIXA: '+fmtQuant((100-an.at)*1.5*m3)+' de bicarbonato de sódio':an.at>120?' → ALTA: '+fmtQtd(((an.at-100)/10)*20*m3,'ml')+' de ácido muriático':' → ok'));
 if(an.ph!=null)L.push('- pH: '+fmt(an.ph,1)+' (alvo 7,2-7,4)'+(an.ph<7.2?' → BAIXO: '+fmtQuant((7.4-an.ph)*7.5*m3)+' de barrilha':an.ph>7.4?' → ALTO: '+fmtQtd((an.ph-7.4)*60*m3,'ml')+' de ácido muriático':' → ok'));
 if(an.cl!=null)L.push('- Cloro livre: '+fmt(an.cl,1)+' ppm'+(aguaVerde()?' (água verde: <2,5=choque · 3-5=na faixa)':' (cristalina: 1-3=na faixa)')+(aguaVerde()?(an.cl<2.5?' → PRECISA CHOQUE':an.cl<=5?' → em choque/na faixa':' → alto'):(an.cl<1?' → baixo':an.cl<=3?' → ok':' → alto')));
-L.push('ORDEM DE HOJE: 1º alcalinidade → 2º pH → 3º cloro. Espere 2 h entre pH e cloro.')}
+if(an.ch!=null)L.push('- Dureza cálcica: '+fmt(an.ch,0)+' ppm (alvo 250, faixa 200-400)'+(an.ch<200?' → BAIXA: '+fmtQuant((250-an.ch)*G_CA_POR_PPM_M3*m3)+' de cloreto de cálcio':an.ch>400?' → ALTA: diluir ~'+Math.round(((an.ch-250)/an.ch)*100)+'% da água':' → ok'));
+L.push('ORDEM DE HOJE: 1º alcalinidade → 2º pH → 3º cloro. Espere 2 h entre pH e cloro. Dureza pode ir junto.')}
 var g=state.modo==='choque'?m3*DOSE_CHOQUE_G_M3*fatorDobro():doseManutBase();
 L.push('','DOSE DE CLORO 65% ('+(state.modo==='choque'?'choque':'manutenção semanal')+'): '+fmtMassa(g)+((state.modo==='manutencao'&&fatorCalor()>1)?' [+25% pelo calor]':'')+(fatorDobro()>1?' [em dobro]':''),'','PRODUTOS (dose para '+fmt(state.volume)+' L):');
 PRODUTOS.forEach(function(p){L.push('- '+p.nome+': '+fmtQtd(doseProduto(p),p.un)+(p.ref?' *':''))});
@@ -807,7 +818,7 @@ function fecharGuia(){$('#guiaView').hidden=true;$('#fluxo').hidden=false;$('#st
  $$('.g-tabs button').forEach(function(b){b.addEventListener('click',function(){$$('.g-tabs button').forEach(function(x){x.classList.toggle('sel',x===b)});$$('.g-painel').forEach(function(p){p.classList.toggle('ativa',p.id==='g-'+b.dataset.g)});if(b.dataset.g==='clima'){$('#gClimaSlot').appendChild(climaBox)}else if(climaBox.parentElement!==$('#s3Slot')){$('#s3Slot').appendChild(climaBox)}})});
 
 /* ============ CHECKLIST ============ */
-var ROTINA=[['Peneirar folhas e insetos da superfície','2–3x por semana'],['Conferir o nível da água (meio do skimmer)','Todo dia'],['Testar alcalinidade, pH e cloro','2x por semana'],['Dose de cloro à noite, diluída no balde','1x por semana'],['Conferir pastilha do flutuador','Semanalmente'],['Escovar paredes, cantos e escadas','1x por semana'],['Aspirar o fundo','1x por semana'],['Limpar cestos do skimmer e da bomba','1–2x por semana'],['Retrolavar o filtro','Semanal / conforme manômetro'],['Algicida de manutenção','A cada 15 dias']];
+var ROTINA=[['Peneirar folhas e insetos da superfície','2–3x por semana'],['Conferir o nível da água (meio do skimmer)','Todo dia'],['Testar alcalinidade, pH, cloro e dureza','2x por semana'],['Dose de cloro à noite, diluída no balde','1x por semana'],['Conferir pastilha do flutuador','Semanalmente'],['Escovar paredes, cantos e escadas','1x por semana'],['Aspirar o fundo','1x por semana'],['Limpar cestos do skimmer e da bomba','1–2x por semana'],['Retrolavar o filtro','Semanal / conforme manômetro'],['Algicida de manutenção','A cada 15 dias']];
 var ckKey='elias-checks-v1',checks=[];try{checks=JSON.parse(localStorage.getItem(ckKey)||'[]')}catch(e){}
 function renderChecks(){$('#checklist').innerHTML=ROTINA.map(function(r,i){var on=checks.indexOf(i)>=0;return '<div class="ck-linha'+(on?' on':'')+'" data-i="'+i+'"><span class="ck-box"><svg class="ic"><use href="#i-check"/></svg></span><span class="ck-tx"><b>'+r[0]+'</b><span>'+r[1]+'</span></span></div>'}).join('')}
  $('#checklist').addEventListener('click',function(e){var ln=e.target.closest('.ck-linha');if(!ln)return;var i=+ln.dataset.i,idx=checks.indexOf(i);if(idx>=0)checks.splice(idx,1);else checks.push(i);try{localStorage.setItem(ckKey,JSON.stringify(checks))}catch(err){}ln.classList.toggle('on',idx<0)});
@@ -816,7 +827,7 @@ function renderChecks(){$('#checklist').innerHTML=ROTINA.map(function(r,i){var o
 /* ============ LISTA DE COMPRAS MENSAL ============ */
 var LISTA_CK='elias-lista-ck-v2',listaChecks={};try{listaChecks=JSON.parse(localStorage.getItem(LISTA_CK)||'{}')}catch(e){}
 var temEstadoLista=function(){return Object.keys(listaChecks).length>0};
-var LISTA_DEF={q0:true,q1:true,q2:true,q3:false,q4:false,q5:false,q6:false,q7:true,q8:true,q9:true,a0:true,a1:true,a2:true,a3:true,a4:true,a5:false,a6:true,a7:true,a8:false};
+var LISTA_DEF={q0:true,q1:true,q2:true,q3:false,q4:false,q5:false,q6:false,q7:true,q8:true,q9:true,q10:false,a0:true,a1:true,a2:true,a3:true,a4:true,a5:false,a6:true,a7:true,a8:false};
 function listaOn(k){if(temEstadoLista())return listaChecks[k]===true;return LISTA_DEF[k]===true}
 function itensLista(){var v=state.volume||45000,m3=v/1000,f=v/45000,esc=state.revestimento;
 var gSem=DOSE_MANUT_G_M3*m3,gMes=gSem*4.3,choqueG=DOSE_CHOQUE_G_M3*m3;
@@ -832,8 +843,8 @@ var algMes=2000*f*2;var alQ=algMes<=1200?'1 frasco de 1 L':algMes<=2200?'1 galã
 var acChoq=4000*f;var acQ2=acChoq<=2200?'1 galão de 2 L (reserva)':'2 galões de 5 L (reserva)';var acD2='contra algas: '+fmt(Math.round(acChoq))+' ml por choque';
 var clari=500*f,est=1500*f,barG=150*f;
 var nomeEscova=esc==='ceramica'?'Escova de aço':'Escova macia';
-return{quim:[{k:'q0',n:'Cloro granulado 65% — '+clQ,d:clD+' • choque usa '+fmtMassa(choqueG)},{k:'q1',n:'Pastilha de cloro lento 200 g — '+paQ,d:paD+' • vai no flutuador dosador'},{k:'q2',n:'Algicida de manutenção — '+alQ,d:alD},{k:'q3',n:'Algicida choque — '+acQ2,d:acD2},{k:'q4',n:'Clarificante — 1 frasco de 1 L',d:'uso: '+fmt(Math.round(clari))+' ml quando a água turvar'},{k:'q5',n:'Decantador (sulfato de alumínio) — 1 pacote de 1 KL',d:'uso: 1 kl por aplicação (sujeira no fundo)'},{k:'q6',n:'Estabilizador — 1 embalagem de 1 kg',d:'na abertura: ~'+fmt(Math.round(est))+' g — manter 20–30 ppm'},{k:'q7',n:'Ácido muriático (redutor de pH e alcalinidade) — 1 galão de 5 L',d:'baixa pH e alcalinidade: 250 ml por correção típica'},{k:'q8',n:'Elevador de pH (barrilha) — 1 kg',d:'sobe o pH: '+fmt(Math.round(barG))+' g por correção'},{k:'q9',n:'Bicarbonato de sódio — 1 kg',d:'sobe a alcalinidade: 1,5 g por 1.000 L sobe 1 ppm (alvo 100)'}],
-acess:[{k:'a0',n:'Flutuador dosador — 1 unidade',d:'solta a pastilha de cloro lento aos poucos'},{k:'a1',n:'Kit de teste — 1 unidade',d:'alcalinidade + pH + cloro (fitas ou conta-gotas)'},{k:'a2',n:'Peneira + cabo telescópico — 1 jogo',d:'limpeza da superfície, 2–3x por semana'},{k:'a3',n:nomeEscova+' — 1 unidade',d:'paredes e cantos, 1x por semana'+(esc==='ceramica'?' (liberada para cerâmica)':'')},{k:'a4',n:'Aspirador + mangueira — 1 jogo',d:'limpeza do fundo, 1x por semana'},{k:'a5',n:'Balança de cozinha — 1 unidade',d:'precisão de 1 g para as doses exatas em gramas'},{k:'a6',n:'Balde de 15–20 L — 1 unidade',d:'para diluir SEMPRE o cloro antes de aplicar'},{k:'a7',n:'Luvas + óculos — 1 kit',d:'cloro queima pele e olhos'},{k:'a8',n:'Capa térmica — 1 unidade (opcional)',d:'economiza cloro e bloqueia folhas'}]}}
+return{quim:[{k:'q0',n:'Cloro granulado 65% — '+clQ,d:clD+' • choque usa '+fmtMassa(choqueG)},{k:'q1',n:'Pastilha de cloro lento 200 g — '+paQ,d:paD+' • vai no flutuador dosador'},{k:'q2',n:'Algicida de manutenção — '+alQ,d:alD},{k:'q3',n:'Algicida choque — '+acQ2,d:acD2},{k:'q4',n:'Clarificante — 1 frasco de 1 L',d:'uso: '+fmt(Math.round(clari))+' ml quando a água turvar'},{k:'q5',n:'Decantador (sulfato de alumínio) — 1 pacote de 1 KL',d:'uso: 1 kl por aplicação (sujeira no fundo)'},{k:'q6',n:'Estabilizador — 1 embalagem de 1 kg',d:'na abertura: ~'+fmt(Math.round(est))+' g — manter 20–30 ppm'},{k:'q7',n:'Ácido muriático (redutor de pH e alcalinidade) — 1 galão de 5 L',d:'baixa pH e alcalinidade: 250 ml por correção típica'},{k:'q8',n:'Elevador de pH (barrilha) — 1 kg',d:'sobe o pH: '+fmt(Math.round(barG))+' g por correção'},{k:'q9',n:'Bicarbonato de sódio — 1 kg',d:'sobe a alcalinidade: 1,5 g por 1.000 L sobe 1 ppm (alvo 100)'},{k:'q10',n:'Elevador de dureza (cloreto de cálcio) — 1 a 2 embalagens de 1 kg',d:'só se a análise der dureza abaixo de 200 ppm — 3,7 g por ppm por 1.000 L (alvo 250)'}],
+acess:[{k:'a0',n:'Flutuador dosador — 1 unidade',d:'solta a pastilha de cloro lento aos poucos'},{k:'a1',n:'Kit de teste — 1 unidade',d:'alcalinidade + pH + cloro + dureza (fitas ou conta-gotas)'},{k:'a2',n:'Peneira + cabo telescópico — 1 jogo',d:'limpeza da superfície, 2–3x por semana'},{k:'a3',n:nomeEscova+' — 1 unidade',d:'paredes e cantos, 1x por semana'+(esc==='ceramica'?' (liberada para cerâmica)':'')},{k:'a4',n:'Aspirador + mangueira — 1 jogo',d:'limpeza do fundo, 1x por semana'},{k:'a5',n:'Balança de cozinha — 1 unidade',d:'precisão de 1 g para as doses exatas em gramas'},{k:'a6',n:'Balde de 15–20 L — 1 unidade',d:'para diluir SEMPRE o cloro antes de aplicar'},{k:'a7',n:'Luvas + óculos — 1 kit',d:'cloro queima pele e olhos'},{k:'a8',n:'Capa térmica — 1 unidade (opcional)',d:'economiza cloro e bloqueia folhas'}]}}
 var _itensCache=null;
 function renderLista(){var it=itensLista();_itensCache=it;$('#lcSub').textContent='Para sua piscina de '+fmt(state.volume||45000)+' L';
 function item(i){var on=listaOn(i.k);return '<label class="lc-item'+(on?'':' nao')+'"><input type="checkbox" data-k="'+i.k+'" '+(on?'checked':'')+'><span class="lc-ck"><svg class="ic"><use href="#i-check"/></svg></span><span class="lc-tx"><b>'+i.n+'</b><span>'+i.d+'</span></span></label>'}
@@ -847,7 +858,7 @@ function fecharLista(){$('#mdCompra').hidden=true;document.body.style.overflow='
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('#mdCompra').hidden)fecharLista()});
 function selecionados(){var it=_itensCache||itensLista();return it.quim.concat(it.acess).filter(function(i){return listaOn(i.k)})}
 
-/* ============ PDF 100% OFFLINE — itens organizados ============ */
+/* ============ PDF 100% OFFLINE ============ */
 function latin1(s){var b=new Uint8Array(s.length);for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);b[i]=c<256?c:63}return b}
 function pdfLimpa(s){s=String(s);var map={'–':'-','—':'-','•':'-','·':'-','≈':'~','≤':'<=','→':'->','³':'3','²':'2','⅛':'1/8','¼':String.fromCharCode(188),'½':String.fromCharCode(189),'¾':String.fromCharCode(190),'⅜':'3/8','⅝':'5/8','⅞':'7/8'};s=s.replace(/[–—•·≈≤→³²⅛¼½¾⅜⅝⅞]/g,function(c){return map[c]||c});var out='';for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);out+=(c>=32&&c<256)?s.charAt(i):'?'}return out}
 function pdfEsc(s){return s.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)')}
@@ -899,12 +910,12 @@ x.fillStyle='#fff';x.beginPath();x.ellipse(208*u,316*u,22*u,26*u,0,0,7);x.fill()
 x.fillStyle='#221108';x.beginPath();x.arc(211*u,320*u,10*u,0,7);x.fill();x.beginPath();x.arc(307*u,320*u,10*u,0,7);x.fill();
 x.strokeStyle='#47240F';x.lineWidth=14*u;x.lineCap='round';x.beginPath();x.arc(256*u,306*u,60*u,0.35,Math.PI-0.35);x.stroke();
 return c.toDataURL('image/png')}
-try{var manifest={name:'Calculadora do Elias — Método Copo Americano',short_name:'Calc. do Elias',description:'Tratamento de piscinas com análise da água, lista de compras e guia. Offline.',start_url:location.href,display:'standalone',background_color:'#ffffff',theme_color:'#0096D6',icons:[{src:iconeData(192),sizes:'192x192',type:'image/png',purpose:'any maskable'},{src:iconeData(512),sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
+try{var manifest={name:'Calculadora do Elias — Método Copo Americano',short_name:'Calc. do Elias',description:'Tratamento de piscinas com análise completa da água, lista de compras e guia. Offline.',start_url:location.href,display:'standalone',background_color:'#ffffff',theme_color:'#0096D6',icons:[{src:iconeData(192),sizes:'192x192',type:'image/png',purpose:'any maskable'},{src:iconeData(512),sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
 var link=document.createElement('link');link.rel='manifest';link.href='data:application/manifest+json;charset=utf-8,'+encodeURIComponent(JSON.stringify(manifest));document.head.appendChild(link);
 var touch=document.createElement('link');touch.rel='apple-touch-icon';touch.href=iconeData(180);document.head.appendChild(touch)}catch(e){}
-if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){try{var sw="self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.indexOf('elias-')===0&&k!=='elias-v15').map(k=>caches.delete(k)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(function(res){var cp=res.clone();caches.open('elias-v15').then(function(c){c.put(e.request,cp)});return res}).catch(function(){return caches.match(e.request)}))});";navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/javascript'}))).catch(function(){})}catch(e){}}
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){try{var sw="self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.indexOf('elias-')===0&&k!=='elias-v16').map(k=>caches.delete(k)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(function(res){var cp=res.clone();caches.open('elias-v16').then(function(c){c.put(e.request,cp)});return res}).catch(function(){return caches.match(e.request)}))});";navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/javascript'}))).catch(function(){})}catch(e){}}
 
-/* ============ INSTALAR — flag permanente, some ao instalar ============ */
+/* ============ INSTALAR ============ */
 var KEY_INST='elias-app-instalado';
 function estaInstalado(){if(window.matchMedia&&(window.matchMedia('(display-mode: standalone)').matches||window.matchMedia('(display-mode: fullscreen)').matches||window.matchMedia('(display-mode: minimal-ui)').matches))return true;if(window.navigator&&window.navigator.standalone===true)return true;return false}
 function jaInstalado(){try{if(localStorage.getItem(KEY_INST)==='1')return true}catch(e){}return estaInstalado()}
@@ -917,14 +928,14 @@ window.addEventListener('pageshow',function(){if(jaInstalado())someInstalar()});
  $('#btnInstalar').addEventListener('click',function(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(function(res){if(res&&res.outcome==='accepted'){marcaInstalado()}else{deferredPrompt=null}})});
 if(jaInstalado())someInstalar();
 
-/* ============ RESTAURAÇÃO — sempre abre na etapa 1 ============ */
+/* ============ RESTAURAÇÃO ============ */
 renderCampos();
 if(state.revestimento){var lb=document.querySelector('.rev[data-r="'+state.revestimento+'"]');if(lb){lb.classList.add('sel');lb.querySelector('input').checked=true;renderDica(state.revestimento)}}
 if(state.modo==='choque'){$('#segCho').classList.add('sel');$('#segMan').classList.remove('sel')}
 renderAgua();renderChecks();
 if(state.volume){setVolume(state.volume,false)}
 atualizaBadgeNet();atualizarSteps();
-if(state.analise){if(state.analise.at!=null)$('#anAT').value=String(state.analise.at).replace('.',',');if(state.analise.ph!=null)$('#anPH').value=String(state.analise.ph).replace('.',',');if(state.analise.cl!=null)$('#anCL').value=String(state.analise.cl).replace('.',',')}
+if(state.analise){if(state.analise.at!=null)$('#anAT').value=String(state.analise.at).replace('.',',');if(state.analise.ph!=null)$('#anPH').value=String(state.analise.ph).replace('.',',');if(state.analise.cl!=null)$('#anCL').value=String(state.analise.cl).replace('.',',');if(state.analise.ch!=null)$('#anCH').value=String(state.analise.ch).replace('.',',')}
 renderAnalise();renderDose();renderTabela();
 etapaAtual=1;goTo(1,true);
 setTimeout(autoClima,800);
