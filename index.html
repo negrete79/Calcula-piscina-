@@ -109,7 +109,7 @@ body.obmode .bnav,body.obmode .fab{display:none}
 .wday .r1{display:flex;align-items:center;gap:10px}
 .wday .d{width:66px;font-weight:800;font-size:13px}
 .wday .tm{font-weight:700;font-size:14px;margin-left:auto}
-.wday .pp{font-size:12px;color:#2C7FB8;font-weight:700;width:110px;text-align:right}
+.wday .pp{font-size:12px;color:#2C7FB8;font-weight:700;width:74px;text-align:right}
 .verdict{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px}
 .verdict.good{background:#E7F6EF;color:var(--good)}
 .verdict.warn{background:#FFF4E0;color:var(--warn)}
@@ -199,7 +199,7 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
         <div class="lbl" style="text-align:center">— ou —</div>
         <div class="field">
           <label>Buscar cidade (funciona sempre)</label>
-          <input id="cityOb" inputmode="search" placeholder="Ex.: Ouro Preto" oninput="App.citySearch('ob')">
+          <input id="cityOb" inputmode="search" placeholder="Ex.: Campinas" oninput="App.citySearch('ob')">
         </div>
         <div id="resOb"></div>
       </div>
@@ -314,17 +314,12 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 <script>
 'use strict';
 /* ================================================================
-   PISCINA INTELIGENTE v0.5 — single-file PWA
-   v0.5 (esta versão):
-   · FIX clima: cache de previsão SIMULADA nunca mais é servido
-     (só cache de dado real; sim → sempre tenta buscar de novo)
-   · Clima em modo demo agora mostra BANNER VERMELHO explícito
-   · Clima real mostra as coordenadas usadas (para conferir no Maps)
-   · Copy honesta: "X% de chance de chuva" ≠ "vai chover o dia todo"
-   · GPS com diagnóstico: Permissions API detecta permissão
-     bloqueada e explica ONDE reativar (cadeado/Ajustes)
-   Mantém v0.4: PWA + botão instalar + iOS hint; v0.3: litragem
-   direta, draft do editor; análise completa AT→pH→Cloro→Dureza.
+   PISCINA INTELIGENTE v0.4 — single-file PWA
+   v0.4: PWA completo embutido (manifest + SW registration +
+   beforeinstallprompt com botão "Instalar agora" no Home +
+   dica dedicada para iPhone). Mantém todo o v0.3: litragem
+   direta, draft do editor, análise completa (AT→pH→Cloro→
+   Dureza), GPS→IP→cidade.
    ================================================================ */
 
 /* ---------------- ícones ---------------- */
@@ -625,25 +620,19 @@ function evaluateAlerts(daily){
   const ord={critico:0,atencao:1,info:2};
   return A.sort((a,b)=>ord[a.sev]-ord[b.sev]);
 }
-/* v0.5: copy honesta — % de chance ≠ chuva o dia todo */
 function dayVerdict(d){
-  if(d.pop>=60&&d.mm>=5)return{t:`Alta chance de chuva (${Math.round(d.pop)}%) — adie o cloro`,c:'bad',i:'umbrella'};
+  if(d.pop>=60&&d.mm>=5)return{t:'Evite dosificar cloro',c:'bad',i:'umbrella'};
   if(d.max>=33)return{t:'Calor intenso: cloro cai rápido',c:'warn',i:'thermo'};
-  if(d.uv>=10)return{t:'UV alto: aplique ao entardecer',c:'warn',i:'zap'};
+  if(d.uv>=10)return{t:'Aplique ao entardecer',c:'warn',i:'zap'};
   if(d.max>=22&&d.max<=30&&d.pop<30&&d.uv<=7)return{t:'Janela ideal para manutenção',c:'good',i:'check'};
-  return{t:`Condições normais · ${Math.round(d.pop)}% de chance de chuva`,c:'ok',i:'drop'};
+  return{t:'Condições normais',c:'ok',i:'drop'};
 }
-/* v0.5 FIX: cache só é válido se for dado REAL (sim===false).
-   Antes: uma única falha de rede salvava a previsão simulada por 3 h. */
 async function loadWeather(force){
   if(!state.location)return;
   const c=state.weatherCache;
-  const cacheIsReal=c&&c.sim===false;
-  if(!force&&cacheIsReal&&Date.now()-c.ts<3*36e5){renderWeatherBits();return;}
+  if(!force&&c&&Date.now()-c.ts<3*36e5){renderWeatherBits();return;}
   const days=await fetchForecast(state.location.lat,state.location.lon);
-  const sim=!!days[0]?.sim;
-  state.weatherCache={ts:Date.now(),days,sim};
-  save();renderWeatherBits();
+  state.weatherCache={ts:Date.now(),days,sim:!!days[0]?.sim};save();renderWeatherBits();
 }
 
 /* ---------------- dicas ---------------- */
@@ -814,57 +803,30 @@ obFinish(){
   save();App.go('home');loadWeather();
   toast('Piscina configurada! 🏊');
 },
-
-/* ---------- LOCALIZAÇÃO: permissão → GPS → IP → cidade (v0.5) ---------- */
+/* ---------- LOCALIZAÇÃO: GPS → IP → cidade ---------- */
 _setLoc(loc,how){
   state.location=loc;save();
   renderPool();App.go('home');
   loadWeather(true);
   toast(how==='gps'?'Localização via GPS ativada ✓':how==='ip'?'Localização aproximada (por IP) ativada ✓':'Cidade definida ✓');
 },
-async enableGps(ctx){
+enableGps(ctx){
   const finish=(loc,how)=>{ if(ctx==='ob')App.obFinish(); App._setLoc(loc,how); };
-
-  /* 1) contexto inseguro (file://): navegador bloqueia por design */
+  const tryGeo=()=>new Promise((res,rej)=>{
+    if(!navigator.geolocation)return rej({code:0,msg:'API indisponível'});
+    navigator.geolocation.getCurrentPosition(res,rej,
+      {enableHighAccuracy:true,timeout:9000,maximumAge:300000});
+  });
   if(!window.isSecureContext){
-    toast('GPS bloqueado: você está num arquivo local (file://). Hospede em https (Netlify/GitHub Pages) para ativar o GPS — ou use a busca por cidade.',6000);
     App._ipFallback(ctx,finish);return;
   }
-  if(!navigator.geolocation){toast('Este navegador não suporta geolocalização. Use a busca por cidade.',4500);return;}
-
-  /* 2) checa o ESTADO da permissão ANTES de chamar (Permissions API) */
-  let permState='prompt';
-  try{
-    if(navigator.permissions){
-      const st=await navigator.permissions.query({name:'geolocation'});
-      permState=st.state; // 'granted' | 'denied' | 'prompt'
-    }
-  }catch(e){/* Safari antigo: segue o fluxo normal */}
-
-  /* 3) se já foi NEGADA, chamar o GPS só falha em silêncio — oriente */
-  if(permState==='denied'){App._deniedHelp();return;}
-
-  if(permState==='granted')toast('Obtendo localização…');
-  /* se 'prompt': a chamada abaixo dispara o DIÁLOGO NATIVO agora */
-
-  try{
-    const pos=await new Promise((res,rej)=>{
-      navigator.geolocation.getCurrentPosition(res,rej,
-        {enableHighAccuracy:true,timeout:12000,maximumAge:60000});
-    });
-    finish({lat:+pos.coords.latitude.toFixed(4),lon:+pos.coords.longitude.toFixed(4),
-      label:'Minha localização (GPS)'},'gps');
-  }catch(err){
-    if(err&&err.code===1){App._deniedHelp();return;} /* recusou agora no diálogo */
-    const reason=err&&err.code===3?'Tempo esgotado obtendo o sinal de GPS.':'GPS indisponível.';
+  toast('Obtendo localização…');
+  tryGeo().then(p=>finish({lat:+p.coords.latitude.toFixed(4),lon:+p.coords.longitude.toFixed(4),label:'Minha localização (GPS)'},'gps'))
+  .catch(err=>{
+    const reason=err&&err.code===1?'Permissão negada — verifique as configurações do navegador.'
+      :err&&err.code===3?'Tempo esgotado obtendo o sinal de GPS.':'GPS indisponível.';
     App._ipFallback(ctx,finish,reason);
-  }
-},
-_deniedHelp(){
-  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  toast(ios
-    ?'📍 Permissão de localização está BLOQUEADA. No iPhone: Ajustes → Safari (ou Piscina App) → Localização → Permitir/Perguntar. Depois toque em Ativar de novo.'
-    :'📍 Permissão de localização está BLOQUEADA. Toque no cadeado 🔒 na barra de endereço → Permissões → Localização → Perguntar. Depois toque em Ativar de novo.',8000);
+  });
 },
 async _ipFallback(ctx,finish,reason){
   try{
@@ -1072,8 +1034,7 @@ function renderHome(){
   $('homeSub').textContent=p.mode==='volume'?'Litragem direta':`Piscina ${SHAPE_LABEL[p.shape].toLowerCase()}`;
   const days=state.weatherCache?.days||[];
   const today=days[0];
-  const sim=!!state.weatherCache?.sim;
-  const alerts=sim?[]:evaluateAlerts(days);
+  const alerts=evaluateAlerts(days);
   const rem=App.reminders();
   const tips=App.contextTips();
   const lr=lastReading();
@@ -1107,9 +1068,7 @@ function renderHome(){
         <div class="meta">${kindTxt} · ${metaTxt} — <a href="#" onclick="App.go('pool');return false" style="color:#fff">editar</a></div>
       </div>
     </div>
-    ${state.location?(today?(sim
-      ?`<div class="wline">${ic('cloud',18)} previsão indisponível — toque na aba Clima</div>`
-      :`<div class="wline">${ic(today.max>=33?'thermo':today.pop>=60?'umbrella':'sun',18)} Hoje: ${Math.round(today.max)} °C · chuva amanhã: ${days[1]?Math.round(days[1].pop):'—'}%</div>`)
+    ${state.location?(today?`<div class="wline">${ic(today.max>=33?'thermo':today.pop>=60?'umbrella':'sun',18)} Hoje: ${Math.round(today.max)} °C · chuva amanhã: ${days[1]?Math.round(days[1].pop):'—'}%</div>`
       :`<div class="wline">${ic('cloud',18)} carregando previsão…</div>`)
       :`<div class="wline">${ic('pin',18)} Ative a localização para alertas de chuva</div>`}
   </div>
@@ -1129,7 +1088,7 @@ function renderHome(){
   ${alerts.length?alerts.map(a=>`<div class="alert ${a.sev}">
     <div class="t" style="color:${a.sev==='critico'?'var(--bad)':a.sev==='atencao'?'var(--warn)':'var(--primary)'}">${ic(a.icon,18)} ${a.title}</div>
     <p>${a.msg}</p>${a.cta?`<div class="act"><button class="tbtn" onclick="${a.fn}">${a.cta} ${ic('chev',14)}</button></div>`:''}</div>`).join('')
-   :(state.location&&!sim?`<div class="alert info"><div class="t" style="color:var(--good)">${ic('check',18)} Sem alertas no momento</div><p>Condições estáveis para a manutenção da piscina.</p></div>`:'')}
+   :(state.location?`<div class="alert info"><div class="t" style="color:var(--good)">${ic('check',18)} Sem alertas no momento</div><p>Condições estáveis para a manutenção da piscina.</p></div>`:'')}
 
   <div class="sec-t">Dicas para hoje</div>
   ${tips.map(tipCard).join('')}
@@ -1229,23 +1188,15 @@ function renderPlanResult(){
     Aplique uma etapa por vez, na ordem. Re-teste após 4–6 h de filtração.</p>`;
 }
 
-/* v0.5: banner vermelho em modo demo + coordenadas exibidas p/ conferência */
 function renderWeatherView(){
   const c=state.weatherCache;
   if(!state.location){$('wxBody').innerHTML=`<div class="hint">Defina sua localização para ver a previsão interpretada para a piscina.<br><br>
     <button class="btn ghost" style="display:inline-flex;width:auto" onclick="App.enableGps('wx')">Ativar localização</button></div>`;return;}
   if(!c){$('wxBody').innerHTML='<div class="hint">Carregando previsão…</div>';loadWeather();return;}
-  const days=c.days;const sim=!!c.sim;
-  const alerts=sim?[]:evaluateAlerts(days);
+  const days=c.days;const alerts=evaluateAlerts(days);
   const dn=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-  $('wxSub').textContent=`${esc(state.location.label)}`;
+  $('wxSub').textContent=`${esc(state.location.label)} · ${c.sim?'dados simulados (offline)':'Open-Meteo'}`;
   $('wxBody').innerHTML=`
-  ${sim?`<div class="alert critico" style="margin-bottom:14px">
-    <div class="t" style="color:var(--bad)">${ic('warn',18)} Modo demonstração — dados NÃO são reais</div>
-    <p>Estes números são <b>simulados</b> (o app não conseguiu falar com a API de clima — geralmente falta internet ou o app foi aberto por arquivo local). Nada aqui deve ser usado para decidir dosagem.</p>
-    <div class="act"><button class="tbtn" onclick="App.wxRefresh()">Tentar buscar previsão real</button></div></div>`
-   :`<div class="src" style="text-align:left;margin:0 0 12px">Fonte: Open-Meteo · coordenadas ${state.location.lat}, ${state.location.lon}<br>
-     Confira no Google Maps se esse ponto é onde você está.</div>`}
   ${alerts.filter(a=>a.sev!=='info').map(a=>`<div class="alert ${a.sev}">
     <div class="t" style="color:${a.sev==='critico'?'var(--bad)':'var(--warn)'}">${ic(a.icon,18)} ${a.title}</div><p>${a.msg}</p>
     ${a.cta?`<div class="act"><button class="tbtn" onclick="${a.fn}">${a.cta}</button></div>`:''}</div>`).join('')}
@@ -1257,11 +1208,12 @@ function renderWeatherView(){
         <span class="d">${i===0?'Hoje':i===1?'Amanhã':dn[d.date.getDay()]}</span>
         <span style="color:${v.c==='good'?'var(--good)':v.c==='warn'?'var(--warn)':v.c==='bad'?'var(--bad)':'var(--primary)'}">${ic(v.i,18)}</span>
         <span class="tm">${Math.round(d.min)}–${Math.round(d.max)} °C</span>
-        <span class="pp">${Math.round(d.pop)}% 💧</span>
+        <span class="pp">🌧 ${Math.round(d.pop)}%</span>
       </div>
       <span class="verdict ${v.c}">${ic(v.i,13)} ${v.t}</span>
     </div>`;}).join('')}
-  <div class="src">${sim?'⚠️ Previsão simulada — conecte-se à internet para dados reais.':'Interpretação automática para piscinas. A % é a chance de chover no dia, não chuva o dia todo.'}</div>`;
+  <div class="src">${c.sim?'⚠️ Sem conexão — exibindo previsão simulada para demonstração.':'Fonte: Open-Meteo · atualizado a cada 3 h'}<br>
+  Interpretação automática para tratamento de piscinas.</div>`;
 }
 
 function renderHistory(){
@@ -1349,7 +1301,7 @@ function renderPool(){
   const p=state.pool;if(!p)return;
 
   /* draft: inicializa 1× ao entrar; depois só colhe digitação
-     (fix v0.3: antes, renderPool sobrescrevia a seleção a cada render) */
+     (fix do bug: antes, renderPool sobrescrevia a seleção a cada render) */
   if(poolDraft==null){
     poolDraft={...p};
     poolShape=p.mode==='volume'?'volume':p.shape;
@@ -1416,7 +1368,7 @@ function renderPool(){
       ${state.location?`<button class="chip" onclick="App.wxRefresh()">${ic('refresh',15)} Atualizar previsão</button>`:''}
     </div>
     <div class="field" style="margin-top:12px"><label>Buscar cidade (funciona sempre)</label>
-      <input id="cityPool" inputmode="search" placeholder="Ex.: Ouro Preto" oninput="App.citySearch('pool')"></div>
+      <input id="cityPool" inputmode="search" placeholder="Ex.: Recife" oninput="App.citySearch('pool')"></div>
     <div id="resPool"></div>
   </div>
 
@@ -1425,7 +1377,7 @@ function renderPool(){
     <p>Todos os dados ficam salvos <b>apenas neste dispositivo</b>. Nenhuma informação pessoal é enviada — só coordenadas anônimas para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">Protótipo v0.5 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">Protótipo v0.4 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
