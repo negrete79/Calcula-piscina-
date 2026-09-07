@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Piscina Inteligente — Dosagem & Clima",
+  "short_name": "Piscina App",
+  "description": "Dosagem de produtos, análise completa da água (pH, cloro, alcalinidade, dureza) e alertas climáticos para sua piscina.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EFF6F8",
+  "theme_color": "#0B8FA8",
+  "categories": ["utilities", "lifestyle"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
