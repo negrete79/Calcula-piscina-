@@ -1,0 +1,6 @@
+<!-- icon.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="110" fill="#0B8FA8"/>
+  <path d="M256 96c58 74 118 130 118 208a118 118 0 1 1-236 0c0-78 60-134 118-208z" fill="#fff"/>
+  <path d="M206 318c0 28 20 50 46 55" stroke="#0FB5A8" stroke-width="20" stroke-linecap="round" fill="none"/>
+</svg>

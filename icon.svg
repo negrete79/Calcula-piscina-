@@ -1,0 +1,7 @@
+<!-- icon-maskable.svg (arte com margem de segurança de 20% p/ Android) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0B8FA8"/>
+  <g transform="translate(256 256) scale(0.66) translate(-256 -256)">
+    <path d="M256 96c58 74 118 130 118 208a118 118 0 1 1-236 0c0-78 60-134 118-208z" fill="#fff"/>
+  </g>
+</svg>
