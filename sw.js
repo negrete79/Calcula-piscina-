@@ -1,6 +1,6 @@
 /* sw.js — Piscina Inteligente v1 */
 'use strict';
-const VERSION = 'v1.4.0';                    // ↑ bump a cada release
+const VERSION = 'v1.6.0';                    // ↑ bump a cada release
 const SHELL = 'shell-' + VERSION;
 const APIS  = 'api-' + VERSION;
 const SHELL_FILES = [
