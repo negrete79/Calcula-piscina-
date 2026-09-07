@@ -4,7 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B8FA8">
+<meta name="description" content="Dosagem de produtos para piscina, análise completa da água (pH, cloro, alcalinidade, dureza) e alertas climáticos.">
 <title>Piscina Inteligente — Dosagem & Clima</title>
+
+<!-- ===== PWA ===== -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Piscina App">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -156,7 +167,10 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
       <div id="obS2" style="display:none">
         <div class="chips" id="obPresets" style="margin-bottom:16px"></div>
         <div id="obDims"></div>
-        <div style="text-align:center;margin:6px 0 16px">
+        <div style="text-align:center;margin:6px 0 16px" id="obToggleWrap">
+          <button class="linklike" id="obToggle" onclick="App.obToggleVol()"></button>
+        </div>
+        <div id="obEscapeWrap" style="text-align:center;margin:0 0 16px">
           <button class="linklike" onclick="App.obEscape()">Não sei as medidas</button>
         </div>
         <div id="obEscapeBox" style="display:none" class="card">
@@ -169,7 +183,7 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
           </div>
         </div>
         <div class="volcard">
-          <div style="font-size:12px;font-weight:700;opacity:.85">VOLUME ESTIMADO</div>
+          <div style="font-size:12px;font-weight:700;opacity:.85">VOLUME DA PISCINA</div>
           <div class="n" id="obVol">—</div>
           <div class="u">litros</div>
         </div>
@@ -267,7 +281,7 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 </nav>
 <button class="fab" onclick="App.openCalc()"><i data-ic="drop" data-s="20"></i> Dosificar</button>
 
-<!-- SHEET RESULTADO (tratamento rápido + plano de correção) -->
+<!-- SHEET RESULTADO -->
 <div class="sheet" id="sheetRes" onclick="if(event.target===this)App.sheetClose()">
   <div class="panel">
     <div class="grab"></div>
@@ -300,11 +314,12 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 <script>
 'use strict';
 /* ================================================================
-   PISCINA INTELIGENTE v0.2 — single-file, corrigido
-   Fixes: renderHome (var indefinida) · campo nulo p/ piscina
-   redonda · GPS com fallback GPS→IP→cidade · módulo "Análise
-   Completa" com pH, cloro livre, alcalinidade e DUREZA CÁLCICA
-   → plano de correção ordenado (AT → pH → Cloro → Dureza).
+   PISCINA INTELIGENTE v0.4 — single-file PWA
+   v0.4: PWA completo embutido (manifest + SW registration +
+   beforeinstallprompt com botão "Instalar agora" no Home +
+   dica dedicada para iPhone). Mantém todo o v0.3: litragem
+   direta, draft do editor, análise completa (AT→pH→Cloro→
+   Dureza), GPS→IP→cidade.
    ================================================================ */
 
 /* ---------------- ícones ---------------- */
@@ -337,6 +352,8 @@ const ICONS={
  chev:'<polyline points="9 18 15 12 9 6"/>',
  info:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>',
  sun:'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+ download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+ share:'<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>',
 };
 const SHAPES_SVG={
  rect:'<rect x="3" y="6" width="18" height="12" rx="2"/>',
@@ -353,11 +370,14 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=n=>Math.round(n).toLocaleString('pt-BR');
 const fmt1=n=>n.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
 const num=v=>{if(v==null)return null;const n=parseFloat(String(v).trim().replace(',','.'));return isFinite(n)?n:null;};
+const numL=v=>{const d=String(v??'').replace(/\D/g,'');return d?+d:null;};
 const hoursSince=iso=>(Date.now()-new Date(iso).getTime())/36e5;
 function toast(msg,ms=2800){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tm);t._tm=setTimeout(()=>t.classList.remove('show'),ms);}
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
 function fetchT(url,ms=8000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);return fetch(url,{signal:c.signal}).finally(()=>clearTimeout(t));}
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;}
+function isIos(){return /iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);}
 window.addEventListener('error',e=>{ if(location.protocol==='file:') toast('Erro interno: '+e.message+' — se persistir, rode via https.',5000); });
 
 /* ---------------- estado ---------------- */
@@ -365,6 +385,7 @@ const KEY='poolcare_v1';
 let state=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})();
 state={pool:null,location:null,history:[],weatherCache:null,...state};
 if(!Array.isArray(state.history))state.history=[];
+if(state.pool&&!state.pool.mode)state.pool.mode='dims';
 const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 
 /* ---------------- catálogo (schema compatível c/ Remote Config) ---------------- */
@@ -414,10 +435,14 @@ const QUICK_TREATMENTS={
  clarificante:{label:'Água turva (clarificar)',icon:'sparkle'},
 };
 const TREAT_LABEL=t=>QUICK_TREATMENTS[t]?.label||t;
-const SHAPE_LABEL={rect:'Retangular',round:'Redonda',oval:'Oval',free:'Oitavada / livre'};
+const SHAPE_LABEL={rect:'Retangular',round:'Redonda',oval:'Oval',free:'Oitavada / livre',volume:'Litragem direta'};
+const VOL_PRESETS=[10000,15000,20000,25000,30000,40000,50000];
+const volChip=v=>`<button class="chip" onclick="App.obVolPreset(${v})">${v/1000} mil L</button>`;
+const volChipPool=v=>`<button class="chip" onclick="App.poolVolPreset(${v})">${v/1000} mil L</button>`;
 
 /* ---------------- engine: volume ---------------- */
 function poolVolume(p){
+  if(p&&p.mode==='volume')return Math.max(0,Math.round(+p.volume||0));
   const pm=(p.shallow+p.deep)/2; let m3=0;
   if(p.shape==='rect') m3=p.length*p.width*pm;
   else if(p.shape==='round') m3=p.length*p.length*pm*0.785;
@@ -425,7 +450,7 @@ function poolVolume(p){
   return m3*1000;
 }
 
-/* ---------------- engine: dose fixa (tratamento rápido) ---------------- */
+/* ---------------- engine: dose fixa ---------------- */
 function roundDose(v){if(v<=0)return 0;const s=v>=200?10:5;return Math.max(s,Math.round(v/s)*s);}
 function interpPh(d,tb){
   if(d<=tb[0].d)return tb[0].v;
@@ -455,19 +480,13 @@ function computeQuick(t,volume){
   return{items};
 }
 
-/* ---------------- engine: PLANO DE CORREÇÃO (análise completa) --------
-   Ordem técnica: 1 Alcalinidade → 2 pH → 3 Cloro → 4 Dureza cálcica.
-   Fatores (referência — calibrar com as bulas):
-   · Bicarbonato:   170 g /10 ppm /10.000 L
-   · Cloreto Ca:    150 g /10 ppm /10.000 L (CaCl2·2H2O)
-   · Cloro p/ Δppm: Dicloro 56% ≈ 1,8 g por ppm por 1.000 L
-                    Hipoclorito 12% ≈ 8,3 mL por ppm por 1.000 L   */
+/* ---------------- engine: PLANO DE CORREÇÃO ---------------- */
 function buildPlan(r,V){
   const acts=[];
   const push=(a)=>acts.push(a);
   const okItem=(step,key,label)=>({step,key,ok:true,label});
 
-  /* 1 — ALCALINIDADE (ideal 80–120 ppm) */
+  /* 1 — ALCALINIDADE */
   if(r.alk!=null){
     if(r.alk<80){
       const delta=Math.min(100-r.alk,60);
@@ -484,7 +503,7 @@ function buildPlan(r,V){
     }else push(okItem(1,'alk',`Alcalinidade em ordem (${fmt(r.alk)} ppm)`));
   }
 
-  /* 2 — pH (ideal 7,2–7,6 · alvo 7,4) */
+  /* 2 — pH */
   if(r.ph!=null){
     if(r.ph<7.2||r.ph>7.6){
       const up=r.ph<7.2;
@@ -502,7 +521,7 @@ function buildPlan(r,V){
     }else push(okItem(2,'ph',`pH em ordem (${fmt1(r.ph)})`));
   }
 
-  /* 3 — CLORO LIVRE (ideal 1–3 ppm · alvo 2) */
+  /* 3 — CLORO LIVRE */
   if(r.cl!=null){
     if(r.cl<1){
       const delta=+(2-r.cl).toFixed(1);
@@ -525,7 +544,7 @@ function buildPlan(r,V){
     }
   }
 
-  /* 4 — DUREZA CÁLCICA (ideal 200–400 ppm · alvo 250) */
+  /* 4 — DUREZA CÁLCICA */
   if(r.ch!=null){
     if(r.ch<200){
       const delta=Math.min(250-r.ch,150);
@@ -626,11 +645,11 @@ const TIPS=[
  {tags:{season:'inverno'},icon:'shield',title:'Manutenção de inverno',text:'Filtre ao menos 1× por semana (6 h) e mantenha o cloro em dia — algas não tiram férias. Uma capa reduz drasticamente o trabalho.',cta:'cloro_manutencao'},
  {tags:{season:'inverno'},icon:'activity',title:'pH sob controle no frio',text:'Teste o pH quinzenalmente. Corrigir agora evita água verde na reabertura da primavera.'},
  {tags:{season:'primavera'},icon:'zap',title:'Reativação da piscina',text:'Faça análise completa (pH, cloro, alcalinidade, dureza), higienize o filtro e considere um choque de abertura.',cta:'cloro_choque'},
- {tags:{param:'ph'},icon:'up',title:'pH baixo (menos de 7,2)',text:'Água corrosiva: irrita olhos e pele e danifica metais e vinil. Corrija com barrilha.',fn:'App.openAnalysis()'},
- {tags:{param:'ph'},icon:'down',title:'pH alto (mais de 7,6)',text:'O cloro perde boa parte da eficiência e a água tende a ficar turva. Corrija com ácido muriático.',fn:'App.openAnalysis()'},
- {tags:{param:'cloro'},icon:'drop',title:'Cloro livre ideal: 1–3 ppm',text:'Abaixo de 1 ppm há risco de bactérias; acima de 5 ppm não permita banho e aguarde a queda natural.',fn:'App.openAnalysis()'},
- {tags:{param:'alcalinidade'},icon:'activity',title:'Alcalinidade 80–120 ppm',text:'É o “estabilizador do pH”: baixa, o pH fica oscilando. Corrija com bicarbonato antes de ajustar o pH.',fn:'App.openAnalysis()'},
- {tags:{param:'dureza'},icon:'shield',title:'Dureza cálcica 200–400 ppm',text:'Baixa corroe metais e revestimentos; alta forma crosta branca e água turva. Sobe com cloreto de cálcio; desce só com reposição de água.',fn:'App.openAnalysis()'},
+ {tags:{param:'ph'},icon:'up',title:'pH baixo (menos de 7,2)',text:'Água corrosiva: irrita olhos e pele e danifica metais e vinil. Corrija com barrilha.',go:'openAnalysis'},
+ {tags:{param:'ph'},icon:'down',title:'pH alto (mais de 7,6)',text:'O cloro perde boa parte da eficiência e a água tende a ficar turva. Corrija com ácido muriático.',go:'openAnalysis'},
+ {tags:{param:'cloro'},icon:'drop',title:'Cloro livre ideal: 1–3 ppm',text:'Abaixo de 1 ppm há risco de bactérias; acima de 5 ppm não permita banho e aguarde a queda natural.',go:'openAnalysis'},
+ {tags:{param:'alcalinidade'},icon:'activity',title:'Alcalinidade 80–120 ppm',text:'É o “estabilizador do pH”: baixa, o pH fica oscilando. Corrija com bicarbonato antes de ajustar o pH.',go:'openAnalysis'},
+ {tags:{param:'dureza'},icon:'shield',title:'Dureza cálcica 200–400 ppm',text:'Baixa corroe metais e revestimentos; alta forma crosta branca e água turva. Sobe com cloreto de cálcio; desce só com reposição de água.',go:'openAnalysis'},
  {tags:{param:'filtragem'},icon:'clock',title:'Regra do turnover',text:'A bomba deve reciclar todo o volume da piscina em cerca de 6 h no verão. Bomba parada = piscina parada.'},
  {tags:{param:'limpeza'},icon:'sprout',title:'Escove semanalmente',text:'Escovar paredes e fundo impede a fixação de algas — mesmo com a água aparentemente limpa.'},
  {tags:{param:'limpeza'},icon:'shield',title:'Filtro: pressão alta = lavar',text:'Faça a retrolavagem quando o manômetro marcar 8–10 psi acima do valor limpo, ou uma vez por semana.'},
@@ -653,8 +672,10 @@ function paramClass(k,v){const m=PARAM_META[k];return m.ok(v)?'ok':(m.bad(v)?'ba
    ================================================================ */
 let rState=null;
 const an={ph:null,cl:null,alk:null,ch:null};
-let cityCtx='ob',cityRes=[],tipFilter='all',poolShape='rect';
-const ob={step:1,shape:null,approx:false};
+let cityCtx='ob',cityRes=[],tipFilter='all';
+const ob={step:1,shape:null,approx:false,volMode:false};
+let poolShape='rect';
+let poolDraft=null;
 
 const App={
 /* ---------- navegação ---------- */
@@ -669,20 +690,21 @@ go(v){
   if(v==='history')renderHistory();
   if(v==='tips')renderTips();
   if(v==='calc')renderCalc();
-  if(v==='pool')renderPool();
+  if(v==='pool'){poolDraft=null;renderPool();}
 },
 openCalc(pre){renderCalc(pre);App.go('calc');},
 
 /* ---------- onboarding ---------- */
 obStart(){
-  ob.step=1;ob.shape=null;ob.approx=false;
-  $('shapeGrid').innerHTML=Object.keys(SHAPE_LABEL).map(s=>
+  ob.step=1;ob.shape=null;ob.approx=false;ob.volMode=false;
+  $('shapeGrid').innerHTML=Object.entries(SHAPE_LABEL).filter(([k])=>k!=='volume').map(([s,l])=>
     `<button class="shape" id="shp_${s}" onclick="App.obSelectShape('${s}')">
       <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${SHAPES_SVG[s]}</svg>
-      ${SHAPE_LABEL[s]}</button>`).join('');
+      ${l}</button>`).join('');
   App.obRenderStep();
 },
 obSelectShape(s){ob.shape=s;App.obRenderStep();},
+obToggleVol(){ob.volMode=!ob.volMode;App.obRenderStep();},
 obDim(){ob.approx=false;App.obRenderVol();},
 obPreset(txt){
   const map={'5×3':[5,3],'6×4':[6,4],'8×4':[8,4],'Ø 3':[3,null],'Ø 4,5':[4.5,null],'Ø 6':[6,null]};
@@ -698,8 +720,13 @@ obSizePreset(k){
   ob.approx=true;App.obRenderVol();
   toast('Valores aproximados — ajuste depois em “Minha piscina”.');
 },
+obVolPreset(v){const i=$('obLiters');if(i){i.value=String(v);App.obRenderVol();}},
 obEscape(){const b=$('obEscapeBox');b.style.display=b.style.display==='none'?'block':'none';},
 obVol(){
+  if(ob.volMode){
+    const L=numL($('obLiters')?.value);
+    return (L&&L>=1000&&L<=2000000)?L:null;
+  }
   const L=num($('obL')?.value),W=ob.shape==='round'?0:num($('obW')?.value),
         S=num($('obSh')?.value),D=num($('obDp')?.value);
   if(!ob.shape||L==null||S==null||D==null||L<=0)return null;
@@ -717,27 +744,42 @@ obRenderStep(){
   $('obS3').style.display=s===3?'':'none';
   $('obBack').style.display=s>1?'':'none';
   $('obSkip').style.display=s===3?'':'none';
-  const heads=[
-    ['Qual o formato da sua piscina?','Toque em uma opção para começar.'],
-    ['Agora, as medidas','Em metros. O volume é calculado ao vivo.'],
-    ['Alertas de chuva','Opcional — pode ativar depois.']];
-  $('obHead').innerHTML=`<h2>${heads[s-1][0]}</h2><p>${heads[s-1][1]}</p>`;
+  const heads=ob.volMode&&s===2
+    ?['Informe a litragem','Se você já sabe o volume da piscina, digite direto — pula as medidas.']
+    :[['Qual o formato da sua piscina?','Toque em uma opção para começar.'],
+      ['Agora, as medidas','Em metros. O volume é calculado ao vivo.'],
+      ['Alertas de chuva','Opcional — pode ativar depois.']][s-1];
+  $('obHead').innerHTML=`<h2>${heads[0]}</h2><p>${heads[1]}</p>`;
   $('obDots').querySelectorAll('span').forEach((d,i)=>d.classList.toggle('on',i<s));
   $('obNext').textContent=s===3?'Concluir ✓':'Continuar';
   document.querySelectorAll('.shape').forEach(el=>el.classList.toggle('sel',el.id==='shp_'+ob.shape));
   if(s===2){
-    const presets=ob.shape==='round'?['Ø 3','Ø 4,5','Ø 6']:['5×3','6×4','8×4'];
-    $('obPresets').innerHTML=presets.map(p=>`<button class="chip" onclick="App.obPreset('${p}')">${p} m</button>`).join('');
-    $('obDims').innerHTML=`
-      <div class="field"><label>${ob.shape==='round'?'Diâmetro':'Comprimento'}</label>
-        <input id="obL" inputmode="decimal" placeholder="ex.: 8" oninput="App.obDim()"><span class="sfx">m</span></div>
-      ${ob.shape!=='round'?`<div class="field"><label>Largura</label>
-        <input id="obW" inputmode="decimal" placeholder="ex.: 4" oninput="App.obDim()"><span class="sfx">m</span></div>`
-        :'<input type="hidden" id="obW" value="">'}
-      <div class="field"><label>Profundidade rasa</label>
-        <input id="obSh" inputmode="decimal" value="1,0" oninput="App.obDim()"><span class="sfx">m</span></div>
-      <div class="field"><label>Profundidade funda</label>
-        <input id="obDp" inputmode="decimal" value="1,5" oninput="App.obDim()"><span class="sfx">m</span></div>`;
+    if(ob.volMode){
+      $('obPresets').innerHTML=VOL_PRESETS.map(volChip).join('');
+      $('obDims').innerHTML=`
+        <div class="field"><label>Volume total da piscina</label>
+          <input id="obLiters" inputmode="numeric" placeholder="ex.: 25000" oninput="App.obRenderVol()"><span class="sfx">L</span></div>
+        <div class="hint" style="margin-top:4px">💡 O volume costuma estar no manual, na nota fiscal da piscina
+        ou no site do fabricante. Aceita “25000” ou “25.000”.</div>`;
+      $('obToggle').textContent='← Prefiro informar as medidas';
+      $('obEscapeWrap').style.display='none';
+      $('obEscapeBox').style.display='none';
+    }else{
+      const presets=ob.shape==='round'?['Ø 3','Ø 4,5','Ø 6']:['5×3','6×4','8×4'];
+      $('obPresets').innerHTML=presets.map(p=>`<button class="chip" onclick="App.obPreset('${p}')">${p} m</button>`).join('');
+      $('obDims').innerHTML=`
+        <div class="field"><label>${ob.shape==='round'?'Diâmetro':'Comprimento'}</label>
+          <input id="obL" inputmode="decimal" placeholder="ex.: 8" oninput="App.obDim()"><span class="sfx">m</span></div>
+        ${ob.shape!=='round'?`<div class="field"><label>Largura</label>
+          <input id="obW" inputmode="decimal" placeholder="ex.: 4" oninput="App.obDim()"><span class="sfx">m</span></div>`
+          :'<input type="hidden" id="obW" value="">'}
+        <div class="field"><label>Profundidade rasa</label>
+          <input id="obSh" inputmode="decimal" value="1,0" oninput="App.obDim()"><span class="sfx">m</span></div>
+        <div class="field"><label>Profundidade funda</label>
+          <input id="obDp" inputmode="decimal" value="1,5" oninput="App.obDim()"><span class="sfx">m</span></div>`;
+      $('obToggle').textContent='Já sei a litragem? Informar direto →';
+      $('obEscapeWrap').style.display='';
+    }
     App.obRenderVol();
   }
   if(s===3){
@@ -752,10 +794,12 @@ obNext(){if(ob.step<3){ob.step++;App.obRenderStep();}else App.obFinish();},
 obBack(){if(ob.step>1){ob.step--;App.obRenderStep();}},
 obSkip(){App.obFinish();},
 obFinish(){
-  const v=App.obVol();if(!(v>0)){toast('Verifique as medidas informadas.');return;}
-  state.pool={shape:ob.shape,length:num($('obL').value),
-    width:ob.shape==='round'?0:(num($('obW')?.value)||0),
-    shallow:num($('obSh').value),deep:num($('obDp').value),approx:ob.approx};
+  const v=App.obVol();if(!(v>0)){toast('Verifique as medidas ou a litragem informada.');return;}
+  state.pool=ob.volMode
+    ?{mode:'volume',shape:'volume',volume:v}
+    :{mode:'dims',shape:ob.shape,length:num($('obL').value),
+      width:ob.shape==='round'?0:(num($('obW')?.value)||0),
+      shallow:num($('obSh').value),deep:num($('obDp').value),approx:ob.approx};
   save();App.go('home');loadWeather();
   toast('Piscina configurada! 🏊');
 },
@@ -768,14 +812,12 @@ _setLoc(loc,how){
 },
 enableGps(ctx){
   const finish=(loc,how)=>{ if(ctx==='ob')App.obFinish(); App._setLoc(loc,how); };
-  // 1) GPS nativo (exige https ou localhost)
   const tryGeo=()=>new Promise((res,rej)=>{
     if(!navigator.geolocation)return rej({code:0,msg:'API indisponível'});
     navigator.geolocation.getCurrentPosition(res,rej,
       {enableHighAccuracy:true,timeout:9000,maximumAge:300000});
   });
   if(!window.isSecureContext){
-    // nem tenta GPS: file:// sempre falha — vai direto pro fallback
     App._ipFallback(ctx,finish);return;
   }
   toast('Obtendo localização…');
@@ -875,7 +917,6 @@ registerAll(){
           product:p.name,dose,unit:p.unit});n++;
       }
     }
-    // marca leitura como "tratada": registra a análise usada
   }
   save();App.sheetClose();App.go('home');
   toast(n?`${n} aplicação(ões) registrada(s) — re-teste em 24 h. ✅`:'Nada a registrar.');
@@ -903,7 +944,6 @@ analPlan(){
   if(an.ph==null&&an.cl==null&&an.alk==null&&an.ch==null){toast('Selecione pelo menos um parâmetro.');return;}
   const acts=buildPlan(an,poolVolume(state.pool));
   if(!acts.length){toast('Nenhum parâmetro informado.');return;}
-  // salva a análise junto (é a leitura de origem do plano)
   state.history.unshift({type:'analise',when:new Date().toISOString(),
     ph:an.ph,cl:an.cl,alk:an.alk,ch:an.ch});save();
   App.analClose();
@@ -914,11 +954,38 @@ analPlan(){
 
 wxRefresh(){if(!state.location){toast('Defina sua localização em “Minha piscina”.');return;}toast('Atualizando previsão…');loadWeather(true);},
 tipFilter(f){tipFilter=f;renderTips();},
-tipGo(t){t.fn?eval(t.fn):t.cta?App.openCalc(t.cta):0;},
+tipGo(t){t.go?App[t.go]():t.cta?App.openCalc(t.cta):0;},
 
-/* ---------- MINHA PISCINA ---------- */
+/* ---------- PWA ---------- */
+async installPwa(){
+  if(isStandalone()){toast('O app já está instalado. 🎉');return;}
+  if(!window.deferredPrompt){toast('Use o menu do navegador → “Instalar app” ou “Adicionar à Tela de Início”.',4200);return;}
+  window.deferredPrompt.prompt();
+  try{
+    const {outcome}=await window.deferredPrompt.userChoice;
+    if(outcome!=='accepted')toast('Sem problemas — você pode instalar depois por aqui mesmo.');
+  }catch(e){}
+  window.deferredPrompt=null;
+  if($('v-home').classList.contains('on'))renderHome();
+},
+dismissIosHint(){state.pwaHintOff=true;save();renderHome();},
+
+/* ---------- MINHA PISCINA (editor com draft) ---------- */
 poolPickShape(s){poolShape=s;renderPool();},
+poolSetMode(m){
+  if(poolDraft){
+    if(m==='volume'&&poolShape!=='volume')poolDraft.lastShape=poolShape;
+    if(m==='dims'&&poolShape==='volume')poolShape=poolDraft.lastShape||'rect';
+  }
+  poolDraft={...(poolDraft||state.pool),mode:m};
+  renderPool();
+},
+poolVolPreset(v){const i=$('pVol');if(i){i.value=String(v);App.poolDim();}},
 poolVolPreview(){
+  if(poolDraft?.mode==='volume'){
+    const v=numL($('pVol')?.value);
+    return (v&&v>=1000)?v:null;
+  }
   const L=num($('pL')?.value),W=poolShape==='round'?0:num($('pW')?.value),
         S=num($('pSh')?.value),D=num($('pDp')?.value);
   if(L==null||S==null||D==null||L<=0)return null;
@@ -928,10 +995,14 @@ poolVolPreview(){
 poolDim(){const v=App.poolVolPreview();const el=$('poolVol');if(el)el.textContent=v?fmt(v):'—';},
 poolSave(){
   const v=App.poolVolPreview();
-  if(!(v>0)){toast('Verifique as medidas informadas.');return;}
-  state.pool={shape:poolShape,length:num($('pL').value),
-    width:poolShape==='round'?0:(num($('pW')?.value)||0),
-    shallow:num($('pSh').value),deep:num($('pDp').value),approx:false};
+  if(!(v>0)){toast('Verifique as medidas ou a litragem informada.');return;}
+  if(poolDraft?.mode==='volume'){
+    state.pool={...state.pool,mode:'volume',shape:'volume',volume:v};
+  }else{
+    state.pool={mode:'dims',shape:poolShape,length:num($('pL').value),
+      width:poolShape==='round'?0:(num($('pW')?.value)||0),
+      shallow:num($('pSh').value),deep:num($('pDp').value),approx:false};
+  }
   save();App.go('home');toast('Piscina atualizada ✓');
 },
 poolReset(){
@@ -943,11 +1014,24 @@ poolReset(){
 /* ---------------- renders ---------------- */
 function chip(label,sel,fn,icon){return `<button class="chip ${sel?'sel':''}" onclick="${fn}">${icon?ic(icon,16):''}${label}</button>`;}
 
+function installCard(){
+  if(isStandalone())return '';
+  if(window.deferredPrompt)return `<div class="alert" style="border-left-color:#7C3AED">
+    <div class="t" style="color:#7C3AED">${ic('download',18)} Instale o Piscina App</div>
+    <p>Ícone na tela inicial, abertura em tela cheia e funcionamento offline — como um app nativo.</p>
+    <div class="act"><button class="tbtn" onclick="App.installPwa()">Instalar agora</button></div></div>`;
+  if(isIos()&&state.pwaHintOff!==true)return `<div class="alert" style="border-left-color:#7C3AED">
+    <div class="t" style="color:#7C3AED">${ic('share',18)} Instalar no iPhone</div>
+    <p>No Safari, toque em <b>Compartilhar</b> e escolha <b>“Adicionar à Tela de Início”</b>. O app abre em tela cheia e funciona offline.</p>
+    <div class="act"><button class="tbtn" onclick="App.dismissIosHint()">Entendi</button></div></div>`;
+  return '';
+}
+
 function renderHome(){
   const p=state.pool;
   if(!p){App.go('ob');return;}
   const vol=poolVolume(p);
-  $('homeSub').textContent=`Piscina ${SHAPE_LABEL[p.shape].toLowerCase()}`;
+  $('homeSub').textContent=p.mode==='volume'?'Litragem direta':`Piscina ${SHAPE_LABEL[p.shape].toLowerCase()}`;
   const days=state.weatherCache?.days||[];
   const today=days[0];
   const alerts=evaluateAlerts(days);
@@ -955,6 +1039,8 @@ function renderHome(){
   const tips=App.contextTips();
   const lr=lastReading();
   const recent=lr&&hoursSince(lr.when)<7*24?lr:null;
+  const kindTxt=p.mode==='volume'?'Litragem direta':SHAPE_LABEL[p.shape];
+  const metaTxt=p.mode==='volume'?'informada manualmente':(p.approx?'volume aproximado':'medidas salvas');
 
   const statusHtml=recent?`
     <div class="sec-t" style="margin-top:4px">Status da água <span class="badge" style="background:#EDE9FE;color:#7C3AED;display:inline-flex;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:700">análise de ${hoursSince(recent.when)<24?'hoje':Math.round(hoursSince(recent.when)/24)+' d'}</span></div>
@@ -979,13 +1065,15 @@ function renderHome(){
       <span style="opacity:.9">${ic('waves',34)}</span>
       <div style="flex:1">
         <div class="vol">${fmt(vol)} litros</div>
-        <div class="meta">${SHAPE_LABEL[p.shape]} · ${p.approx?'volume aproximado':'medidas salvas'} — <a href="#" onclick="App.go('pool');return false" style="color:#fff">editar</a></div>
+        <div class="meta">${kindTxt} · ${metaTxt} — <a href="#" onclick="App.go('pool');return false" style="color:#fff">editar</a></div>
       </div>
     </div>
     ${state.location?(today?`<div class="wline">${ic(today.max>=33?'thermo':today.pop>=60?'umbrella':'sun',18)} Hoje: ${Math.round(today.max)} °C · chuva amanhã: ${days[1]?Math.round(days[1].pop):'—'}%</div>`
       :`<div class="wline">${ic('cloud',18)} carregando previsão…</div>`)
       :`<div class="wline">${ic('pin',18)} Ative a localização para alertas de chuva</div>`}
   </div>
+
+  ${installCard()}
 
   ${!state.location?`<div class="alert atencao"><div class="t">${ic('pin',18)} Ativar alertas de chuva</div>
     <p>Avisamos quando for chover para você adiar a aplicação e não desperdiçar produto.</p>
@@ -1009,7 +1097,7 @@ function renderHome(){
 function tipCard(t){
   return `<div class="tip"><div class="bub">${ic(t.icon||'bulb',19)}</div>
     <div style="flex:1"><h4>${t.title}</h4><p>${t.text}</p>
-    ${(t.cta||t.fn)?`<button class="tbtn" style="padding:6px 0" onclick="App.tipGo(tipSource['${t.title.replace(/'/g,'\\\'')}'])">Resolver agora ${ic('chev',14)}</button>`:''}</div></div>`;
+    ${(t.cta||t.go)?`<button class="tbtn" style="padding:6px 0" onclick="App.tipGo(tipSource['${t.title.replace(/'/g,"\\'")}'])">Resolver agora ${ic('chev',14)}</button>`:''}</div></div>`;
 }
 const tipSource={};TIPS.forEach(t=>tipSource[t.title]=t);
 
@@ -1017,11 +1105,12 @@ function renderCalc(preT){
   const p=state.pool;const vol=poolVolume(p);
   const quickSel=rState&&rState.mode==='quick'?rState.t:(preT||null);
   if(rState&&rState.mode!=='quick'&&preT)rState={mode:'quick',t:preT,index:0};
+  const sub=p.mode==='volume'?'Litragem direta':SHAPE_LABEL[p.shape];
   $('calcBody').innerHTML=`
   <div class="card" style="display:flex;align-items:center;gap:12px">
     ${ic('waves',30)}
     <div style="flex:1"><b style="font-size:15px">${fmt(vol)} litros</b>
-    <div style="font-size:12.5px;color:var(--ink2)">Volume estimado · ${SHAPE_LABEL[p.shape]}${p.approx?' · aproximado':''}</div></div>
+    <div style="font-size:12.5px;color:var(--ink2)">${sub}${p.mode==='volume'?'':' · volume estimado'}${p.approx?' · aproximado':''}</div></div>
     <button class="tbtn" onclick="App.go('pool')">Editar</button>
   </div>
 
@@ -1073,7 +1162,7 @@ function renderPlanResult(){
   <div class="ordnote">📋 Plano gerado a partir da análise:
     ${['ph','cl','alk','ch'].filter(k=>lr&&lr[k]!=null).map(k=>`${PARAM_META[k].label} ${PARAM_META[k].fmt(lr[k])}`).join(' · ')||'—'}
     · volume ${fmt(poolVolume(state.pool))} L</div>
-  ${items.map((a,i)=>{
+  ${items.map((a)=>{
     const badge=`<span class="stepbadge">Etapa ${a.step} · ${({alk:'Alcalinidade',ph:'pH',cl:'Cloro livre',ch:'Dureza cálcica'})[a.key]}</span>`;
     if(a.ok)return `<div style="margin-bottom:12px">${badge}<div class="okline">${ic('check',18)} ${a.label}</div></div>`;
     if(a.textOnly)return `<div style="margin-bottom:14px">${badge}
@@ -1129,10 +1218,10 @@ function renderWeatherView(){
 
 function renderHistory(){
   const list=state.history;
-  const an=list.filter(h=>h.type==='analise'&&h.ph!=null);
+  const anal=list.filter(h=>h.type==='analise'&&h.ph!=null);
   let chart='';
-  if(an.length>=2){
-    const pts=[...an].slice(0,12).reverse();
+  if(anal.length>=2){
+    const pts=[...anal].slice(0,12).reverse();
     const X=i=>15+i*(270/(pts.length-1));
     const Y=ph=>110-((ph-6.8)/1.2)*100;
     const line=pts.map((p,i)=>`${X(i).toFixed(1)},${Y(p.ph).toFixed(1)}`).join(' ');
@@ -1210,25 +1299,65 @@ function renderTips(){
 
 function renderPool(){
   const p=state.pool;if(!p)return;
-  poolShape=p.shape;
-  const v=(()=>{return poolVolume({...p,width:p.shape==='round'?0:p.width});})();
+
+  /* draft: inicializa 1× ao entrar; depois só colhe digitação
+     (fix do bug: antes, renderPool sobrescrevia a seleção a cada render) */
+  if(poolDraft==null){
+    poolDraft={...p};
+    poolShape=p.mode==='volume'?'volume':p.shape;
+  }
+  if($('pL')){
+    const L=num($('pL').value);if(L!=null)poolDraft.length=L;
+    if(poolShape!=='round'&&$('pW')){const W=num($('pW').value);if(W!=null)poolDraft.width=W;}
+    const S=num($('pSh').value);if(S!=null)poolDraft.shallow=S;
+    const D=num($('pDp').value);if(D!=null)poolDraft.deep=D;
+  }
+  if($('pVol')){const V=numL($('pVol').value);if(V!=null)poolDraft.volume=V;}
+  poolDraft.mode=poolDraft.mode||'dims';
+  const mode=poolDraft.mode;
+  const d=poolDraft;
+
+  const modeChips=`
+    <div class="sec-t" style="margin-top:6px">Como informar o volume</div>
+    <div class="chips" style="margin-bottom:14px">
+      ${chip('Medidas (formato)',mode==='dims',"App.poolSetMode('dims')",'sliders')}
+      ${chip('Litragem direta',mode==='volume',"App.poolSetMode('volume')",'drop')}
+    </div>`;
+
+  const dimsHtml=`
+    <div class="sec-t">Formato e medidas</div>
+    <div class="chips" style="margin-bottom:14px">${Object.entries(SHAPE_LABEL).filter(([k])=>k!=='volume').map(([k,l])=>
+      chip(l,poolShape===k,`App.poolPickShape('${k}')`)).join('')}</div>
+    <div class="card">
+      <div class="field"><label>${poolShape==='round'?'Diâmetro':'Comprimento'}</label>
+        <input id="pL" inputmode="decimal" value="${String(d.length??'').replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>
+      ${poolShape!=='round'?`<div class="field"><label>Largura</label>
+        <input id="pW" inputmode="decimal" value="${String(d.width??'').replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>`:''}
+      <div class="field"><label>Profundidade rasa</label>
+        <input id="pSh" inputmode="decimal" value="${String(d.shallow??'').replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>
+      <div class="field"><label>Profundidade funda</label>
+        <input id="pDp" inputmode="decimal" value="${String(d.deep??'').replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>
+      <div class="volcard" style="margin-top:8px"><div style="font-size:12px;font-weight:700;opacity:.85">VOLUME ESTIMADO</div>
+        <div class="n" id="poolVol">—</div><div class="u">litros</div></div>
+    </div>`;
+
+  const volumeHtml=`
+    <div class="sec-t">Litragem da piscina</div>
+    <div class="card">
+      <div class="field"><label>Volume total</label>
+        <input id="pVol" inputmode="numeric" value="${d.volume??''}" oninput="App.poolDim()"><span class="sfx">L</span></div>
+      <div class="lbl" style="margin-top:4px">Atalhos</div>
+      <div class="chips">${VOL_PRESETS.map(volChipPool).join('')}</div>
+      <div class="hint" style="margin-top:12px">💡 O volume costuma estar no manual, na nota fiscal
+      ou no site do fabricante. Aceita “25000” ou “25.000”.</div>
+      <div class="volcard" style="margin-top:12px"><div style="font-size:12px;font-weight:700;opacity:.85">VOLUME</div>
+        <div class="n" id="poolVol">—</div><div class="u">litros</div></div>
+    </div>`;
+
   $('poolBody').innerHTML=`
-  <div class="sec-t" style="margin-top:6px">Formato e medidas</div>
-  <div class="chips" style="margin-bottom:14px">${Object.entries(SHAPE_LABEL).map(([k,l])=>
-    chip(l,poolShape===k,`App.poolPickShape('${k}')`)).join('')}</div>
-  <div class="card">
-    <div class="field"><label>${poolShape==='round'?'Diâmetro':'Comprimento'}</label>
-      <input id="pL" inputmode="decimal" value="${String(p.length).replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>
-    ${poolShape!=='round'?`<div class="field"><label>Largura</label>
-      <input id="pW" inputmode="decimal" value="${String(p.width||'').replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>`:''}
-    <div class="field"><label>Profundidade rasa</label>
-      <input id="pSh" inputmode="decimal" value="${String(p.shallow).replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>
-    <div class="field"><label>Profundidade funda</label>
-      <input id="pDp" inputmode="decimal" value="${String(p.deep).replace('.',',')}" oninput="App.poolDim()"><span class="sfx">m</span></div>
-    <div class="volcard" style="margin-top:8px"><div style="font-size:12px;font-weight:700;opacity:.85">VOLUME ESTIMADO</div>
-      <div class="n" id="poolVol">${fmt(v)}</div><div class="u">litros</div></div>
-    <div style="margin-top:14px"><button class="btn" onclick="App.poolSave()">Salvar alterações</button></div>
-  </div>
+  ${modeChips}
+  ${mode==='volume'?volumeHtml:dimsHtml}
+  <div style="margin-top:4px;margin-bottom:14px"><button class="btn" onclick="App.poolSave()">Salvar alterações</button></div>
 
   <div class="sec-t">Localização (alertas de chuva)</div>
   <div class="card">
@@ -1248,7 +1377,7 @@ function renderPool(){
     <p>Todos os dados ficam salvos <b>apenas neste dispositivo</b>. Nenhuma informação pessoal é enviada — só coordenadas anônimas para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">Protótipo v0.2 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">Protótipo v0.4 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
@@ -1270,6 +1399,40 @@ function boot(){
   }
 }
 document.addEventListener('DOMContentLoaded',boot);
+</script>
+
+<script>
+/* ================================================================
+   PWA — captura do prompt de instalação + registro do Service Worker
+   ================================================================ */
+window.deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();window.deferredPrompt=e;
+  if($('v-home').classList.contains('on'))renderHome();
+});
+window.addEventListener('appinstalled',()=>{
+  window.deferredPrompt=null;
+  toast('App instalado! Abra pelo ícone na tela inicial. 🎉',4200);
+  if($('v-home').classList.contains('on'))renderHome();
+});
+if('serviceWorker' in navigator && window.isSecureContext){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg=>{
+        reg.addEventListener('updatefound',()=>{
+          const nw=reg.installing;
+          nw&&nw.addEventListener('statechange',()=>{
+            if(nw.state==='installed'&&navigator.serviceWorker.controller){
+              toast('Nova versão disponível — feche e reabra o app.',4200);
+            }
+          });
+        });
+      })
+      .catch(err=>console.warn('SW não registrado:',err));
+  });
+}else if(location.protocol==='file:'){
+  console.info('PWA desativado em file:// — hospede em https (Netlify/GitHub Pages) para instalar e usar offline.');
+}
 </script>
 </body>
 </html>
