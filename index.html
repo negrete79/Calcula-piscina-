@@ -157,11 +157,10 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 .shoprow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .circ{width:26px;height:26px;border-radius:99px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;color:#fff;cursor:pointer;flex:none}
 .circ.on{background:var(--good);border-color:var(--good)}
-/* v0.7 — componente de nome duplo (tradicional + químico) */
+/* nome duplo (tradicional + químico) */
 .pname{display:flex;flex-direction:column;gap:2px;min-width:0}
 .pname strong{font-size:13.5px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;line-height:1.3;color:var(--ink)}
 .pname .puse{font-size:12px;color:#666;margin-top:2px}
-/* variante clara p/ caixas de dose (fundo teal) */
 .pname.on-dose strong{color:#fff}
 .pname.on-dose .puse,.pname.on-dose span{color:rgba(255,255,255,.85)}
 </style>
@@ -343,13 +342,15 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 <script>
 'use strict';
 /* ================================================================
-   PISCINA INTELIGENTE v0.7
-   v0.7: componente de Produtos & Acessórios reescrito —
-   nome duplo (tradicional MAIÚSCULO/negrito + químico 12px
-   cinza entre parênteses) usando o array PRODUTOS como
-   catálogo da loja, ligado por sku ao motor de dosagem.
-   Tudo mantido: lista de compras, PDF/envio, plano → lista,
-   inventário "Já tenho", sugestões inteligentes.
+   PISCINA INTELIGENTE v0.9
+   v0.9: FIX alertas da água — gerarAlertas() substitui o fluxo
+   anterior. 1 alerta por parâmetro fora da faixa, bloco VERMELHO
+   no topo do Home, "Condições estáveis" só quando os 4
+   parâmetros estão medidos e dentro do ideal.
+   Teste de referência: pH 8,0 / Cloro 0,5 / AT 60 / Dureza 150
+   → 4 alertas.
+   Base v0.8: pastilhas por unidade, nome duplo, lista de compras,
+   PDF/envio, GPS c/ diagnóstico, PWA.
    ================================================================ */
 
 /* ---------------- ícones ---------------- */
@@ -421,7 +422,7 @@ if(!Array.isArray(state.inventory))state.inventory=[];
 if(state.pool&&!state.pool.mode)state.pool.mode='dims';
 const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 
-/* ---------------- motor de dosagem (inalterado — fonte da verdade das doses) ---------------- */
+/* ---------------- motor de dosagem ---------------- */
 const CATALOG=[
  {sku:'dicloro',name:'Cloro granulado estabilizado (Dicloro 56%)',unit:'g',
   treats:['cloro_manutencao','cloro_choque'],
@@ -433,6 +434,11 @@ const CATALOG=[
   doses:{cloro_manutencao:{per1000:4,every:2},cloro_choque:{per1000:10}},
   eq:{'copo (200 mL)':200},
   safety:{wait:4,dusk:true,warns:['Corrosivo: use luvas e óculos.','Nunca adicione água sobre o produto.']}},
+ {sku:'tricloro',name:'Pastilhas de cloro puro (Tricloro 90%)',unit:'un',
+  treats:['cloro_manutencao'],
+  doses:{cloro_manutencao:{per1000:0.025,every:5}},
+  eq:{},
+  safety:{wait:4,dusk:false,warns:['Use o dosador flutuante; nunca jogue a pastilha direto no skimmer.','Ajuste o número de pastilhas conforme o volume da piscina.','Pastilhas são de liberação lenta: confira o cloro livre na semana seguinte.']}},
  {sku:'algicida-mant',name:'Algicida de manutenção',unit:'mL',
   treats:['algicida_manutencao'],doses:{algicida_manutencao:{per1000:8,every:7}},
   eq:{'tampa (100 mL)':100},
@@ -461,9 +467,7 @@ const CATALOG=[
 ];
 
 /* ================================================================
-   v0.7 — CATÁLOGO DE PRODUTOS (nome duplo) — ligado por SKU ao motor
-   tradicional = nome de loja (exibição principal, MAIÚSCULO/negrito)
-   quimico     = nome químico (exibição secundária, 12px cinza)
+   CATÁLOGO DE PRODUTOS (nome duplo) — ligado por SKU ao motor
    ================================================================ */
 const PRODUTOS=[
  {sku:'dicloro',        tradicional:'BALDE DE CLORO GRANULADO 3 em 1', quimico:'Cloro Granulado Estabilizado — Dicloro 56% — Desinfecção diária e choques', cat:'Cloro'},
@@ -483,11 +487,7 @@ const PRODUTOS=[
 const SHOP_CATS=['Cloro','pH','Alcalinidade','Dureza','Algas','Água Turva','Limpeza'];
 const ACC_GROUPS=[['Medição','medicao'],['Proteção & Cobertura','protecao'],['Conforto','conforto']];
 
-/* ---- componente de exibição: estrutura exata pedida ----
-   <div>
-     <strong>TRADICIONAL</strong>
-     <span style="font-size:12px;color:#666">(químico)</span>
-   </div>                                                        */
+/* ---- componente de exibição: nome duplo ---- */
 function prodBySku(sku){return PRODUTOS.find(p=>p.sku===sku)||null;}
 function prodNameHTML(sku,fallback){
   const p=prodBySku(sku);
@@ -497,7 +497,6 @@ function prodNameHTML(sku,fallback){
     <span style="font-size:12px;color:#666">(${esc(p.quimico)})</span>
   </div>`;
 }
-/* variante p/ caixas de dose (fundo teal — cinza #666 não teria contraste) */
 function prodNameHeroHTML(sku,fallback){
   const p=prodBySku(sku);
   if(!p)return `<strong>${esc(fallback||'')}</strong>`;
@@ -506,7 +505,6 @@ function prodNameHeroHTML(sku,fallback){
     <span style="font-size:12px;color:rgba(255,255,255,.85)">(${esc(p.quimico)})</span>
   </div>`;
 }
-/* item da lista de compras (nome salvo no item) */
 function listNameHTML(it){
   return `<div class="pname">
     <strong>${esc(it.nome)}</strong>
@@ -514,11 +512,11 @@ function listNameHTML(it){
   </div>`;
 }
 
-/* ---------------- embalagens comerciais ---------------- */
+/* ---------------- embalagens comerciais (size sempre em g/mL) ---------------- */
 const SHOP_QUIM={
  dicloro:        [{label:'1 kg',size:1000},{label:'2,5 kg',size:2500},{label:'5 kg',size:5000}],
  hipoclorito:    [{label:'5 L',size:5000},{label:'10 L',size:10000},{label:'20 L',size:20000}],
- tricloro:       [{label:'1 kg (pastilhas 200 g)',size:1000},{label:'3 kg',size:3000},{label:'5 kg',size:5000}],
+ tricloro:       [{label:'1 un (200 g)',size:200},{label:'5 un',size:1000},{label:'10 un',size:2000},{label:'25 un (caixa 5 kg)',size:5000}],
  acido:          [{label:'5 L',size:5000}],
  barrilha:       [{label:'1 kg',size:1000},{label:'4 kg',size:4000}],
  bicarbonato:    [{label:'1 kg',size:1000},{label:'5 kg',size:5000}],
@@ -572,7 +570,12 @@ function poolVolume(p){
 }
 
 /* ---------------- engine: dose fixa ---------------- */
-function roundDose(v){if(v<=0)return 0;const s=v>=200?10:5;return Math.max(s,Math.round(v/s)*s);}
+function roundDose(v,unit){
+  if(v<=0)return 0;
+  if(unit==='un')return Math.max(1,Math.ceil(v));
+  const s=v>=200?10:5;
+  return Math.max(s,Math.round(v/s)*s);
+}
 function interpPh(d,tb){
   if(d<=tb[0].d)return tb[0].v;
   for(let i=0;i<tb.length-1;i++){const a=tb[i],b=tb[i+1];
@@ -586,7 +589,9 @@ function practical(dose,p){
   return `≈ ${(r%1?fmt1(r):r)} × ${label}`;
 }
 function instructions(p,t,dose){
-  const L=[`Meça ${fmt(dose)} ${p.unit} de ${p.name}.`,
+  const L=[p.unit==='un'
+    ?`Coloque ${dose} pastilha${dose>1?'s':''} no dosador flutuante.`
+    :`Meça ${fmt(dose)} ${p.unit} de ${p.name}.`,
     p.safety.dusk?'Aplique ao entardecer, com a filtração ligada.':'Aplique com a filtração ligada.'];
   if(p.safety.wait)L.push(`Aguarde ${p.safety.wait} h antes de permitir o banho.`);
   return L;
@@ -594,7 +599,7 @@ function instructions(p,t,dose){
 function computeQuick(t,volume){
   const items=[];
   for(const p of CATALOG.filter(p=>p.treats.includes(t))){
-    const spec=p.doses[t];const dose=roundDose(spec.per1000*volume/1000);
+    const spec=p.doses[t];const dose=roundDose(spec.per1000*volume/1000,p.unit);
     items.push({product:p,dose,practical:practical(dose,p),
       note:spec.every?`Repetir a cada ${spec.every} dias.`:null,instructions:instructions(p,t,dose)});
   }
@@ -644,7 +649,7 @@ function buildPlan(r,V){
       const delta=+(2-r.cl).toFixed(1);
       const opts=[{sku:'dicloro',f:1.8},{sku:'hipoclorito',f:8.3}]
         .map(o=>{const p=CATALOG.find(pp=>pp.sku===o.sku);
-          const dose=roundDose(delta*o.f*V/1000);
+          const dose=roundDose(delta*o.f*V/1000,p.unit);
           return {product:p,dose,practical:practical(dose,p)};});
       push({step:3,key:'cl',title:`Repor cloro (+${fmt1(delta)} ppm até 2 ppm)`,
         choose:true,options:opts,unit:'—',
@@ -782,6 +787,35 @@ const PARAM_META={
  ch:{label:'Dureza',range:'200–400 ppm',ok:(v)=>v>=200&&v<=400,bad:(v)=>v<120||v>500,fmt:(v)=>fmt(v)},
 };
 function paramClass(k,v){const m=PARAM_META[k];return m.ok(v)?'ok':(m.bad(v)?'bad':'warn');}
+
+/* ================================================================
+   v0.9 — ALERTAS DA ÁGUA (gerarAlertas)
+   Substitui o fluxo anterior (checkAlertas). Lógica:
+   1 alerta por parâmetro fora da faixa ideal.
+     pH   ideal 7,2–7,6   | Cloro   ideal ≥ 1 ppm
+     AT   ideal 80–120    | Dureza  ideal 200–400 ppm
+   Teste de referência:
+     gerarAlertas({pH:8, cloro:0.5, alcalinidade:60, dureza:150})
+     → 4 alertas.
+   NOTA TÉCNICA: os guardas `!=null` são obrigatórios — em JS,
+   `null < 7.2` é TRUE (null vira 0 na comparação), o que geraria
+   alerta falso para parâmetros não medidos.
+   ================================================================ */
+function gerarAlertas(analise){
+  if(!analise)return null;
+  /* mapeia os nomes internos (ph/cl/alk/ch) para os nomes da especificação */
+  const pH=analise.ph, cloro=analise.cl, alcalinidade=analise.alk, dureza=analise.ch;
+  const alertas=[];
+  if(pH!=null&&(pH<7.2||pH>7.6))
+    alertas.push(`pH em ${fmt1(pH)} — CORRIGIR AGORA`);
+  if(cloro!=null&&cloro<1)
+    alertas.push(`Cloro baixo em ${fmt1(cloro)} ppm — RISCO DE ALGAS`);
+  if(alcalinidade!=null&&(alcalinidade<80||alcalinidade>120))
+    alertas.push(`Alcalinidade em ${fmt(alcalinidade)} ppm — CORRIGIR`);
+  if(dureza!=null&&(dureza<200||dureza>400))
+    alertas.push(`Dureza em ${fmt(dureza)} ppm — CORRIGIR`);
+  return alertas.length>0?alertas:null;
+}
 
 /* ================================================================
    APP
@@ -1144,7 +1178,6 @@ shopHave(id){
   }
   save();renderShop();
 },
-/* plano → lista: converte doses em embalagens comerciais */
 planToShop(){
   let n=0;
   const add=(sku,need)=>{
@@ -1247,16 +1280,14 @@ poolReset(){
 };
 
 /* ================================================================
-   LOJA — sugestões inteligentes (skus ligados ao catálogo v0.7)
+   LOJA — sugestões inteligentes
    ================================================================ */
 function buildSuggestions(){
   const sugs=[];const v=poolVolume(state.pool);
   const has=id=>state.inventory.includes(id);
-  /* 1 — estojo de teste (crítico) */
   if(!has('kit-teste')&&!has('fitas'))
     sugs.push({acc:'kit-teste',urg:1,
       motivo:'Sem estojo ou fita-teste você não consegue medir pH e cloro — e o app não calcula correções com precisão. Comece por aqui.'});
-  /* 2 — correções pendentes da última análise */
   const lr=lastReading();
   if(lr){
     if(lr.ph!=null&&lr.ph<7.2)
@@ -1278,13 +1309,16 @@ function buildSuggestions(){
       sugs.push({q:['cloreto-calcio',Math.max(150*((250-lr.ch)/10)*v/10000,500)],
         motivo:`Última análise: dureza ${fmt(lr.ch)} ppm — ELEVADOR DE DUREZA CÁLCICA para subir.`});
   }
-  /* 3 — reposição mensal de cloro */
   if(!sugs.some(s=>s.q&&s.q[0]==='dicloro')){
     const g=Math.ceil(2*(v/1000)*15+5*(v/1000));
     sugs.push({q:['dicloro',g],quiet:true,
       motivo:`Reposição mensal estimada para ${fmt(v)} L: manutenção a cada 2 dias + 1 choque no mês (≈ ${fmt(g)} g).`});
   }
-  /* 4 — acessórios essenciais faltando */
+  if(!sugs.some(s=>s.q&&s.q[0]==='tricloro')){
+    const un=Math.max(1,Math.ceil(v*0.025/1000*30/5));
+    sugs.push({q:['tricloro',un*200],quiet:true,
+      motivo:`Complemento mensal: ≈ ${un} pastilha(s) de tricloro no dosador flutuante (1 a cada 5 dias para ${fmt(v)} L).`});
+  }
   for(const a of ACCESSORIES.filter(a=>a.essencial&&!has(a.id)&&a.id!=='kit-teste'))
     sugs.push({acc:a.id,urg:0,motivo:a.dica});
   return sugs;
@@ -1416,6 +1450,21 @@ function renderHome(){
   const kindTxt=p.mode==='volume'?'Litragem direta':SHAPE_LABEL[p.shape];
   const metaTxt=p.mode==='volume'?'informada manualmente':(p.approx?'volume aproximado':'medidas salvas');
 
+  /* ===== v0.9: ALERTAS DA ÁGUA (gerarAlertas) =====
+     Se houver alertas → bloco VERMELHO no topo (logo abaixo do
+     hero). "Condições estáveis" (fim da página) só aparece se
+     os 4 parâmetros estiverem medidos E dentro do ideal. */
+  const waterAlerts=recent?gerarAlertas(recent):null;
+  const allOk=!!recent&&['ph','cl','alk','ch'].every(k=>recent[k]!=null)&&!waterAlerts;
+  const waterAlertsHtml=waterAlerts?`
+    <div class="alert critico" style="border-left-width:5px">
+      <div class="t" style="color:var(--bad)">${ic('warn',18)} ${waterAlerts.length} problema${waterAlerts.length>1?'s':''} na água — ação necessária</div>
+      <ul style="margin:6px 0 0 18px">
+        ${waterAlerts.map(a=>`<li style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px">${a}</li>`).join('')}
+      </ul>
+      <div class="act"><button class="tbtn" onclick="App.openAnalysis()">Corrigir agora ${ic('chev',14)}</button></div>
+    </div>`:'';
+
   const statusHtml=recent?`
     <div class="sec-t" style="margin-top:4px">Status da água <span class="badge" style="background:#EDE9FE;color:#7C3AED;display:inline-flex;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:700">análise de ${hoursSince(recent.when)<24?'hoje':Math.round(hoursSince(recent.when)/24)+' d'}</span></div>
     <div class="grid2">
@@ -1447,6 +1496,8 @@ function renderHome(){
       :`<div class="wline">${ic('pin',18)} Ative a localização para alertas de chuva</div>`}
   </div>
 
+  ${waterAlertsHtml}
+
   ${installCard()}
 
   ${!state.location?`<div class="alert atencao"><div class="t">${ic('pin',18)} Ativar alertas de chuva</div>
@@ -1462,7 +1513,7 @@ function renderHome(){
   ${alerts.length?alerts.map(a=>`<div class="alert ${a.sev}">
     <div class="t" style="color:${a.sev==='critico'?'var(--bad)':a.sev==='atencao'?'var(--warn)':'var(--primary)'}">${ic(a.icon,18)} ${a.title}</div>
     <p>${a.msg}</p>${a.cta?`<div class="act"><button class="tbtn" onclick="${a.fn}">${a.cta} ${ic('chev',14)}</button></div>`:''}</div>`).join('')
-   :(state.location?`<div class="alert info"><div class="t" style="color:var(--good)">${ic('check',18)} Sem alertas no momento</div><p>Condições estáveis para a manutenção da piscina.</p></div>`:'')}
+   :(state.location&&allOk?`<div class="alert info"><div class="t" style="color:var(--good)">${ic('check',18)} Sem alertas no momento</div><p>Condições estáveis para a manutenção da piscina.</p></div>`:'')}
 
   <div class="sec-t">Dicas para hoje</div>
   ${tips.map(tipCard).join('')}
@@ -1674,7 +1725,7 @@ function renderTips(){
 }
 
 /* ================================================================
-   LOJA renders (v0.7 — nome duplo em todos os itens de produto)
+   LOJA renders (nome duplo em todos os itens de produto)
    ================================================================ */
 function renderShop(){
   const sug=buildSuggestions();
@@ -1704,7 +1755,7 @@ function renderShop(){
         const cat=CATALOG.find(x=>x.sku===sku);
         return `<div class="shopitem">
           ${prodNameHTML(sku)}
-          <div class="mo">${esc(s.motivo)}<br>Sugestão: <b>${pk.label}</b> (você precisa de ≈ ${fmt(need)} ${cat?cat.unit:''}).</div>
+          <div class="mo">${esc(s.motivo)}<br>Sugestão: <b>${pk.label}</b>${cat?` (você precisa de ≈ ${fmt(need)} ${cat.unit})`:''}.</div>
           <div class="shoprow">
             <button class="chip mini" onclick="App.shopAdd('${key}')">${ic('cart',13)} ${li?'Na lista ✓':'+ Lista'}</button>
           </div></div>`;
@@ -1713,7 +1764,6 @@ function renderShop(){
   }
   else if(shopTab==='cat'){
     let html='';
-    /* produtos químicos agrupados pelas categorias do catálogo */
     for(const c of SHOP_CATS){
       const prods=PRODUTOS.filter(p=>p.cat===c);
       if(!prods.length&&c!=='Limpeza')continue;
@@ -1726,7 +1776,6 @@ function renderShop(){
             return `<button class="chip mini ${inList(key)?'sel':''}" onclick="App.shopAdd('${key}')">${inList(key)?'✓ ':'+ '}${pk.label}</button>`;
           }).join('')}</div></div>`;
       }).join('');
-      /* seção Limpeza também recebe os acessórios de limpeza */
       if(c==='Limpeza'){
         items+=ACCESSORIES.filter(a=>a.cat==='limpeza').map(a=>{
           const key='acc:'+a.id;const li=inList(key),have=state.inventory.includes(a.id);
@@ -1742,7 +1791,6 @@ function renderShop(){
       }
       html+=`<div class="sec-t">${c}</div>${items}`;
     }
-    /* grupos de acessórios restantes */
     for(const [label,key] of ACC_GROUPS){
       const accs=ACCESSORIES.filter(a=>a.cat===key);
       if(!accs.length)continue;
@@ -1883,7 +1931,7 @@ function renderPool(){
     <p>Todos os dados ficam salvos <b>apenas neste dispositivo</b>. Nenhuma informação pessoal é enviada — só coordenadas anônimas para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">Protótipo v0.7 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">Protótipo v0.9 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
