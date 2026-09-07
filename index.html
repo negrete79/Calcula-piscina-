@@ -152,13 +152,18 @@ ol.steps li{font-size:13.5px;color:var(--ink);margin-bottom:7px}
 footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6px}
 /* shop */
 .shopitem{background:#fff;border-radius:14px;box-shadow:var(--sh);padding:12px 14px;margin-bottom:10px}
-.shopitem .nm{font-weight:700;font-size:13.5px}
-.shopitem .mo{font-size:12.5px;color:var(--ink2);margin:3px 0 8px}
+.shopitem .mo{font-size:12.5px;color:var(--ink2);margin:5px 0 8px}
 .shopitem.urg{border-left:4px solid var(--bad)}
-.shoprow{display:flex;align-items:center;gap:8px}
+.shoprow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .circ{width:26px;height:26px;border-radius:99px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;color:#fff;cursor:pointer;flex:none}
 .circ.on{background:var(--good);border-color:var(--good)}
-footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6px}
+/* v0.7 — componente de nome duplo (tradicional + químico) */
+.pname{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pname strong{font-size:13.5px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;line-height:1.3;color:var(--ink)}
+.pname .puse{font-size:12px;color:#666;margin-top:2px}
+/* variante clara p/ caixas de dose (fundo teal) */
+.pname.on-dose strong{color:#fff}
+.pname.on-dose .puse,.pname.on-dose span{color:rgba(255,255,255,.85)}
 </style>
 </head>
 <body>
@@ -338,12 +343,13 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 <script>
 'use strict';
 /* ================================================================
-   PISCINA INTELIGENTE v0.6
-   · NOVO: Produtos & Acessórios (sugestões inteligentes, catálogo,
-     lista de compras, PDF p/ baixar e enviar, inventário "Já tenho")
-   · Clima REVERTIDO ao comportamento da v0.4 (pedido do usuário)
-   · Mantém: GPS c/ diagnóstico, litragem direta, análise completa
-     AT→pH→Cloro→Dureza, PWA c/ botão instalar.
+   PISCINA INTELIGENTE v0.7
+   v0.7: componente de Produtos & Acessórios reescrito —
+   nome duplo (tradicional MAIÚSCULO/negrito + químico 12px
+   cinza entre parênteses) usando o array PRODUTOS como
+   catálogo da loja, ligado por sku ao motor de dosagem.
+   Tudo mantido: lista de compras, PDF/envio, plano → lista,
+   inventário "Já tenho", sugestões inteligentes.
    ================================================================ */
 
 /* ---------------- ícones ---------------- */
@@ -415,7 +421,7 @@ if(!Array.isArray(state.inventory))state.inventory=[];
 if(state.pool&&!state.pool.mode)state.pool.mode='dims';
 const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 
-/* ---------------- catálogo químico (schema Remote Config) ---------------- */
+/* ---------------- motor de dosagem (inalterado — fonte da verdade das doses) ---------------- */
 const CATALOG=[
  {sku:'dicloro',name:'Cloro granulado estabilizado (Dicloro 56%)',unit:'g',
   treats:['cloro_manutencao','cloro_choque'],
@@ -454,6 +460,94 @@ const CATALOG=[
   safety:{wait:2,dusk:false,warns:['Adicione o produto na água, nunca água sobre o produto.','Dissolva em balde e espalhe com a filtração ligada.','Corrija em etapas se a dose passar de 5 kg.']}},
 ];
 
+/* ================================================================
+   v0.7 — CATÁLOGO DE PRODUTOS (nome duplo) — ligado por SKU ao motor
+   tradicional = nome de loja (exibição principal, MAIÚSCULO/negrito)
+   quimico     = nome químico (exibição secundária, 12px cinza)
+   ================================================================ */
+const PRODUTOS=[
+ {sku:'dicloro',        tradicional:'BALDE DE CLORO GRANULADO 3 em 1', quimico:'Cloro Granulado Estabilizado — Dicloro 56% — Desinfecção diária e choques', cat:'Cloro'},
+ {sku:'hipoclorito',    tradicional:'CLORO LÍQUIDO 12%',               quimico:'Hipoclorito de Sódio 12%',                  cat:'Cloro'},
+ {sku:'tricloro',       tradicional:'PASTILHAS DE CLORO PURO',         quimico:'Tricloro 90%',                              cat:'Cloro'},
+ {sku:'acido',          tradicional:'REDUTOR DE pH',                   quimico:'Ácido Muriático',                           cat:'pH'},
+ {sku:'barrilha',       tradicional:'ELEVADOR DE pH',                  quimico:'Barrilha Leve — Carbonato de Sódio',        cat:'pH'},
+ {sku:'bicarbonato',    tradicional:'ELEVADOR DE ALCALINIDADE',        quimico:'Bicarbonato de Sódio',                      cat:'Alcalinidade'},
+ {sku:'bissulfato',     tradicional:'REDUTOR DE ALCALINIDADE',         quimico:'Bissulfato de Sódio / Ácido Muriático',     cat:'Alcalinidade'},
+ {sku:'cloreto-calcio', tradicional:'ELEVADOR DE DUREZA CÁLCICA',      quimico:'Cloreto de Cálcio',                         cat:'Dureza'},
+ {sku:'algicida-choque',tradicional:'ALGICIDA DE CHOQUE',             quimico:'Algicida Tratamento Água Verde',            cat:'Algas'},
+ {sku:'algicida-mant',  tradicional:'ALGICIDA MANUTENÇÃO',            quimico:'Algicida Manutenção Semanal',               cat:'Algas'},
+ {sku:'clarificante',   tradicional:'CLARIFICANTE',                   quimico:'Polímero Clarificante',                     cat:'Água Turva'},
+ {sku:'sulfato-aluminio',tradicional:'SULFATO DE ALUMÍNIO',           quimico:'Decantador — Sulfato de Alumínio',          cat:'Água Turva'},
+ {sku:'limpa-borda',    tradicional:'LIMPA BORDA',                    quimico:'Detergente Alcalino Limpa Borda',           cat:'Limpeza'},
+];
+const SHOP_CATS=['Cloro','pH','Alcalinidade','Dureza','Algas','Água Turva','Limpeza'];
+const ACC_GROUPS=[['Medição','medicao'],['Proteção & Cobertura','protecao'],['Conforto','conforto']];
+
+/* ---- componente de exibição: estrutura exata pedida ----
+   <div>
+     <strong>TRADICIONAL</strong>
+     <span style="font-size:12px;color:#666">(químico)</span>
+   </div>                                                        */
+function prodBySku(sku){return PRODUTOS.find(p=>p.sku===sku)||null;}
+function prodNameHTML(sku,fallback){
+  const p=prodBySku(sku);
+  if(!p)return `<strong>${esc(fallback||'')}</strong>`;
+  return `<div class="pname">
+    <strong>${esc(p.tradicional)}</strong>
+    <span style="font-size:12px;color:#666">(${esc(p.quimico)})</span>
+  </div>`;
+}
+/* variante p/ caixas de dose (fundo teal — cinza #666 não teria contraste) */
+function prodNameHeroHTML(sku,fallback){
+  const p=prodBySku(sku);
+  if(!p)return `<strong>${esc(fallback||'')}</strong>`;
+  return `<div class="pname on-dose">
+    <strong>${esc(p.tradicional)}</strong>
+    <span style="font-size:12px;color:rgba(255,255,255,.85)">(${esc(p.quimico)})</span>
+  </div>`;
+}
+/* item da lista de compras (nome salvo no item) */
+function listNameHTML(it){
+  return `<div class="pname">
+    <strong>${esc(it.nome)}</strong>
+    ${it.quimico?`<span style="font-size:12px;color:#666">(${esc(it.quimico)})</span>`:''}
+  </div>`;
+}
+
+/* ---------------- embalagens comerciais ---------------- */
+const SHOP_QUIM={
+ dicloro:        [{label:'1 kg',size:1000},{label:'2,5 kg',size:2500},{label:'5 kg',size:5000}],
+ hipoclorito:    [{label:'5 L',size:5000},{label:'10 L',size:10000},{label:'20 L',size:20000}],
+ tricloro:       [{label:'1 kg (pastilhas 200 g)',size:1000},{label:'3 kg',size:3000},{label:'5 kg',size:5000}],
+ acido:          [{label:'5 L',size:5000}],
+ barrilha:       [{label:'1 kg',size:1000},{label:'4 kg',size:4000}],
+ bicarbonato:    [{label:'1 kg',size:1000},{label:'5 kg',size:5000}],
+ bissulfato:     [{label:'1 kg',size:1000},{label:'5 kg',size:5000}],
+ 'cloreto-calcio':[{label:'1 kg',size:1000},{label:'4 kg',size:4000}],
+ 'algicida-mant':[{label:'1 L',size:1000},{label:'3 L',size:3000},{label:'5 L',size:5000}],
+ 'algicida-choque':[{label:'5 L',size:5000}],
+ clarificante:   [{label:'1 L',size:1000}],
+ 'sulfato-aluminio':[{label:'1 kg',size:1000},{label:'5 kg',size:5000}],
+ 'limpa-borda':  [{label:'1 L',size:1000},{label:'5 L',size:5000}],
+};
+function packFor(sku,need){
+  const packs=[...SHOP_QUIM[sku]].sort((a,b)=>a.size-b.size);
+  return packs.find(p=>p.size>=need)||packs[packs.length-1];
+}
+
+/* ---------------- acessórios ---------------- */
+const ACCESSORIES=[
+ {id:'kit-teste',cat:'medicao',nome:'Estojo de teste gota a gota (pH + cloro)',essencial:true,dica:'A base de todo o tratamento — o app depende das suas medições. Prefira estojo a fita.'},
+ {id:'fitas',cat:'medicao',nome:'Fitas-teste (pH, cloro, AT, dureza)',essencial:false,dica:'Práticas para conferência rápida; menos precisas que o estojo.'},
+ {id:'termometro',cat:'medicao',nome:'Termômetro de flutuação',essencial:false,dica:'Água quente consome cloro mais rápido — ajuste a frequência.'},
+ {id:'peneira',cat:'limpeza',nome:'Peneira de folhas com cabo telescópico',essencial:true,dica:'Uso diário no verão: tira folhas antes de afundarem e consumirem cloro.'},
+ {id:'escova',cat:'limpeza',nome:'Escova para paredes e fundo',essencial:true,dica:'Escovar semanalmente impede a fixação de algas.'},
+ {id:'aspirador',cat:'limpeza',nome:'Aspirador manual + mangueira',essencial:true,dica:'Remove o que a escova solta; indispensável após clarificante/choque.'},
+ {id:'rede',cat:'protecao',nome:'Rede de proteção (segurança)',essencial:false,dica:'Segurança para crianças e pets; também retém folhas.'},
+ {id:'capa',cat:'protecao',nome:'Capa térmica / de cobertura',essencial:false,dica:'Reduz evaporação, perda de calor e entrada de sujidade.'},
+ {id:'dosador',cat:'conforto',nome:'Dosador flutuante de pastilhas',essencial:false,dica:'Complementa a cloração com pastilhas de tricloro entre as dosagens.'},
+];
+
 const QUICK_TREATMENTS={
  cloro_manutencao:{label:'Manutenção de cloro',icon:'drop'},
  cloro_choque:{label:'Choque de cloro',icon:'zap'},
@@ -466,42 +560,6 @@ const SHAPE_LABEL={rect:'Retangular',round:'Redonda',oval:'Oval',free:'Oitavada 
 const VOL_PRESETS=[10000,15000,20000,25000,30000,40000,50000];
 const volChip=v=>`<button class="chip" onclick="App.obVolPreset(${v})">${v/1000} mil L</button>`;
 const volChipPool=v=>`<button class="chip" onclick="App.poolVolPreset(${v})">${v/1000} mil L</button>`;
-
-/* ---------------- LOJA: acessórios, embalagens, categorias ---------------- */
-const SHOP_CATALOG={quimico:'Químicos',medicao:'Medição',limpeza:'Limpeza',protecao:'Proteção & Cobertura',conforto:'Conforto'};
-const ACCESSORIES=[
- {id:'kit-teste',cat:'medicao',nome:'Estojo de teste gota a gota (pH + cloro)',essencial:true,dica:'A base de todo o tratamento — o app depende das suas medições. Prefira estojo a fita.'},
- {id:'fitas',cat:'medicao',nome:'Fitas-teste (pH, cloro, AT, dureza)',essencial:false,dica:'Práticas para conferência rápida; menos precisas que o estojo.'},
- {id:'termometro',cat:'medicao',nome:'Termômetro de flutuação',essencial:false,dica:'Água quente consome cloro mais rápido — ajuste a frequência.'},
- {id:'peneira',cat:'limpeza',nome:'Peneira de folhas com cabo telescópico',essencial:true,dica:'Uso diário no verão: tira folhas antes de afundarem e consumirem cloro.'},
- {id:'escova',cat:'limpeza',nome:'Escova para paredes e fundo',essencial:true,dica:'Escovar semanalmente impede a fixação de algas.'},
- {id:'aspirador',cat:'limpeza',nome:'Aspirador manual + mangueira',essencial:true,dica:'Remove o que a escova solta; indispensável após clarificante/choque.'},
- {id:'rede',cat:'protecao',nome:'Rede de proteção (segurança)',essencial:false,dica:'Segurança para crianças e pets; também retém folhas.'},
- {id:'capa',cat:'protecao',nome:'Capa térmica / de cobertura',essencial:false,dica:'Reduz evaporação, perda de calor e entrada de sujidade.'},
- {id:'dosador',cat:'conforto',nome:'Dosador flutuante de pastilhas',essencial:false,dica:'Complementa a cloração entre as dosagens de granulado.'},
-];
-const SHOP_QUIM={
- dicloro:{packs:[{label:'1 kg',size:1000},{label:'2,5 kg',size:2500},{label:'5 kg',size:5000}]},
- hipoclorito:{packs:[{label:'5 L',size:5000},{label:'10 L',size:10000},{label:'20 L',size:20000}]},
- 'algicida-mant':{packs:[{label:'1 L',size:1000},{label:'3 L',size:3000},{label:'5 L',size:5000}]},
- 'algicida-choque':{packs:[{label:'5 L',size:5000}]},
- clarificante:{packs:[{label:'1 L',size:1000}]},
- barrilha:{packs:[{label:'1 kg',size:1000},{label:'4 kg',size:4000}]},
- acido:{packs:[{label:'5 L',size:5000}]},
- bicarbonato:{packs:[{label:'1 kg',size:1000},{label:'5 kg',size:5000}]},
- 'cloreto-calcio':{packs:[{label:'1 kg',size:1000},{label:'4 kg',size:4000}]},
-};
-const QUIM_USO={
- dicloro:'Desinfecção diária e choques',hipoclorito:'Desinfecção líquida (econômica em grande volume)',
- 'algicida-mant':'Prevenção semanal de algas','algicida-choque':'Tratamento de água verde',
- clarificante:'Água turva',barrilha:'Sobe o pH',acido:'Desce o pH',
- bicarbonato:'Sobe a alcalinidade','cloreto-calcio':'Sobe a dureza cálcica',
-};
-const cleanName=p=>p.name.split(' — ')[0];
-function packFor(sku,need){
-  const packs=[...SHOP_QUIM[sku].packs].sort((a,b)=>a.size-b.size);
-  return packs.find(p=>p.size>=need)||packs[packs.length-1];
-}
 
 /* ---------------- engine: volume ---------------- */
 function poolVolume(p){
@@ -624,7 +682,7 @@ function buildPlan(r,V){
   return acts;
 }
 
-/* ---------------- engine: clima (comportamento v0.4 restaurado) ---------------- */
+/* ---------------- engine: clima (comportamento v0.4) ---------------- */
 function simulateForecast(){
   const rnd=mulberry32(Date.now()%1e6);const out=[];
   for(let i=0;i<7;i++){
@@ -987,15 +1045,17 @@ registerAll(){
   if(rState.mode==='quick'){
     const r=rState.items[rState.index];
     state.history.unshift({type:'aplicacao',when:new Date().toISOString(),
-      treatment:rState.t,product:r.product.name,dose:r.dose,unit:r.product.unit});n++;
+      treatment:rState.t,
+      product:prodBySku(r.product.sku)?.tradicional||r.product.name,
+      dose:r.dose,unit:r.product.unit});n++;
   }else{
     for(const a of rState.items){
       if(a.dose>0){
         const sel=a.choose?(a.options[rState.sel?.cl||0]):null;
         const p=sel?sel.product:a.product,dose=sel?sel.dose:a.dose;
         state.history.unshift({type:'aplicacao',when:new Date().toISOString(),
-          treatment:'plano_'+a.key,label:`${a.title} — ${p.name}`,
-          product:p.name,dose,unit:p.unit});n++;
+          treatment:'plano_'+a.key,label:`${a.title} — ${prodBySku(p.sku)?.tradicional||p.name}`,
+          product:prodBySku(p.sku)?.tradicional||p.name,dose,unit:p.unit});n++;
       }
     }
   }
@@ -1060,12 +1120,12 @@ shopAdd(key){
   let item;
   if(key.startsWith('acc:')){
     const a=ACCESSORIES.find(x=>x.id===key.slice(4));if(!a)return;
-    item={key,nome:a.nome,cat:a.cat,base:'1 un',mult:1,done:false};
+    item={key,nome:a.nome,quimico:null,cat:a.cat,base:'1 un',mult:1,done:false};
   }else{
     const [,sku,size]=key.split(':');
-    const p=CATALOG.find(x=>x.sku===sku);const pk=SHOP_QUIM[sku]?.packs.find(x=>x.size===+size);
+    const p=prodBySku(sku);const pk=SHOP_QUIM[sku]?.find(x=>x.size===+size);
     if(!p||!pk)return;
-    item={key,nome:cleanName(p),cat:'quimico',base:pk.label,mult:1,done:false};
+    item={key,nome:p.tradicional,quimico:p.quimico,cat:p.cat,base:pk.label,mult:1,done:false};
   }
   state.shopping.push(item);save();renderShop();
   if($('v-home').classList.contains('on'))renderHome();
@@ -1092,7 +1152,9 @@ planToShop(){
     const pk=packFor(sku,need);
     const key='q:'+sku+':'+pk.size;
     if(!state.shopping.find(i=>i.key===key)){
-      state.shopping.push({key,nome:cleanName(CATALOG.find(x=>x.sku===sku)),cat:'quimico',base:pk.label,mult:1,done:false});n++;
+      const p=prodBySku(sku);
+      state.shopping.push({key,nome:p?.tradicional||sku,quimico:p?.quimico||null,
+        cat:p?.cat||'Cloro',base:pk.label,mult:1,done:false});n++;
     }
   };
   for(const a of (rState&&rState.items)||[]){
@@ -1107,7 +1169,6 @@ planToShop(){
 async shopSend(){
   if(!state.shopping.length){toast('A lista está vazia.');return;}
   const txt=shoppingText();
-  /* tenta compartilhar o PDF de verdade (anexo no WhatsApp etc.) */
   try{
     if(navigator.canShare&&navigator.canShare({files:[]})){
       const blob=buildPdfFromLines(shoppingPdfLines());
@@ -1118,7 +1179,6 @@ async shopSend(){
       }
     }
   }catch(e){if(e&&e.name==='AbortError')return;}
-  /* senão: share de texto ou WhatsApp */
   if(navigator.share){
     try{await navigator.share({title:'Lista de Compras — Piscina',text:txt});return;}
     catch(e){if(e&&e.name==='AbortError')return;}
@@ -1187,7 +1247,7 @@ poolReset(){
 };
 
 /* ================================================================
-   LOJA — sugestões inteligentes
+   LOJA — sugestões inteligentes (skus ligados ao catálogo v0.7)
    ================================================================ */
 function buildSuggestions(){
   const sugs=[];const v=poolVolume(state.pool);
@@ -1201,21 +1261,24 @@ function buildSuggestions(){
   if(lr){
     if(lr.ph!=null&&lr.ph<7.2)
       sugs.push({q:['barrilha',Math.max(interpPh(Math.min(7.4-lr.ph,0.8),CATALOG.find(p=>p.sku==='barrilha').phTable)*v/10000,500)],
-        motivo:`Última análise: pH ${fmt1(lr.ph)} (baixo) — barrilha para corrigir.`});
+        motivo:`Última análise: pH ${fmt1(lr.ph)} (baixo) — ELEVADOR DE pH para corrigir.`});
     if(lr.ph!=null&&lr.ph>7.6)
       sugs.push({q:['acido',Math.max(interpPh(Math.min(lr.ph-7.4,0.8),CATALOG.find(p=>p.sku==='acido').phTable)*v/10000,500)],
-        motivo:`Última análise: pH ${fmt1(lr.ph)} (alto) — ácido muriático para corrigir.`});
+        motivo:`Última análise: pH ${fmt1(lr.ph)} (alto) — REDUTOR DE pH para corrigir.`});
     if(lr.cl!=null&&lr.cl<1)
       sugs.push({q:['dicloro',Math.max((2-lr.cl)*1.8*v/1000,500)],
-        motivo:`Última análise: cloro livre ${fmt1(lr.cl)} ppm — reposição de cloro granulado.`});
+        motivo:`Última análise: cloro livre ${fmt1(lr.cl)} ppm — reposição de cloro.`});
     if(lr.alk!=null&&lr.alk<80)
       sugs.push({q:['bicarbonato',Math.max(170*((100-lr.alk)/10)*v/10000,500)],
-        motivo:`Última análise: alcalinidade ${fmt(lr.alk)} ppm — bicarbonato para subir.`});
+        motivo:`Última análise: alcalinidade ${fmt(lr.alk)} ppm — ELEVADOR DE ALCALINIDADE para subir.`});
+    if(lr.alk!=null&&lr.alk>150)
+      sugs.push({q:['bissulfato',Math.max(250*((lr.alk-100)/10)*v/10000,1000)],
+        motivo:`Última análise: alcalinidade ${fmt(lr.alk)} ppm (alta) — REDUTOR DE ALCALINIDADE. Aplique em etapas e re-teste.`});
     if(lr.ch!=null&&lr.ch<200)
       sugs.push({q:['cloreto-calcio',Math.max(150*((250-lr.ch)/10)*v/10000,500)],
-        motivo:`Última análise: dureza ${fmt(lr.ch)} ppm — cloreto de cálcio para subir.`});
+        motivo:`Última análise: dureza ${fmt(lr.ch)} ppm — ELEVADOR DE DUREZA CÁLCICA para subir.`});
   }
-  /* 3 — reposição mensal de cloro (se nenhuma sugestão de cloro acima) */
+  /* 3 — reposição mensal de cloro */
   if(!sugs.some(s=>s.q&&s.q[0]==='dicloro')){
     const g=Math.ceil(2*(v/1000)*15+5*(v/1000));
     sugs.push({q:['dicloro',g],quiet:true,
@@ -1228,7 +1291,7 @@ function buildSuggestions(){
 }
 
 /* ================================================================
-   LOJA — PDF (gerado à mão, sem biblioteca: PDF 1.4 + Helvetica)
+   LOJA — PDF (gerado à mão, sem biblioteca)
    ================================================================ */
 function pdfLatin(s){
   let o='';
@@ -1243,9 +1306,10 @@ function shoppingPdfLines(){
   L.push({t:'',s:6});
   const cats=[...new Set(state.shopping.map(i=>i.cat))];
   for(const c of cats){
-    L.push({t:(SHOP_CATALOG[c]||c).toUpperCase(),s:12,b:1});
+    L.push({t:c.toUpperCase(),s:12,b:1});
     for(const it of state.shopping.filter(i=>i.cat===c&&!i.done))
-      L.push({t:'(   )   '+it.nome+'  —  '+(it.mult>1?it.mult+' × '+it.base:it.base),s:10});
+      L.push({t:'(   )   '+it.nome+'  —  '+(it.mult>1?it.mult+' × '+it.base:it.base)
+        +(it.quimico?'  ['+it.quimico+']':''),s:10});
     L.push({t:'',s:5});
   }
   const done=state.shopping.filter(i=>i.done);
@@ -1312,9 +1376,9 @@ function shoppingText(){
   s+='📅 '+now.toLocaleDateString('pt-BR')+(state.pool?' · '+fmt(poolVolume(state.pool))+' L':'')+'\n';
   const cats=[...new Set(state.shopping.filter(i=>!i.done).map(i=>i.cat))];
   for(const c of cats){
-    s+='\n■ '+(SHOP_CATALOG[c]||c).toUpperCase()+'\n';
+    s+='\n■ '+c.toUpperCase()+'\n';
     for(const it of state.shopping.filter(i=>i.cat===c&&!i.done))
-      s+='□ '+it.nome+' — '+(it.mult>1?it.mult+' × '+it.base:it.base)+'\n';
+      s+='□ '+it.nome+' — '+(it.mult>1?it.mult+' × '+it.base:it.base)+(it.quimico?' ('+it.quimico+')':'')+'\n';
   }
   if(!cats.length)s+='\n(lista vazia)\n';
   s+='\n💡 Comece pelo estojo de teste: sem medir, toda dosagem é chute.\n⚠️ Siga sempre a bula do fabricante.';
@@ -1450,9 +1514,9 @@ function renderQuickResult(){
   const r=rState.items[rState.index];const p=r.product;
   $('resBody').innerHTML=`
   ${rState.items.length>1?`<div class="chips" style="margin-top:10px">${rState.items.map((it,i)=>
-    chip(it.product.name,rState.index===i,`App.resPick(${i})`)).join('')}</div>`:''}
+    chip(prodBySku(it.product.sku)?.tradicional||it.product.name,rState.index===i,`App.resPick(${i})`)).join('')}</div>`:''}
   <div class="dose">
-    <div style="font-size:13px;font-weight:700;opacity:.9">${esc(p.name)}</div>
+    ${prodNameHeroHTML(p.sku,p.name)}
     <div style="margin:10px 0 2px;font-size:12px;font-weight:700;opacity:.8">ADICIONE</div>
     <div class="n">${fmt(r.dose)} <span class="u">${p.unit}</span></div>
     ${r.practical?`<div class="eq">${r.practical}</div>`:''}
@@ -1484,10 +1548,10 @@ function renderPlanResult(){
       ${badge}
       ${a.text?`<p style="font-size:13px;color:var(--ink2);margin-bottom:8px">${a.text}</p>`:''}
       ${a.choose?`<div class="chips" style="margin-bottom:10px">${a.options.map((o,oi)=>
-        chip(`Opção ${oi===0?'A':'B'} — ${o.product.name.includes('granulado')?'granulado':'líquido'}`,rState.sel?.cl===oi,`App.planSelCl(${oi})`)).join('')}</div>`:''}
+        chip(`Opção ${oi===0?'A':'B'} — ${prodBySku(o.product.sku)?.tradicional||''}`,rState.sel?.cl===oi,`App.planSelCl(${oi})`)).join('')}</div>`:''}
       <div class="dose sm">
-        <div style="font-size:13px;font-weight:700;opacity:.9">${esc(sel.product.name)}</div>
-        <div class="n" style="margin-top:6px">${fmt(sel.dose)} <span class="u">${sel.product.unit}</span></div>
+        ${prodNameHeroHTML(sel.product.sku,sel.product.name)}
+        <div class="n" style="margin-top:8px">${fmt(sel.dose)} <span class="u">${sel.product.unit}</span></div>
         ${sel.practical?`<div class="eq">${sel.practical}</div>`:''}
       </div>
       <ol class="steps" style="margin-left:18px">${a.instructions.map(s=>`<li>${s}</li>`).join('')}</ol>
@@ -1609,12 +1673,15 @@ function renderTips(){
     :'<div class="hint">Nenhuma dica neste filtro.</div>';
 }
 
-/* ---------------- LOJA renders ---------------- */
+/* ================================================================
+   LOJA renders (v0.7 — nome duplo em todos os itens de produto)
+   ================================================================ */
 function renderShop(){
   const sug=buildSuggestions();
   const tabs=[['sug','Sugestões ('+sug.length+')'],['cat','Catálogo'],['list','Lista ('+state.shopping.length+')']];
   $('shopTabs').innerHTML=tabs.map(([k,l])=>chip(l,shopTab===k,`App.shopSetTab('${k}')`)).join('');
   const inList=key=>state.shopping.find(i=>i.key===key);
+
   if(shopTab==='sug'){
     $('shopBody').innerHTML=`
     <p style="font-size:13px;color:var(--ink2);margin-bottom:12px">Com base na sua piscina, análise e inventário — o app diz o que precisa comprar:</p>
@@ -1623,7 +1690,7 @@ function renderShop(){
         const a=ACCESSORIES.find(x=>x.id===s.acc);const key='acc:'+a.id;
         const li=inList(key),have=state.inventory.includes(a.id);
         return `<div class="shopitem ${s.urg?'urg':''}">
-          <div class="nm">${esc(a.nome)}${s.urg?' <span style="color:var(--bad);font-size:11px;font-weight:800">· prioridade</span>':''}</div>
+          <div class="pname"><strong>${esc(a.nome)}</strong></div>
           <div class="mo">${esc(s.motivo)}</div>
           <div class="shoprow">
             ${have?`<button class="chip mini" onclick="App.shopHave('${a.id}')">✓ Tenho (desfazer)</button>`
@@ -1634,9 +1701,10 @@ function renderShop(){
         const [sku,need]=s.q;
         const pk=packFor(sku,need);const key='q:'+sku+':'+pk.size;
         const li=inList(key);
+        const cat=CATALOG.find(x=>x.sku===sku);
         return `<div class="shopitem">
-          <div class="nm">${esc(cleanName(CATALOG.find(x=>x.sku===sku)))}</div>
-          <div class="mo">${esc(s.motivo)}<br>Sugestão: <b>${pk.label}</b> (você precisa de ≈ ${fmt(need)} ${CATALOG.find(x=>x.sku===sku).unit}).</div>
+          ${prodNameHTML(sku)}
+          <div class="mo">${esc(s.motivo)}<br>Sugestão: <b>${pk.label}</b> (você precisa de ≈ ${fmt(need)} ${cat?cat.unit:''}).</div>
           <div class="shoprow">
             <button class="chip mini" onclick="App.shopAdd('${key}')">${ic('cart',13)} ${li?'Na lista ✓':'+ Lista'}</button>
           </div></div>`;
@@ -1644,23 +1712,27 @@ function renderShop(){
     }).join(''):'<div class="hint">Tudo em ordem — nada a sugerir agora. 🎉</div>'}`;
   }
   else if(shopTab==='cat'){
-    $('shopBody').innerHTML=Object.keys(SHOP_CATALOG).map(c=>{
-      let items='';
-      if(c==='quimico'){
-        items=CATALOG.filter(p=>SHOP_QUIM[p.sku]).map(p=>{
-          const packs=SHOP_QUIM[p.sku].packs;
-          return `<div class="shopitem"><div class="nm">${esc(cleanName(p))}</div>
-            <div class="mo">${QUIM_USO[p.sku]||''}</div>
-            <div class="chips">${packs.map(pk=>{
-              const key='q:'+p.sku+':'+pk.size;
-              return `<button class="chip mini ${inList(key)?'sel':''}" onclick="App.shopAdd('${key}')">${inList(key)?'✓ ':'+ '}${pk.label}</button>`;
-            }).join('')}</div></div>`;
-        }).join('');
-      }else{
-        items=ACCESSORIES.filter(a=>a.cat===c).map(a=>{
+    let html='';
+    /* produtos químicos agrupados pelas categorias do catálogo */
+    for(const c of SHOP_CATS){
+      const prods=PRODUTOS.filter(p=>p.cat===c);
+      if(!prods.length&&c!=='Limpeza')continue;
+      let items=prods.map(p=>{
+        const packs=SHOP_QUIM[p.sku]||[];
+        return `<div class="shopitem">
+          ${prodNameHTML(p.sku)}
+          <div class="chips" style="margin-top:8px">${packs.map(pk=>{
+            const key='q:'+p.sku+':'+pk.size;
+            return `<button class="chip mini ${inList(key)?'sel':''}" onclick="App.shopAdd('${key}')">${inList(key)?'✓ ':'+ '}${pk.label}</button>`;
+          }).join('')}</div></div>`;
+      }).join('');
+      /* seção Limpeza também recebe os acessórios de limpeza */
+      if(c==='Limpeza'){
+        items+=ACCESSORIES.filter(a=>a.cat==='limpeza').map(a=>{
           const key='acc:'+a.id;const li=inList(key),have=state.inventory.includes(a.id);
-          return `<div class="shopitem"><div class="nm">${esc(a.nome)}${a.essencial?' <span style="color:var(--warn);font-size:11px;font-weight:800">· essencial</span>':''}</div>
-            <div class="mo">${esc(a.dica)}</div>
+          return `<div class="shopitem">
+            <div class="pname"><strong>${esc(a.nome)}</strong>${a.essencial?' <span style="color:var(--warn);font-size:11px;font-weight:800">· essencial</span>':''}
+              <span class="puse">${esc(a.dica)}</span></div>
             <div class="shoprow">
               ${have?'<span style="font-size:12px;font-weight:700;color:var(--good)">✓ Já tenho</span>'
                 :`<button class="chip mini ${li?'sel':''}" onclick="App.shopAdd('${key}')">${li?'✓ Na lista':ic('cart',13)+' + Lista'}</button>
@@ -1668,8 +1740,25 @@ function renderShop(){
             </div></div>`;
         }).join('');
       }
-      return `<div class="sec-t">${SHOP_CATALOG[c]}</div>${items}`;
-    }).join('');
+      html+=`<div class="sec-t">${c}</div>${items}`;
+    }
+    /* grupos de acessórios restantes */
+    for(const [label,key] of ACC_GROUPS){
+      const accs=ACCESSORIES.filter(a=>a.cat===key);
+      if(!accs.length)continue;
+      html+=`<div class="sec-t">${label}</div>`+accs.map(a=>{
+        const ak='acc:'+a.id;const li=inList(ak),have=state.inventory.includes(a.id);
+        return `<div class="shopitem">
+          <div class="pname"><strong>${esc(a.nome)}</strong>${a.essencial?' <span style="color:var(--warn);font-size:11px;font-weight:800">· essencial</span>':''}
+            <span class="puse">${esc(a.dica)}</span></div>
+          <div class="shoprow">
+            ${have?'<span style="font-size:12px;font-weight:700;color:var(--good)">✓ Já tenho</span>'
+              :`<button class="chip mini ${li?'sel':''}" onclick="App.shopAdd('${ak}')">${li?'✓ Na lista':ic('cart',13)+' + Lista'}</button>
+                <button class="chip mini" onclick="App.shopHave('${a.id}')">Já tenho</button>`}
+          </div></div>`;
+      }).join('');
+    }
+    $('shopBody').innerHTML=html;
   }
   else{
     const list=state.shopping;
@@ -1684,8 +1773,8 @@ function renderShop(){
       <div class="shopitem">
         <div style="display:flex;align-items:center;gap:10px">
           <button class="circ" onclick="App.shopDone('${it.key}')" aria-label="Marcar comprado"></button>
-          <div style="flex:1">
-            <div class="nm">${esc(it.nome)}</div>
+          <div style="flex:1;min-width:0">
+            ${listNameHTML(it)}
             <div style="font-size:12px;color:var(--ink2);font-weight:600">${it.mult>1?it.mult+' × '+it.base:it.base}</div>
           </div>
           <button class="chip mini" onclick="App.shopDec('${it.key}')">−</button>
@@ -1697,8 +1786,10 @@ function renderShop(){
       <div class="shopitem" style="opacity:.55">
         <div style="display:flex;align-items:center;gap:10px">
           <button class="circ on" onclick="App.shopDone('${it.key}')">${ic('check',13)}</button>
-          <div style="flex:1"><div class="nm" style="text-decoration:line-through">${esc(it.nome)}</div>
-          <div style="font-size:12px;color:var(--ink2)">${it.mult>1?it.mult+' × '+it.base:it.base}</div></div>
+          <div style="flex:1;min-width:0">
+            <div class="pname"><strong style="text-decoration:line-through">${esc(it.nome)}</strong></div>
+            <div style="font-size:12px;color:var(--ink2)">${it.mult>1?it.mult+' × '+it.base:it.base}</div>
+          </div>
           <button class="ibtn" style="width:30px;height:30px;color:var(--bad)" onclick="App.shopDel('${it.key}')">${ic('x',14)}</button>
         </div>
       </div>`).join('')}`:''}
@@ -1792,7 +1883,7 @@ function renderPool(){
     <p>Todos os dados ficam salvos <b>apenas neste dispositivo</b>. Nenhuma informação pessoal é enviada — só coordenadas anônimas para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">Protótipo v0.6 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">Protótipo v0.7 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
