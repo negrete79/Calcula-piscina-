@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B8FA8">
-<meta name="description" content="Dosagem de produtos para piscina, análise completa da água (pH, cloro, alcalinidade, dureza) e alertas climáticos.">
+<meta name="description" content="Dosagem de produtos para piscina, análise completa da água e lista de compras inteligente.">
 <title>Piscina Inteligente — Dosagem & Clima</title>
 
 <!-- ===== PWA ===== -->
@@ -54,6 +54,7 @@ main{padding-bottom:130px}
 .chip{padding:9px 14px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-weight:600;font-size:13px;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.12s}
 .chip.sel{background:var(--primary);border-color:var(--primary);color:#fff}
 .chip:active{transform:scale(.96)}
+.chip.mini{padding:5px 11px;font-size:12px}
 .lbl{font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 8px}
 .field{position:relative;margin-bottom:12px}
 .field label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:6px}
@@ -149,6 +150,15 @@ ol.steps li{font-size:13.5px;color:var(--ink);margin-bottom:7px}
 .cres button:last-child{border:0}
 .sec-t{font-size:16px;font-weight:800;margin:20px 0 10px}
 footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6px}
+/* shop */
+.shopitem{background:#fff;border-radius:14px;box-shadow:var(--sh);padding:12px 14px;margin-bottom:10px}
+.shopitem .nm{font-weight:700;font-size:13.5px}
+.shopitem .mo{font-size:12.5px;color:var(--ink2);margin:3px 0 8px}
+.shopitem.urg{border-left:4px solid var(--bad)}
+.shoprow{display:flex;align-items:center;gap:8px}
+.circ{width:26px;height:26px;border-radius:99px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;color:#fff;cursor:pointer;flex:none}
+.circ.on{background:var(--good);border-color:var(--good)}
+footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6px}
 </style>
 </head>
 <body>
@@ -199,7 +209,7 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
         <div class="lbl" style="text-align:center">— ou —</div>
         <div class="field">
           <label>Buscar cidade (funciona sempre)</label>
-          <input id="cityOb" inputmode="search" placeholder="Ex.: Campinas" oninput="App.citySearch('ob')">
+          <input id="cityOb" inputmode="search" placeholder="Ex.: Ouro Preto" oninput="App.citySearch('ob')">
         </div>
         <div id="resOb"></div>
       </div>
@@ -216,6 +226,7 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
   <section id="v-home" class="view">
     <div class="hbar">
       <div style="flex:1"><h1>Minha Piscina</h1><span class="sub" id="homeSub"></span></div>
+      <button class="ibtn" onclick="App.openShop('sug')" aria-label="Produtos e acessórios"><i data-ic="cart"></i></button>
       <button class="ibtn" onclick="App.go('pool')" aria-label="Configurações"><i data-ic="sliders"></i></button>
     </div>
     <div class="pad">
@@ -308,18 +319,31 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
   </div>
 </div>
 
+<!-- SHEET PRODUTOS & ACESSÓRIOS -->
+<div class="sheet" id="sheetShop" onclick="if(event.target===this)App.shopClose()">
+  <div class="panel">
+    <div class="grab"></div>
+    <div style="display:flex;align-items:center">
+      <h2 style="font-size:19px;font-weight:800;flex:1">🛒 Produtos &amp; Acessórios</h2>
+      <button class="ibtn" onclick="App.shopClose()"><i data-ic="x" data-s="18"></i></button>
+    </div>
+    <div class="chips" id="shopTabs" style="margin:10px 0 14px"></div>
+    <div id="shopBody"></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 </div>
 
 <script>
 'use strict';
 /* ================================================================
-   PISCINA INTELIGENTE v0.4 — single-file PWA
-   v0.4: PWA completo embutido (manifest + SW registration +
-   beforeinstallprompt com botão "Instalar agora" no Home +
-   dica dedicada para iPhone). Mantém todo o v0.3: litragem
-   direta, draft do editor, análise completa (AT→pH→Cloro→
-   Dureza), GPS→IP→cidade.
+   PISCINA INTELIGENTE v0.6
+   · NOVO: Produtos & Acessórios (sugestões inteligentes, catálogo,
+     lista de compras, PDF p/ baixar e enviar, inventário "Já tenho")
+   · Clima REVERTIDO ao comportamento da v0.4 (pedido do usuário)
+   · Mantém: GPS c/ diagnóstico, litragem direta, análise completa
+     AT→pH→Cloro→Dureza, PWA c/ botão instalar.
    ================================================================ */
 
 /* ---------------- ícones ---------------- */
@@ -354,6 +378,7 @@ const ICONS={
  sun:'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
  share:'<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>',
+ cart:'<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
 };
 const SHAPES_SVG={
  rect:'<rect x="3" y="6" width="18" height="12" rx="2"/>',
@@ -383,12 +408,14 @@ window.addEventListener('error',e=>{ if(location.protocol==='file:') toast('Erro
 /* ---------------- estado ---------------- */
 const KEY='poolcare_v1';
 let state=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})();
-state={pool:null,location:null,history:[],weatherCache:null,...state};
+state={pool:null,location:null,history:[],weatherCache:null,shopping:[],inventory:[],...state};
 if(!Array.isArray(state.history))state.history=[];
+if(!Array.isArray(state.shopping))state.shopping=[];
+if(!Array.isArray(state.inventory))state.inventory=[];
 if(state.pool&&!state.pool.mode)state.pool.mode='dims';
 const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 
-/* ---------------- catálogo (schema compatível c/ Remote Config) ---------------- */
+/* ---------------- catálogo químico (schema Remote Config) ---------------- */
 const CATALOG=[
  {sku:'dicloro',name:'Cloro granulado estabilizado (Dicloro 56%)',unit:'g',
   treats:['cloro_manutencao','cloro_choque'],
@@ -440,6 +467,42 @@ const VOL_PRESETS=[10000,15000,20000,25000,30000,40000,50000];
 const volChip=v=>`<button class="chip" onclick="App.obVolPreset(${v})">${v/1000} mil L</button>`;
 const volChipPool=v=>`<button class="chip" onclick="App.poolVolPreset(${v})">${v/1000} mil L</button>`;
 
+/* ---------------- LOJA: acessórios, embalagens, categorias ---------------- */
+const SHOP_CATALOG={quimico:'Químicos',medicao:'Medição',limpeza:'Limpeza',protecao:'Proteção & Cobertura',conforto:'Conforto'};
+const ACCESSORIES=[
+ {id:'kit-teste',cat:'medicao',nome:'Estojo de teste gota a gota (pH + cloro)',essencial:true,dica:'A base de todo o tratamento — o app depende das suas medições. Prefira estojo a fita.'},
+ {id:'fitas',cat:'medicao',nome:'Fitas-teste (pH, cloro, AT, dureza)',essencial:false,dica:'Práticas para conferência rápida; menos precisas que o estojo.'},
+ {id:'termometro',cat:'medicao',nome:'Termômetro de flutuação',essencial:false,dica:'Água quente consome cloro mais rápido — ajuste a frequência.'},
+ {id:'peneira',cat:'limpeza',nome:'Peneira de folhas com cabo telescópico',essencial:true,dica:'Uso diário no verão: tira folhas antes de afundarem e consumirem cloro.'},
+ {id:'escova',cat:'limpeza',nome:'Escova para paredes e fundo',essencial:true,dica:'Escovar semanalmente impede a fixação de algas.'},
+ {id:'aspirador',cat:'limpeza',nome:'Aspirador manual + mangueira',essencial:true,dica:'Remove o que a escova solta; indispensável após clarificante/choque.'},
+ {id:'rede',cat:'protecao',nome:'Rede de proteção (segurança)',essencial:false,dica:'Segurança para crianças e pets; também retém folhas.'},
+ {id:'capa',cat:'protecao',nome:'Capa térmica / de cobertura',essencial:false,dica:'Reduz evaporação, perda de calor e entrada de sujidade.'},
+ {id:'dosador',cat:'conforto',nome:'Dosador flutuante de pastilhas',essencial:false,dica:'Complementa a cloração entre as dosagens de granulado.'},
+];
+const SHOP_QUIM={
+ dicloro:{packs:[{label:'1 kg',size:1000},{label:'2,5 kg',size:2500},{label:'5 kg',size:5000}]},
+ hipoclorito:{packs:[{label:'5 L',size:5000},{label:'10 L',size:10000},{label:'20 L',size:20000}]},
+ 'algicida-mant':{packs:[{label:'1 L',size:1000},{label:'3 L',size:3000},{label:'5 L',size:5000}]},
+ 'algicida-choque':{packs:[{label:'5 L',size:5000}]},
+ clarificante:{packs:[{label:'1 L',size:1000}]},
+ barrilha:{packs:[{label:'1 kg',size:1000},{label:'4 kg',size:4000}]},
+ acido:{packs:[{label:'5 L',size:5000}]},
+ bicarbonato:{packs:[{label:'1 kg',size:1000},{label:'5 kg',size:5000}]},
+ 'cloreto-calcio':{packs:[{label:'1 kg',size:1000},{label:'4 kg',size:4000}]},
+};
+const QUIM_USO={
+ dicloro:'Desinfecção diária e choques',hipoclorito:'Desinfecção líquida (econômica em grande volume)',
+ 'algicida-mant':'Prevenção semanal de algas','algicida-choque':'Tratamento de água verde',
+ clarificante:'Água turva',barrilha:'Sobe o pH',acido:'Desce o pH',
+ bicarbonato:'Sobe a alcalinidade','cloreto-calcio':'Sobe a dureza cálcica',
+};
+const cleanName=p=>p.name.split(' — ')[0];
+function packFor(sku,need){
+  const packs=[...SHOP_QUIM[sku].packs].sort((a,b)=>a.size-b.size);
+  return packs.find(p=>p.size>=need)||packs[packs.length-1];
+}
+
 /* ---------------- engine: volume ---------------- */
 function poolVolume(p){
   if(p&&p.mode==='volume')return Math.max(0,Math.round(+p.volume||0));
@@ -482,10 +545,8 @@ function computeQuick(t,volume){
 
 /* ---------------- engine: PLANO DE CORREÇÃO ---------------- */
 function buildPlan(r,V){
-  const acts=[];
-  const push=(a)=>acts.push(a);
+  const acts=[];const push=a=>acts.push(a);
   const okItem=(step,key,label)=>({step,key,ok:true,label});
-
   /* 1 — ALCALINIDADE */
   if(r.alk!=null){
     if(r.alk<80){
@@ -502,7 +563,6 @@ function buildPlan(r,V){
         text:`Alcalinidade ${fmt(r.alk)} ppm está acima de 120. Ela cai naturalmente quando o pH é corrigido com ácido. Corrija o pH e re-teste em uma semana.`});
     }else push(okItem(1,'alk',`Alcalinidade em ordem (${fmt(r.alk)} ppm)`));
   }
-
   /* 2 — pH */
   if(r.ph!=null){
     if(r.ph<7.2||r.ph>7.6){
@@ -520,7 +580,6 @@ function buildPlan(r,V){
           :['Corrosivo: use luvas e óculos.','Nunca misture ácido com cloro concentrado.']});
     }else push(okItem(2,'ph',`pH em ordem (${fmt1(r.ph)})`));
   }
-
   /* 3 — CLORO LIVRE */
   if(r.cl!=null){
     if(r.cl<1){
@@ -543,7 +602,6 @@ function buildPlan(r,V){
         text:`Cloro livre ${fmt1(r.cl)} ppm. NÃO permita banho. Aguarde a queda natural e re-teste em 24–48 h. Não adicione produtos para “baixar” o cloro.`});
     }
   }
-
   /* 4 — DUREZA CÁLCICA */
   if(r.ch!=null){
     if(r.ch<200){
@@ -566,7 +624,7 @@ function buildPlan(r,V){
   return acts;
 }
 
-/* ---------------- engine: clima ---------------- */
+/* ---------------- engine: clima (comportamento v0.4 restaurado) ---------------- */
 function simulateForecast(){
   const rnd=mulberry32(Date.now()%1e6);const out=[];
   for(let i=0;i<7;i++){
@@ -676,6 +734,7 @@ let cityCtx='ob',cityRes=[],tipFilter='all';
 const ob={step:1,shape:null,approx:false,volMode:false};
 let poolShape='rect';
 let poolDraft=null;
+let shopTab='sug';
 
 const App={
 /* ---------- navegação ---------- */
@@ -803,30 +862,48 @@ obFinish(){
   save();App.go('home');loadWeather();
   toast('Piscina configurada! 🏊');
 },
-/* ---------- LOCALIZAÇÃO: GPS → IP → cidade ---------- */
+
+/* ---------- LOCALIZAÇÃO: permissão → GPS → IP → cidade ---------- */
 _setLoc(loc,how){
   state.location=loc;save();
   renderPool();App.go('home');
   loadWeather(true);
   toast(how==='gps'?'Localização via GPS ativada ✓':how==='ip'?'Localização aproximada (por IP) ativada ✓':'Cidade definida ✓');
 },
-enableGps(ctx){
+async enableGps(ctx){
   const finish=(loc,how)=>{ if(ctx==='ob')App.obFinish(); App._setLoc(loc,how); };
-  const tryGeo=()=>new Promise((res,rej)=>{
-    if(!navigator.geolocation)return rej({code:0,msg:'API indisponível'});
-    navigator.geolocation.getCurrentPosition(res,rej,
-      {enableHighAccuracy:true,timeout:9000,maximumAge:300000});
-  });
   if(!window.isSecureContext){
+    toast('GPS bloqueado: você está num arquivo local (file://). Hospede em https (Netlify/GitHub Pages) para ativar o GPS — ou use a busca por cidade.',6000);
     App._ipFallback(ctx,finish);return;
   }
-  toast('Obtendo localização…');
-  tryGeo().then(p=>finish({lat:+p.coords.latitude.toFixed(4),lon:+p.coords.longitude.toFixed(4),label:'Minha localização (GPS)'},'gps'))
-  .catch(err=>{
-    const reason=err&&err.code===1?'Permissão negada — verifique as configurações do navegador.'
-      :err&&err.code===3?'Tempo esgotado obtendo o sinal de GPS.':'GPS indisponível.';
+  if(!navigator.geolocation){toast('Este navegador não suporta geolocalização. Use a busca por cidade.',4500);return;}
+  let permState='prompt';
+  try{
+    if(navigator.permissions){
+      const st=await navigator.permissions.query({name:'geolocation'});
+      permState=st.state;
+    }
+  }catch(e){}
+  if(permState==='denied'){App._deniedHelp();return;}
+  if(permState==='granted')toast('Obtendo localização…');
+  try{
+    const pos=await new Promise((res,rej)=>{
+      navigator.geolocation.getCurrentPosition(res,rej,
+        {enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+    });
+    finish({lat:+pos.coords.latitude.toFixed(4),lon:+pos.coords.longitude.toFixed(4),
+      label:'Minha localização (GPS)'},'gps');
+  }catch(err){
+    if(err&&err.code===1){App._deniedHelp();return;}
+    const reason=err&&err.code===3?'Tempo esgotado obtendo o sinal de GPS.':'GPS indisponível.';
     App._ipFallback(ctx,finish,reason);
-  });
+  }
+},
+_deniedHelp(){
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  toast(ios
+    ?'📍 Permissão de localização está BLOQUEADA. No iPhone: Ajustes → Safari (ou Piscina App) → Localização → Permitir/Perguntar. Depois toque em Ativar de novo.'
+    :'📍 Permissão de localização está BLOQUEADA. Toque no cadeado 🔒 na barra de endereço → Permissões → Localização → Perguntar. Depois toque em Ativar de novo.',8000);
 },
 async _ipFallback(ctx,finish,reason){
   try{
@@ -877,6 +954,10 @@ reminders(){
     out.push({icon:'drop',cls:'atencao',title:'Hora de testar a água',
       text:'Faça a análise (pH, cloro, alcalinidade e dureza) para manter a dosagem precisa.',
       fn:'App.openAnalysis()',cta:'Registrar análise'});
+  if(!state.inventory.includes('kit-teste')&&!state.inventory.includes('fitas'))
+    out.push({icon:'bulb',cls:'atencao',title:'Você ainda não tem estojo de teste',
+      text:'Sem medir pH e cloro, toda dosagem é chute. Montamos uma lista de compras com o essencial.',
+      fn:'App.openShop()',cta:'Ver sugestões'});
   return out;
 },
 contextTips(){
@@ -970,6 +1051,100 @@ async installPwa(){
 },
 dismissIosHint(){state.pwaHintOff=true;save();renderHome();},
 
+/* ---------- LOJA / LISTA DE COMPRAS ---------- */
+openShop(tab){shopTab=tab||'sug';renderShop();$('sheetShop').classList.add('open');},
+shopClose(){$('sheetShop').classList.remove('open');},
+shopSetTab(t){shopTab=t;renderShop();},
+shopAdd(key){
+  if(state.shopping.find(i=>i.key===key)){toast('Já está na lista.');return;}
+  let item;
+  if(key.startsWith('acc:')){
+    const a=ACCESSORIES.find(x=>x.id===key.slice(4));if(!a)return;
+    item={key,nome:a.nome,cat:a.cat,base:'1 un',mult:1,done:false};
+  }else{
+    const [,sku,size]=key.split(':');
+    const p=CATALOG.find(x=>x.sku===sku);const pk=SHOP_QUIM[sku]?.packs.find(x=>x.size===+size);
+    if(!p||!pk)return;
+    item={key,nome:cleanName(p),cat:'quimico',base:pk.label,mult:1,done:false};
+  }
+  state.shopping.push(item);save();renderShop();
+  if($('v-home').classList.contains('on'))renderHome();
+  toast('Adicionado à lista 🛒');
+},
+shopInc(key){const it=state.shopping.find(i=>i.key===key);if(it){it.mult++;save();renderShop();}},
+shopDec(key){const it=state.shopping.find(i=>i.key===key);if(it){it.mult=Math.max(1,it.mult-1);save();renderShop();}},
+shopDel(key){state.shopping=state.shopping.filter(i=>i.key!==key);save();renderShop();if($('v-home').classList.contains('on'))renderHome();},
+shopDone(key){const it=state.shopping.find(i=>i.key===key);if(it){it.done=!it.done;save();renderShop();}},
+shopClearDone(){state.shopping=state.shopping.filter(i=>!i.done);save();renderShop();},
+shopHave(id){
+  if(state.inventory.includes(id))state.inventory=state.inventory.filter(x=>x!==id);
+  else{
+    state.inventory.push(id);
+    state.shopping=state.shopping.filter(i=>i.key!=='acc:'+id);
+  }
+  save();renderShop();
+},
+/* plano → lista: converte doses em embalagens comerciais */
+planToShop(){
+  let n=0;
+  const add=(sku,need)=>{
+    if(!SHOP_QUIM[sku])return;
+    const pk=packFor(sku,need);
+    const key='q:'+sku+':'+pk.size;
+    if(!state.shopping.find(i=>i.key===key)){
+      state.shopping.push({key,nome:cleanName(CATALOG.find(x=>x.sku===sku)),cat:'quimico',base:pk.label,mult:1,done:false});n++;
+    }
+  };
+  for(const a of (rState&&rState.items)||[]){
+    if(a.ok||a.textOnly||!a.dose)continue;
+    if(a.choose)for(const o of a.options)add(o.product.sku,o.dose);
+    else add(a.product.sku,a.dose);
+  }
+  save();
+  if(n){toast(n+' produto(s) adicionado(s) à lista 🛒');App.openShop('list');}
+  else toast('Os produtos do plano já estão na lista.');
+},
+async shopSend(){
+  if(!state.shopping.length){toast('A lista está vazia.');return;}
+  const txt=shoppingText();
+  /* tenta compartilhar o PDF de verdade (anexo no WhatsApp etc.) */
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[]})){
+      const blob=buildPdfFromLines(shoppingPdfLines());
+      const d=new Date();
+      const file=new File([blob],`lista-compras-piscina-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.pdf`,{type:'application/pdf'});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:'Lista de Compras — Piscina'});return;
+      }
+    }
+  }catch(e){if(e&&e.name==='AbortError')return;}
+  /* senão: share de texto ou WhatsApp */
+  if(navigator.share){
+    try{await navigator.share({title:'Lista de Compras — Piscina',text:txt});return;}
+    catch(e){if(e&&e.name==='AbortError')return;}
+  }
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+},
+async shopCopy(){
+  const txt=shoppingText();
+  try{await navigator.clipboard.writeText(txt);toast('Lista copiada 📋');}
+  catch(e){
+    const ta=document.createElement('textarea');ta.value=txt;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
+    toast('Lista copiada 📋');
+  }
+},
+shopPdf(){
+  if(!state.shopping.length){toast('A lista está vazia.');return;}
+  const blob=buildPdfFromLines(shoppingPdfLines());
+  const d=new Date();
+  const name=`lista-compras-piscina-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.pdf`;
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),4000);
+  toast('PDF baixado 📄');
+},
+
 /* ---------- MINHA PISCINA (editor com draft) ---------- */
 poolPickShape(s){poolShape=s;renderPool();},
 poolSetMode(m){
@@ -1010,6 +1185,141 @@ poolReset(){
     localStorage.removeItem(KEY);location.reload();}
 },
 };
+
+/* ================================================================
+   LOJA — sugestões inteligentes
+   ================================================================ */
+function buildSuggestions(){
+  const sugs=[];const v=poolVolume(state.pool);
+  const has=id=>state.inventory.includes(id);
+  /* 1 — estojo de teste (crítico) */
+  if(!has('kit-teste')&&!has('fitas'))
+    sugs.push({acc:'kit-teste',urg:1,
+      motivo:'Sem estojo ou fita-teste você não consegue medir pH e cloro — e o app não calcula correções com precisão. Comece por aqui.'});
+  /* 2 — correções pendentes da última análise */
+  const lr=lastReading();
+  if(lr){
+    if(lr.ph!=null&&lr.ph<7.2)
+      sugs.push({q:['barrilha',Math.max(interpPh(Math.min(7.4-lr.ph,0.8),CATALOG.find(p=>p.sku==='barrilha').phTable)*v/10000,500)],
+        motivo:`Última análise: pH ${fmt1(lr.ph)} (baixo) — barrilha para corrigir.`});
+    if(lr.ph!=null&&lr.ph>7.6)
+      sugs.push({q:['acido',Math.max(interpPh(Math.min(lr.ph-7.4,0.8),CATALOG.find(p=>p.sku==='acido').phTable)*v/10000,500)],
+        motivo:`Última análise: pH ${fmt1(lr.ph)} (alto) — ácido muriático para corrigir.`});
+    if(lr.cl!=null&&lr.cl<1)
+      sugs.push({q:['dicloro',Math.max((2-lr.cl)*1.8*v/1000,500)],
+        motivo:`Última análise: cloro livre ${fmt1(lr.cl)} ppm — reposição de cloro granulado.`});
+    if(lr.alk!=null&&lr.alk<80)
+      sugs.push({q:['bicarbonato',Math.max(170*((100-lr.alk)/10)*v/10000,500)],
+        motivo:`Última análise: alcalinidade ${fmt(lr.alk)} ppm — bicarbonato para subir.`});
+    if(lr.ch!=null&&lr.ch<200)
+      sugs.push({q:['cloreto-calcio',Math.max(150*((250-lr.ch)/10)*v/10000,500)],
+        motivo:`Última análise: dureza ${fmt(lr.ch)} ppm — cloreto de cálcio para subir.`});
+  }
+  /* 3 — reposição mensal de cloro (se nenhuma sugestão de cloro acima) */
+  if(!sugs.some(s=>s.q&&s.q[0]==='dicloro')){
+    const g=Math.ceil(2*(v/1000)*15+5*(v/1000));
+    sugs.push({q:['dicloro',g],quiet:true,
+      motivo:`Reposição mensal estimada para ${fmt(v)} L: manutenção a cada 2 dias + 1 choque no mês (≈ ${fmt(g)} g).`});
+  }
+  /* 4 — acessórios essenciais faltando */
+  for(const a of ACCESSORIES.filter(a=>a.essencial&&!has(a.id)&&a.id!=='kit-teste'))
+    sugs.push({acc:a.id,urg:0,motivo:a.dica});
+  return sugs;
+}
+
+/* ================================================================
+   LOJA — PDF (gerado à mão, sem biblioteca: PDF 1.4 + Helvetica)
+   ================================================================ */
+function pdfLatin(s){
+  let o='';
+  for(const ch of String(s??'')){const c=ch.codePointAt(0);o+=c<256?ch:'?';}
+  return o.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+}
+function shoppingPdfLines(){
+  const L=[];const now=new Date();
+  L.push({t:'LISTA DE COMPRAS — PISCINA INTELIGENTE',s:15,b:1});
+  L.push({t:'Gerada em '+now.toLocaleDateString('pt-BR')+' às '+now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),s:9,g:1});
+  if(state.pool)L.push({t:'Piscina: '+fmt(poolVolume(state.pool))+' L',s:9,g:1});
+  L.push({t:'',s:6});
+  const cats=[...new Set(state.shopping.map(i=>i.cat))];
+  for(const c of cats){
+    L.push({t:(SHOP_CATALOG[c]||c).toUpperCase(),s:12,b:1});
+    for(const it of state.shopping.filter(i=>i.cat===c&&!i.done))
+      L.push({t:'(   )   '+it.nome+'  —  '+(it.mult>1?it.mult+' × '+it.base:it.base),s:10});
+    L.push({t:'',s:5});
+  }
+  const done=state.shopping.filter(i=>i.done);
+  if(done.length){
+    L.push({t:'JÁ COMPRADOS',s:11,b:1,g:1});
+    for(const it of done)L.push({t:'( x )   '+it.nome,s:9,g:1});
+    L.push({t:'',s:5});
+  }
+  L.push({t:'Dica: comece pelo estojo de teste — sem medir pH e cloro, toda dosagem é chute.',s:8.5,g:1});
+  L.push({t:'Siga sempre a bula do fabricante. Este app é uma ferramenta de apoio.',s:8.5,g:1});
+  return L;
+}
+function buildPdfFromLines(lines){
+  const W=595,H=842,ML=54,MT=54,MB=54;
+  const pages=[];let cur=[],y=H-MT;
+  for(const l of lines){
+    const lh=l.s*1.55;
+    if(y-lh<MB){pages.push(cur);cur=[];y=H-MT;}
+    cur.push({...l,y:Math.round(y)});y-=lh;
+  }
+  pages.push(cur);
+  const contents=pages.map(pg=>{
+    let s='';
+    for(const l of pg){
+      if(!l.t)continue;
+      s+='BT\n'+(l.g?'0.45 0.45 0.45 rg\n':'0 0 0 rg\n')
+        +(l.b?'/F2 ':'/F1 ')+l.s+' Tf\n'
+        +ML+' '+l.y+' Td\n('+pdfLatin(l.t)+') Tj\nET\n';
+    }
+    return s;
+  });
+  const npages=Math.max(1,pages.length);
+  const kids=[...Array(npages)].map((_,i)=>(6+2*i)+' 0 R').join(' ');
+  const objs=[];
+  objs[1]='<< /Type /Catalog /Pages 2 0 R >>';
+  objs[2]='<< /Type /Pages /Kids ['+kids+'] /Count '+npages+' >>';
+  objs[3]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+  objs[4]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+  for(let i=0;i<npages;i++){
+    const c=contents[i]||'';
+    const cnum=5+2*i,pnum=6+2*i;
+    objs[cnum]='<< /Length '+c.length+' >>\nstream\n'+c+'endstream';
+    objs[pnum]='<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents '+cnum+' 0 R >>';
+  }
+  let out='%PDF-1.4\n';
+  const offsets=[];
+  for(let i=1;i<objs.length;i++){
+    if(!objs[i])continue;
+    offsets[i]=out.length;
+    out+=i+' 0 obj\n'+objs[i]+'\nendobj\n';
+  }
+  const xrefPos=out.length;
+  const count=objs.length;
+  out+='xref\n0 '+count+'\n0000000000 65535 f \n';
+  for(let i=1;i<count;i++)out+=String(offsets[i]).padStart(10,'0')+' 00000 n \n';
+  out+='trailer\n<< /Size '+count+' /Root 1 0 R >>\nstartxref\n'+xrefPos+'\n%%EOF';
+  const bytes=new Uint8Array(out.length);
+  for(let i=0;i<out.length;i++)bytes[i]=out.charCodeAt(i)&0xff;
+  return new Blob([bytes],{type:'application/pdf'});
+}
+function shoppingText(){
+  const now=new Date();
+  let s='🛒 LISTA DE COMPRAS — Piscina Inteligente\n';
+  s+='📅 '+now.toLocaleDateString('pt-BR')+(state.pool?' · '+fmt(poolVolume(state.pool))+' L':'')+'\n';
+  const cats=[...new Set(state.shopping.filter(i=>!i.done).map(i=>i.cat))];
+  for(const c of cats){
+    s+='\n■ '+(SHOP_CATALOG[c]||c).toUpperCase()+'\n';
+    for(const it of state.shopping.filter(i=>i.cat===c&&!i.done))
+      s+='□ '+it.nome+' — '+(it.mult>1?it.mult+' × '+it.base:it.base)+'\n';
+  }
+  if(!cats.length)s+='\n(lista vazia)\n';
+  s+='\n💡 Comece pelo estojo de teste: sem medir, toda dosagem é chute.\n⚠️ Siga sempre a bula do fabricante.';
+  return s;
+}
 
 /* ---------------- renders ---------------- */
 function chip(label,sel,fn,icon){return `<button class="chip ${sel?'sel':''}" onclick="${fn}">${icon?ic(icon,16):''}${label}</button>`;}
@@ -1151,6 +1461,7 @@ function renderQuickResult(){
   <div class="card"><h3>Como aplicar</h3><ol class="steps">${r.instructions.map(s=>`<li>${s}</li>`).join('')}</ol></div>
   <div class="warnbox"><h4>${ic('warn',16)} Atenção</h4><ul>${p.safety.warns.map(w=>`<li>${w}</li>`).join('')}</ul></div>
   <button class="btn" onclick="App.registerAll()">${ic('check',18)} Registrar aplicação</button>
+  <button class="btn ghost" style="margin-top:10px" onclick="App.planToShop()">${ic('cart',18)} Adicionar à lista de compras</button>
   <p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:12px">
     Referência técnica — confirme sempre a dose na bula do produto que você usa.</p>`;
 }
@@ -1182,7 +1493,8 @@ function renderPlanResult(){
       <ol class="steps" style="margin-left:18px">${a.instructions.map(s=>`<li>${s}</li>`).join('')}</ol>
       ${a.warnings?`<div class="warnbox"><h4>${ic('warn',16)} Atenção</h4><ul>${a.warnings.map(w=>`<li>${w}</li>`).join('')}</ul></div>`:''}
     </div>`;}).join('')}
-  ${hasDose?`<button class="btn" onclick="App.registerAll()">${ic('check',18)} Registrar plano no histórico</button>`
+  ${hasDose?`<button class="btn" onclick="App.registerAll()">${ic('check',18)} Registrar plano no histórico</button>
+    <button class="btn ghost" style="margin-top:10px" onclick="App.planToShop()">${ic('cart',18)} Adicionar produtos à lista de compras</button>`
     :`<div class="hint">Nenhuma dosagem necessária — só acompanhe as orientações acima. 🎉</div>`}
   <p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:12px">
     Aplique uma etapa por vez, na ordem. Re-teste após 4–6 h de filtração.</p>`;
@@ -1297,11 +1609,114 @@ function renderTips(){
     :'<div class="hint">Nenhuma dica neste filtro.</div>';
 }
 
+/* ---------------- LOJA renders ---------------- */
+function renderShop(){
+  const sug=buildSuggestions();
+  const tabs=[['sug','Sugestões ('+sug.length+')'],['cat','Catálogo'],['list','Lista ('+state.shopping.length+')']];
+  $('shopTabs').innerHTML=tabs.map(([k,l])=>chip(l,shopTab===k,`App.shopSetTab('${k}')`)).join('');
+  const inList=key=>state.shopping.find(i=>i.key===key);
+  if(shopTab==='sug'){
+    $('shopBody').innerHTML=`
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:12px">Com base na sua piscina, análise e inventário — o app diz o que precisa comprar:</p>
+    ${sug.length?sug.map(s=>{
+      if(s.acc){
+        const a=ACCESSORIES.find(x=>x.id===s.acc);const key='acc:'+a.id;
+        const li=inList(key),have=state.inventory.includes(a.id);
+        return `<div class="shopitem ${s.urg?'urg':''}">
+          <div class="nm">${esc(a.nome)}${s.urg?' <span style="color:var(--bad);font-size:11px;font-weight:800">· prioridade</span>':''}</div>
+          <div class="mo">${esc(s.motivo)}</div>
+          <div class="shoprow">
+            ${have?`<button class="chip mini" onclick="App.shopHave('${a.id}')">✓ Tenho (desfazer)</button>`
+              :`<button class="chip mini" onclick="App.shopAdd('${key}')">${ic('cart',13)} ${li?'Na lista ✓':'+ Lista'}</button>
+                <button class="chip mini" onclick="App.shopHave('${a.id}')">Já tenho</button>`}
+          </div></div>`;
+      }else{
+        const [sku,need]=s.q;
+        const pk=packFor(sku,need);const key='q:'+sku+':'+pk.size;
+        const li=inList(key);
+        return `<div class="shopitem">
+          <div class="nm">${esc(cleanName(CATALOG.find(x=>x.sku===sku)))}</div>
+          <div class="mo">${esc(s.motivo)}<br>Sugestão: <b>${pk.label}</b> (você precisa de ≈ ${fmt(need)} ${CATALOG.find(x=>x.sku===sku).unit}).</div>
+          <div class="shoprow">
+            <button class="chip mini" onclick="App.shopAdd('${key}')">${ic('cart',13)} ${li?'Na lista ✓':'+ Lista'}</button>
+          </div></div>`;
+      }
+    }).join(''):'<div class="hint">Tudo em ordem — nada a sugerir agora. 🎉</div>'}`;
+  }
+  else if(shopTab==='cat'){
+    $('shopBody').innerHTML=Object.keys(SHOP_CATALOG).map(c=>{
+      let items='';
+      if(c==='quimico'){
+        items=CATALOG.filter(p=>SHOP_QUIM[p.sku]).map(p=>{
+          const packs=SHOP_QUIM[p.sku].packs;
+          return `<div class="shopitem"><div class="nm">${esc(cleanName(p))}</div>
+            <div class="mo">${QUIM_USO[p.sku]||''}</div>
+            <div class="chips">${packs.map(pk=>{
+              const key='q:'+p.sku+':'+pk.size;
+              return `<button class="chip mini ${inList(key)?'sel':''}" onclick="App.shopAdd('${key}')">${inList(key)?'✓ ':'+ '}${pk.label}</button>`;
+            }).join('')}</div></div>`;
+        }).join('');
+      }else{
+        items=ACCESSORIES.filter(a=>a.cat===c).map(a=>{
+          const key='acc:'+a.id;const li=inList(key),have=state.inventory.includes(a.id);
+          return `<div class="shopitem"><div class="nm">${esc(a.nome)}${a.essencial?' <span style="color:var(--warn);font-size:11px;font-weight:800">· essencial</span>':''}</div>
+            <div class="mo">${esc(a.dica)}</div>
+            <div class="shoprow">
+              ${have?'<span style="font-size:12px;font-weight:700;color:var(--good)">✓ Já tenho</span>'
+                :`<button class="chip mini ${li?'sel':''}" onclick="App.shopAdd('${key}')">${li?'✓ Na lista':ic('cart',13)+' + Lista'}</button>
+                  <button class="chip mini" onclick="App.shopHave('${a.id}')">Já tenho</button>`}
+            </div></div>`;
+        }).join('');
+      }
+      return `<div class="sec-t">${SHOP_CATALOG[c]}</div>${items}`;
+    }).join('');
+  }
+  else{
+    const list=state.shopping;
+    if(!list.length){
+      $('shopBody').innerHTML=`<div class="hint">Sua lista está vazia.<br><br>
+        <button class="btn" style="display:inline-flex;width:auto" onclick="App.shopSetTab('sug')">Ver sugestões do app</button></div>`;
+      return;
+    }
+    const pend=list.filter(i=>!i.done),done=list.filter(i=>i.done);
+    $('shopBody').innerHTML=`
+    ${pend.map(it=>`
+      <div class="shopitem">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="circ" onclick="App.shopDone('${it.key}')" aria-label="Marcar comprado"></button>
+          <div style="flex:1">
+            <div class="nm">${esc(it.nome)}</div>
+            <div style="font-size:12px;color:var(--ink2);font-weight:600">${it.mult>1?it.mult+' × '+it.base:it.base}</div>
+          </div>
+          <button class="chip mini" onclick="App.shopDec('${it.key}')">−</button>
+          <button class="chip mini" onclick="App.shopInc('${it.key}')">+</button>
+          <button class="ibtn" style="width:30px;height:30px;color:var(--bad)" onclick="App.shopDel('${it.key}')">${ic('x',14)}</button>
+        </div>
+      </div>`).join('')}
+    ${done.length?`<div class="sec-t" style="font-size:13px">Comprados</div>${done.map(it=>`
+      <div class="shopitem" style="opacity:.55">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="circ on" onclick="App.shopDone('${it.key}')">${ic('check',13)}</button>
+          <div style="flex:1"><div class="nm" style="text-decoration:line-through">${esc(it.nome)}</div>
+          <div style="font-size:12px;color:var(--ink2)">${it.mult>1?it.mult+' × '+it.base:it.base}</div></div>
+          <button class="ibtn" style="width:30px;height:30px;color:var(--bad)" onclick="App.shopDel('${it.key}')">${ic('x',14)}</button>
+        </div>
+      </div>`).join('')}`:''}
+    <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+      <button class="btn" onclick="App.shopPdf()">${ic('download',18)} Baixar PDF</button>
+      <div class="chips" style="justify-content:center">
+        <button class="chip" onclick="App.shopSend()">${ic('share',14)} Enviar</button>
+        <button class="chip" onclick="App.shopCopy()">${ic('info',14)} Copiar texto</button>
+        ${done.length?`<button class="chip" onclick="App.shopClearDone()">Limpar comprados</button>`:''}
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:12px">
+      O botão Enviar manda o PDF em anexo (WhatsApp etc.); se o aparelho não suportar, abre o WhatsApp com a lista em texto.</p>`;
+  }
+}
+
 function renderPool(){
   const p=state.pool;if(!p)return;
-
-  /* draft: inicializa 1× ao entrar; depois só colhe digitação
-     (fix do bug: antes, renderPool sobrescrevia a seleção a cada render) */
   if(poolDraft==null){
     poolDraft={...p};
     poolShape=p.mode==='volume'?'volume':p.shape;
@@ -1368,7 +1783,7 @@ function renderPool(){
       ${state.location?`<button class="chip" onclick="App.wxRefresh()">${ic('refresh',15)} Atualizar previsão</button>`:''}
     </div>
     <div class="field" style="margin-top:12px"><label>Buscar cidade (funciona sempre)</label>
-      <input id="cityPool" inputmode="search" placeholder="Ex.: Recife" oninput="App.citySearch('pool')"></div>
+      <input id="cityPool" inputmode="search" placeholder="Ex.: Ouro Preto" oninput="App.citySearch('pool')"></div>
     <div id="resPool"></div>
   </div>
 
@@ -1377,7 +1792,7 @@ function renderPool(){
     <p>Todos os dados ficam salvos <b>apenas neste dispositivo</b>. Nenhuma informação pessoal é enviada — só coordenadas anônimas para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">Protótipo v0.4 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">Protótipo v0.6 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
@@ -1403,7 +1818,7 @@ document.addEventListener('DOMContentLoaded',boot);
 
 <script>
 /* ================================================================
-   PWA — captura do prompt de instalação + registro do Service Worker
+   PWA — prompt de instalação + Service Worker
    ================================================================ */
 window.deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{
