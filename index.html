@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B8FA8">
-<meta name="description" content="Dosagem de produtos para piscina, análise completa da água e lista de compras inteligente.">
+<meta name="description" content="Dosagem de produtos para piscina, análise completa da água, aparência da água e lista de compras inteligente.">
 <title>Piscina Inteligente — Dosagem & Clima</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -156,12 +156,18 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 .pname .puse{font-size:12px;color:#666;margin-top:2px}
 .pname.on-dose strong{color:#fff}
 .pname.on-dose .puse,.pname.on-dose span{color:rgba(255,255,255,.85)}
-/* gráficos colapsáveis (details) */
 details.gwrap{background:#fff;border-radius:18px;box-shadow:var(--sh);padding:14px 16px;margin-bottom:14px}
 details.gwrap summary{font-size:15px;font-weight:800;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;color:var(--ink)}
 details.gwrap summary::-webkit-details-marker{display:none}
 details.gwrap summary::after{content:'▾';margin-left:auto;color:var(--ink2);transition:.2s}
 details.gwrap[open] summary::after{content:'▴'}
+/* Modal Aparência da Água (v1.3) */
+.apgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
+.apcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;color:var(--ink);cursor:pointer;transition:.15s}
+.apcard .ape{font-size:26px}
+.apcard b{font-size:14px;font-weight:800}
+.apcard small{font-size:11px;color:var(--ink2);text-align:center;line-height:1.3}
+.apcard.sel{border-color:var(--primary);background:#E9F6F9}
 </style>
 </head>
 <body>
@@ -319,21 +325,35 @@ details.gwrap[open] summary::after{content:'▴'}
   </div>
 </div>
 
+<!-- MODAL APARÊNCIA DA ÁGUA (v1.3) -->
+<div class="sheet" id="sheetAp" onclick="if(event.target===this)App.aparenClose()">
+  <div class="panel">
+    <div class="grab"></div>
+    <div style="display:flex;align-items:center">
+      <h2 style="font-size:19px;font-weight:800;flex:1">🎨 Aparência da Água</h2>
+      <button class="ibtn" onclick="App.aparenClose()"><i data-ic="x" data-s="18"></i></button>
+    </div>
+    <p id="apVol" style="color:var(--ink2);font-size:13px;margin:6px 0 4px"></p>
+    <div id="apBody"></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 </div>
 
 <script>
 'use strict';
-/* PISCINA INTELIGENTE v1.2
-   1. Dedupe 30 min — "Você já fez essa análise agora há pouco. Deseja refazer?"
-   2. Linha do tempo compacta — "AT: 80 | Dureza: 150" (não corta)
-   3. Dose alta (≥4.000 g): aviso de dividir em 2 aplicações/48 h
-   4. Gráficos colapsáveis: Alcalinidade (80–120) e Dureza (200–400 + vinil 150–250)
-   5. Ordem: 1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza;
-      dureza NUNCA no mesmo dia do pH/AT
-   6. Spacer 80px no fim da linha do tempo (FAB não cobre)
-   Mantém: gráficos pH/Cloro, gerarAlertas, nome duplo único,
-   pastilhas por unidade, lista de compras + PDF, GPS, PWA. */
+/* PISCINA INTELIGENTE v1.3
+   v1.3: NOVO — Modal Aparência da Água (Turva, Leitosa, Verde,
+   Amarelada). Receitas isoladas em APARENCIA_AGUA/calcularReceitaAparencia,
+   litragem puxada automaticamente de state.pool, integração com
+   Histórico e Lista de Compras. Lógica de cálculos existente
+   (pH, Cloro, AT, Dureza) 100% preservada e isolada.
+   Mantém v1.2: dedupe 30 min, linha do tempo compacta, aviso de
+   dose alta ≥4 kg, gráficos AT/Dureza colapsáveis, ordem
+   pH→Alcalinidade→Cloro→Dureza com trava de mesmo dia,
+   spacer 80px. v0.9: gerarAlertas, nome duplo único,
+   pastilhas por unidade, PDF/envio, GPS c/ diagnóstico, PWA. */
 
 const ICONS={
  home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
@@ -401,6 +421,7 @@ if(!Array.isArray(state.inventory))state.inventory=[];
 if(state.pool&&!state.pool.mode)state.pool.mode='dims';
 const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 
+/* ===== MOTOR DE DOSAGEM (ISOLADO — NÃO ALTERAR) ===== */
 const CATALOG=[
  {sku:'dicloro',name:'Cloro granulado estabilizado (Dicloro 56%)',unit:'g',
   treats:['cloro_manutencao','cloro_choque'],
@@ -567,19 +588,15 @@ function computeQuick(t,volume){
   }
   return{items};
 }
-
-/* fix 3: dose alta em pó (g ≥ 4 kg) → dividir em 2 aplicações */
 function bigDoseSplit(dose,unit){
   if(unit!=='g'||dose<4000)return null;
   return `Dose alta! Recomendado dividir em 2 aplicações de ${fmt(Math.round(dose/2))} com intervalo de 48 h. Dissolva em balde antes de espalhar.`;
 }
 
-/* ORDEM TÉCNICA: 1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza.
-   Dureza NUNCA no mesmo dia do pH/AT (aviso automático). */
+/* ordem: 1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza */
 function buildPlan(r,V){
   const acts=[];const push=a=>acts.push(a);
   const okItem=(step,key,label)=>({step,key,ok:true,label});
-  /* 1 — pH (sempre primeiro) */
   if(r.ph!=null){
     if(r.ph<7.2||r.ph>7.6){
       const up=r.ph<7.2;
@@ -593,7 +610,6 @@ function buildPlan(r,V){
         warnings:up?p.safety.warns:['Corrosivo: use luvas e óculos.','Nunca misture ácido com cloro concentrado.']});
     }else push(okItem(1,'ph',`pH em ordem (${fmt1(r.ph)})`));
   }
-  /* 2 — Alcalinidade (depois do pH) */
   if(r.alk!=null){
     if(r.alk<80){
       const delta=Math.min(100-r.alk,60);
@@ -609,7 +625,6 @@ function buildPlan(r,V){
         text:`Alcalinidade ${fmt(r.alk)} ppm está acima de 120. Ela cai naturalmente quando o pH é corrigido com ácido. Corrija o pH e re-teste em uma semana.`});
     }else push(okItem(2,'alk',`Alcalinidade em ordem (${fmt(r.alk)} ppm)`));
   }
-  /* 3 — Cloro */
   if(r.cl!=null){
     if(r.cl<1){
       const delta=+(2-r.cl).toFixed(1);
@@ -631,7 +646,6 @@ function buildPlan(r,V){
         text:`Cloro livre ${fmt1(r.cl)} ppm. NÃO permita banho. Aguarde a queda natural e re-teste em 24–48 h. Não adicione produtos para “baixar” o cloro.`});
     }
   }
-  /* 4 — Dureza (sempre por último; NUNCA no mesmo dia do pH/AT) */
   if(r.ch!=null){
     if(r.ch<200){
       const delta=Math.min(250-r.ch,150);
@@ -755,7 +769,6 @@ const PARAM_META={
 };
 function paramClass(k,v){const m=PARAM_META[k];return m.ok(v)?'ok':(m.bad(v)?'bad':'warn');}
 
-/* ALERTAS DA ÁGUA — guardas !=null obrigatórios (null<7.2 é true em JS) */
 function gerarAlertas(analise){
   if(!analise)return null;
   const pH=analise.ph,cloro=analise.cl,alcalinidade=analise.alk,dureza=analise.ch;
@@ -767,7 +780,6 @@ function gerarAlertas(analise){
   return alertas.length>0?alertas:null;
 }
 
-/* gráfico SVG — com faixa secundária opcional (vinil) */
 function chartSvg(series,opts){
   const W=300,H=160;const o=opts||{};
   const f=o.fmt||(v=>fmt1(v));
@@ -789,7 +801,6 @@ function chartSvg(series,opts){
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;aspect-ratio:2/1;display:block" preserveAspectRatio="xMidYMid meet">${band2}${band}${lbl}${line}${dots}</svg>`;
 }
 
-/* fix 1: dedupe 30 min com a mensagem exata */
 function analiseIgual(a,b){return a.ph===b.ph&&a.cl===b.cl&&a.alk===b.alk&&a.ch===b.ch;}
 function salvarAnaliseDedup(){
   const nova={ph:an.ph,cl:an.cl,alk:an.alk,ch:an.ch};
@@ -806,7 +817,6 @@ function salvarAnaliseDedup(){
   save();
   return true;
 }
-/* fix 2: formato compacto — nunca corta */
 function analRows(h){
   const rows=[];
   const l1=[h.ph!=null?`pH: ${fmt1(h.ph)}`:null,h.cl!=null?`Cloro: ${fmt1(h.cl)}`:null].filter(Boolean).join(' | ');
@@ -816,6 +826,74 @@ function analRows(h){
   return rows.length?rows:['—'];
 }
 
+/* ================================================================
+   v1.3 — MODAL APARÊNCIA DA ÁGUA (componente isolado)
+   Receitas independentes dos cálculos de pH/cloro/AT/dureza.
+   Apenas LÊ: poolVolume, roundDose, practical, bigDoseSplit,
+   prodBySku, prodNameHTML, packFor, SHOP_QUIM, CATALOG, state.
+   ================================================================ */
+const APARENCIA_AGUA={
+ verde:{
+  emoji:'🟢',label:'Verde',desc:'Algas instaladas — choque duplo',
+  itens:V=>[
+   {sku:'algicida-choque',unit:'mL',dose:roundDose(25*V/1000),motivo:'Mata as algas — 25 mL por 1.000 L'},
+   {sku:'dicloro',unit:'g',dose:roundDose(12*V/1000),motivo:'Choque de cloro para água verde — 12 g por 1.000 L'}
+  ],
+  passos:[
+   'Escove paredes e fundo antes de aplicar — algas soltas morrem mais rápido.',
+   'Aplique os DOIS produtos ao entardecer, com a filtração ligada.',
+   'Filtre 8–12 h ininterruptas após a aplicação.',
+   'Aspire o sedimentado no dia seguinte e re-teste o pH em 48 h.'
+  ],
+  aviso:'Verde muito escuro pode exigir 2ª aplicação em 48 h. Não permita banho por 24 h.'
+ },
+ turva:{
+  emoji:'⚪',label:'Turva',desc:'Partículas em suspensão — clarificação',
+  itens:V=>[
+   {sku:'clarificante',unit:'mL',dose:roundDose(10*V/1000),motivo:'Agrupa as partículas para o filtro reter — 10 mL por 1.000 L'}
+  ],
+  passos:[
+   'Confira o pH antes (ideal 7,2–7,4): clarificante não funciona com pH errado.',
+   'Aplique ao entardecer com a filtração ligada.',
+   'Filtre 8 h e limpe o pré-filtro no dia seguinte.',
+   'Aspire o fundo se sobrar sedimentado.'
+  ],
+  aviso:'Se continuar turva após 48 h, rode a Análise Completa — pH ou alcalinidade fora do ideal são a causa mais comum.'
+ },
+ leitosa:{
+  emoji:'🥛',label:'Leitosa',desc:'Suspensão fina — decantação',
+  itens:V=>[
+   {sku:'sulfato-aluminio',unit:'g',dose:roundDose(10*V/1000),motivo:'Decantador: faz a sujeira fina assentar no fundo — 10 g por 1.000 L'}
+  ],
+  passos:[
+   'Aplique à noite com a filtração DESLIGADA.',
+   'Deixe a água parada 8–12 h, sem banho.',
+   'Pela manhã, aspire TODO o sedimentado direto no esgoto.',
+   'Só então ligue a filtração normalmente.'
+  ],
+  aviso:'Água leitosa persistente costuma indicar pH alto ou dureza alta — rode a Análise Completa depois da decantação.'
+ },
+ amarelada:{
+  emoji:'🟡',label:'Amarelada',desc:'Algas mostarda ou metais',
+  itens:V=>[
+   {sku:'dicloro',unit:'g',dose:roundDose(10*V/1000),motivo:'Choque contra algas mostarda — 10 g por 1.000 L'},
+   {sku:'clarificante',unit:'mL',dose:roundDose(10*V/1000),motivo:'Ajuda a reter o amarelado no filtro — 10 mL por 1.000 L'}
+  ],
+  passos:[
+   'Escove bem as manchas amareladas (costumam ficar nas paredes e cantos de sombra).',
+   'Aplique ao entardecer com a filtração ligada.',
+   'Filtre 8 h e re-teste o cloro em 24 h.',
+   'Se voltar a amarelar, pode ser ferro da água de poço — leve uma amostra a uma loja.'
+  ],
+  aviso:'Não permita banho por 12 h após o choque. Se a água vier de poço, o amarelado pode ser ferro — nesse caso o tratamento é outro (quelante de metais).'
+ }
+};
+/* Função isolada de receita (exposta p/ testes no console) */
+window.calcularReceitaAparencia=function(aparencia,volume){
+  const cfg=APARENCIA_AGUA[aparencia];
+  return cfg?{label:cfg.label,itens:cfg.itens(volume),passos:cfg.passos,aviso:cfg.aviso}:null;
+};
+
 let rState=null;
 const an={ph:null,cl:null,alk:null,ch:null};
 let cityCtx='ob',cityRes=[],tipFilter='all';
@@ -823,6 +901,7 @@ const ob={step:1,shape:null,approx:false,volMode:false};
 let poolShape='rect';
 let poolDraft=null;
 let shopTab='sug';
+let aparenSel=null; /* v1.3 */
 
 const App={
  go(v){
@@ -1199,6 +1278,75 @@ const App={
   toast('PDF baixado 📄');
  },
 
+ /* ===== v1.3 — APARÊNCIA DA ÁGUA ===== */
+ openAparencia(){
+  if(!state.pool){toast('Configure sua piscina primeiro.');return;}
+  aparenSel=null;
+  $('apVol').innerHTML='Piscina: <b>'+fmt(poolVolume(state.pool))+' L</b> — litragem puxada automaticamente das suas configurações.';
+  App.aparenRender();
+  $('sheetAp').classList.add('open');
+ },
+ aparenClose(){$('sheetAp').classList.remove('open');},
+ aparenPick(k){aparenSel=k;App.aparenRender();},
+ aparenRender(){
+  const V=poolVolume(state.pool);
+  let html=`<div class="apgrid">${Object.entries(APARENCIA_AGUA).map(([k,c])=>
+    `<button class="apcard ${aparenSel===k?'sel':''}" onclick="App.aparenPick('${k}')">
+      <span class="ape">${c.emoji}</span><b>${c.label}</b><small>${c.desc}</small></button>`).join('')}</div>`;
+  if(aparenSel){
+    const cfg=APARENCIA_AGUA[aparenSel];const itens=cfg.itens(V);
+    html+=`<div class="sec-t" style="font-size:14px;margin-top:6px">Para água ${cfg.label.toLowerCase()} · ${fmt(V)} L</div>`
+      +itens.map(it=>{
+        const p=CATALOG.find(x=>x.sku===it.sku);
+        const pr=p?practical(it.dose,p):null;
+        const big=bigDoseSplit(it.dose,it.unit);
+        return `<div class="shopitem">
+          ${prodNameHTML(it.sku)}
+          <div class="mo">${esc(it.motivo)}</div>
+          <div class="dose sm" style="margin:8px 0">
+            <div class="n">${fmt(it.dose)} <span class="u">${it.unit}</span></div>
+            ${pr?`<div class="eq">${pr}</div>`:''}
+          </div>
+          ${big?`<div class="warnbox dosealta"><h4>${ic('warn',16)} Dose alta</h4><ul><li>${big}</li></ul></div>`:''}
+        </div>`;
+      }).join('')
+      +`<div class="card"><h3>Como aplicar</h3><ol class="steps">${cfg.passos.map(s=>`<li>${s}</li>`).join('')}</ol></div>`
+      +`<div class="warnbox"><h4>${ic('warn',16)} Atenção</h4><ul><li>${cfg.aviso}</li></ul></div>`
+      +`<button class="btn" onclick="App.aparenRegister()">${ic('check',18)} Registrar aplicação</button>
+        <button class="btn ghost" style="margin-top:10px" onclick="App.aparenToShop()">${ic('cart',18)} Adicionar à lista de compras</button>`;
+  }
+  $('apBody').innerHTML=html;
+ },
+ aparenRegister(){
+  if(!aparenSel)return;
+  const cfg=APARENCIA_AGUA[aparenSel];const V=poolVolume(state.pool);let n=0;
+  for(const it of cfg.itens(V)){
+    const nome=prodBySku(it.sku)?.tradicional||it.sku;
+    state.history.unshift({type:'aplicacao',when:new Date().toISOString(),
+      treatment:'aparencia',label:`Aparência: ${cfg.label} — ${nome}`,
+      product:nome,dose:it.dose,unit:it.unit});n++;
+  }
+  save();App.aparenClose();App.go('home');
+  toast(n+' produto(s) registrado(s) — re-teste em 24–48 h. ✅');
+ },
+ aparenToShop(){
+  if(!aparenSel)return;
+  const cfg=APARENCIA_AGUA[aparenSel];const V=poolVolume(state.pool);let n=0;
+  for(const it of cfg.itens(V)){
+    if(!SHOP_QUIM[it.sku])continue;
+    const pk=packFor(it.sku,it.dose);
+    const key='q:'+it.sku+':'+pk.size;
+    if(!state.shopping.find(i=>i.key===key)){
+      const p=prodBySku(it.sku);
+      state.shopping.push({key,nome:p?.tradicional||it.sku,quimico:p?.quimico||null,
+        cat:p?.cat||'Cloro',base:pk.label,mult:1,done:false});n++;
+    }
+  }
+  save();
+  if(n){App.aparenClose();toast(n+' produto(s) na lista 🛒');App.openShop('list');}
+  else toast('Os produtos da receita já estão na lista.');
+ },
+
  poolPickShape(s){poolShape=s;renderPool();},
  poolSetMode(m){
   if(poolDraft){
@@ -1491,6 +1639,12 @@ function renderCalc(preT){
     <p style="font-size:11.5px;margin-top:10px">Ordem aplicada: <b>1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza</b>. A dureza NUNCA no mesmo dia do pH/alcalinidade.</p>
   </div>
 
+  <div class="card" style="border:1.5px solid #E7D8F5;background:linear-gradient(180deg,#F8F4FD,#fff)">
+    <h3>🎨 Aparência da água</h3>
+    <p>Turva, leitosa, verde ou amarelada? Selecione como está a água e o app calcula os produtos certos usando a litragem da sua piscina.</p>
+    <div style="margin-top:12px"><button class="btn" onclick="App.openAparencia()">Abrir aparência da água</button></div>
+  </div>
+
   <div class="lbl">Tratamento rápido (sem leitura de água)</div>
   <div class="chips">${Object.entries(QUICK_TREATMENTS).map(([k,v])=>
     chip(v.label,quickSel===k,`App.calcPickT('${k}')`,v.icon)).join('')}</div>
@@ -1590,7 +1744,6 @@ function renderWeatherView(){
   Interpretação automática para tratamento de piscinas.</div>`;
 }
 
-/* ===== HISTÓRICO v1.2 ===== */
 function renderHistory(){
   const list=state.history;
   const now=new Date();
@@ -1601,7 +1754,6 @@ function renderHistory(){
     return sameDay(d,now)?`Hoje ${tm}`:sameDay(d,yst)?`Ontem ${tm}`
       :d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});};
 
-  /* pH — 7,2–7,6 */
   const phPts=list.filter(h=>h.type==='analise'&&h.ph!=null).slice(0,12).reverse()
     .map(h=>({val:h.ph}));
   const chartPh=`<div class="card"><h3>Evolução do pH</h3>
@@ -1610,7 +1762,6 @@ function renderHistory(){
       :'<div class="hint">Nenhuma análise com pH registrada.</div>'}
   </div>`;
 
-  /* Cloro — 2,0–3,0 */
   const clPts=list.filter(h=>h.type==='analise'&&h.cl!=null).slice(0,12).reverse()
     .map(h=>({val:h.cl}));
   const chartCl=`<div class="card"><h3>Evolução do Cloro</h3>
@@ -1619,7 +1770,6 @@ function renderHistory(){
       :'<div class="hint">Nenhuma análise com cloro registrada.</div>'}
   </div>`;
 
-  /* Alcalinidade — 80–120 (colapsável) */
   const alkPts=list.filter(h=>h.type==='analise'&&h.alk!=null).slice(0,12).reverse()
     .map(h=>({val:h.alk}));
   const chartAlk=`<details class="gwrap"><summary>Evolução da Alcalinidade Total</summary>
@@ -1628,7 +1778,6 @@ function renderHistory(){
       :'<div class="hint">Nenhuma análise com alcalinidade registrada.</div>'}
   </details>`;
 
-  /* Dureza — 200–400 (verde) + 150–200 vinil (faixa clara) (colapsável) */
   const chPts=list.filter(h=>h.type==='analise'&&h.ch!=null).slice(0,12).reverse()
     .map(h=>({val:h.ch}));
   const chartCh=`<details class="gwrap"><summary>Evolução da Dureza Cálcica</summary>
@@ -1637,7 +1786,6 @@ function renderHistory(){
       :'<div class="hint">Nenhuma análise com dureza registrada.</div>'}
   </details>`;
 
-  /* fix 2: linha do tempo com formato compacto */
   const items=list.length?list.map(h=>h.type==='aplicacao'
     ?`<div class="hitem"><div class="bub">${ic('drop',18)}</div><div class="bd">
        <div class="tt">${esc(h.product)}</div>
@@ -1649,7 +1797,6 @@ function renderHistory(){
        <div class="dt">${when(h.when)}</div></div></div>`).join('')
    :`<div class="hint">Nada registrado ainda. Use a análise completa ou o botão <b>+</b>.</div>`;
 
-  /* fix 6: spacer de 80px no fim — FAB não cobre o último card */
   $('histBody').innerHTML=chartPh+chartCl+chartAlk+chartCh
     +`<div class="sec-t">Linha do tempo</div>`+items
     +'<div style="height:80px"></div>';
@@ -1895,7 +2042,7 @@ function renderPool(){
     <p>Todos os dados ficam salvos <b>apenas neste dispositivo</b>. Nenhuma informação pessoal é enviada — só coordenadas anônimas para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">Protótipo v1.2 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">Protótipo v1.3 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
