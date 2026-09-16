@@ -13,7 +13,7 @@
    bump do nome do cache.
    ============================================================ */
 
-const CACHE_NAME = 'poolcare-v15';
+const CACHE_NAME = 'poolcare-v16';
 
 /* Pré-cache do shell (try/catch por arquivo: um faltando não trava o install) */
 const PRECACHE_URLS = [
