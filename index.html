@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B8FA8">
-<meta name="description" content="Dosagem de produtos para piscina, análise completa da água, aparência da água e lista de compras inteligente.">
-<title>Piscina Inteligente — Dosagem & Clima</title>
+<meta name="description" content="Dosagem guiada de produtos para piscina: plano passo a passo, análise da água, aparência da água e lista de compras.">
+<title>Piscina Inteligente — Dosagem Guiada</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -22,7 +22,7 @@ html{scroll-behavior:smooth}
 body{font-family:Inter,-apple-system,'Segoe UI',Roboto,sans-serif;background:linear-gradient(160deg,#07323D,#0B4A57 60%,#0E5E63);color:var(--ink);font-size:15px;line-height:1.45}
 .ic{flex:none;display:block}
 #phone{max-width:430px;margin:0 auto;min-height:100dvh;background:var(--bg);position:relative;box-shadow:0 0 60px rgba(0,0,0,.35)}
-main{padding-bottom:210px}
+main{padding-bottom:230px}
 .view{display:none}
 .view.on{display:block;animation:fade .22s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}}
@@ -121,21 +121,14 @@ body.obmode .bnav,body.obmode .fab{display:none}
 .panel{width:100%;max-width:430px;max-height:92dvh;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:14px 20px calc(28px + env(safe-area-inset-bottom));animation:up .28s cubic-bezier(.2,.8,.3,1)}
 @keyframes up{from{transform:translateY(60px);opacity:.4}}
 .grab{width:42px;height:5px;border-radius:99px;background:#C9DEE5;margin:0 auto 14px}
-.dose{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:20px;padding:22px;text-align:center;box-shadow:0 10px 26px rgba(11,143,168,.35);margin:14px 0}
-.dose .n{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
-.dose .u{font-size:15px;font-weight:700;opacity:.9}
-.dose .eq{margin-top:8px;font-size:13.5px;font-weight:600;opacity:.92}
-.dose.sm{padding:16px}.dose.sm .n{font-size:32px}
 .warnbox{background:#FFF7E8;border:1px solid #F6E3BB;border-radius:16px;padding:14px;margin:12px 0}
 .warnbox h4{display:flex;align-items:center;gap:6px;font-size:13px;color:#B45309;margin-bottom:8px}
 .warnbox li{font-size:12.5px;color:#92610E;margin:5px 0 5px 16px}
-.warnbox.dosealta{background:#FDE8EE;border-color:#F5C2C2}
-.warnbox.dosealta h4{color:var(--bad)}
-.warnbox.dosealta li{color:#9F1239}
 ol.steps{margin:8px 0 4px 18px}
 ol.steps li{font-size:13.5px;color:var(--ink);margin-bottom:7px}
 .hint{font-size:12.5px;color:var(--ink2);background:#fff;border-radius:14px;padding:14px;box-shadow:var(--sh);text-align:center}
-.stepbadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--primary);background:#E9F6F9;border-radius:99px;padding:5px 10px;margin-bottom:10px}
+.stepbadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--primary);background:#E9F6F9;border-radius:99px;padding:5px 10px;margin:0 0 10px}
+.stepbadge.hot{background:#FDE8EE;color:var(--bad)}
 .okline{display:flex;align-items:center;gap:10px;background:#E7F6EF;border-radius:14px;padding:12px 14px;margin-bottom:10px;color:var(--good);font-weight:700;font-size:13.5px}
 .ordnote{font-size:12px;color:var(--ink2);background:#fff;border-radius:12px;padding:10px 12px;box-shadow:var(--sh);margin-bottom:12px}
 #toast{position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:calc(96px + env(safe-area-inset-bottom));background:#12333B;color:#fff;padding:12px 18px;border-radius:14px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:86%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.3)}
@@ -154,20 +147,23 @@ footer.fnote{text-align:center;font-size:11px;color:var(--ink2);padding:18px 0 6
 .pname{display:flex;flex-direction:column;gap:2px;min-width:0}
 .pname strong{font-size:13.5px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;line-height:1.3;color:var(--ink)}
 .pname .puse{font-size:12px;color:#666;margin-top:2px}
-.pname.on-dose strong{color:#fff}
-.pname.on-dose .puse,.pname.on-dose span{color:rgba(255,255,255,.85)}
 details.gwrap{background:#fff;border-radius:18px;box-shadow:var(--sh);padding:14px 16px;margin-bottom:14px}
 details.gwrap summary{font-size:15px;font-weight:800;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;color:var(--ink)}
 details.gwrap summary::-webkit-details-marker{display:none}
-details.gwrap summary::after{content:'▾';margin-left:auto;color:var(--ink2);transition:.2s}
+details.gwrap summary::after{content:'▾';margin-left:auto;color:var(--ink2)}
 details.gwrap[open] summary::after{content:'▴'}
-/* Modal Aparência da Água (v1.3) */
 .apgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
 .apcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;color:var(--ink);cursor:pointer;transition:.15s}
 .apcard .ape{font-size:26px}
 .apcard b{font-size:14px;font-weight:800}
 .apcard small{font-size:11px;color:var(--ink2);text-align:center;line-height:1.3}
 .apcard.sel{border-color:var(--primary);background:#E9F6F9}
+.pcard{margin-bottom:6px}
+.pcard .pfator{font-size:12px;color:#666;margin-top:4px}
+.pcard .bigdose{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:18px;padding:16px;text-align:center;box-shadow:0 8px 20px rgba(11,143,168,.3);margin:10px 0}
+.pcard .bigdose .n{font-size:38px;font-weight:800;letter-spacing:-.02em}
+.pcard .bigdose .eq{font-size:13px;font-weight:600;opacity:.92;margin-top:4px}
+.pcard .espera{display:flex;align-items:center;gap:8px;background:#E9F6F9;color:var(--dark);border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:700;margin-top:8px}
 </style>
 </head>
 <body>
@@ -208,7 +204,7 @@ details.gwrap[open] summary::after{content:'▴'}
         <div id="obSecWarn"></div>
         <div class="card">
           <h3>📢 Alertas de chuva</h3>
-          <p>Avisamos quando for chover na região da piscina, para você adiar a aplicação de produtos e evitar desperdício. Só coordenadas anônimas são enviadas à API de clima.</p>
+          <p>Avisamos quando for chover na região da piscina. Só coordenadas anônimas são enviadas à API de clima.</p>
         </div>
         <button class="btn" onclick="App.enableGps('ob')"><i data-ic="pin" data-s="18"></i> Usar minha localização</button>
         <div class="lbl" style="text-align:center">— ou —</div>
@@ -229,7 +225,7 @@ details.gwrap[open] summary::after{content:'▴'}
   <section id="v-home" class="view">
     <div class="hbar">
       <div style="flex:1"><h1>Minha Piscina</h1><span class="sub" id="homeSub"></span></div>
-      <button class="ibtn" onclick="App.openShop('sug')" aria-label="Produtos e acessórios"><i data-ic="cart"></i></button>
+      <button class="ibtn" onclick="App.openShop('sug')" aria-label="Produtos"><i data-ic="cart"></i></button>
       <button class="ibtn" onclick="App.go('pool')" aria-label="Configurações"><i data-ic="sliders"></i></button>
     </div>
     <div class="pad">
@@ -241,7 +237,7 @@ details.gwrap[open] summary::after{content:'▴'}
   <section id="v-calc" class="view">
     <div class="hbar">
       <button class="ibtn" onclick="App.go('home')" aria-label="Voltar"><i data-ic="back"></i></button>
-      <div style="flex:1"><h1>Dosificar</h1><span class="sub">análise completa ou tratamento rápido</span></div>
+      <div style="flex:1"><h1>Dosificar</h1><span class="sub">plano guiado passo a passo</span></div>
     </div>
     <div class="pad"><div id="calcBody"></div></div>
   </section>
@@ -294,7 +290,7 @@ details.gwrap[open] summary::after{content:'▴'}
   <div class="panel">
     <div class="grab"></div>
     <div style="display:flex;align-items:center">
-      <h2 style="font-size:19px;font-weight:800;flex:1" id="resTitle">Resultado</h2>
+      <h2 style="font-size:19px;font-weight:800;flex:1" id="resTitle">Plano</h2>
       <button class="ibtn" onclick="App.sheetClose()"><i data-ic="x" data-s="18"></i></button>
     </div>
     <div id="resBody"></div>
@@ -308,7 +304,7 @@ details.gwrap[open] summary::after{content:'▴'}
       <h2 style="font-size:19px;font-weight:800;flex:1">Análise da água</h2>
       <button class="ibtn" onclick="App.analClose()"><i data-ic="x" data-s="18"></i></button>
     </div>
-    <p style="color:var(--ink2);font-size:13px;margin:6px 0 4px">Informe o que você mediu (estojo de teste / fita). Preencha o que tiver — o app gera o <b>plano de correção na ordem técnica correta</b>.</p>
+    <p style="color:var(--ink2);font-size:13px;margin:6px 0 4px">Ao salvar, o app <b>monta o plano completo automaticamente</b> na ordem técnica certa.</p>
     <div id="anBody"></div>
   </div>
 </div>
@@ -325,7 +321,6 @@ details.gwrap[open] summary::after{content:'▴'}
   </div>
 </div>
 
-<!-- MODAL APARÊNCIA DA ÁGUA (v1.3) -->
 <div class="sheet" id="sheetAp" onclick="if(event.target===this)App.aparenClose()">
   <div class="panel">
     <div class="grab"></div>
@@ -343,17 +338,17 @@ details.gwrap[open] summary::after{content:'▴'}
 
 <script>
 'use strict';
-/* PISCINA INTELIGENTE v1.3
-   v1.3: NOVO — Modal Aparência da Água (Turva, Leitosa, Verde,
-   Amarelada). Receitas isoladas em APARENCIA_AGUA/calcularReceitaAparencia,
-   litragem puxada automaticamente de state.pool, integração com
-   Histórico e Lista de Compras. Lógica de cálculos existente
-   (pH, Cloro, AT, Dureza) 100% preservada e isolada.
-   Mantém v1.2: dedupe 30 min, linha do tempo compacta, aviso de
-   dose alta ≥4 kg, gráficos AT/Dureza colapsáveis, ordem
-   pH→Alcalinidade→Cloro→Dureza com trava de mesmo dia,
-   spacer 80px. v0.9: gerarAlertas, nome duplo único,
-   pastilhas por unidade, PDF/envio, GPS c/ diagnóstico, PWA. */
+/* ================================================================
+   PISCINA INTELIGENTE v2.1
+   Núcleo: gerarPlanoCompleto() — ordem 1ºpH → 2ºAT → 3ºCloro →
+   4ºDureza (outro dia) → 5ºAparência. Fatores /1000L:
+   Choque simples 14g · Duplo 28g · Manutenção 4g · Sulfato 10g ·
+   Clarificante 2mL · Algicida choque 6mL.
+   v2.1: (1) pH 7,6 sugere Redutor p/ descer a 7,2 ANTES do choque
+   (5 mL/1000L — cloro rende 50% a mais); (2) card de Sulfato com
+   ATENÇÃO em negrito: nunca sulfato + algicida juntos, 4h de
+   intervalo, filtro DESLIGADO, aspirar no ESGOTO.
+   ================================================================ */
 
 const ICONS={
  home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
@@ -414,65 +409,20 @@ window.addEventListener('error',e=>{if(location.protocol==='file:')toast('Erro i
 
 const KEY='poolcare_v1';
 let state=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})();
-state={pool:null,location:null,history:[],weatherCache:null,shopping:[],inventory:[],...state};
+state={pool:null,location:null,history:[],weatherCache:null,shopping:[],inventory:[],ultimaAparencia:null,...state};
 if(!Array.isArray(state.history))state.history=[];
 if(!Array.isArray(state.shopping))state.shopping=[];
 if(!Array.isArray(state.inventory))state.inventory=[];
 if(state.pool&&!state.pool.mode)state.pool.mode='dims';
 const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 
-/* ===== MOTOR DE DOSAGEM (ISOLADO — NÃO ALTERAR) ===== */
-const CATALOG=[
- {sku:'dicloro',name:'Cloro granulado estabilizado (Dicloro 56%)',unit:'g',
-  treats:['cloro_manutencao','cloro_choque'],
-  doses:{cloro_manutencao:{per1000:2,every:2},cloro_choque:{per1000:5}},
-  eq:{'copo dosador (40 g)':40},
-  safety:{wait:4,dusk:true,warns:['Nunca misture produtos concentrados entre si.','Dissolva em um balde com água da piscina e espalhe uniformemente.','Aplique com a filtração ligada.']}},
- {sku:'hipoclorito',name:'Hipoclorito de sódio 12% (líquido)',unit:'mL',
-  treats:['cloro_manutencao','cloro_choque'],
-  doses:{cloro_manutencao:{per1000:4,every:2},cloro_choque:{per1000:10}},
-  eq:{'copo (200 mL)':200},
-  safety:{wait:4,dusk:true,warns:['Corrosivo: use luvas e óculos.','Nunca adicione água sobre o produto.']}},
- {sku:'tricloro',name:'Pastilhas de cloro puro (Tricloro 90%)',unit:'un',
-  treats:['cloro_manutencao'],
-  doses:{cloro_manutencao:{per1000:0.025,every:5}},eq:{},
-  safety:{wait:4,dusk:false,warns:['Use o dosador flutuante; nunca jogue a pastilha direto no skimmer.','Ajuste o número de pastilhas conforme o volume da piscina.','Pastilhas são de liberação lenta: confira o cloro livre na semana seguinte.']}},
- {sku:'algicida-mant',name:'Algicida de manutenção',unit:'mL',
-  treats:['algicida_manutencao'],doses:{algicida_manutencao:{per1000:8,every:7}},
-  eq:{'tampa (100 mL)':100},
-  safety:{wait:8,dusk:true,warns:['Não permita banho durante a aplicação.']}},
- {sku:'algicida-choque',name:'Algicida anti-algas (choque)',unit:'mL',
-  treats:['algas'],doses:{algas:{per1000:25}},eq:{},
-  safety:{wait:12,dusk:true,warns:['Escove paredes e fundo no dia anterior.','Filtre por 8 h após a aplicação e aspire o sedimentado.']}},
- {sku:'clarificante',name:'Clarificante',unit:'mL',
-  treats:['clarificante'],doses:{clarificante:{per1000:10}},
-  eq:{'tampa (50 mL)':50},
-  safety:{wait:8,dusk:false,warns:['Ajuste o pH para 7,2–7,4 antes de aplicar.','Aspire o fundo no dia seguinte.']}},
- {sku:'barrilha',name:'Barrilha — eleva o pH',unit:'g',
-  treats:['ph_up'],phTable:[{d:.2,v:100},{d:.4,v:200},{d:.6,v:300},{d:.8,v:400}],
-  safety:{wait:4,dusk:true,warns:['Corrija no máximo 0,2–0,3 de pH por vez; re-teste após 4 h.','Confira a alcalinidade (ideal 80–120 ppm) antes de corrigir o pH.']}},
- {sku:'acido',name:'Ácido muriático — reduz o pH',unit:'mL',
-  treats:['ph_down'],phTable:[{d:.2,v:100},{d:.4,v:200},{d:.6,v:300},{d:.8,v:400}],
-  safety:{wait:4,dusk:true,warns:['Corrosivo: use luvas e óculos.','Nunca despeje água sobre o ácido.','Corrija no máximo 0,2–0,3 de pH por vez.']}},
- {sku:'bicarbonato',name:'Bicarbonato de sódio — eleva a alcalinidade',unit:'g',
-  treats:['alcalinidade_up'],alkPer10k:{per10ppm:170},
-  eq:{'copo dosador (100 g)':100},
-  safety:{wait:2,dusk:false,warns:['Alvo ideal: 80–120 ppm.','Re-teste após 4 h de filtração.']}},
- {sku:'cloreto-calcio',name:'Cloreto de cálcio — eleva a dureza cálcica',unit:'g',
-  treats:['dureza_up'],chPer10k:{per10ppm:150},
-  eq:{'copo dosador (100 g)':100,'pacote de 1 kg':1000},
-  safety:{wait:2,dusk:false,warns:['Adicione o produto na água, nunca água sobre o produto.','Dissolva em balde e espalhe com a filtração ligada.','Corrija em etapas se a dose passar de 5 kg.']}}
-];
-
-/* UMA única fonte de nomes (tradicional de loja + químico) */
 const PRODUTOS=[
- {sku:'dicloro',tradicional:'BALDE DE CLORO GRANULADO 3 em 1',quimico:'Cloro Granulado Estabilizado - Dicloro 56% - Desinfecção diária e choques',cat:'Cloro'},
+ {sku:'dicloro',tradicional:'BALDE DE CLORO GRANULADO 3 em 1',quimico:'Cloro Granulado Estabilizado - Dicloro 56%',cat:'Cloro'},
  {sku:'hipoclorito',tradicional:'CLORO LÍQUIDO 12%',quimico:'Hipoclorito de Sódio 12%',cat:'Cloro'},
  {sku:'tricloro',tradicional:'PASTILHAS DE CLORO PURO',quimico:'Tricloro 90%',cat:'Cloro'},
  {sku:'acido',tradicional:'REDUTOR DE pH',quimico:'Ácido Muriático',cat:'pH'},
  {sku:'barrilha',tradicional:'ELEVADOR DE pH',quimico:'Barrilha Leve - Carbonato de Sódio',cat:'pH'},
  {sku:'bicarbonato',tradicional:'ELEVADOR DE ALCALINIDADE',quimico:'Bicarbonato de Sódio',cat:'Alcalinidade'},
- {sku:'bissulfato',tradicional:'REDUTOR DE ALCALINIDADE',quimico:'Bissulfato de Sódio / Ácido Muriático',cat:'Alcalinidade'},
  {sku:'cloreto-calcio',tradicional:'ELEVADOR DE DUREZA CÁLCICA',quimico:'Cloreto de Cálcio',cat:'Dureza'},
  {sku:'algicida-choque',tradicional:'ALGICIDA DE CHOQUE',quimico:'Algicida Tratamento Água Verde',cat:'Algas'},
  {sku:'algicida-mant',tradicional:'ALGICIDA MANUTENÇÃO',quimico:'Algicida Manutenção Semanal',cat:'Algas'},
@@ -480,19 +430,11 @@ const PRODUTOS=[
  {sku:'sulfato-aluminio',tradicional:'SULFATO DE ALUMÍNIO',quimico:'Decantador - Sulfato de Alumínio',cat:'Água Turva'},
  {sku:'limpa-borda',tradicional:'LIMPA BORDA',quimico:'Detergente Alcalino Limpa Borda',cat:'Limpeza'}
 ];
-const SHOP_CATS=['Cloro','pH','Alcalinidade','Dureza','Algas','Água Turva','Limpeza'];
-const ACC_GROUPS=[['Medição','medicao'],['Proteção & Cobertura','protecao'],['Conforto','conforto']];
-
 function prodBySku(sku){return PRODUTOS.find(p=>p.sku===sku)||null;}
 function prodNameHTML(sku,fallback){
   const p=prodBySku(sku);
   if(!p)return `<strong>${esc(fallback||'')}</strong>`;
   return `<div class="pname"><strong>${esc(p.tradicional)}</strong><span style="font-size:12px;color:#666">(${esc(p.quimico)})</span></div>`;
-}
-function prodNameHeroHTML(sku,fallback){
-  const p=prodBySku(sku);
-  if(!p)return `<strong>${esc(fallback||'')}</strong>`;
-  return `<div class="pname on-dose"><strong>${esc(p.tradicional)}</strong><span style="font-size:12px;color:rgba(255,255,255,.85)">(${esc(p.quimico)})</span></div>`;
 }
 function listNameHTML(it){
   return `<div class="pname"><strong>${esc(it.nome)}</strong>${it.quimico?`<span style="font-size:12px;color:#666">(${esc(it.quimico)})</span>`:''}</div>`;
@@ -505,7 +447,6 @@ const SHOP_QUIM={
  acido:[{label:'5 L',size:5000}],
  barrilha:[{label:'1 kg',size:1000},{label:'4 kg',size:4000}],
  bicarbonato:[{label:'1 kg',size:1000},{label:'5 kg',size:5000}],
- bissulfato:[{label:'1 kg',size:1000},{label:'5 kg',size:5000}],
  'cloreto-calcio':[{label:'1 kg',size:1000},{label:'4 kg',size:4000}],
  'algicida-mant':[{label:'1 L',size:1000},{label:'3 L',size:3000},{label:'5 L',size:5000}],
  'algicida-choque':[{label:'5 L',size:5000}],
@@ -519,27 +460,21 @@ function packFor(sku,need){
 }
 
 const ACCESSORIES=[
- {id:'kit-teste',cat:'medicao',nome:'Estojo de teste gota a gota (pH + cloro)',essencial:true,dica:'A base de todo o tratamento — o app depende das suas medições. Prefira estojo a fita.'},
+ {id:'kit-teste',cat:'medicao',nome:'Estojo de teste gota a gota (pH + cloro)',essencial:true,dica:'A base de todo o tratamento — o app depende das suas medições.'},
  {id:'fitas',cat:'medicao',nome:'Fitas-teste (pH, cloro, AT, dureza)',essencial:false,dica:'Práticas para conferência rápida; menos precisas que o estojo.'},
- {id:'termometro',cat:'medicao',nome:'Termômetro de flutuação',essencial:false,dica:'Água quente consome cloro mais rápido — ajuste a frequência.'},
- {id:'peneira',cat:'limpeza',nome:'Peneira de folhas com cabo telescópico',essencial:true,dica:'Uso diário no verão: tira folhas antes de afundarem e consumirem cloro.'},
+ {id:'peneira',cat:'limpeza',nome:'Peneira de folhas com cabo telescópico',essencial:true,dica:'Uso diário no verão: tira folhas antes de consumirem cloro.'},
  {id:'escova',cat:'limpeza',nome:'Escova para paredes e fundo',essencial:true,dica:'Escovar semanalmente impede a fixação de algas.'},
- {id:'aspirador',cat:'limpeza',nome:'Aspirador manual + mangueira',essencial:true,dica:'Remove o que a escova solta; indispensável após clarificante/choque.'},
- {id:'rede',cat:'protecao',nome:'Rede de proteção (segurança)',essencial:false,dica:'Segurança para crianças e pets; também retém folhas.'},
- {id:'capa',cat:'protecao',nome:'Capa térmica / de cobertura',essencial:false,dica:'Reduz evaporação, perda de calor e entrada de sujidade.'},
- {id:'dosador',cat:'conforto',nome:'Dosador flutuante de pastilhas',essencial:false,dica:'Complementa a cloração com pastilhas de tricloro entre as dosagens.'}
+ {id:'aspirador',cat:'limpeza',nome:'Aspirador manual + mangueira',essencial:true,dica:'Indispensável após decantador/choque: aspire direto no esgoto.'},
+ {id:'dosador',cat:'conforto',nome:'Dosador flutuante de pastilhas',essencial:false,dica:'Complementa a cloração com pastilhas entre as dosagens.'}
 ];
 
 const QUICK_TREATMENTS={
  cloro_manutencao:{label:'Manutenção de cloro',icon:'drop'},
  cloro_choque:{label:'Choque de cloro',icon:'zap'},
- algicida_manutencao:{label:'Algicida preventivo',icon:'shield'},
- algas:{label:'Acabar com algas',icon:'sprout'},
- clarificante:{label:'Água turva (clarificar)',icon:'sparkle'}
+ algicida_manutencao:{label:'Algicida preventivo',icon:'shield'}
 };
-const TREAT_LABEL=t=>QUICK_TREATMENTS[t]?.label||t;
 const SHAPE_LABEL={rect:'Retangular',round:'Redonda',oval:'Oval',free:'Oitavada / livre',volume:'Litragem direta'};
-const VOL_PRESETS=[10000,15000,20000,25000,30000,40000,50000];
+const VOL_PRESETS=[10000,15000,20000,25000,30000,40000,45000,50000];
 const volChip=v=>`<button class="chip" onclick="App.obVolPreset(${v})">${v/1000} mil L</button>`;
 const volChipPool=v=>`<button class="chip" onclick="App.poolVolPreset(${v})">${v/1000} mil L</button>`;
 
@@ -552,122 +487,231 @@ function poolVolume(p){
   return m3*1000;
 }
 
-function roundDose(v,unit){
-  if(v<=0)return 0;
-  if(unit==='un')return Math.max(1,Math.ceil(v));
-  const s=v>=200?10:5;
-  return Math.max(s,Math.round(v/s)*s);
-}
-function interpPh(d,tb){
-  if(d<=tb[0].d)return tb[0].v;
-  for(let i=0;i<tb.length-1;i++){const a=tb[i],b=tb[i+1];
-    if(d<=b.d)return a.v+(d-a.d)/(b.d-a.d)*(b.v-a.v);}
-  return tb[tb.length-1].v;
-}
-function practical(dose,p){
-  const e=Object.entries(p.eq||{});if(!e.length||dose<=0)return null;
-  const [label,val]=e[0];const n=dose/val;if(n<0.75)return null;
-  const r=n<4?Math.round(n*2)/2:Math.round(n);
-  return `≈ ${(r%1?fmt1(r):r)} × ${label}`;
-}
-function instructions(p,t,dose){
-  const nomeLoja=prodBySku(p.sku)?.tradicional||p.name;
-  const L=[p.unit==='un'
-    ?`Coloque ${dose} pastilha${dose>1?'s':''} no dosador flutuante.`
-    :`Meça ${fmt(dose)} ${p.unit} de ${nomeLoja}.`,
-    p.safety.dusk?'Aplique ao entardecer, com a filtração ligada.':'Aplique com a filtração ligada.'];
-  if(p.safety.wait)L.push(`Aguarde ${p.safety.wait} h antes de permitir o banho.`);
-  return L;
-}
-function computeQuick(t,volume){
-  const items=[];
-  for(const p of CATALOG.filter(p=>p.treats.includes(t))){
-    const spec=p.doses[t];const dose=roundDose(spec.per1000*volume/1000,p.unit);
-    items.push({product:p,dose,practical:practical(dose,p),
-      note:spec.every?`Repetir a cada ${spec.every} dias.`:null,instructions:instructions(p,t,dose)});
-  }
-  return{items};
-}
-function bigDoseSplit(dose,unit){
-  if(unit!=='g'||dose<4000)return null;
-  return `Dose alta! Recomendado dividir em 2 aplicações de ${fmt(Math.round(dose/2))} com intervalo de 48 h. Dissolva em balde antes de espalhar.`;
-}
+/* ==================================================================
+   calculos_piscina — gerarPlanoCompleto()
+   Teste no console:
+   gerarPlanoCompleto({litros:45000,ph:7.6,cloro:0,alcalinidade:80,dureza:200,aparencia:'verde'})
+   ================================================================== */
+function caseiraPo(v){return `(${fmt(Math.round(v/15))} colher(es) de sopa — 15 g cada)`;}
+function caseiraLiq(v){return `(${fmt1(v/200)} copo(s) americano — 200 mL)`;}
+const FATOR={
+ choqueSimples:14,choqueDuplo:28,manutencaoCloro:4,
+ sulfato:10,clarificante:2,algicidaChoque:6
+};
+const AVISO_SULFATO='NUNCA aplique sulfato e algicida juntos. Deixe 4h entre algicida e sulfato e SEMPRE com filtro DESLIGADO no sulfato, e aspire no ESGOTO na manhã seguinte, não no filtro.';
+function gerarPlanoCompleto(dados){
+  const V=dados.litros;
+  const ph=dados.ph,cl=dados.cloro,at=dados.alcalinidade,dur=dados.dureza;
+  const ap=dados.aparencia||null;
+  const et=[];
+  const X=f=>Math.round(FATOR[f]*V/1000/5)*5;
 
-/* ordem: 1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza */
-function buildPlan(r,V){
-  const acts=[];const push=a=>acts.push(a);
-  const okItem=(step,key,label)=>({step,key,ok:true,label});
-  if(r.ph!=null){
-    if(r.ph<7.2||r.ph>7.6){
-      const up=r.ph<7.2;
-      const delta=Math.min(Math.abs(7.4-r.ph),0.8);
-      const p=CATALOG.find(pp=>pp.sku===(up?'barrilha':'acido'));
-      const dose=roundDose(interpPh(delta,p.phTable)*V/10000);
-      push({step:1,key:'ph',title:up?'Subir o pH':'Baixar o pH',product:p,dose,
-        practical:practical(dose,p),unit:p.unit,
-        text:`pH ${fmt1(r.ph)} fora da faixa ideal (7,2–7,6). Sempre a primeira correção.`,
-        instructions:[up?'Espalhe a barrilha sobre a superfície com a filtração ligada.':'Dilua o ácido em um balde com água da piscina (nunca o contrário) e despeje caminhando pela borda.','Re-teste após 4 h de filtração; repita se ainda estiver fora.'],
-        warnings:up?p.safety.warns:['Corrosivo: use luvas e óculos.','Nunca misture ácido com cloro concentrado.']});
-    }else push(okItem(1,'ph',`pH em ordem (${fmt1(r.ph)})`));
+  /* 1º pH */
+  if(ph==null){
+    et.push({step:1,tipo:'aviso',titulo:'Meça o pH antes de tudo',
+      porque:'O pH decide toda a ordem do tratamento. Use o estojo de teste e salve a análise — o plano se reorganiza sozinho.'});
+  }else if(ph>7.6){
+    const d=Math.min(ph-7.4,0.8);
+    const tb=[{dd:.2,v:100},{dd:.4,v:200},{dd:.6,v:300},{dd:.8,v:400}];
+    let f=100;for(const t of tb){if(d>=t.dd)f=t.v;}
+    const ml=Math.round(f*V/10000/5)*5;
+    et.push({step:1,tipo:'produto',sku:'acido',
+      por1000:`Redutor de pH: desce o pH para 7,2–7,6 — ${fmt(f)} mL por 10.000 L`,
+      dose:{v:ml,u:'mL',caseira:caseiraLiq(ml)},
+      como:['Dissolva em um BALDE com água da piscina (nunca despeje água sobre o ácido).',
+        'Espalhe caminhando pela borda, com o filtro LIGADO.',
+        'Filtração: mantenha ligada por 1 h.',
+        'Banho liberado após 1 h.'],
+      espera:'⏱️ Aguarde 1 h antes do próximo produto. Re-teste o pH após 4 h de filtração.'});
+  }else if(ph>=7.5){
+    const ml=Math.round(5*V/1000/5)*5;
+    et.push({step:1,tipo:'produto',sku:'acido',titulo:'Baixar o pH para 7,2 ANTES do choque',
+      por1000:`pH no teto (${fmt1(ph)}): sugerimos descer para 7,2 — com o pH em 7,2 o CLORO RENDE 50% A MAIS no choque. 5 mL por 1.000 L`,
+      dose:{v:ml,u:'mL',caseira:caseiraLiq(ml)},
+      como:['Dissolva em um BALDE com água da piscina (nunca despeje água sobre o ácido).',
+        'Espalhe caminhando pela borda, com o filtro LIGADO.',
+        'Filtração: mantenha ligada por 1 h.',
+        'Banho liberado após 1 h.'],
+      espera:'⏱️ Aguarde 1 h e aplique o choque — o cloro rende 50% a mais com o pH em 7,2. Re-teste o pH amanhã.'});
+  }else if(ph<7.2){
+    const d=Math.min(7.4-ph,0.8);
+    const tb=[{dd:.2,v:100},{dd:.4,v:200},{dd:.6,v:300},{dd:.8,v:400}];
+    let f=100;for(const t of tb){if(d>=t.dd)f=t.v;}
+    const g=Math.round(f*V/10000/5)*5;
+    et.push({step:1,tipo:'produto',sku:'barrilha',
+      por1000:`Elevador de pH: sobe o pH para 7,2–7,6 — ${fmt(f)} g por 10.000 L`,
+      dose:{v:g,u:'g',caseira:caseiraPo(g)},
+      como:['Espalhe sobre a superfície caminhando pela borda.',
+        'Filtro LIGADO por 2 h.',
+        'Não misture com cloro concentrado no mesmo balde.',
+        'Banho liberado após 1 h.'],
+      espera:'⏱️ Aguarde 1 h antes do próximo produto.'});
+  }else{
+    et.push({step:1,tipo:'ok',titulo:`pH OK — ${fmt1(ph)} (não mexer)`});
   }
-  if(r.alk!=null){
-    if(r.alk<80){
-      const delta=Math.min(100-r.alk,60);
-      const dose=roundDose(170*(delta/10)*V/10000);
-      const p=CATALOG.find(p=>p.sku==='bicarbonato');
-      push({step:2,key:'alk',title:'Subir a alcalinidade',product:p,dose,
-        practical:practical(dose,p),unit:p.unit,
-        text:`Alcalinidade ${fmt(r.alk)} ppm está baixa. Corrija DEPOIS do pH — ela estabiliza o pH corrigido.`,
-        instructions:['Espalhe o bicarbonato uniformemente sobre a superfície, com a filtração ligada.','Re-teste após 4 h de filtração.'],
-        warnings:['Se estiver muito baixa, a correção pode exigir mais de uma aplicação.']});
-    }else if(r.alk>120){
-      push({step:2,key:'alk',title:'Alcalinidade alta',textOnly:true,
-        text:`Alcalinidade ${fmt(r.alk)} ppm está acima de 120. Ela cai naturalmente quando o pH é corrigido com ácido. Corrija o pH e re-teste em uma semana.`});
-    }else push(okItem(2,'alk',`Alcalinidade em ordem (${fmt(r.alk)} ppm)`));
+
+  /* 2º Alcalinidade */
+  if(at==null){
+    et.push({step:2,tipo:'aviso',titulo:'Meça a alcalinidade total',
+      porque:'Ela segura o pH no lugar. Sem essa medida, o pH sobe e desce sozinho.'});
+  }else if(at<80){
+    const g=Math.round(170*((100-at)/10)*V/10000/5)*5;
+    et.push({step:2,tipo:'produto',sku:'bicarbonato',
+      por1000:`Elevador de alcalinidade: 170 g sobe 10 ppm a cada 10.000 L`,
+      dose:{v:g,u:'g',caseira:caseiraPo(g)},
+      como:['Espalhe direto na superfície (não precisa balde).',
+        'Filtro LIGADO por 4 h.',
+        'Banho liberado após 2 h.',
+        'Re-teste após 4 h de filtração.'],
+      espera:'⏱️ Aguarde 1 h antes do cloro.'});
+  }else if(at>120){
+    et.push({step:2,tipo:'aviso',titulo:'Alcalinidade alta — não mexer agora',
+      porque:`${fmt(at)} ppm. Ela desce sozinha quando o pH é corrigido com ácido. Corrija o pH e re-teste em uma semana.`});
+  }else{
+    et.push({step:2,tipo:'ok',titulo:`Alcalinidade OK — ${fmt(at)} ppm (não mexer)`});
   }
-  if(r.cl!=null){
-    if(r.cl<1){
-      const delta=+(2-r.cl).toFixed(1);
-      const opts=[{sku:'dicloro',f:1.8},{sku:'hipoclorito',f:8.3}]
-        .map(o=>{const p=CATALOG.find(pp=>pp.sku===o.sku);
-          const dose=roundDose(delta*o.f*V/1000,p.unit);
-          return{product:p,dose,practical:practical(dose,p)};});
-      push({step:3,key:'cl',title:`Repor cloro (+${fmt1(delta)} ppm até 2 ppm)`,
-        choose:true,options:opts,unit:'—',
-        text:`Cloro livre ${fmt1(r.cl)} ppm está abaixo do mínimo (1 ppm). Escolha o produto que você tem em casa (Opção A ou B).`,
-        instructions:['Aplique ao entardecer, com a filtração ligada, espalhando na superfície.','Aguarde 4 h antes do banho.'],
-        warnings:['Se o pH estiver fora de 7,2–7,6, corrija-o antes — o cloro perde eficiência.']});
-    }else if(r.cl<=3){push(okItem(3,'cl',`Cloro livre em ordem (${fmt1(r.cl)} ppm)`));}
-    else if(r.cl<5){
-      push({step:3,key:'cl',title:'Cloro levemente alto',textOnly:true,
-        text:`Cloro livre ${fmt1(r.cl)} ppm. Não aplique cloro agora; re-teste em 24 h.`});
+
+  /* 3º Cloro (choque simples/duplo) */
+  const verde=ap==='verde';
+  if(cl==null){
+    et.push({step:3,tipo:'aviso',titulo:'Meça o cloro livre',
+      porque:'Cloro zero = risco de algas e bactérias. Sem a medida, não dá para calcular a reposição.'});
+  }else if(cl<1){
+    const g=X(verde?'choqueDuplo':'choqueSimples');
+    et.push({step:3,tipo:'produto',sku:'dicloro',titulo:verde?'CHOQUE DUPLO — água verde':'Choque de cloro',
+      por1000:verde?`Choque DUPLO (água verde): ${FATOR.choqueDuplo} g por 1.000 L`:`Choque simples: ${FATOR.choqueSimples} g por 1.000 L`,
+      dose:{v:g,u:'g',caseira:caseiraPo(g)},
+      como:[verde?'Escove PAREDES e FUNDO antes — algas soltas morrem mais rápido.':'Dissolva em um balde com água da piscina.',
+        'Aplique ao ENTARDECER, espalhando por toda a superfície.',
+        'Filtro LIGADO por 8–12 h seguidas.',
+        verde?'Banho PROIBIDO por 24 h.':'Banho PROIBIDO por 12 h.'],
+      espera:verde?'⏱️ Após 4 h, aplique o ALGICIDA DE CHOQUE (próximo passo).':'⏱️ Aguarde 2 h antes do clarificante.'});
+    if(verde){
+      const m=X('algicidaChoque');
+      et.push({step:3,tipo:'produto',sku:'algicida-choque',titulo:'Reforço — Algicida de Choque',
+        por1000:`Algicida de choque: mata as algas restantes — ${FATOR.algicidaChoque} mL por 1.000 L`,
+        dose:{v:m,u:'mL',caseira:caseiraLiq(m)},
+        como:['Despeje perto das saídas de retorno, 4 h APÓS o cloro.',
+          'Filtro permanece LIGADO.',
+          'Banho continua proibido (total 24 h).',
+          'À noite, siga para o SULFATO DE ALUMÍNIO (Etapa 5) com o filtro DESLIGADO.'],
+        espera:'⏱️ À noite: decantador (Etapa 5).'});
+    }
+  }else if(cl<=3){
+    et.push({step:3,tipo:'ok',titulo:`Cloro OK — ${fmt1(cl)} ppm (não mexer)`});
+  }else if(cl<5){
+    et.push({step:3,tipo:'aviso',titulo:'Cloro levemente alto',
+      porque:`${fmt1(cl)} ppm. Não aplique cloro agora — re-teste em 24 h.`});
+  }else{
+    et.push({step:3,tipo:'aviso',titulo:'Cloro MUITO alto — banho PROIBIDO',
+      porque:`${fmt1(cl)} ppm. Aguarde a queda natural e re-teste em 24–48 h. Não adicione nada para “baixar” o cloro.`});
+  }
+
+  /* 4º Dureza — outro dia */
+  if(dur==null){
+    et.push({step:4,tipo:'aviso',titulo:'Meça a dureza cálcica',
+      porque:'Baixa corroe metais e vinil; alta forma crosta branca.'});
+  }else if(dur<200){
+    const g=Math.round(150*((250-dur)/10)*V/10000/5)*5;
+    et.push({step:4,tipo:'produto',sku:'cloreto-calcio',titulo:'Subir dureza — SÓ AMANHÃ',
+      por1000:`Elevador de dureza: 150 g sobe 10 ppm a cada 10.000 L`,
+      dose:{v:g,u:'g',caseira:caseiraPo(g)},
+      como:['DIAS DEPOIS do choque: pH e alcalinidade já em ordem, sem cloro em choque.',
+        'Dissolva em um balde (produto na água, nunca água no produto).',
+        'Espalhe com o filtro LIGADO por 6 h.',
+        'Banho liberado após 2 h.'],
+      espera:'⏱️ DIA SEGUINTE ao choque — nunca no mesmo dia.'});
+  }else if(dur<=400){
+    et.push({step:4,tipo:'ok',titulo:`Dureza OK — ${fmt(dur)} ppm (não mexer)`});
+  }else{
+    const pct=Math.min(80,Math.round((dur-300)/dur*100));
+    et.push({step:4,tipo:'aviso',titulo:'Dureza alta — reposição de água',
+      porque:`${fmt(dur)} ppm. Não há produto prático para reduzir: drene ≈ ${pct}% e complete com água nova. Em vinil/fibra, nunca esvazie totalmente.`});
+  }
+
+  /* 5º Aparência */
+  if(ap==='verde'){
+    const g=X('sulfato');
+    et.push({step:5,tipo:'produto',sku:'sulfato-aluminio',titulo:'Decantação — TUDO para o fundo',
+      por1000:`Decantador: faz a sujeira fina assentar — ${FATOR.sulfato} g por 1.000 L`,
+      dose:{v:g,u:'g',caseira:caseiraPo(g)},
+      como:['Aplique à NOITE com a filtração DESLIGADA.',
+        'Deixe a água PARADA 8–12 h, sem banho.',
+        'De manhã, aspire TODO o fundo mandando a água DIRETO NO ESGOTO.',
+        'Só então complete o nível e ligue a filtração normal.'],
+      alerta:AVISO_SULFATO,
+      espera:'⏱️ Depois: re-teste pH e cloro e salve a análise no app.'});
+  }else if(ap==='leitosa'){
+    const g=X('sulfato');
+    et.push({step:5,tipo:'produto',sku:'sulfato-aluminio',titulo:'Decantação (água leitosa)',
+      por1000:`Decantador: faz a sujeira fina assentar — ${FATOR.sulfato} g por 1.000 L`,
+      dose:{v:g,u:'g',caseira:caseiraPo(g)},
+      como:['Aplique à NOITE com a filtração DESLIGADA.',
+        'Água parada 8–12 h, sem banho.',
+        'De manhã, aspire TODO o fundo direto NO ESGOTO.',
+        'Só então ligue a filtração.'],
+      alerta:AVISO_SULFATO,
+      espera:'⏱️ Leitosa persistente = pH/dureza fora. Re-teste depois.'});
+  }else if(ap==='turva'){
+    const m=X('clarificante');
+    et.push({step:5,tipo:'produto',sku:'clarificante',titulo:'Clarificante',
+      por1000:`Clarificante: agrupa partículas para o filtro reter — ${FATOR.clarificante} mL por 1.000 L`,
+      dose:{v:m,u:'mL',caseira:caseiraLiq(m)},
+      como:['Aplique 2 h APÓS o choque de cloro.',
+        'Filtro LIGADO por 6 h seguidas; limpe o pré-filtro depois.',
+        'Banho liberado após 8 h.',
+        'Aspire o fundo se sobrar sedimentado.'],
+      espera:'⏱️ Turva após 48 h? Re-teste pH e alcalinidade.'});
+  }else if(ap==='amarelada'){
+    const m=X('clarificante');
+    et.push({step:5,tipo:'produto',sku:'clarificante',titulo:'Clarificante (amarelado)',
+      por1000:`Retém o amarelado no filtro — ${FATOR.clarificante} mL por 1.000 L`,
+      dose:{v:m,u:'mL',caseira:caseiraLiq(m)},
+      como:['Escove as manchas amareladas antes de tudo.',
+        'Aplique com o filtro LIGADO por 6 h.',
+        'Banho liberado após 8 h.',
+        'Voltou a amarelar? Pode ser ferro da água de poço — leve amostra a uma loja.'],
+      espera:'⏱️ Re-teste o cloro em 24 h.'});
+  }
+  return et;
+}
+window.gerarPlanoCompleto=gerarPlanoCompleto;
+
+function planoCardHTML(o,rotulo){
+  const p=o.sku?prodBySku(o.sku):null;
+  return `<div class="pcard">
+   ${rotulo?`<span class="stepbadge">Passo ${rotulo}</span>`:''}
+   <div style="margin:2px 0 8px">
+     ${p?`<div class="pname"><strong>${esc(p.tradicional)}</strong>
+        <span class="pfator">${esc(o.por1000||p.quimico)}</span></div>`
+       :`<strong style="font-size:14px;text-transform:uppercase">${esc(o.titulo||'')}</strong>
+        ${o.por1000?`<div class="pfator">${esc(o.por1000)}</div>`:''}`}
+   </div>
+   ${o.dose?`<div class="bigdose"><div class="n">${fmt(o.dose.v)} <span style="font-size:16px">${o.dose.u}</span></div>
+     <div class="eq">${o.dose.caseira||''}</div></div>`:''}
+   ${o.como?`<div class="card"><h3>🪣 Como aplicar</h3>
+     <ol class="steps">${o.como.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>`:''}
+   ${o.alerta?`<div class="warnbox" style="background:#FDE8EE;border-color:#F5C2C2"><h4 style="color:var(--bad)">${ic('warn',16)} ATENÇÃO</h4>
+     <ul><li style="font-weight:800;color:#9F1239;font-size:13px">${esc(o.alerta)}</li></ul></div>`:''}
+   ${o.espera?`<div class="espera">${ic('clock',16)} ${esc(o.espera)}</div>`:''}
+  </div>`;
+}
+function renderPlanoCompleto(etapas){
+  let html=`<div class="ordnote">🎯 Siga <b>NA ORDEM</b>: 1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza (outro dia) → 5º Aparência.</div>`;
+  for(const e of etapas){
+    const hot=e.step===3&&e.tipo==='produto';
+    const badge=`<span class="stepbadge ${hot?'hot':''}">${e.step}º · ${({1:'pH',2:'Alcalinidade',3:'Cloro',4:'Dureza',5:'Aparência'})[e.step]||''}</span>`;
+    if(e.tipo==='ok'){
+      html+=`<div style="margin-bottom:12px">${badge}<div class="okline">${ic('check',18)} ${esc(e.titulo)}</div></div>`;
+    }else if(e.tipo==='aviso'){
+      html+=`<div style="margin-bottom:12px">${badge}
+        <div class="alert atencao"><div class="t">${ic('warn',18)} ${esc(e.titulo)}</div><p>${esc(e.porque)}</p></div></div>`;
     }else{
-      push({step:3,key:'cl',title:'Cloro muito alto',textOnly:true,danger:true,
-        text:`Cloro livre ${fmt1(r.cl)} ppm. NÃO permita banho. Aguarde a queda natural e re-teste em 24–48 h. Não adicione produtos para “baixar” o cloro.`});
+      html+=`<div style="margin-bottom:14px">${badge}${planoCardHTML(e)}</div>`;
     }
   }
-  if(r.ch!=null){
-    if(r.ch<200){
-      const delta=Math.min(250-r.ch,150);
-      const dose=roundDose(150*(delta/10)*V/10000);
-      const p=CATALOG.find(pp=>pp.sku==='cloreto-calcio');
-      const needsWait=(r.ph!=null&&(r.ph<7.2||r.ph>7.6))||(r.alk!=null&&(r.alk<80||r.alk>120));
-      push({step:4,key:'ch',title:'Subir a dureza cálcica',product:p,dose,
-        practical:practical(dose,p),unit:p.unit,
-        text:`Dureza ${fmt(r.ch)} ppm está baixa — água “faminta” corroe metais e danifica revestimentos. Faça SEMPRE por último.`,
-        instructions:['Dissolva o cloreto de cálcio em um balde com água e espalhe com a filtração ligada.','Re-teste após 6 h de filtração.'],
-        warnings:['Adicione o produto na água, nunca água sobre o produto.','Se a dose passar de 5 kg, corrija em etapas de 50%.',
-          ...(needsWait?['NÃO aplique no mesmo dia do pH/alcalinidade: corrija-os primeiro, aguarde 24–48 h, re-teste e só então faça a dureza.']:[])],
-        needsWait});
-    }else if(r.ch<=400){push(okItem(4,'ch',`Dureza em ordem (${fmt(r.ch)} ppm)`));}
-    else{
-      const pct=Math.min(80,Math.round((r.ch-300)/r.ch*100));
-      push({step:4,key:'ch',title:'Dureza alta — reposição de água',textOnly:true,
-        text:`Dureza ${fmt(r.ch)} ppm. Não existe produto prático para reduzir: drene ≈ ${pct}% da água e complete com água nova (de dureza menor). Re-teste depois; repita em etapas se necessário.`,
-        warnings:['Em vinil/fibra, nunca esvazie totalmente — o revestimento danifica.']});
-    }
-  }
-  return acts;
+  return html+`<p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:8px">
+    NUNCA misture produtos concentrados entre si. Confirme a bula do fabricante.</p>`;
 }
 
 /* clima */
@@ -701,7 +745,7 @@ function evaluateAlerts(daily){
   if(tomorrow&&tomorrow.pop>=60&&tomorrow.mm>=5)
     A.push({id:'chuva_amanha',sev:'atencao',icon:'umbrella',title:'Chuva prevista amanhã',
       msg:'Cloro aplicado antes da chuva é diluído e desperdiçado. Adie a aplicação ou aplique hoje ao entardecer.',
-      cta:'Abrir calculadora',fn:"App.openCalc('cloro_manutencao')"});
+      cta:'Ver plano',fn:'App.corrigirAgora()'});
   if(today.mm>=10)
     A.push({id:'chuva_hoje',sev:'atencao',icon:'drop',title:'Chuva registrada hoje',
       msg:'A chuva dilui o cloro e altera o pH. Refaça a análise antes do próximo banho.',
@@ -710,17 +754,13 @@ function evaluateAlerts(daily){
     if(daily[i].max>=33&&daily[i+1].max>=33&&daily[i+2].max>=33){
       A.push({id:'onda_calor',sev:'critico',icon:'thermo',title:'Onda de calor nos próximos dias',
         msg:'A demanda por cloro sobe com o calor e o uso. Filtre 6–8 h/dia e teste o cloro livre a cada 2 dias.',
-        cta:'Abrir calculadora',fn:"App.openCalc('cloro_manutencao')"});break;}
+        cta:'Ver plano',fn:'App.corrigirAgora()'});break;}
   if(Math.max(daily[0].uv,daily[1]?.uv||0)>=10)
     A.push({id:'uv_extremo',sev:'atencao',icon:'zap',title:'Índice UV muito alto',
-      msg:'O sol destrói o cloro mais rápido. Aplique produtos ao entardecer e confira o estabilizante (30–50 ppm).'});
-  if(daily.slice(0,2).some(d=>d.wind>=30))
-    A.push({id:'vento',sev:'info',icon:'wind',title:'Ventos fortes previstos',
-      msg:'Folhas e poeira aumentam a contaminação. Peneire a superfície e avalie algicida preventivo.',
-      cta:'Algicida',fn:"App.openCalc('algicida_manutencao')"});
+      msg:'O sol destrói o cloro mais rápido. Aplique produtos ao entardecer.'});
   if(today.max>=22&&today.max<=30&&today.pop<30&&today.uv<=7)
     A.push({id:'janela',sev:'info',icon:'check',title:'Janela ideal para manutenção hoje',
-      msg:'Condições estáveis para dosagem e análise. Prefira o fim do dia (17h–19h).'});
+      msg:'Condições estáveis. Prefira o fim do dia (17h–19h).'});
   const ord={critico:0,atencao:1,info:2};
   return A.sort((a,b)=>ord[a.sev]-ord[b.sev]);
 }
@@ -740,22 +780,21 @@ async function loadWeather(force){
 }
 
 const TIPS=[
- {tags:{season:'verao'},icon:'drop',title:'Filtragem no verão',text:'Com calor e uso intenso, filtre 6–8 h por dia, de preferência durante o dia. Limpe a cesta do pré-filtro semanalmente.'},
- {tags:{season:'verao'},icon:'drop',title:'Cloro em dias alternados',text:'No verão o cloro se decompõe mais rápido. Teste o cloro livre a cada 2 dias e mantenha entre 1–3 ppm.',cta:'cloro_manutencao'},
- {tags:{season:'verao'},icon:'waves',title:'Reposição por evaporação',text:'Mantenha o nível da água no meio da boca dos skimmers — água baixa faz a bomba puxar ar e perde filtração.'},
- {tags:{season:'outono'},icon:'sprout',title:'Folhas: inimiga nº 1',text:'Peneire a superfície diariamente e considere capa ou tela. Folhas em decomposição consomem cloro e alimentam algas.'},
- {tags:{season:'outono'},icon:'clock',title:'Reduza a filtragem aos poucos',text:'Com menos uso, 4–6 h de filtração diária costumam bastar. Não zere a cloração.'},
- {tags:{season:'inverno'},icon:'shield',title:'Manutenção de inverno',text:'Filtre ao menos 1× por semana (6 h) e mantenha o cloro em dia — algas não tiram férias. Uma capa reduz drasticamente o trabalho.',cta:'cloro_manutencao'},
- {tags:{season:'inverno'},icon:'activity',title:'pH sob controle no frio',text:'Teste o pH quinzenalmente. Corrigir agora evita água verde na reabertura da primavera.'},
- {tags:{season:'primavera'},icon:'zap',title:'Reativação da piscina',text:'Faça análise completa (pH, cloro, alcalinidade, dureza), higienize o filtro e considere um choque de abertura.',cta:'cloro_choque'},
- {tags:{param:'ph'},icon:'up',title:'pH baixo (menos de 7,2)',text:'Água corrosiva: irrita olhos e pele e danifica metais e vinil. Corrija com barrilha.',go:'openAnalysis'},
- {tags:{param:'ph'},icon:'down',title:'pH alto (mais de 7,6)',text:'O cloro perde boa parte da eficiência e a água tende a ficar turva. Corrija com ácido muriático.',go:'openAnalysis'},
- {tags:{param:'cloro'},icon:'drop',title:'Cloro livre ideal: 1–3 ppm',text:'Abaixo de 1 ppm há risco de bactérias; acima de 5 ppm não permita banho e aguarde a queda natural.',go:'openAnalysis'},
- {tags:{param:'alcalinidade'},icon:'activity',title:'Alcalinidade 80–120 ppm',text:'É o “estabilizador do pH”: baixa, o pH fica oscilando. Corrija com bicarbonato antes de ajustar o pH.',go:'openAnalysis'},
- {tags:{param:'dureza'},icon:'shield',title:'Dureza cálcica 200–400 ppm',text:'Baixa corroe metais e revestimentos; alta forma crosta branca e água turva. Sobe com cloreto de cálcio; desce só com reposição de água.',go:'openAnalysis'},
- {tags:{param:'filtragem'},icon:'clock',title:'Regra do turnover',text:'A bomba deve reciclar todo o volume da piscina em cerca de 6 h no verão. Bomba parada = piscina parada.'},
- {tags:{param:'limpeza'},icon:'sprout',title:'Escove semanalmente',text:'Escovar paredes e fundo impede a fixação de algas — mesmo com a água aparentemente limpa.'},
- {tags:{param:'limpeza'},icon:'shield',title:'Filtro: pressão alta = lavar',text:'Faça a retrolavagem quando o manômetro marcar 8–10 psi acima do valor limpo, ou uma vez por semana.'}
+ {tags:{season:'verao'},icon:'drop',title:'Filtragem no verão',text:'Com calor e uso intenso, filtre 6–8 h por dia. Limpe a cesta do pré-filtro semanalmente.'},
+ {tags:{season:'verao'},icon:'drop',title:'Cloro em dias alternados',text:'No verão o cloro se decompõe mais rápido. Teste o cloro livre a cada 2 dias e mantenha entre 1–3 ppm.',go:'openAnalysis'},
+ {tags:{season:'verao'},icon:'waves',title:'Reposição por evaporação',text:'Mantenha o nível no meio da boca dos skimmers — água baixa faz a bomba puxar ar.'},
+ {tags:{season:'outono'},icon:'sprout',title:'Folhas: inimiga nº 1',text:'Peneire diariamente e considere tela. Folhas em decomposição consomem cloro.'},
+ {tags:{season:'outono'},icon:'clock',title:'Reduza a filtragem aos poucos',text:'Com menos uso, 4–6 h por dia bastam. Não zere a cloração.'},
+ {tags:{season:'inverno'},icon:'shield',title:'Manutenção de inverno',text:'Filtre 1× por semana (6 h) e mantenha o cloro em dia — algas não tiram férias.'},
+ {tags:{season:'inverno'},icon:'activity',title:'pH sob controle no frio',text:'Teste o pH quinzenalmente para evitar água verde na reabertura.'},
+ {tags:{season:'primavera'},icon:'zap',title:'Reativação da piscina',text:'Análise completa, higienize o filtro e considere choque de abertura.',go:'openAnalysis'},
+ {tags:{param:'ph'},icon:'up',title:'pH baixo (menos de 7,2)',text:'Água corrosiva: irrita olhos e danifica metais e vinil. Corrija com Elevador de pH.',go:'openAnalysis'},
+ {tags:{param:'ph'},icon:'down',title:'pH alto (mais de 7,6)',text:'O cloro perde eficiência e a água turva. Corrija com Redutor de pH.',go:'openAnalysis'},
+ {tags:{param:'cloro'},icon:'drop',title:'Cloro livre ideal: 1–3 ppm',text:'Abaixo de 1 ppm há risco de algas; acima de 5 ppm, sem banho.',go:'openAnalysis'},
+ {tags:{param:'alcalinidade'},icon:'activity',title:'Alcalinidade 80–120 ppm',text:'É o estabilizador do pH. Corrija com Elevador de Alcalinidade.',go:'openAnalysis'},
+ {tags:{param:'dureza'},icon:'shield',title:'Dureza cálcica 200–400 ppm',text:'Baixa corroe; alta forma crosta. Sobe com cloreto de cálcio; desce só com reposição de água.',go:'openAnalysis'},
+ {tags:{param:'filtragem'},icon:'clock',title:'Regra do turnover',text:'A bomba deve reciclar todo o volume em ~6 h no verão. Bomba parada = piscina parada.'},
+ {tags:{param:'limpeza'},icon:'sprout',title:'Escove semanalmente',text:'Escovar paredes e fundo impede a fixação de algas.'}
 ];
 function currentSeason(){const m=new Date().getMonth()+1;return m>=12||m<=2?'verao':m<=5?'outono':m<=8?'inverno':'primavera';}
 const SEASON_LABEL={verao:'Verão ☀️',outono:'Outono 🍂',inverno:'Inverno ❄️',primavera:'Primavera 🌸'};
@@ -769,14 +808,13 @@ const PARAM_META={
 };
 function paramClass(k,v){const m=PARAM_META[k];return m.ok(v)?'ok':(m.bad(v)?'bad':'warn');}
 
-function gerarAlertas(analise){
-  if(!analise)return null;
-  const pH=analise.ph,cloro=analise.cl,alcalinidade=analise.alk,dureza=analise.ch;
+function gerarAlertas(a){
+  if(!a)return null;
   const alertas=[];
-  if(pH!=null&&(pH<7.2||pH>7.6))alertas.push(`pH ${fmt1(pH)} fora do ideal`);
-  if(cloro!=null&&cloro<1)alertas.push(`Cloro ${fmt1(cloro)} baixo - risco de algas`);
-  if(alcalinidade!=null&&(alcalinidade<80||alcalinidade>120))alertas.push(`Alcalinidade ${fmt(alcalinidade)} fora do ideal`);
-  if(dureza!=null&&(dureza<200||dureza>400))alertas.push(`Dureza ${fmt(dureza)} fora do ideal`);
+  if(a.ph!=null&&(a.ph<7.2||a.ph>7.6))alertas.push(`pH ${fmt1(a.ph)} fora do ideal`);
+  if(a.cl!=null&&a.cl<1)alertas.push(`Cloro ${fmt1(a.cl)} baixo - risco de algas`);
+  if(a.alk!=null&&(a.alk<80||a.alk>120))alertas.push(`Alcalinidade ${fmt(a.alk)} fora do ideal`);
+  if(a.ch!=null&&(a.ch<200||a.ch>400))alertas.push(`Dureza ${fmt(a.ch)} fora do ideal`);
   return alertas.length>0?alertas:null;
 }
 
@@ -786,21 +824,17 @@ function chartSvg(series,opts){
   const X=i=>series.length===1?W/2:22+i*(W-44)/(series.length-1);
   const Y=v=>H-34-((v-o.minY)/(o.maxY-o.minY))*(H-60);
   const band2=(o.band2Lo!=null&&o.band2Hi!=null)
-    ?`<rect x="14" y="${Y(o.band2Hi).toFixed(1)}" width="${W-28}" height="${(Y(o.band2Lo)-Y(o.band2Hi)).toFixed(1)}" fill="#F0FAF6" rx="4"/>`
-    :'';
+    ?`<rect x="14" y="${Y(o.band2Hi).toFixed(1)}" width="${W-28}" height="${(Y(o.band2Lo)-Y(o.band2Hi)).toFixed(1)}" fill="#F0FAF6" rx="4"/>`:'';
   const band=(o.bandLo!=null&&o.bandHi!=null)
-    ?`<rect x="14" y="${Y(o.bandHi).toFixed(1)}" width="${W-28}" height="${(Y(o.bandLo)-Y(o.bandHi)).toFixed(1)}" fill="#DFF4EC" rx="4"/>`
-    :'';
+    ?`<rect x="14" y="${Y(o.bandHi).toFixed(1)}" width="${W-28}" height="${(Y(o.bandLo)-Y(o.bandHi)).toFixed(1)}" fill="#DFF4EC" rx="4"/>`:'';
   const lbl=(o.bandHi!=null)?`<text x="16" y="${(Y(o.bandHi)-6).toFixed(1)}" font-size="9" fill="#0E9F6E" font-weight="700">${esc(o.bandTxt||'')}</text>`:'';
   const line=series.length>1
-    ?`<polyline points="${series.map((p,i)=>X(i).toFixed(1)+','+Y(p.val).toFixed(1)).join(' ')}" fill="none" stroke="#0B8FA8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`
-    :'';
+    ?`<polyline points="${series.map((p,i)=>X(i).toFixed(1)+','+Y(p.val).toFixed(1)).join(' ')}" fill="none" stroke="#0B8FA8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`:'';
   const dots=series.map((p,i)=>
     `<circle cx="${X(i).toFixed(1)}" cy="${Y(p.val).toFixed(1)}" r="4.5" fill="#0B8FA8" stroke="#fff" stroke-width="1.5"/>`+
     `<text x="${X(i).toFixed(1)}" y="${(Y(p.val)-9).toFixed(1)}" font-size="9.5" font-weight="800" text-anchor="middle" fill="#0B8FA8">${f(p.val)}</text>`).join('');
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;aspect-ratio:2/1;display:block" preserveAspectRatio="xMidYMid meet">${band2}${band}${lbl}${line}${dots}</svg>`;
 }
-
 function analiseIgual(a,b){return a.ph===b.ph&&a.cl===b.cl&&a.alk===b.alk&&a.ch===b.ch;}
 function salvarAnaliseDedup(){
   const nova={ph:an.ph,cl:an.cl,alk:an.alk,ch:an.ch};
@@ -826,74 +860,6 @@ function analRows(h){
   return rows.length?rows:['—'];
 }
 
-/* ================================================================
-   v1.3 — MODAL APARÊNCIA DA ÁGUA (componente isolado)
-   Receitas independentes dos cálculos de pH/cloro/AT/dureza.
-   Apenas LÊ: poolVolume, roundDose, practical, bigDoseSplit,
-   prodBySku, prodNameHTML, packFor, SHOP_QUIM, CATALOG, state.
-   ================================================================ */
-const APARENCIA_AGUA={
- verde:{
-  emoji:'🟢',label:'Verde',desc:'Algas instaladas — choque duplo',
-  itens:V=>[
-   {sku:'algicida-choque',unit:'mL',dose:roundDose(25*V/1000),motivo:'Mata as algas — 25 mL por 1.000 L'},
-   {sku:'dicloro',unit:'g',dose:roundDose(12*V/1000),motivo:'Choque de cloro para água verde — 12 g por 1.000 L'}
-  ],
-  passos:[
-   'Escove paredes e fundo antes de aplicar — algas soltas morrem mais rápido.',
-   'Aplique os DOIS produtos ao entardecer, com a filtração ligada.',
-   'Filtre 8–12 h ininterruptas após a aplicação.',
-   'Aspire o sedimentado no dia seguinte e re-teste o pH em 48 h.'
-  ],
-  aviso:'Verde muito escuro pode exigir 2ª aplicação em 48 h. Não permita banho por 24 h.'
- },
- turva:{
-  emoji:'⚪',label:'Turva',desc:'Partículas em suspensão — clarificação',
-  itens:V=>[
-   {sku:'clarificante',unit:'mL',dose:roundDose(10*V/1000),motivo:'Agrupa as partículas para o filtro reter — 10 mL por 1.000 L'}
-  ],
-  passos:[
-   'Confira o pH antes (ideal 7,2–7,4): clarificante não funciona com pH errado.',
-   'Aplique ao entardecer com a filtração ligada.',
-   'Filtre 8 h e limpe o pré-filtro no dia seguinte.',
-   'Aspire o fundo se sobrar sedimentado.'
-  ],
-  aviso:'Se continuar turva após 48 h, rode a Análise Completa — pH ou alcalinidade fora do ideal são a causa mais comum.'
- },
- leitosa:{
-  emoji:'🥛',label:'Leitosa',desc:'Suspensão fina — decantação',
-  itens:V=>[
-   {sku:'sulfato-aluminio',unit:'g',dose:roundDose(10*V/1000),motivo:'Decantador: faz a sujeira fina assentar no fundo — 10 g por 1.000 L'}
-  ],
-  passos:[
-   'Aplique à noite com a filtração DESLIGADA.',
-   'Deixe a água parada 8–12 h, sem banho.',
-   'Pela manhã, aspire TODO o sedimentado direto no esgoto.',
-   'Só então ligue a filtração normalmente.'
-  ],
-  aviso:'Água leitosa persistente costuma indicar pH alto ou dureza alta — rode a Análise Completa depois da decantação.'
- },
- amarelada:{
-  emoji:'🟡',label:'Amarelada',desc:'Algas mostarda ou metais',
-  itens:V=>[
-   {sku:'dicloro',unit:'g',dose:roundDose(10*V/1000),motivo:'Choque contra algas mostarda — 10 g por 1.000 L'},
-   {sku:'clarificante',unit:'mL',dose:roundDose(10*V/1000),motivo:'Ajuda a reter o amarelado no filtro — 10 mL por 1.000 L'}
-  ],
-  passos:[
-   'Escove bem as manchas amareladas (costumam ficar nas paredes e cantos de sombra).',
-   'Aplique ao entardecer com a filtração ligada.',
-   'Filtre 8 h e re-teste o cloro em 24 h.',
-   'Se voltar a amarelar, pode ser ferro da água de poço — leve uma amostra a uma loja.'
-  ],
-  aviso:'Não permita banho por 12 h após o choque. Se a água vier de poço, o amarelado pode ser ferro — nesse caso o tratamento é outro (quelante de metais).'
- }
-};
-/* Função isolada de receita (exposta p/ testes no console) */
-window.calcularReceitaAparencia=function(aparencia,volume){
-  const cfg=APARENCIA_AGUA[aparencia];
-  return cfg?{label:cfg.label,itens:cfg.itens(volume),passos:cfg.passos,aviso:cfg.aviso}:null;
-};
-
 let rState=null;
 const an={ph:null,cl:null,alk:null,ch:null};
 let cityCtx='ob',cityRes=[],tipFilter='all';
@@ -901,7 +867,7 @@ const ob={step:1,shape:null,approx:false,volMode:false};
 let poolShape='rect';
 let poolDraft=null;
 let shopTab='sug';
-let aparenSel=null; /* v1.3 */
+let aparenSel=null;
 
 const App={
  go(v){
@@ -917,7 +883,7 @@ const App={
   if(v==='calc')renderCalc();
   if(v==='pool'){poolDraft=null;renderPool();}
  },
- openCalc(pre){renderCalc(pre);App.go('calc');},
+ openCalc(){renderCalc();App.go('calc');},
 
  obStart(){
   ob.step=1;ob.shape=null;ob.approx=false;ob.volMode=false;
@@ -941,7 +907,7 @@ const App={
   $('obL').value=P[0];const W=$('obW');if(W)W.value=P[1];
   $('obSh').value=P[2];$('obDp').value=P[3];
   ob.approx=true;App.obRenderVol();
-  toast('Valores aproximados — ajuste depois em “Minha piscina”.');
+  toast('Valores aproximados — ajuste depois.');
  },
  obVolPreset(v){const i=$('obLiters');if(i){i.value=String(v);App.obRenderVol();}},
  obEscape(){const b=$('obEscapeBox');b.style.display=b.style.display==='none'?'block':'none';},
@@ -968,7 +934,7 @@ const App={
   $('obBack').style.display=s>1?'':'none';
   $('obSkip').style.display=s===3?'':'none';
   const heads=ob.volMode&&s===2
-    ?['Informe a litragem','Se você já sabe o volume da piscina, digite direto — pula as medidas.']
+    ?['Informe a litragem','Se você já sabe o volume, digite direto — pula as medidas.']
     :[['Qual o formato da sua piscina?','Toque em uma opção para começar.'],['Agora, as medidas','Em metros. O volume é calculado ao vivo.'],['Alertas de chuva','Opcional — pode ativar depois.']][s-1];
   $('obHead').innerHTML=`<h2>${heads[0]}</h2><p>${heads[1]}</p>`;
   $('obDots').querySelectorAll('span').forEach((d,i)=>d.classList.toggle('on',i<s));
@@ -980,7 +946,7 @@ const App={
       $('obDims').innerHTML=`
         <div class="field"><label>Volume total da piscina</label>
           <input id="obLiters" inputmode="numeric" placeholder="ex.: 45000" oninput="App.obRenderVol()"><span class="sfx">L</span></div>
-        <div class="hint" style="margin-top:4px">💡 O volume costuma estar no manual, na nota fiscal da piscina ou no site do fabricante. Aceita “45000” ou “45.000”.</div>`;
+        <div class="hint" style="margin-top:4px">💡 O volume costuma estar no manual ou na nota fiscal. Aceita “45000” ou “45.000”.</div>`;
       $('obToggle').textContent='← Prefiro informar as medidas';
       $('obEscapeWrap').style.display='none';
       $('obEscapeBox').style.display='none';
@@ -1003,7 +969,7 @@ const App={
   }
   if(s===3){
     $('obSecWarn').innerHTML=!window.isSecureContext?`
-      <div class="notebox"><b>ℹ️ GPS indisponível em arquivo local.</b> Quando o app é aberto direto do computador (file://), o navegador bloqueia o GPS. Opções: hospede em https (GitHub Pages / Netlify) ou use a <b>busca por cidade</b> abaixo — os alertas funcionam igual.</div>`:'';
+      <div class="notebox"><b>ℹ️ GPS indisponível em arquivo local.</b> Hospede em https (Netlify/GitHub Pages) para ativar o GPS — ou use a <b>busca por cidade</b> abaixo.</div>`:'';
     $('obNext').disabled=false;
   }else $('obNext').disabled=(s===1&&!ob.shape)||(s===2&&!(App.obVol()>0));
  },
@@ -1011,7 +977,7 @@ const App={
  obBack(){if(ob.step>1){ob.step--;App.obRenderStep();}},
  obSkip(){App.obFinish();},
  obFinish(){
-  const v=App.obVol();if(!(v>0)){toast('Verifique as medidas ou a litragem informada.');return;}
+  const v=App.obVol();if(!(v>0)){toast('Verifique as medidas ou a litragem.');return;}
   state.pool=ob.volMode
     ?{mode:'volume',shape:'volume',volume:v}
     :{mode:'dims',shape:ob.shape,length:num($('obL').value),
@@ -1025,15 +991,15 @@ const App={
   state.location=loc;save();
   renderPool();App.go('home');
   loadWeather(true);
-  toast(how==='gps'?'Localização via GPS ativada ✓':how==='ip'?'Localização aproximada (por IP) ativada ✓':'Cidade definida ✓');
+  toast(how==='gps'?'Localização via GPS ✓':how==='ip'?'Localização aproximada (IP) ✓':'Cidade definida ✓');
  },
  async enableGps(ctx){
   const finish=(loc,how)=>{if(ctx==='ob')App.obFinish();App._setLoc(loc,how);};
   if(!window.isSecureContext){
-    toast('GPS bloqueado: você está num arquivo local (file://). Hospede em https (Netlify/GitHub Pages) para ativar o GPS — ou use a busca por cidade.',6000);
+    toast('GPS bloqueado em file:// — hospede em https ou use a busca por cidade.',6000);
     App._ipFallback(ctx,finish);return;
   }
-  if(!navigator.geolocation){toast('Este navegador não suporta geolocalização. Use a busca por cidade.',4500);return;}
+  if(!navigator.geolocation){toast('Navegador sem geolocalização. Use a busca por cidade.',4500);return;}
   let permState='prompt';
   try{if(navigator.permissions){const st=await navigator.permissions.query({name:'geolocation'});permState=st.state;}}catch(e){}
   if(permState==='denied'){App._deniedHelp();return;}
@@ -1045,15 +1011,15 @@ const App={
     finish({lat:+pos.coords.latitude.toFixed(4),lon:+pos.coords.longitude.toFixed(4),label:'Minha localização (GPS)'},'gps');
   }catch(err){
     if(err&&err.code===1){App._deniedHelp();return;}
-    const reason=err&&err.code===3?'Tempo esgotado obtendo o sinal de GPS.':'GPS indisponível.';
+    const reason=err&&err.code===3?'Tempo esgotado no GPS.':'GPS indisponível.';
     App._ipFallback(ctx,finish,reason);
   }
  },
  _deniedHelp(){
   const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
   toast(ios
-    ?'📍 Permissão de localização está BLOQUEADA. No iPhone: Ajustes → Safari (ou Piscina App) → Localização → Permitir/Perguntar. Depois toque em Ativar de novo.'
-    :'📍 Permissão de localização está BLOQUEADA. Toque no cadeado 🔒 na barra de endereço → Permissões → Localização → Perguntar. Depois toque em Ativar de novo.',8000);
+    ?'📍 Permissão BLOQUEADA. iPhone: Ajustes → Safari (ou Piscina App) → Localização → Permitir. Depois toque de novo.'
+    :'📍 Permissão BLOQUEADA. Toque no cadeado 🔒 na barra de endereço → Permissões → Localização → Perguntar.',8000);
  },
  async _ipFallback(ctx,finish,reason){
   try{
@@ -1063,8 +1029,7 @@ const App={
     finish({lat:+j.latitude.toFixed(4),lon:+j.longitude.toFixed(4),
       label:(j.city?j.city+(j.region?', '+j.region:''):'Localização aproximada')+' · IP'},'ip');
   }catch(e){
-    const extra=!window.isSecureContext?' Você abriu por file:// — o navegador bloqueia GPS nesse modo. Use a busca por cidade.':' Use a busca por cidade — funciona igual.';
-    toast((reason?reason+' ':'')+extra,4500);
+    toast((reason?reason+' ':'')+' Use a busca por cidade — funciona igual.',4500);
     if(ctx==='ob'){const f=$('cityOb');if(f)f.focus();}
     else if($('v-pool').classList.contains('on')){const f=$('cityPool');if(f)f.focus();}
   }
@@ -1090,6 +1055,28 @@ const App={
   renderPool();App.go('home');loadWeather(true);toast('Cidade definida ✓');
  },
 
+ abrirPlanoCompleto(extra){
+  const lr=lastReading();
+  const d=Object.assign({
+    litros:poolVolume(state.pool),
+    ph:lr?.ph??null,cloro:lr?.cl??null,
+    alcalinidade:lr?.alk??null,dureza:lr?.ch??null,
+    aparencia:state.ultimaAparencia||null
+  },extra||{});
+  const etapas=gerarPlanoCompleto(d);
+  $('resTitle').textContent='Seu plano — passo a passo';
+  $('resBody').innerHTML=renderPlanoCompleto(etapas);
+  $('sheetRes').classList.add('open');
+  if($('sheetAn').classList.contains('open'))App.analClose();
+  if($('sheetAp').classList.contains('open'))App.aparenClose();
+  document.querySelector('#sheetRes .panel').scrollTop=0;
+ },
+ corrigirAgora(){
+  const lr=lastReading();
+  if(!lr){App.openAnalysis();return;}
+  App.abrirPlanoCompleto();
+ },
+
  reminders(){
   const out=[];const lastApp=state.history.find(h=>h.type==='aplicacao');
   if(lastApp){const h=hoursSince(lastApp.when);
@@ -1099,11 +1086,11 @@ const App={
   const lr=lastReading();
   if(!lr||hoursSince(lr.when)>168)
     out.push({icon:'drop',cls:'atencao',title:'Hora de testar a água',
-      text:'Faça a análise (pH, cloro, alcalinidade e dureza) para manter a dosagem precisa.',
+      text:'Faça a análise (pH, cloro, alcalinidade e dureza) — o app monta o plano sozinho.',
       fn:'App.openAnalysis()',cta:'Registrar análise'});
   if(!state.inventory.includes('kit-teste')&&!state.inventory.includes('fitas'))
     out.push({icon:'bulb',cls:'atencao',title:'Você ainda não tem estojo de teste',
-      text:'Sem medir pH e cloro, toda dosagem é chute. Montamos uma lista de compras com o essencial.',
+      text:'Sem medir pH e cloro, toda dosagem é chute. Veja a lista de essenciais.',
       fn:'App.openShop()',cta:'Ver sugestões'});
   return out;
  },
@@ -1118,39 +1105,53 @@ const App={
   return out.filter((t,i,arr)=>t&&arr.indexOf(t)===i).slice(0,2);
  },
 
- calcPickT(t){rState={mode:'quick',t,index:0};renderCalc();},
+ calcPickT(t){rState={mode:'quick',t};renderCalc();},
  calcRun(){
-  const res=computeQuick(rState.t,poolVolume(state.pool));
-  if(!res.items.length){toast('Produto indisponível no catálogo.');return;}
-  rState={mode:'quick',t:rState.t,items:res.items,index:0};
+  if(!rState||rState.mode!=='quick')return;
+  const V=poolVolume(state.pool);
+  const F={cloro_manutencao:{sku:'dicloro',f:FATOR.manutencaoCloro,u:'g',every:2,proib:12},
+    cloro_choque:{sku:'dicloro',f:FATOR.choqueSimples,u:'g',every:null,proib:12},
+    algicida_manutencao:{sku:'algicida-mant',f:8,u:'mL',every:7,proib:8}};
+  const c=F[rState.t];
+  const g=Math.round(c.f*V/1000/5)*5;
+  rState.card={sku:c.sku,por1000:`${fmt(c.f)} ${c.u} por 1.000 L`,
+    dose:{v:g,u:c.u,caseira:c.u==='g'?caseiraPo(g):caseiraLiq(g)},
+    como:['Dissolva em um balde com água da piscina (se for pó).',
+      'Aplique ao entardecer, espalhando na superfície.',
+      'Filtro LIGADO por 8 h.',
+      `Banho PROIBIDO por ${c.proib} h.`],
+    espera:c.every?`⏱️ Repetir a cada ${c.every} dias.`:'⏱️ Re-teste em 24 h.'};
   $('resTitle').textContent='Resultado da dosagem';
-  renderResult();$('sheetRes').classList.add('open');
+  $('resBody').innerHTML=planoCardHTML(rState.card)
+    +`<button class="btn" onclick="App.registerAll()">${ic('check',18)} Registrar aplicação</button>
+      <button class="btn ghost" style="margin-top:10px" onclick="App.planToShop()">${ic('cart',18)} Adicionar à lista de compras</button>`;
+  $('sheetRes').classList.add('open');
  },
  sheetClose(){$('sheetRes').classList.remove('open');},
- resPick(i){rState.index=i;renderResult();},
  registerAll(){
-  let n=0;
-  if(rState.mode==='quick'){
-    const r=rState.items[rState.index];
-    state.history.unshift({type:'aplicacao',when:new Date().toISOString(),
-      treatment:rState.t,
-      product:prodBySku(r.product.sku)?.tradicional||r.product.name,
-      dose:r.dose,unit:r.product.unit});n++;
-  }else{
-    for(const a of rState.items){
-      if(a.dose>0){
-        const sel=a.choose?(a.options[rState.sel?.cl||0]):null;
-        const p=sel?sel.product:a.product,dose=sel?sel.dose:a.dose;
-        state.history.unshift({type:'aplicacao',when:new Date().toISOString(),
-          treatment:'plano_'+a.key,label:`${a.title} — ${prodBySku(p.sku)?.tradicional||p.name}`,
-          product:prodBySku(p.sku)?.tradicional||p.name,dose,unit:p.unit});n++;
-      }
-    }
-  }
+  if(!rState||!rState.card)return;
+  const c=rState.card;const p=prodBySku(c.sku);
+  state.history.unshift({type:'aplicacao',when:new Date().toISOString(),
+    treatment:rState.t||'aparencia',
+    label:p?p.tradicional:'',
+    product:p?p.tradicional:'Produto',dose:c.dose.v,unit:c.dose.u});
   save();App.sheetClose();App.go('home');
-  toast(n?`${n} aplicação(ões) registrada(s) — re-teste em 24 h. ✅`:'Nada a registrar.');
+  toast('Aplicação registrada — re-teste em 24 h. ✅');
  },
- planSelCl(i){rState.sel={...rState.sel,cl:i};renderResult();},
+ planToShop(){
+  if(!rState||!rState.card)return;
+  const c=rState.card;
+  if(!SHOP_QUIM[c.sku]){toast('Embalagem não cadastrada.');return;}
+  const pk=packFor(c.sku,c.dose.v);
+  const key='q:'+c.sku+':'+pk.size;
+  if(!state.shopping.find(i=>i.key===key)){
+    const p=prodBySku(c.sku);
+    state.shopping.push({key,nome:p?.tradicional||c.sku,quimico:p?.quimico||null,
+      cat:p?.cat||'Cloro',base:pk.label,mult:1,done:false});
+    save();
+  }
+  toast('Produto na lista 🛒');App.openShop('list');
+ },
 
  openAnalysis(){
   const lr=lastReading();
@@ -1163,31 +1164,20 @@ const App={
  analSave(){
   if(an.ph==null&&an.cl==null&&an.alk==null&&an.ch==null){toast('Selecione pelo menos um parâmetro.');return;}
   if(!salvarAnaliseDedup()){toast('Análise não registrada — mantivemos a anterior.');return;}
-  App.analClose();
   renderHistory();
-  toast('Análise registrada 🧪');
- },
- analPlan(){
-  if(an.ph==null&&an.cl==null&&an.alk==null&&an.ch==null){toast('Selecione pelo menos um parâmetro.');return;}
-  const acts=buildPlan(an,poolVolume(state.pool));
-  if(!acts.length){toast('Nenhum parâmetro informado.');return;}
-  if(!salvarAnaliseDedup()){toast('Análise duplicada — substitua a anterior ou ajuste os valores.');return;}
-  App.analClose();
-  rState={mode:'plan',items:acts,sel:{cl:0}};
-  $('resTitle').textContent='Plano de correção';
-  renderResult();$('sheetRes').classList.add('open');
+  toast('Análise registrada — montando o plano… 🧪');
+  App.abrirPlanoCompleto({ph:an.ph,cloro:an.cl,alcalinidade:an.alk,dureza:an.ch,aparencia:state.ultimaAparencia||null});
  },
 
- wxRefresh(){if(!state.location){toast('Defina sua localização em “Minha piscina”.');return;}toast('Atualizando previsão…');loadWeather(true);},
+ wxRefresh(){if(!state.location){toast('Defina a localização em “Minha piscina”.');return;}toast('Atualizando…');loadWeather(true);},
  tipFilter(f){tipFilter=f;renderTips();},
- tipGo(t){t.go?App[t.go]():t.cta?App.openCalc(t.cta):0;},
+ tipGo(t){t.go?App[t.go]():0;},
 
  async installPwa(){
   if(isStandalone()){toast('O app já está instalado. 🎉');return;}
-  if(!window.deferredPrompt){toast('Use o menu do navegador → “Instalar app” ou “Adicionar à Tela de Início”.',4200);return;}
+  if(!window.deferredPrompt){toast('Menu do navegador → “Instalar app”.',4200);return;}
   window.deferredPrompt.prompt();
-  try{const {outcome}=await window.deferredPrompt.userChoice;
-    if(outcome!=='accepted')toast('Sem problemas — você pode instalar depois por aqui mesmo.');}catch(e){}
+  try{await window.deferredPrompt.userChoice;}catch(e){}
   window.deferredPrompt=null;
   if($('v-home').classList.contains('on'))renderHome();
  },
@@ -1221,27 +1211,6 @@ const App={
   if(state.inventory.includes(id))state.inventory=state.inventory.filter(x=>x!==id);
   else{state.inventory.push(id);state.shopping=state.shopping.filter(i=>i.key!=='acc:'+id);}
   save();renderShop();
- },
- planToShop(){
-  let n=0;
-  const add=(sku,need)=>{
-    if(!SHOP_QUIM[sku])return;
-    const pk=packFor(sku,need);
-    const key='q:'+sku+':'+pk.size;
-    if(!state.shopping.find(i=>i.key===key)){
-      const p=prodBySku(sku);
-      state.shopping.push({key,nome:p?.tradicional||sku,quimico:p?.quimico||null,
-        cat:p?.cat||'Cloro',base:pk.label,mult:1,done:false});n++;
-    }
-  };
-  for(const a of (rState&&rState.items)||[]){
-    if(a.ok||a.textOnly||!a.dose)continue;
-    if(a.choose)for(const o of a.options)add(o.product.sku,o.dose);
-    else add(a.product.sku,a.dose);
-  }
-  save();
-  if(n){toast(n+' produto(s) adicionado(s) à lista 🛒');App.openShop('list');}
-  else toast('Os produtos do plano já estão na lista.');
  },
  async shopSend(){
   if(!state.shopping.length){toast('A lista está vazia.');return;}
@@ -1278,73 +1247,28 @@ const App={
   toast('PDF baixado 📄');
  },
 
- /* ===== v1.3 — APARÊNCIA DA ÁGUA ===== */
  openAparencia(){
   if(!state.pool){toast('Configure sua piscina primeiro.');return;}
   aparenSel=null;
-  $('apVol').innerHTML='Piscina: <b>'+fmt(poolVolume(state.pool))+' L</b> — litragem puxada automaticamente das suas configurações.';
+  $('apVol').innerHTML='Piscina: <b>'+fmt(poolVolume(state.pool))+' L</b> — litragem puxada automaticamente.';
   App.aparenRender();
   $('sheetAp').classList.add('open');
  },
  aparenClose(){$('sheetAp').classList.remove('open');},
- aparenPick(k){aparenSel=k;App.aparenRender();},
+ aparenPick(k){
+  aparenSel=k;state.ultimaAparencia=k;save();
+  toast('Aparência registrada — montando o plano completo… 🎨');
+  App.abrirPlanoCompleto({aparencia:k});
+ },
  aparenRender(){
-  const V=poolVolume(state.pool);
-  let html=`<div class="apgrid">${Object.entries(APARENCIA_AGUA).map(([k,c])=>
+  const MAP={verde:{emoji:'🟢',label:'Verde',desc:'Algas — choque duplo + decantação'},
+    turva:{emoji:'⚪',label:'Turva',desc:'Pós-uso — choque + clarificante'},
+    leitosa:{emoji:'🥛',label:'Leitosa',desc:'Choque + decantação'},
+    amarelada:{emoji:'🟡',label:'Amarelada',desc:'Algas mostarda — choque + clarificante'}};
+  $('apBody').innerHTML=`<div class="apgrid">${Object.entries(MAP).map(([k,c])=>
     `<button class="apcard ${aparenSel===k?'sel':''}" onclick="App.aparenPick('${k}')">
-      <span class="ape">${c.emoji}</span><b>${c.label}</b><small>${c.desc}</small></button>`).join('')}</div>`;
-  if(aparenSel){
-    const cfg=APARENCIA_AGUA[aparenSel];const itens=cfg.itens(V);
-    html+=`<div class="sec-t" style="font-size:14px;margin-top:6px">Para água ${cfg.label.toLowerCase()} · ${fmt(V)} L</div>`
-      +itens.map(it=>{
-        const p=CATALOG.find(x=>x.sku===it.sku);
-        const pr=p?practical(it.dose,p):null;
-        const big=bigDoseSplit(it.dose,it.unit);
-        return `<div class="shopitem">
-          ${prodNameHTML(it.sku)}
-          <div class="mo">${esc(it.motivo)}</div>
-          <div class="dose sm" style="margin:8px 0">
-            <div class="n">${fmt(it.dose)} <span class="u">${it.unit}</span></div>
-            ${pr?`<div class="eq">${pr}</div>`:''}
-          </div>
-          ${big?`<div class="warnbox dosealta"><h4>${ic('warn',16)} Dose alta</h4><ul><li>${big}</li></ul></div>`:''}
-        </div>`;
-      }).join('')
-      +`<div class="card"><h3>Como aplicar</h3><ol class="steps">${cfg.passos.map(s=>`<li>${s}</li>`).join('')}</ol></div>`
-      +`<div class="warnbox"><h4>${ic('warn',16)} Atenção</h4><ul><li>${cfg.aviso}</li></ul></div>`
-      +`<button class="btn" onclick="App.aparenRegister()">${ic('check',18)} Registrar aplicação</button>
-        <button class="btn ghost" style="margin-top:10px" onclick="App.aparenToShop()">${ic('cart',18)} Adicionar à lista de compras</button>`;
-  }
-  $('apBody').innerHTML=html;
- },
- aparenRegister(){
-  if(!aparenSel)return;
-  const cfg=APARENCIA_AGUA[aparenSel];const V=poolVolume(state.pool);let n=0;
-  for(const it of cfg.itens(V)){
-    const nome=prodBySku(it.sku)?.tradicional||it.sku;
-    state.history.unshift({type:'aplicacao',when:new Date().toISOString(),
-      treatment:'aparencia',label:`Aparência: ${cfg.label} — ${nome}`,
-      product:nome,dose:it.dose,unit:it.unit});n++;
-  }
-  save();App.aparenClose();App.go('home');
-  toast(n+' produto(s) registrado(s) — re-teste em 24–48 h. ✅');
- },
- aparenToShop(){
-  if(!aparenSel)return;
-  const cfg=APARENCIA_AGUA[aparenSel];const V=poolVolume(state.pool);let n=0;
-  for(const it of cfg.itens(V)){
-    if(!SHOP_QUIM[it.sku])continue;
-    const pk=packFor(it.sku,it.dose);
-    const key='q:'+it.sku+':'+pk.size;
-    if(!state.shopping.find(i=>i.key===key)){
-      const p=prodBySku(it.sku);
-      state.shopping.push({key,nome:p?.tradicional||it.sku,quimico:p?.quimico||null,
-        cat:p?.cat||'Cloro',base:pk.label,mult:1,done:false});n++;
-    }
-  }
-  save();
-  if(n){App.aparenClose();toast(n+' produto(s) na lista 🛒');App.openShop('list');}
-  else toast('Os produtos da receita já estão na lista.');
+      <span class="ape">${c.emoji}</span><b>${c.label}</b><small>${c.desc}</small></button>`).join('')}</div>
+    <p style="font-size:12px;color:var(--ink2)">Ao escolher, o plano completo abre com as doses certas para sua piscina.</p>`;
  },
 
  poolPickShape(s){poolShape=s;renderPool();},
@@ -1371,7 +1295,7 @@ const App={
  poolDim(){const v=App.poolVolPreview();const el=$('poolVol');if(el)el.textContent=v?fmt(v):'—';},
  poolSave(){
   const v=App.poolVolPreview();
-  if(!(v>0)){toast('Verifique as medidas ou a litragem informada.');return;}
+  if(!(v>0)){toast('Verifique as medidas ou a litragem.');return;}
   if(poolDraft?.mode==='volume'){
     state.pool={...state.pool,mode:'volume',shape:'volume',volume:v};
   }else{
@@ -1382,7 +1306,7 @@ const App={
   save();App.go('home');toast('Piscina atualizada ✓');
  },
  poolReset(){
-  if(confirm('Apagar todos os dados (piscina, histórico e localização) e recomeçar?')){
+  if(confirm('Apagar todos os dados e recomeçar?')){
     localStorage.removeItem(KEY);location.reload();}
  }
 };
@@ -1391,38 +1315,25 @@ function buildSuggestions(){
   const sugs=[];const v=poolVolume(state.pool);
   const has=id=>state.inventory.includes(id);
   if(!has('kit-teste')&&!has('fitas'))
-    sugs.push({acc:'kit-teste',urg:1,motivo:'Sem estojo ou fita-teste você não consegue medir pH e cloro — e o app não calcula correções com precisão. Comece por aqui.'});
+    sugs.push({acc:'kit-teste',urg:1,motivo:'Sem estojo de teste você não mede pH e cloro — o app não calcula com precisão. Comece por aqui.'});
   const lr=lastReading();
   if(lr){
-    if(lr.ph!=null&&lr.ph<7.2)
-      sugs.push({q:['barrilha',Math.max(interpPh(Math.min(7.4-lr.ph,0.8),CATALOG.find(p=>p.sku==='barrilha').phTable)*v/10000,500)],
-        motivo:`Última análise: pH ${fmt1(lr.ph)} (baixo) — ELEVADOR DE pH para corrigir.`});
     if(lr.ph!=null&&lr.ph>7.6)
-      sugs.push({q:['acido',Math.max(interpPh(Math.min(lr.ph-7.4,0.8),CATALOG.find(p=>p.sku==='acido').phTable)*v/10000,500)],
-        motivo:`Última análise: pH ${fmt1(lr.ph)} (alto) — REDUTOR DE pH para corrigir.`});
+      sugs.push({q:['acido',Math.round(100*Math.min((lr.ph-7.4)/0.2,4)*v/10000/5)*5],
+        motivo:`Última análise: pH ${fmt1(lr.ph)} (alto) — REDUTOR DE pH.`});
     if(lr.cl!=null&&lr.cl<1)
-      sugs.push({q:['dicloro',Math.max((2-lr.cl)*1.8*v/1000,500)],
-        motivo:`Última análise: cloro livre ${fmt1(lr.cl)} ppm — reposição de cloro.`});
+      sugs.push({q:['dicloro',Math.round(FATOR.choqueSimples*v/1000/5)*5],
+        motivo:`Última análise: cloro ${fmt1(lr.cl)} ppm — choque de reposição.`});
     if(lr.alk!=null&&lr.alk<80)
-      sugs.push({q:['bicarbonato',Math.max(170*((100-lr.alk)/10)*v/10000,500)],
-        motivo:`Última análise: alcalinidade ${fmt(lr.alk)} ppm — ELEVADOR DE ALCALINIDADE para subir.`});
-    if(lr.alk!=null&&lr.alk>150)
-      sugs.push({q:['bissulfato',Math.max(250*((lr.alk-100)/10)*v/10000,1000)],
-        motivo:`Última análise: alcalinidade ${fmt(lr.alk)} ppm (alta) — REDUTOR DE ALCALINIDADE. Aplique em etapas e re-teste.`});
+      sugs.push({q:['bicarbonato',Math.round(170*((100-lr.alk)/10)*v/10000/5)*5],
+        motivo:`Última análise: alcalinidade ${fmt(lr.alk)} ppm — ELEVADOR DE ALCALINIDADE.`});
     if(lr.ch!=null&&lr.ch<200)
-      sugs.push({q:['cloreto-calcio',Math.max(150*((250-lr.ch)/10)*v/10000,500)],
-        motivo:`Última análise: dureza ${fmt(lr.ch)} ppm — ELEVADOR DE DUREZA CÁLCICA para subir.`});
+      sugs.push({q:['cloreto-calcio',Math.round(150*((250-lr.ch)/10)*v/10000/5)*5],
+        motivo:`Última análise: dureza ${fmt(lr.ch)} ppm — ELEVADOR DE DUREZA.`});
   }
-  if(!sugs.some(s=>s.q&&s.q[0]==='dicloro')){
-    const g=Math.ceil(2*(v/1000)*15+5*(v/1000));
-    sugs.push({q:['dicloro',g],quiet:true,
-      motivo:`Reposição mensal estimada para ${fmt(v)} L: manutenção a cada 2 dias + 1 choque no mês (≈ ${fmt(g)} g).`});
-  }
-  if(!sugs.some(s=>s.q&&s.q[0]==='tricloro')){
-    const un=Math.max(1,Math.ceil(v*0.025/1000*30/5));
-    sugs.push({q:['tricloro',un*200],quiet:true,
-      motivo:`Complemento mensal: ≈ ${un} pastilha(s) de tricloro no dosador flutuante (1 a cada 5 dias para ${fmt(v)} L).`});
-  }
+  const g=Math.round(FATOR.manutencaoCloro*v/1000/5)*5;
+  sugs.push({q:['dicloro',g],quiet:true,
+    motivo:`Reposição mensal para ${fmt(v)} L: manutenção (${FATOR.manutencaoCloro} g/1000 L, 2×/sem) + 1 choque.`});
   for(const a of ACCESSORIES.filter(a=>a.essencial&&!has(a.id)&&a.id!=='kit-teste'))
     sugs.push({acc:a.id,urg:0,motivo:a.dica});
   return sugs;
@@ -1450,9 +1361,7 @@ function shoppingPdfLines(){
   if(done.length){
     L.push({t:'JÁ COMPRADOS',s:11,b:1,g:1});
     for(const it of done)L.push({t:'( x )   '+it.nome,s:9,g:1});
-    L.push({t:'',s:5});
   }
-  L.push({t:'Dica: comece pelo estojo de teste — sem medir pH e cloro, toda dosagem é chute.',s:8.5,g:1});
   L.push({t:'Siga sempre a bula do fabricante. Este app é uma ferramenta de apoio.',s:8.5,g:1});
   return L;
 }
@@ -1513,7 +1422,7 @@ function shoppingText(){
       s+='□ '+it.nome+' — '+(it.mult>1?it.mult+' × '+it.base:it.base)+(it.quimico?' ('+it.quimico+')':'')+'\n';
   }
   if(!cats.length)s+='\n(lista vazia)\n';
-  s+='\n💡 Comece pelo estojo de teste: sem medir, toda dosagem é chute.\n⚠️ Siga sempre a bula do fabricante.';
+  s+='\n⚠️ Siga sempre a bula do fabricante.';
   return s;
 }
 
@@ -1523,11 +1432,11 @@ function installCard(){
   if(isStandalone())return '';
   if(window.deferredPrompt)return `<div class="alert" style="border-left-color:#7C3AED">
     <div class="t" style="color:#7C3AED">${ic('download',18)} Instale o Piscina App</div>
-    <p>Ícone na tela inicial, abertura em tela cheia e funcionamento offline — como um app nativo.</p>
+    <p>Ícone na tela inicial, tela cheia e offline — como app nativo.</p>
     <div class="act"><button class="tbtn" onclick="App.installPwa()">Instalar agora</button></div></div>`;
   if(isIos()&&state.pwaHintOff!==true)return `<div class="alert" style="border-left-color:#7C3AED">
     <div class="t" style="color:#7C3AED">${ic('share',18)} Instalar no iPhone</div>
-    <p>No Safari, toque em <b>Compartilhar</b> e escolha <b>“Adicionar à Tela de Início”</b>. O app abre em tela cheia e funciona offline.</p>
+    <p>Safari → <b>Compartilhar</b> → <b>“Adicionar à Tela de Início”</b>.</p>
     <div class="act"><button class="tbtn" onclick="App.dismissIosHint()">Entendi</button></div></div>`;
   return '';
 }
@@ -1555,7 +1464,7 @@ function renderHome(){
       <ul style="margin:6px 0 0 18px">
         ${waterAlerts.map(a=>`<li style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px">${a}</li>`).join('')}
       </ul>
-      <div class="act"><button class="tbtn" onclick="App.openAnalysis()">Corrigir agora ${ic('chev',14)}</button></div>
+      <div class="act"><button class="tbtn" onclick="App.corrigirAgora()">Corrigir agora — ver meu plano ${ic('chev',14)}</button></div>
     </div>`:'';
 
   const statusHtml=recent?`
@@ -1570,9 +1479,9 @@ function renderHome(){
           <span class="v" style="display:flex;align-items:center;gap:6px;color:${col}">${ic(ico,15)} ${v==null?'—':m.fmt(v)}</span>
           <span class="r">ideal: ${m.range}</span></div>`;}).join('')}
     </div>
-    <div style="margin:-4px 0 14px"><button class="btn teal" onclick="App.openAnalysis()">${ic('activity',18)} Corrigir a partir desta análise</button></div>`
+    <div style="margin:-4px 0 14px"><button class="btn teal" onclick="App.corrigirAgora()">${ic('activity',18)} Ver meu plano de correção</button></div>`
   :`<div class="alert atencao" style="margin-top:6px"><div class="t" style="color:var(--warn)">${ic('activity',18)} Nenhuma análise recente</div>
-    <p>Meça pH, cloro, alcalinidade e dureza cálcica. O app monta o plano de correção completo na ordem certa.</p>
+    <p>Meça pH, cloro, alcalinidade e dureza. Ao salvar, o app monta o plano completo automaticamente.</p>
     <div class="act"><button class="tbtn" onclick="App.openAnalysis()">Analisar agora ${ic('chev',14)}</button></div></div>`;
 
   $('homeBody').innerHTML=`
@@ -1594,7 +1503,7 @@ function renderHome(){
   ${installCard()}
 
   ${!state.location?`<div class="alert atencao"><div class="t">${ic('pin',18)} Ativar alertas de chuva</div>
-    <p>Avisamos quando for chover para você adiar a aplicação e não desperdiçar produto.</p>
+    <p>Avisamos quando for chover para você não desperdiçar produto.</p>
     <div class="act"><button class="tbtn" onclick="App.enableGps('home')">Ativar GPS</button>
     <button class="tbtn" onclick="App.go('pool')">Buscar cidade</button></div></div>`:''}
 
@@ -1615,15 +1524,17 @@ function renderHome(){
 function tipCard(t){
   return `<div class="tip"><div class="bub">${ic(t.icon||'bulb',19)}</div>
     <div style="flex:1"><h4>${t.title}</h4><p>${t.text}</p>
-    ${(t.cta||t.go)?`<button class="tbtn" style="padding:6px 0" onclick="App.tipGo(tipSource['${t.title.replace(/'/g,"\\'")}'])">Resolver agora ${ic('chev',14)}</button>`:''}</div></div>`;
+    ${t.go?`<button class="tbtn" style="padding:6px 0" onclick="App.${t.go}()">Resolver agora ${ic('chev',14)}</button>`:''}</div></div>`;
 }
-const tipSource={};TIPS.forEach(t=>tipSource[t.title]=t);
 
-function renderCalc(preT){
+function renderCalc(){
   const p=state.pool;const vol=poolVolume(p);
-  const quickSel=rState&&rState.mode==='quick'?rState.t:(preT||null);
-  if(rState&&rState.mode!=='quick'&&preT)rState={mode:'quick',t:preT,index:0};
   const sub=p.mode==='volume'?'Litragem direta':SHAPE_LABEL[p.shape];
+  const MAP={verde:{emoji:'🟢',label:'Verde',desc:'choque duplo + decantação'},
+    turva:{emoji:'⚪',label:'Turva',desc:'choque + clarificante'},
+    leitosa:{emoji:'🥛',label:'Leitosa',desc:'choque + decantação'},
+    amarelada:{emoji:'🟡',label:'Amarelada',desc:'choque + clarificante'}};
+  const ultima=state.ultimaAparencia;
   $('calcBody').innerHTML=`
   <div class="card" style="display:flex;align-items:center;gap:12px">
     ${ic('waves',30)}
@@ -1632,93 +1543,32 @@ function renderCalc(preT){
     <button class="tbtn" onclick="App.go('pool')">Editar</button>
   </div>
 
-  <div class="card" style="border:1.5px solid #CBE7EF;background:linear-gradient(180deg,#F4FBFD,#fff)">
-    <h3>🧪 Análise completa → plano de correção</h3>
-    <p>Informe o que mediu — <b>pH, cloro livre, alcalinidade e dureza cálcica</b> — e receba o plano de correção completo, na ordem técnica certa, com produto e dose de cada etapa.</p>
-    <div style="margin-top:12px"><button class="btn" onclick="App.openAnalysis()">${ic('activity',18)} Abrir análise completa</button></div>
-    <p style="font-size:11.5px;margin-top:10px">Ordem aplicada: <b>1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza</b>. A dureza NUNCA no mesmo dia do pH/alcalinidade.</p>
-  </div>
-
   <div class="card" style="border:1.5px solid #E7D8F5;background:linear-gradient(180deg,#F8F4FD,#fff)">
     <h3>🎨 Aparência da água</h3>
-    <p>Turva, leitosa, verde ou amarelada? Selecione como está a água e o app calcula os produtos certos usando a litragem da sua piscina.</p>
-    <div style="margin-top:12px"><button class="btn" onclick="App.openAparencia()">Abrir aparência da água</button></div>
+    <p>Turva, leitosa, verde ou amarelada? O app puxa a litragem e monta o plano completo — choque, doses e como aplicar.</p>
+    ${ultima?`<p style="font-size:12px;margin-top:6px">Última seleção: <b>${MAP[ultima]?.emoji} ${MAP[ultima]?.label}</b> <button class="tbtn" style="padding:2px 6px" onclick="App.abrirPlanoCompleto({aparencia:'${ultima}'})">ver plano ${ic('chev',13)}</button></p>`:''}
+    <div style="margin-top:10px"><button class="btn" onclick="App.openAparencia()">Escolher aparência da água</button></div>
   </div>
 
-  <div class="lbl">Tratamento rápido (sem leitura de água)</div>
+  <div class="card" style="border:1.5px solid #CBE7EF;background:linear-gradient(180deg,#F4FBFD,#fff)">
+    <h3>🧪 Análise completa → plano automático</h3>
+    <p>Informe pH, cloro, alcalinidade e dureza. Ao salvar, o plano completo abre <b>sozinho</b>, na ordem: pH → AT → Cloro → Dureza (outro dia) → Aparência.</p>
+    <div style="margin-top:12px"><button class="btn" onclick="App.openAnalysis()">${ic('activity',18)} Abrir análise completa</button></div>
+  </div>
+
+  <div class="lbl">Tratamento rápido (cloro / algicida)</div>
   <div class="chips">${Object.entries(QUICK_TREATMENTS).map(([k,v])=>
-    chip(v.label,quickSel===k,`App.calcPickT('${k}')`,v.icon)).join('')}</div>
-  ${quickSel?`<div style="margin-top:18px">
-    <button class="btn ghost" onclick="App.calcRun()">${ic('drop',18)} Calcular dosagem</button></div>`:''}
+    chip(v.label,rState&&rState.mode==='quick'&&rState.t===k,`App.calcPickT('${k}')`,v.icon)).join('')}</div>
+  <div style="margin-top:18px">
+    <button class="btn ghost" ${rState&&rState.mode==='quick'?'':'disabled'} onclick="App.calcRun()">${ic('drop',18)} Calcular dosagem</button>
+  </div>
   <p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:14px">
     Siga sempre a bula do fabricante. Este app é uma ferramenta de apoio.</p>`;
 }
 
-function renderResult(){
-  if(!rState)return;
-  if(rState.mode==='quick')return renderQuickResult();
-  return renderPlanResult();
-}
-function renderQuickResult(){
-  const r=rState.items[rState.index];const p=r.product;
-  $('resBody').innerHTML=`
-  ${rState.items.length>1?`<div class="chips" style="margin-top:10px">${rState.items.map((it,i)=>
-    chip(prodBySku(it.product.sku)?.tradicional||it.product.name,rState.index===i,`App.resPick(${i})`)).join('')}</div>`:''}
-  <div class="dose">
-    ${prodNameHeroHTML(p.sku,p.name)}
-    <div style="margin:10px 0 2px;font-size:12px;font-weight:700;opacity:.8">ADICIONE</div>
-    <div class="n">${fmt(r.dose)} <span class="u">${p.unit}</span></div>
-    ${r.practical?`<div class="eq">${r.practical}</div>`:''}
-  </div>
-  ${bigDoseSplit(r.dose,p.unit)?`<div class="warnbox dosealta"><h4>${ic('warn',16)} Dose alta</h4><ul><li>${bigDoseSplit(r.dose,p.unit)}</li></ul></div>`:''}
-  ${r.note?`<div class="alert info"><div class="t">${ic('clock',16)} ${r.note}</div></div>`:''}
-  <div class="card"><h3>Como aplicar</h3><ol class="steps">${r.instructions.map(s=>`<li>${s}</li>`).join('')}</ol></div>
-  <div class="warnbox"><h4>${ic('warn',16)} Atenção</h4><ul>${p.safety.warns.map(w=>`<li>${w}</li>`).join('')}</ul></div>
-  <button class="btn" onclick="App.registerAll()">${ic('check',18)} Registrar aplicação</button>
-  <button class="btn ghost" style="margin-top:10px" onclick="App.planToShop()">${ic('cart',18)} Adicionar à lista de compras</button>
-  <p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:12px">
-    Referência técnica — confirme sempre a dose na bula do produto que você usa.</p>`;
-}
-function renderPlanResult(){
-  const items=rState.items;
-  const lr=lastReading();
-  const hasDose=items.some(a=>a.dose>0);
-  $('resBody').innerHTML=`
-  <div class="ordnote">📋 Plano gerado a partir da análise:
-    ${['ph','cl','alk','ch'].filter(k=>lr&&lr[k]!=null).map(k=>`${PARAM_META[k].label} ${PARAM_META[k].fmt(lr[k])}`).join(' · ')||'—'}
-    · volume ${fmt(poolVolume(state.pool))} L</div>
-  ${items.map((a)=>{
-    const badge=`<span class="stepbadge">Etapa ${a.step} · ${({ph:'pH',alk:'Alcalinidade',cl:'Cloro livre',ch:'Dureza cálcica'})[a.key]}</span>`;
-    if(a.ok)return `<div style="margin-bottom:12px">${badge}<div class="okline">${ic('check',18)} ${a.label}</div></div>`;
-    if(a.textOnly)return `<div style="margin-bottom:14px">${badge}
-      <div class="alert ${a.danger?'critico':'atencao'}" style="margin-bottom:0"><div class="t">${ic(a.danger?'warn':'info',18)} ${a.title}</div><p>${a.text}</p>
-      ${a.warnings?`<ul style="margin:6px 0 0 16px">${a.warnings.map(w=>`<li style="font-size:12.5px;color:var(--ink2)">${w}</li>`).join('')}</ul>`:''}</div></div>`;
-    const sel=a.choose?(a.options[rState.sel?.cl||0]):{product:a.product,dose:a.dose,practical:a.practical};
-    const big=bigDoseSplit(sel.dose,sel.product.unit);
-    return `<div style="margin-bottom:16px">
-      ${badge}
-      ${a.text?`<p style="font-size:13px;color:var(--ink2);margin-bottom:8px">${a.text}</p>`:''}
-      ${a.choose?`<div class="chips" style="margin-bottom:10px">${a.options.map((o,oi)=>
-        chip(`Opção ${oi===0?'A':'B'} — ${prodBySku(o.product.sku)?.tradicional||''}`,rState.sel?.cl===oi,`App.planSelCl(${oi})`)).join('')}</div>`:''}
-      <div class="dose sm">
-        ${prodNameHeroHTML(sel.product.sku,sel.product.name)}
-        <div class="n" style="margin-top:8px">${fmt(sel.dose)} <span class="u">${sel.product.unit}</span></div>
-        ${sel.practical?`<div class="eq">${sel.practical}</div>`:''}
-      </div>
-      ${big?`<div class="warnbox dosealta"><h4>${ic('warn',16)} Dose alta</h4><ul><li>${big}</li></ul></div>`:''}
-      <ol class="steps" style="margin-left:18px">${a.instructions.map(s=>`<li>${s}</li>`).join('')}</ol>
-      ${a.warnings?`<div class="warnbox"><h4>${ic('warn',16)} Atenção</h4><ul>${a.warnings.map(w=>`<li>${w}</li>`).join('')}</ul></div>`:''}
-    </div>`;}).join('')}
-  ${hasDose?`<button class="btn" onclick="App.registerAll()">${ic('check',18)} Registrar plano no histórico</button>
-    <button class="btn ghost" style="margin-top:10px" onclick="App.planToShop()">${ic('cart',18)} Adicionar produtos à lista de compras</button>`
-    :`<div class="hint">Nenhuma dosagem necessária — só acompanhe as orientações acima. 🎉</div>`}
-  <p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:12px">
-    Aplique uma etapa por vez, na ordem. Re-teste após 4–6 h de filtração.</p>`;
-}
-
 function renderWeatherView(){
   const c=state.weatherCache;
-  if(!state.location){$('wxBody').innerHTML=`<div class="hint">Defina sua localização para ver a previsão interpretada para a piscina.<br><br>
+  if(!state.location){$('wxBody').innerHTML=`<div class="hint">Defina sua localização para ver a previsão.<br><br>
     <button class="btn ghost" style="display:inline-flex;width:auto" onclick="App.enableGps('wx')">Ativar localização</button></div>`;return;}
   if(!c){$('wxBody').innerHTML='<div class="hint">Carregando previsão…</div>';loadWeather();return;}
   const days=c.days;const alerts=evaluateAlerts(days);
@@ -1740,8 +1590,8 @@ function renderWeatherView(){
       </div>
       <span class="verdict ${v.c}">${ic(v.i,13)} ${v.t}</span>
     </div>`;}).join('')}
-  <div class="src">${c.sim?'⚠️ Sem conexão — exibindo previsão simulada para demonstração.':'Fonte: Open-Meteo · atualizado a cada 3 h'}<br>
-  Interpretação automática para tratamento de piscinas.</div>`;
+  <div class="src">${c.sim?'⚠️ Sem conexão — previsão simulada.':'Fonte: Open-Meteo · atualizado a cada 3 h'}<br>
+  Interpretação automática para piscinas.</div>`;
 }
 
 function renderHistory(){
@@ -1754,52 +1604,40 @@ function renderHistory(){
     return sameDay(d,now)?`Hoje ${tm}`:sameDay(d,yst)?`Ontem ${tm}`
       :d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});};
 
-  const phPts=list.filter(h=>h.type==='analise'&&h.ph!=null).slice(0,12).reverse()
-    .map(h=>({val:h.ph}));
-  const chartPh=`<div class="card"><h3>Evolução do pH</h3>
-    <div style="font-size:11.5px;color:var(--ink2);margin-bottom:6px">faixa ideal 7,2–7,6 · valor de cada análise no ponto</div>
-    ${phPts.length?chartSvg(phPts,{minY:6.8,maxY:8.2,bandLo:7.2,bandHi:7.6,bandTxt:'faixa ideal 7,2–7,6'})
-      :'<div class="hint">Nenhuma análise com pH registrada.</div>'}
-  </div>`;
+  const phPts=list.filter(h=>h.type==='analise'&&h.ph!=null).slice(0,12).reverse().map(h=>({val:h.ph}));
+  const clPts=list.filter(h=>h.type==='analise'&&h.cl!=null).slice(0,12).reverse().map(h=>({val:h.cl}));
+  const alkPts=list.filter(h=>h.type==='analise'&&h.alk!=null).slice(0,12).reverse().map(h=>({val:h.alk}));
+  const chPts=list.filter(h=>h.type==='analise'&&h.ch!=null).slice(0,12).reverse().map(h=>({val:h.ch}));
 
-  const clPts=list.filter(h=>h.type==='analise'&&h.cl!=null).slice(0,12).reverse()
-    .map(h=>({val:h.cl}));
-  const chartCl=`<div class="card"><h3>Evolução do Cloro</h3>
-    <div style="font-size:11.5px;color:var(--ink2);margin-bottom:6px">faixa ideal 2,0–3,0 ppm · valor de cada análise no ponto</div>
-    ${clPts.length?chartSvg(clPts,{minY:0,maxY:5,bandLo:2,bandHi:3,bandTxt:'faixa ideal 2,0–3,0 ppm'})
-      :'<div class="hint">Nenhuma análise com cloro registrada.</div>'}
-  </div>`;
-
-  const alkPts=list.filter(h=>h.type==='analise'&&h.alk!=null).slice(0,12).reverse()
-    .map(h=>({val:h.alk}));
-  const chartAlk=`<details class="gwrap"><summary>Evolução da Alcalinidade Total</summary>
-    <div style="font-size:11.5px;color:var(--ink2);margin:8px 0 4px">faixa ideal 80–120 ppm · valor de cada análise no ponto</div>
-    ${alkPts.length?chartSvg(alkPts,{minY:40,maxY:200,bandLo:80,bandHi:120,bandTxt:'ideal 80–120 ppm'})
-      :'<div class="hint">Nenhuma análise com alcalinidade registrada.</div>'}
-  </details>`;
-
-  const chPts=list.filter(h=>h.type==='analise'&&h.ch!=null).slice(0,12).reverse()
-    .map(h=>({val:h.ch}));
-  const chartCh=`<details class="gwrap"><summary>Evolução da Dureza Cálcica</summary>
-    <div style="font-size:11.5px;color:var(--ink2);margin:8px 0 4px">faixa ideal 200–400 ppm (verde) · vinil/fibra aceita 150–250 (faixa clara)</div>
-    ${chPts.length?chartSvg(chPts,{minY:100,maxY:500,bandLo:200,bandHi:400,band2Lo:150,band2Hi:200,bandTxt:'ideal 200–400 ppm'})
-      :'<div class="hint">Nenhuma análise com dureza registrada.</div>'}
-  </details>`;
-
-  const items=list.length?list.map(h=>h.type==='aplicacao'
+  $('histBody').innerHTML=`
+  <div class="card"><h3>Evolução do pH</h3>
+    <div style="font-size:11.5px;color:var(--ink2);margin-bottom:6px">faixa ideal 7,2–7,6</div>
+    ${phPts.length?chartSvg(phPts,{minY:6.8,maxY:8.2,bandLo:7.2,bandHi:7.6,bandTxt:'ideal 7,2–7,6'}):'<div class="hint">Sem dados de pH.</div>'}
+  </div>
+  <div class="card"><h3>Evolução do Cloro</h3>
+    <div style="font-size:11.5px;color:var(--ink2);margin-bottom:6px">faixa ideal 2,0–3,0 ppm</div>
+    ${clPts.length?chartSvg(clPts,{minY:0,maxY:5,bandLo:2,bandHi:3,bandTxt:'ideal 2,0–3,0 ppm'}):'<div class="hint">Sem dados de cloro.</div>'}
+  </div>
+  <details class="gwrap"><summary>Evolução da Alcalinidade Total</summary>
+    <div style="font-size:11.5px;color:var(--ink2);margin:8px 0 4px">faixa ideal 80–120 ppm</div>
+    ${alkPts.length?chartSvg(alkPts,{minY:40,maxY:200,bandLo:80,bandHi:120,bandTxt:'ideal 80–120 ppm'}):'<div class="hint">Sem dados de AT.</div>'}
+  </details>
+  <details class="gwrap"><summary>Evolução da Dureza Cálcica</summary>
+    <div style="font-size:11.5px;color:var(--ink2);margin:8px 0 4px">ideal 200–400 ppm (verde) · vinil aceita 150–250 (faixa clara)</div>
+    ${chPts.length?chartSvg(chPts,{minY:100,maxY:500,bandLo:200,bandHi:400,band2Lo:150,band2Hi:200,bandTxt:'ideal 200–400 ppm'}):'<div class="hint">Sem dados de dureza.</div>'}
+  </details>
+  <div class="sec-t">Linha do tempo</div>
+  ${list.length?list.map(h=>h.type==='aplicacao'
     ?`<div class="hitem"><div class="bub">${ic('drop',18)}</div><div class="bd">
        <div class="tt">${esc(h.product)}</div>
-       <div class="sb">${fmt(h.dose)} ${h.unit} · ${esc(h.label||TREAT_LABEL(h.treatment))}</div>
+       <div class="sb">${fmt(h.dose)} ${h.unit}${h.label?' · '+esc(h.label):''}</div>
        <div class="dt">${when(h.when)}</div></div></div>`
     :`<div class="hitem"><div class="bub an">${ic('activity',18)}</div><div class="bd">
        <div class="tt">Análise da água</div>
        ${analRows(h).map(r=>`<div class="sb">${esc(r)}</div>`).join('')}
        <div class="dt">${when(h.when)}</div></div></div>`).join('')
-   :`<div class="hint">Nada registrado ainda. Use a análise completa ou o botão <b>+</b>.</div>`;
-
-  $('histBody').innerHTML=chartPh+chartCl+chartAlk+chartCh
-    +`<div class="sec-t">Linha do tempo</div>`+items
-    +'<div style="height:80px"></div>';
+   :`<div class="hint">Nada registrado ainda.</div>`}
+  <div style="height:80px"></div>`;
 }
 
 function renderAnalysis(){
@@ -1818,17 +1656,14 @@ function renderAnalysis(){
   ${groups.map(g=>`
     <div class="lbl">${g.label} <span style="font-weight:600;color:var(--ink2);font-size:11.5px">(ideal ${g.range})</span></div>
     <div class="chips">${g.vals.map(v=>chip(g.fmt(v),an[g.k]===v,`App.analPick('${g.k}',${v})`)).join('')}</div>`).join('')}
-  ${an.ph!=null&&(an.ph<7.2||an.ph>7.6)?`<div class="alert atencao" style="margin-top:14px">
-    <div class="t">${ic('warn',16)} pH fora da faixa</div><p>O plano corrige o pH primeiro — depois alcalinidade, cloro e dureza.</p></div>`:''}
   <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
-    <button class="btn" onclick="App.analPlan()">${ic('zap',18)} Gerar plano de correção</button>
-    <button class="btn ghost" onclick="App.analSave()">${ic('check',18)} Salvar apenas a análise</button>
+    <button class="btn" onclick="App.analSave()">${ic('zap',18)} Salvar e montar meu plano</button>
   </div>`;
 }
 
 function renderTips(){
   const s=currentSeason();
-  const filters=[['all','Todas'],['season',`Estação: ${SEASON_LABEL[s]}`],['ph','pH'],['cloro','Cloro'],['alcalinidade','Alcalinidade'],['dureza','Dureza'],['filtragem','Filtragem'],['limpeza','Limpeza']];
+  const filters=[['all','Todas'],['season',`Estação: ${SEASON_LABEL[s]}`],['ph','pH'],['cloro','Cloro'],['alcalinidade','Alcalinidade'],['dureza','Dureza'],['filtragem','Filtragem']];
   $('tipSub').textContent=`estação atual: ${SEASON_LABEL[s]}`;
   $('tipFilters').innerHTML=filters.map(([k,l])=>chip(l,tipFilter===k,`App.tipFilter('${k}')`)).join('');
   let list=tipFilter==='all'?TIPS
@@ -1841,14 +1676,12 @@ function renderTips(){
 
 function renderShop(){
   const sug=buildSuggestions();
-  const tabs=[['sug','Sugestões ('+sug.length+')'],['cat','Catálogo'],['list','Lista ('+state.shopping.length+')']];
+  const tabs=[['sug','Sugestões'],['cat','Catálogo'],['list','Lista ('+state.shopping.length+')']];
   $('shopTabs').innerHTML=tabs.map(([k,l])=>chip(l,shopTab===k,`App.shopSetTab('${k}')`)).join('');
   const inList=key=>state.shopping.find(i=>i.key===key);
-
   if(shopTab==='sug'){
-    $('shopBody').innerHTML=`
-    <p style="font-size:13px;color:var(--ink2);margin-bottom:12px">Com base na sua piscina, análise e inventário — o app diz o que precisa comprar:</p>
-    ${sug.length?sug.map(s=>{
+    $('shopBody').innerHTML=`<p style="font-size:13px;color:var(--ink2);margin-bottom:12px">Com base na sua piscina e análise:</p>
+    ${sug.map(s=>{
       if(s.acc){
         const a=ACCESSORIES.find(x=>x.id===s.acc);const key='acc:'+a.id;
         const li=inList(key),have=state.inventory.includes(a.id);
@@ -1856,30 +1689,29 @@ function renderShop(){
           <div class="pname"><strong>${esc(a.nome)}</strong></div>
           <div class="mo">${esc(s.motivo)}</div>
           <div class="shoprow">
-            ${have?`<button class="chip mini" onclick="App.shopHave('${a.id}')">✓ Tenho (desfazer)</button>`
+            ${have?`<button class="chip mini" onclick="App.shopHave('${a.id}')">✓ Tenho</button>`
               :`<button class="chip mini" onclick="App.shopAdd('${key}')">${ic('cart',13)} ${li?'Na lista ✓':'+ Lista'}</button>
                 <button class="chip mini" onclick="App.shopHave('${a.id}')">Já tenho</button>`}
           </div></div>`;
-      }else{
-        const [sku,need]=s.q;
-        const pk=packFor(sku,need);const key='q:'+sku+':'+pk.size;
-        const li=inList(key);
-        const cat=CATALOG.find(x=>x.sku===sku);
-        return `<div class="shopitem">
-          ${prodNameHTML(sku)}
-          <div class="mo">${esc(s.motivo)}<br>Sugestão: <b>${pk.label}</b>${cat?` (você precisa de ≈ ${fmt(need)} ${cat.unit})`:''}.</div>
-          <div class="shoprow">
-            <button class="chip mini" onclick="App.shopAdd('${key}')">${ic('cart',13)} ${li?'Na lista ✓':'+ Lista'}</button>
-          </div></div>`;
       }
-    }).join(''):'<div class="hint">Tudo em ordem — nada a sugerir agora. 🎉</div>'}`;
+      const [sku,need]=s.q;
+      const pk=packFor(sku,need);const key='q:'+sku+':'+pk.size;
+      const li=inList(key);
+      return `<div class="shopitem">
+        ${prodNameHTML(sku)}
+        <div class="mo">${esc(s.motivo)}<br>Sugestão: <b>${pk.label}</b> (precisa ≈ ${fmt(need)}).</div>
+        <div class="shoprow">
+          <button class="chip mini" onclick="App.shopAdd('${key}')">${ic('cart',13)} ${li?'Na lista ✓':'+ Lista'}</button>
+        </div></div>`;
+    }).join('')}`;
   }
   else if(shopTab==='cat'){
+    const cats=['Cloro','pH','Alcalinidade','Dureza','Algas','Água Turva','Limpeza'];
     let html='';
-    for(const c of SHOP_CATS){
+    for(const c of cats){
       const prods=PRODUTOS.filter(p=>p.cat===c);
-      if(!prods.length&&c!=='Limpeza')continue;
-      let items=prods.map(p=>{
+      if(!prods.length)continue;
+      html+=`<div class="sec-t">${c}</div>`+prods.map(p=>{
         const packs=SHOP_QUIM[p.sku]||[];
         return `<div class="shopitem">
           ${prodNameHTML(p.sku)}
@@ -1888,43 +1720,25 @@ function renderShop(){
             return `<button class="chip mini ${inList(key)?'sel':''}" onclick="App.shopAdd('${key}')">${inList(key)?'✓ ':'+ '}${pk.label}</button>`;
           }).join('')}</div></div>`;
       }).join('');
-      if(c==='Limpeza'){
-        items+=ACCESSORIES.filter(a=>a.cat==='limpeza').map(a=>{
-          const key='acc:'+a.id;const li=inList(key),have=state.inventory.includes(a.id);
-          return `<div class="shopitem">
-            <div class="pname"><strong>${esc(a.nome)}</strong>${a.essencial?' <span style="color:var(--warn);font-size:11px;font-weight:800">· essencial</span>':''}
-              <span class="puse">${esc(a.dica)}</span></div>
-            <div class="shoprow">
-              ${have?'<span style="font-size:12px;font-weight:700;color:var(--good)">✓ Já tenho</span>'
-                :`<button class="chip mini ${li?'sel':''}" onclick="App.shopAdd('${key}')">${li?'✓ Na lista':ic('cart',13)+' + Lista'}</button>
-                  <button class="chip mini" onclick="App.shopHave('${a.id}')">Já tenho</button>`}
-            </div></div>`;
-        }).join('');
-      }
-      html+=`<div class="sec-t">${c}</div>${items}`;
     }
-    for(const [label,key] of ACC_GROUPS){
-      const accs=ACCESSORIES.filter(a=>a.cat===key);
-      if(!accs.length)continue;
-      html+=`<div class="sec-t">${label}</div>`+accs.map(a=>{
-        const ak='acc:'+a.id;const li=inList(ak),have=state.inventory.includes(a.id);
-        return `<div class="shopitem">
-          <div class="pname"><strong>${esc(a.nome)}</strong>${a.essencial?' <span style="color:var(--warn);font-size:11px;font-weight:800">· essencial</span>':''}
-            <span class="puse">${esc(a.dica)}</span></div>
-          <div class="shoprow">
-            ${have?'<span style="font-size:12px;font-weight:700;color:var(--good)">✓ Já tenho</span>'
-              :`<button class="chip mini ${li?'sel':''}" onclick="App.shopAdd('${ak}')">${li?'✓ Na lista':ic('cart',13)+' + Lista'}</button>
-                <button class="chip mini" onclick="App.shopHave('${a.id}')">Já tenho</button>`}
-          </div></div>`;
-      }).join('');
-    }
+    html+=`<div class="sec-t">Acessórios</div>`+ACCESSORIES.map(a=>{
+      const ak='acc:'+a.id;const li=inList(ak),have=state.inventory.includes(a.id);
+      return `<div class="shopitem">
+        <div class="pname"><strong>${esc(a.nome)}</strong>${a.essencial?' <span style="color:var(--warn);font-size:11px;font-weight:800">· essencial</span>':''}
+          <span class="puse">${esc(a.dica)}</span></div>
+        <div class="shoprow">
+          ${have?'<span style="font-size:12px;font-weight:700;color:var(--good)">✓ Já tenho</span>'
+            :`<button class="chip mini ${li?'sel':''}" onclick="App.shopAdd('${ak}')">${li?'✓ Na lista':ic('cart',13)+' + Lista'}</button>
+              <button class="chip mini" onclick="App.shopHave('${a.id}')">Já tenho</button>`}
+        </div></div>`;
+    }).join('');
     $('shopBody').innerHTML=html;
   }
   else{
     const list=state.shopping;
     if(!list.length){
-      $('shopBody').innerHTML=`<div class="hint">Sua lista está vazia.<br><br>
-        <button class="btn" style="display:inline-flex;width:auto" onclick="App.shopSetTab('sug')">Ver sugestões do app</button></div>`;
+      $('shopBody').innerHTML=`<div class="hint">Lista vazia.<br><br>
+        <button class="btn" style="display:inline-flex;width:auto" onclick="App.shopSetTab('sug')">Ver sugestões</button></div>`;
       return;
     }
     const pend=list.filter(i=>!i.done),done=list.filter(i=>i.done);
@@ -1932,7 +1746,7 @@ function renderShop(){
     ${pend.map(it=>`
       <div class="shopitem">
         <div style="display:flex;align-items:center;gap:10px">
-          <button class="circ" onclick="App.shopDone('${it.key}')" aria-label="Marcar comprado"></button>
+          <button class="circ" onclick="App.shopDone('${it.key}')" aria-label="Comprado"></button>
           <div style="flex:1;min-width:0">
             ${listNameHTML(it)}
             <div style="font-size:12px;color:var(--ink2);font-weight:600">${it.mult>1?it.mult+' × '+it.base:it.base}</div>
@@ -1946,10 +1760,7 @@ function renderShop(){
       <div class="shopitem" style="opacity:.55">
         <div style="display:flex;align-items:center;gap:10px">
           <button class="circ on" onclick="App.shopDone('${it.key}')">${ic('check',13)}</button>
-          <div style="flex:1;min-width:0">
-            <div class="pname"><strong style="text-decoration:line-through">${esc(it.nome)}</strong></div>
-            <div style="font-size:12px;color:var(--ink2)">${it.mult>1?it.mult+' × '+it.base:it.base}</div>
-          </div>
+          <div style="flex:1;min-width:0"><div class="pname"><strong style="text-decoration:line-through">${esc(it.nome)}</strong></div></div>
           <button class="ibtn" style="width:30px;height:30px;color:var(--bad)" onclick="App.shopDel('${it.key}')">${ic('x',14)}</button>
         </div>
       </div>`).join('')}`:''}
@@ -1958,11 +1769,8 @@ function renderShop(){
       <div class="chips" style="justify-content:center">
         <button class="chip" onclick="App.shopSend()">${ic('share',14)} Enviar</button>
         <button class="chip" onclick="App.shopCopy()">${ic('info',14)} Copiar texto</button>
-        ${done.length?`<button class="chip" onclick="App.shopClearDone()">Limpar comprados</button>`:''}
       </div>
-    </div>
-    <p style="font-size:11.5px;color:var(--ink2);text-align:center;margin-top:12px">
-      O botão Enviar manda o PDF em anexo (WhatsApp etc.); se o aparelho não suportar, abre o WhatsApp com a lista em texto.</p>`;
+    </div>`;
   }
 }
 
@@ -2014,7 +1822,6 @@ function renderPool(){
         <input id="pVol" inputmode="numeric" value="${d.volume??''}" oninput="App.poolDim()"><span class="sfx">L</span></div>
       <div class="lbl" style="margin-top:4px">Atalhos</div>
       <div class="chips">${VOL_PRESETS.map(volChipPool).join('')}</div>
-      <div class="hint" style="margin-top:12px">💡 O volume costuma estar no manual, na nota fiscal ou no site do fabricante. Aceita “45000” ou “45.000”.</div>
       <div class="volcard" style="margin-top:12px"><div style="font-size:12px;font-weight:700;opacity:.85">VOLUME</div>
         <div class="n" id="poolVol">—</div><div class="u">litros</div></div>
     </div>`;
@@ -2027,22 +1834,22 @@ function renderPool(){
   <div class="sec-t">Localização (alertas de chuva)</div>
   <div class="card">
     <p style="margin-bottom:10px">${state.location?`📍 <b>${esc(state.location.label)}</b>`
-      :'Nenhuma localização definida — os alertas de clima estão desativados.'}</p>
+      :'Nenhuma localização definida.'}</p>
     <div class="chips">
       <button class="chip" onclick="App.enableGps('pool')">${ic('pin',15)} Ativar localização</button>
       ${state.location?`<button class="chip" onclick="App.wxRefresh()">${ic('refresh',15)} Atualizar previsão</button>`:''}
     </div>
-    <div class="field" style="margin-top:12px"><label>Buscar cidade (funciona sempre)</label>
+    <div class="field" style="margin-top:12px"><label>Buscar cidade</label>
       <input id="cityPool" inputmode="search" placeholder="Ex.: Ouro Preto" oninput="App.citySearch('pool')"></div>
     <div id="resPool"></div>
   </div>
 
   <div class="sec-t">Dados & privacidade</div>
   <div class="card">
-    <p>Todos os dados ficam salvos <b>apenas neste dispositivo</b>. Nenhuma informação pessoal é enviada — só coordenadas anônimas para a API de clima.</p>
+    <p>Dados salvos <b>apenas neste dispositivo</b>. Só coordenadas anônimas vão para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">Protótipo v1.3 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">v2.1 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
@@ -2074,7 +1881,7 @@ window.addEventListener('beforeinstallprompt',e=>{
 });
 window.addEventListener('appinstalled',()=>{
   window.deferredPrompt=null;
-  toast('App instalado! Abra pelo ícone na tela inicial. 🎉',4200);
+  toast('App instalado! Abra pelo ícone. 🎉',4200);
   if($('v-home').classList.contains('on'))renderHome();
 });
 if('serviceWorker' in navigator && window.isSecureContext){
@@ -2085,15 +1892,13 @@ if('serviceWorker' in navigator && window.isSecureContext){
           const nw=reg.installing;
           nw&&nw.addEventListener('statechange',()=>{
             if(nw.state==='installed'&&navigator.serviceWorker.controller){
-              toast('Nova versão disponível — feche e reabra o app.',4200);
+              toast('Nova versão disponível — feche e reabra.',4200);
             }
           });
         });
       })
       .catch(err=>console.warn('SW não registrado:',err));
   });
-}else if(location.protocol==='file:'){
-  console.info('PWA desativado em file:// — hospede em https (Netlify/GitHub Pages) para instalar e usar offline.');
 }
 </script>
 </body>
