@@ -164,7 +164,6 @@ details.gwrap[open] summary::after{content:'▴'}
 .pcard .bigdose .n{font-size:38px;font-weight:800;letter-spacing:-.02em}
 .pcard .bigdose .eq{font-size:13px;font-weight:600;opacity:.92;margin-top:4px}
 .pcard .espera{display:flex;align-items:center;gap:8px;background:#E9F6F9;color:var(--dark);border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:700;margin-top:8px}
-.pcard .sembanho{display:flex;align-items:center;gap:8px;background:#FDE8EE;color:#9F1239;border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:800;margin-top:8px}
 </style>
 </head>
 <body>
@@ -340,18 +339,16 @@ details.gwrap[open] summary::after{content:'▴'}
 <script>
 'use strict';
 /* ================================================================
-   PISCINA INTELIGENTE v2.2
-   Núcleo: gerarPlanoCompleto() — ordem 1ºpH → 2ºAT → 3ºCloro →
-   4ºDureza (outro dia) → 5ºAparência. Fatores /1000L:
-   Choque simples 14g · Duplo 28g · Manutenção 4g · Sulfato 10g ·
-   Clarificante 2mL · Algicida choque 6mL.
-   v2.1: pH no teto → Redutor p/ 7,2 (cloro rende 50% a mais) +
-   ATENÇÃO no sulfato (nunca com algicida; 4h; filtro off; esgoto).
-   v2.2 — REGRA DE BANHO CONDICIONAL (temChoqueNoPlano):
-   se cloro<1 OU água verde → NENHUMA etapa intermediária libera
-   banho ("NÃO LIBERE O BANHO — choque em andamento, PROIBIDO
-   24h"). Só o ÚLTIMO passo libera: "banho liberado APÓS re-testar
-   cloro 1–3 ppm". pH isolado sem choque mantém "liberado após 1h".
+   PISCINA INTELIGENTE v2.5
+   Base v2.4 (Dicas ok, clima v3 estilo Google) + FIX CARREGAMENTO
+   AUTOMÁTICO DO CLIMA:
+   · loadWeather com TRAVA (wxLoading) e ESTADO DE ERRO (wxError)
+   · timeout 8 s (fetchT) → nunca fica em "Carregando…" infinito
+   · cache versionado v:3 → cache antigo do localStorage é
+     detectado e re-buscado automaticamente
+   · renderWeatherView dispara a busca sozinha quando abre a tela
+     (equivale ao initState/postFrameCallback) e mostra cartão
+     "Sem conexão — tentar novamente" em caso de falha
    ================================================================ */
 
 const ICONS={
@@ -491,14 +488,7 @@ function poolVolume(p){
   return m3*1000;
 }
 
-/* ==================================================================
-   calculos_piscina — gerarPlanoCompleto()
-   REGRA v2.2: temChoqueNoPlano = (cloro<1 OU verde) → etapas
-   intermediárias NÃO liberam banho; só o último passo libera
-   condicionado ao re-teste de cloro 1–3 ppm.
-   Teste no console:
-   gerarPlanoCompleto({litros:45000,ph:7.6,cloro:0,alcalinidade:80,dureza:200,aparencia:'verde'})
-   ================================================================== */
+/* calculos_piscina — gerarPlanoCompleto (v2.2, inalterado) */
 function caseiraPo(v){return `(${fmt(Math.round(v/15))} colher(es) de sopa — 15 g cada)`;}
 function caseiraLiq(v){return `(${fmt1(v/200)} copo(s) americano — 200 mL)`;}
 const FATOR={
@@ -512,8 +502,6 @@ function gerarPlanoCompleto(dados){
   const ap=dados.aparencia||null;
   const et=[];
   const X=f=>Math.round(FATOR[f]*V/1000/5)*5;
-
-  /* REGRA DE BANHO (v2.2): choque no plano → nada intermediário libera banho */
   const temChoqueNoPlano=(cl!=null&&cl<1)||ap==='verde';
 
   /* 1º pH */
@@ -597,7 +585,7 @@ function gerarPlanoCompleto(dados){
     et.push({step:2,tipo:'ok',titulo:`Alcalinidade OK — ${fmt(at)} ppm (não mexer)`});
   }
 
-  /* 3º Cloro (choque simples/duplo) */
+  /* 3º Cloro */
   const verde=ap==='verde';
   if(cl==null){
     et.push({step:3,tipo:'aviso',titulo:'Meça o cloro livre',
@@ -633,7 +621,7 @@ function gerarPlanoCompleto(dados){
       porque:`${fmt1(cl)} ppm. Aguarde a queda natural e re-teste em 24–48 h. Não adicione nada para “baixar” o cloro.`});
   }
 
-  /* 4º Dureza — outro dia */
+  /* 4º Dureza */
   if(dur==null){
     et.push({step:4,tipo:'aviso',titulo:'Meça a dureza cálcica',
       porque:'Baixa corroe metais e vinil; alta forma crosta branca.'});
@@ -750,29 +738,78 @@ function renderPlanoCompleto(etapas){
     NUNCA misture produtos concentrados entre si. Confirme a bula do fabricante.</p>`;
 }
 
-/* clima */
+/* ===== CLIMA v3 — códigos WMO traduzidos ===== */
+function traduzirWeatherCode(c){
+  if(c==null)return{d:'—',e:'❓'};
+  if(c===0)return{d:'Céu limpo',e:'☀️'};
+  if(c<=3)return{d:'Predominantemente ensolarado',e:'🌤️'};
+  if(c<=48)return{d:'Nevoeiro',e:'🌫️'};
+  if(c<=67)return{d:'Chuva leve',e:'🌧️'};
+  if(c<=77)return{d:'Neve',e:'❄️'};
+  if(c<=82)return{d:'Pancadas de chuva',e:'🌧️'};
+  if(c<=86)return{d:'Neve em pancadas',e:'🌨️'};
+  if(c===95)return{d:'Tempestade',e:'⛈️'};
+  return{d:'Tempestade com granizo',e:'⛈️'};
+}
+const fmtH=d=>String(d.getHours()).padStart(2,'0')+':00';
+
 function simulateForecast(){
-  const rnd=mulberry32(Date.now()%1e6);const out=[];
+  const rnd=mulberry32(Date.now()%1e6);
+  const agora=new Date();
+  const hour={time:[],temperature_2m:[],precipitation_probability:[],weather_code:[]};
+  for(let i=0;i<14;i++){
+    const h=new Date(agora.getTime()+i*36e5);
+    const pop=Math.round(rnd()*100);
+    hour.time.push(h);hour.temperature_2m.push(24+Math.round(rnd()*4));
+    hour.precipitation_probability.push(pop);
+    hour.weather_code.push(pop>=60?(rnd()>0.5?95:80):pop>=30?3:0);
+  }
+  const days=[];
   for(let i=0;i<7;i++){
     const pop=Math.round(rnd()*100);
-    out.push({date:addDays(new Date(),i),pop,
+    days.push({date:addDays(new Date(),i),pop,
       mm:+(pop>60?rnd()*18:rnd()*3).toFixed(1),
-      max:26+Math.round(rnd()*10),min:18+Math.round(rnd()*5),
-      uv:+(7+rnd()*4).toFixed(1),wind:8+Math.round(rnd()*30),sim:true});
+      max:24+Math.round(rnd()*6),min:15+Math.round(rnd()*4),
+      uv:+(6+rnd()*4).toFixed(1),wind:8+Math.round(rnd()*30),
+      code:pop>=70?95:pop>=40?3:0,sim:true});
   }
-  return out;
+  return{sim:true,
+    current:{temp:hour.temperature_2m[0],apparent:hour.temperature_2m[0]+2,
+      code:hour.weather_code[0],wind:8+Math.round(rnd()*20)},
+    hourly:hour.time.slice(0,12).map((t,i)=>({date:t,
+      temp:hour.temperature_2m[i],pop:hour.precipitation_probability[i],
+      code:hour.weather_code[i]})),
+    days};
 }
 async function fetchForecast(lat,lon){
   try{
     const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
-      +'&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max,wind_speed_10m_max'
+      +'&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m'
+      +'&hourly=temperature_2m,precipitation_probability,weather_code'
+      +'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,uv_index_max,wind_speed_10m_max'
       +'&timezone=auto&forecast_days=7';
     const r=await fetchT(url);if(!r.ok)throw 0;
-    const d=(await r.json()).daily;
-    return d.time.map((t,i)=>({date:new Date(t+'T12:00'),
-      pop:+d.precipitation_probability_max[i]||0,mm:+d.precipitation_sum[i]||0,
-      max:+d.temperature_2m_max[i],min:+d.temperature_2m_min[i],
-      uv:+d.uv_index_max[i]||0,wind:+d.wind_speed_10m_max[i]||0,sim:false}));
+    const j=await r.json();
+    const cur=j.current||{},hr=j.hourly||{},dl=j.daily||{};
+    const now=new Date();
+    let idx=hr.time.findIndex(t=>new Date(t)>=new Date(now.getTime()-30*60*1000));
+    if(idx<0)idx=0;
+    const hourly=[];
+    for(let i=idx;i<Math.min(idx+12,hr.time.length);i++)
+      hourly.push({date:new Date(hr.time[i]),
+        temp:Math.round(hr.temperature_2m[i]),
+        pop:+hr.precipitation_probability?.[i]||0,
+        code:hr.weather_code[i]});
+    return{sim:false,
+      current:{temp:Math.round(cur.temperature_2m),apparent:Math.round(cur.apparent_temperature),
+        code:cur.weather_code,wind:Math.round(cur.wind_speed_10m)},
+      hourly,
+      days:dl.time.map((t,i)=>({date:new Date(t+'T12:00'),
+        code:dl.weather_code[i],
+        pop:+dl.precipitation_probability_max?.[i]||0,
+        mm:+dl.precipitation_sum?.[i]||0,
+        max:+dl.temperature_2m_max[i],min:+dl.temperature_2m_min[i],
+        uv:+dl.uv_index_max?.[i]||0,wind:+dl.wind_speed_10m_max?.[i]||0,sim:false}))};
   }catch(e){return simulateForecast();}
 }
 function evaluateAlerts(daily){
@@ -791,9 +828,10 @@ function evaluateAlerts(daily){
       A.push({id:'onda_calor',sev:'critico',icon:'thermo',title:'Onda de calor nos próximos dias',
         msg:'A demanda por cloro sobe com o calor e o uso. Filtre 6–8 h/dia e teste o cloro livre a cada 2 dias.',
         cta:'Ver plano',fn:'App.corrigirAgora()'});break;}
-  if(Math.max(daily[0].uv,daily[1]?.uv||0)>=10)
-    A.push({id:'uv_extremo',sev:'atencao',icon:'zap',title:'Índice UV muito alto',
-      msg:'O sol destrói o cloro mais rápido. Aplique produtos ao entardecer.'});
+  if(daily[0].code>=95||(daily[1]&&daily[1].code>=95))
+    A.push({id:'tempestade',sev:'critico',icon:'warn',title:'Alerta: tempestade prevista',
+      msg:'Cubra a piscina e adie a dosagem de cloro. Após a chuva, re-teste pH e cloro antes de qualquer produto.',
+      cta:'Ver plano',fn:'App.corrigirAgora()'});
   if(today.max>=22&&today.max<=30&&today.pop<30&&today.uv<=7)
     A.push({id:'janela',sev:'info',icon:'check',title:'Janela ideal para manutenção hoje',
       msg:'Condições estáveis. Prefira o fim do dia (17h–19h).'});
@@ -801,21 +839,43 @@ function evaluateAlerts(daily){
   return A.sort((a,b)=>ord[a.sev]-ord[b.sev]);
 }
 function dayVerdict(d){
-  if(d.pop>=60&&d.mm>=5)return{t:'Evite dosificar cloro',c:'bad',i:'umbrella'};
-  if(d.max>=33)return{t:'Calor intenso: cloro cai rápido',c:'warn',i:'thermo'};
-  if(d.uv>=10)return{t:'Aplique ao entardecer',c:'warn',i:'zap'};
-  if(d.max>=22&&d.max<=30&&d.pop<30&&d.uv<=7)return{t:'Janela ideal para manutenção',c:'good',i:'check'};
-  return{t:'Condições normais',c:'ok',i:'drop'};
+  if(d.code>=95)return{t:'Tempestade: cubra a piscina e adie a dosagem',c:'bad',i:'umbrella'};
+  if(d.pop>=60)return{t:'Cubra a piscina — chuva traz sujeira e dilui o cloro',c:'bad',i:'umbrella'};
+  if(d.pop<30&&d.max>=22)return{t:'Condições ótimas para banho',c:'good',i:'check'};
+  if(d.max>=33)return{t:'Calor intenso: cloro cai rápido, filtre 8 h',c:'warn',i:'thermo'};
+  return{t:'Instável — dosifique ao entardecer (17h–19h)',c:'warn',i:'cloud'};
 }
+/* ===== v2.5 — CARREGAMENTO AUTOMÁTICO + ESTADOS (fix "Carregando…" infinito) ===== */
+let wxLoading=false;  /* trava: um fetch por vez, sem loop */
+let wxError=null;     /* null | 'offline' */
 async function loadWeather(force){
-  if(!state.location)return;
+  if(!state.location){wxLoading=false;wxError=null;renderWeatherBits();return;}
   const c=state.weatherCache;
-  if(!force&&c&&Date.now()-c.ts<3*36e5){renderWeatherBits();return;}
-  const days=await fetchForecast(state.location.lat,state.location.lon);
-  state.weatherCache={ts:Date.now(),days,sim:!!days[0]?.sim};save();renderWeatherBits();
+  /* v:3 = versão do formato; cache antigo (sem v) é ignorado e re-buscado */
+  const valido=c&&c.v===3&&c.current&&c.hourly&&Date.now()-c.ts<3*36e5;
+  if(!force&&valido){wxLoading=false;wxError=null;renderWeatherBits();return;}
+  if(wxLoading){return;}
+  wxLoading=true;wxError=null;
+  renderWeatherBits(); /* mostra "Carregando…" imediatamente */
+  const dados=await fetchForecast(state.location.lat,state.location.lon); /* timeout 8 s interno */
+  wxLoading=false;
+  if(dados&&dados.sim){
+    /* rede falhou → fallback simulado marcado; não é erro fatal, a tela avisa */
+    state.weatherCache={v:3,ts:Date.now(),...dados};save();
+  }else if(dados){
+    state.weatherCache={v:3,ts:Date.now(),...dados};save();
+  }else{
+    wxError='offline';
+  }
+  renderWeatherBits();
 }
 
 const TIPS=[
+ {tags:{season:'primavera'},icon:'zap',title:'Reativação da piscina',text:'Pós-inverno: faça análise completa (pH, cloro, AT, dureza), higienize o filtro e considere um choque de abertura.',go:'openAnalysis'},
+ {tags:{season:'primavera'},icon:'sprout',title:'Pólen e insetos na água',text:'A primavera derruba pólen e traz insetos — os dois consomem cloro rápido. Peneire a superfície todo dia e reforce a manutenção.',go:'openAnalysis'},
+ {tags:{season:'primavera'},icon:'umbrella',title:'Chuva de primavera dilui o cloro',text:'Pancadas isoladas são comuns na estação. Antes de dosificar cloro, confira a aba Clima: chuva prevista = adie a aplicação.',go:'openAnalysis'},
+ {tags:{season:'primavera'},icon:'sparkle',title:'Algas com o sol da primavera',text:'O sol mais forte aquece a água e desperta as algas. Escove paredes e fundo semanalmente e mantenha o cloro entre 1–3 ppm.',go:'openAnalysis'},
+ {tags:{season:'primavera'},icon:'thermo',title:'Calor chegando: antecipe',text:'A água aquece semana a semana e o cloro cai mais rápido. Suba a filtragem para 5–6 h/dia já agora.'},
  {tags:{season:'verao'},icon:'drop',title:'Filtragem no verão',text:'Com calor e uso intenso, filtre 6–8 h por dia. Limpe a cesta do pré-filtro semanalmente.'},
  {tags:{season:'verao'},icon:'drop',title:'Cloro em dias alternados',text:'No verão o cloro se decompõe mais rápido. Teste o cloro livre a cada 2 dias e mantenha entre 1–3 ppm.',go:'openAnalysis'},
  {tags:{season:'verao'},icon:'waves',title:'Reposição por evaporação',text:'Mantenha o nível no meio da boca dos skimmers — água baixa faz a bomba puxar ar.'},
@@ -823,14 +883,13 @@ const TIPS=[
  {tags:{season:'outono'},icon:'clock',title:'Reduza a filtragem aos poucos',text:'Com menos uso, 4–6 h por dia bastam. Não zere a cloração.'},
  {tags:{season:'inverno'},icon:'shield',title:'Manutenção de inverno',text:'Filtre 1× por semana (6 h) e mantenha o cloro em dia — algas não tiram férias.'},
  {tags:{season:'inverno'},icon:'activity',title:'pH sob controle no frio',text:'Teste o pH quinzenalmente para evitar água verde na reabertura.'},
- {tags:{season:'primavera'},icon:'zap',title:'Reativação da piscina',text:'Análise completa, higienize o filtro e considere choque de abertura.',go:'openAnalysis'},
  {tags:{param:'ph'},icon:'up',title:'pH baixo (menos de 7,2)',text:'Água corrosiva: irrita olhos e danifica metais e vinil. Corrija com Elevador de pH.',go:'openAnalysis'},
  {tags:{param:'ph'},icon:'down',title:'pH alto (mais de 7,6)',text:'O cloro perde eficiência e a água turva. Corrija com Redutor de pH.',go:'openAnalysis'},
  {tags:{param:'cloro'},icon:'drop',title:'Cloro livre ideal: 1–3 ppm',text:'Abaixo de 1 ppm há risco de algas; acima de 5 ppm, sem banho.',go:'openAnalysis'},
  {tags:{param:'alcalinidade'},icon:'activity',title:'Alcalinidade 80–120 ppm',text:'É o estabilizador do pH. Corrija com Elevador de Alcalinidade.',go:'openAnalysis'},
  {tags:{param:'dureza'},icon:'shield',title:'Dureza cálcica 200–400 ppm',text:'Baixa corroe; alta forma crosta. Sobe com cloreto de cálcio; desce só com reposição de água.',go:'openAnalysis'},
  {tags:{param:'filtragem'},icon:'clock',title:'Regra do turnover',text:'A bomba deve reciclar todo o volume em ~6 h no verão. Bomba parada = piscina parada.'},
- {tags:{param:'limpeza'},icon:'sprout',title:'Escove semanalmente',text:'Escovar paredes e fundo impede a fixação de algas.'}
+ {tags:{param:'limpeza'},icon:'sprout',title:'Escove semanalmente',text:'Escovar paredes e fundo impede a fixação de algas — mesmo com a água aparentemente limpa.'}
 ];
 function currentSeason(){const m=new Date().getMonth()+1;return m>=12||m<=2?'verao':m<=5?'outono':m<=8?'inverno':'primavera';}
 const SEASON_LABEL={verao:'Verão ☀️',outono:'Outono 🍂',inverno:'Inverno ❄️',primavera:'Primavera 🌸'};
@@ -1205,7 +1264,10 @@ const App={
   App.abrirPlanoCompleto({ph:an.ph,cloro:an.cl,alcalinidade:an.alk,dureza:an.ch,aparencia:state.ultimaAparencia||null});
  },
 
- wxRefresh(){if(!state.location){toast('Defina a localização em “Minha piscina”.');return;}toast('Atualizando…');loadWeather(true);},
+ wxRefresh(){
+  if(!state.location){toast('Defina a localização em “Minha piscina”.');return;}
+  toast('Atualizando…');loadWeather(true);
+ },
  tipFilter(f){tipFilter=f;renderTips();},
  tipGo(t){t.go?App[t.go]():0;},
 
@@ -1529,7 +1591,9 @@ function renderHome(){
         <div class="meta">${kindTxt} · ${metaTxt} — <a href="#" onclick="App.go('pool');return false" style="color:#fff">editar</a></div>
       </div>
     </div>
-    ${state.location?(today?`<div class="wline">${ic(today.max>=33?'thermo':today.pop>=60?'umbrella':'sun',18)} Hoje: ${Math.round(today.max)} °C · chuva amanhã: ${days[1]?Math.round(days[1].pop):'—'}%</div>`
+    ${state.location?(today?(()=>{
+      const w=traduzirWeatherCode(today.code);
+      return `<div class="wline">${w.e} Agora: ${Math.round(state.weatherCache?.current?.temp??today.max)} °C · ${w.d}</div>`;})()
       :`<div class="wline">${ic('cloud',18)} carregando previsão…</div>`)
       :`<div class="wline">${ic('pin',18)} Ative a localização para alertas de chuva</div>`}
   </div>
@@ -1602,31 +1666,90 @@ function renderCalc(){
     Siga sempre a bula do fabricante. Este app é uma ferramenta de apoio.</p>`;
 }
 
+/* ===== CLIMA — tela com CARREGAMENTO AUTOMÁTICO + ESTADOS (v2.5) ===== */
 function renderWeatherView(){
-  const c=state.weatherCache;
+  /* 1) sem localização → orientação clara, nunca loading infinito */
   if(!state.location){$('wxBody').innerHTML=`<div class="hint">Defina sua localização para ver a previsão.<br><br>
     <button class="btn ghost" style="display:inline-flex;width:auto" onclick="App.enableGps('wx')">Ativar localização</button></div>`;return;}
-  if(!c){$('wxBody').innerHTML='<div class="hint">Carregando previsão…</div>';loadWeather();return;}
-  const days=c.days;const alerts=evaluateAlerts(days);
+
+  /* 2) busca em andamento → mostra loading (o loadWeather JÁ foi disparado
+        automaticamente; aqui só exibimos o estado, sem re-chamar nada) */
+  if(wxLoading){$('wxBody').innerHTML=`<div class="hint">⏳ Carregando previsão…<br>
+    <span style="font-size:11px">(timeout automático de 8 s)</span></div>`;return;}
+
+  /* 3) erro de rede → cartão de erro com retry */
+  if(wxError==='offline'){$('wxBody').innerHTML=`<div class="hint">📡 <b>Sem conexão.</b><br>
+    Não consegui falar com a API de clima (timeout de 8 s).<br><br>
+    <button class="btn" style="display:inline-flex;width:auto" onclick="App.wxRefresh()">Tentar novamente</button></div>`;return;}
+
+  const c=state.weatherCache;
+
+  /* 4) sem cache válido → DISPARA a busca AUTOMATICAMENTE (initState da tela) */
+  if(!c||c.v!==3||!c.current){loadWeather();return;}
+
+  const cur=c.current,hrs=c.hourly||[],days=c.days||[];
+  const agora=traduzirWeatherCode(cur.code);
+  const hoje=days[0]||{};
+  const tempestadeHora=hrs.find(h=>h.code>=95);
+
+  const horasHtml=hrs.map((h,i)=>{
+    const w=traduzirWeatherCode(h.code);
+    const chuva=h.pop>=10?`<div style="font-size:10.5px;color:#2C7FB8;font-weight:700">🌧 ${h.pop}%</div>`:'<div style="height:15px"></div>';
+    return `<div style="flex:none;width:64px;text-align:center;background:#fff;border-radius:12px;padding:10px 4px;box-shadow:var(--sh)">
+      <div style="font-size:11px;font-weight:800;color:var(--ink2)">${i===0?'Agora':fmtH(h.date)}</div>
+      <div style="font-size:20px;margin:2px 0">${w.e}</div>
+      <div style="font-size:13px;font-weight:800">${Math.round(h.temp)}°</div>
+      ${chuva}</div>`;}).join('');
+
+  let pisc;
+  if(hoje.code>=95)pisc={cls:'critico',ic:'umbrella',t:'Tempestade prevista: cubra a piscina e NÃO dosifique cloro hoje.'};
+  else if(hoje.pop>=60)pisc={cls:'atencao',ic:'umbrella',t:`Chuva provável (${Math.round(hoje.pop)}%): cubra a piscina — chuva traz sujeira e dilui o cloro.`};
+  else if(hoje.pop<30&&hoje.max>=22)pisc={cls:'info',ic:'check',t:`Condições ótimas para banho — ${Math.round(hoje.max)}°C com só ${Math.round(hoje.pop)}% de chance de chuva. Aproveite!`};
+  else pisc={cls:'atencao',ic:'clock',t:'Dia parcialmente instável — aplique produtos ao entardecer (17h–19h) e cubra se sair.'};
+
   const dn=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
   $('wxSub').textContent=`${esc(state.location.label)} · ${c.sim?'dados simulados (offline)':'Open-Meteo'}`;
   $('wxBody').innerHTML=`
-  ${alerts.filter(a=>a.sev!=='info').map(a=>`<div class="alert ${a.sev}">
-    <div class="t" style="color:${a.sev==='critico'?'var(--bad)':'var(--warn)'}">${ic(a.icon,18)} ${a.title}</div><p>${a.msg}</p>
-    ${a.cta?`<div class="act"><button class="tbtn" onclick="${a.fn}">${a.cta}</button></div>`:''}</div>`).join('')}
+  <div class="hero" style="text-align:center;padding:22px 18px">
+    <div style="font-size:12px;font-weight:700;opacity:.85;letter-spacing:.05em">AGORA EM ${esc(state.location.label.split('—')[0].trim().toUpperCase())}</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px">
+      <span style="font-size:52px;line-height:1">${agora.e}</span>
+      <span style="font-size:56px;font-weight:800;letter-spacing:-.03em">${cur.temp}°</span>
+    </div>
+    <div style="font-size:15px;font-weight:700;margin-top:6px">${agora.d}</div>
+    <div style="font-size:12.5px;opacity:.85;margin-top:4px">Sensação de ${cur.apparent}° · vento ${cur.wind} km/h</div>
+  </div>
+
+  ${c.sim?`<div class="alert atencao"><div class="t" style="color:var(--warn)">${ic('warn',18)} Sem conexão — exibindo previsão simulada</div>
+    <p>Estes números NÃO são reais. Reconecte e toque abaixo para buscar a previsão de verdade.</p>
+    <div class="act"><button class="tbtn" onclick="App.wxRefresh()">Tentar novamente</button></div></div>`:''}
+
+  ${cur.code>=95?`<div class="alert critico"><div class="t" style="color:var(--bad)">${ic('warn',18)} Alerta: TEMPESTADE agora</div>
+    <p>Cubra a piscina, saia da água e não aplique nenhum produto.</p></div>`:''}
+  ${cur.code<95&&hoje.code>=95?`<div class="alert atencao"><div class="t" style="color:var(--warn)">${ic('warn',18)} Alerta amarelo: tempestade prevista hoje${tempestadeHora?' por volta das '+fmtH(tempestade.date):''}</div>
+    <p>Cubra a piscina e adie a dosagem de cloro para depois da chuva.</p></div>`:''}
+
+  <div class="sec-t" style="margin-top:16px">Próximas 12 horas</div>
+  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px">${horasHtml}</div>
+
+  <div class="alert ${pisc.cls}" style="margin-top:14px">
+    <div class="t" style="color:${pisc.cls==='critico'?'var(--bad)':pisc.cls==='atencao'?'var(--warn)':'var(--good)'}">${ic(pisc.ic,18)} Para a sua piscina hoje</div>
+    <p>${pisc.t}</p></div>
+
   <div class="sec-t">Próximos 7 dias</div>
   ${days.map((d,i)=>{
+    const w=traduzirWeatherCode(d.code);
     const v=dayVerdict(d);
     return `<div class="wday">
       <div class="r1">
         <span class="d">${i===0?'Hoje':i===1?'Amanhã':dn[d.date.getDay()]}</span>
-        <span style="color:${v.c==='good'?'var(--good)':v.c==='warn'?'var(--warn)':v.c==='bad'?'var(--bad)':'var(--primary)'}">${ic(v.i,18)}</span>
-        <span class="tm">${Math.round(d.min)}–${Math.round(d.max)} °C</span>
+        <span style="font-size:18px">${w.e}</span>
+        <span class="tm">${Math.round(d.min)}° / <b>${Math.round(d.max)}°</b></span>
         <span class="pp">🌧 ${Math.round(d.pop)}%</span>
       </div>
       <span class="verdict ${v.c}">${ic(v.i,13)} ${v.t}</span>
     </div>`;}).join('')}
-  <div class="src">${c.sim?'⚠️ Sem conexão — previsão simulada.':'Fonte: Open-Meteo · atualizado a cada 3 h'}<br>
+  <div class="src">${c.sim?'⚠️ Previsão simulada — reconecte para dados reais.':'Fonte: Open-Meteo · % do dia = chance MÁXIMA (faixa das 12 h = hora a hora)'}<br>
   Interpretação automática para piscinas.</div>`;
 }
 
@@ -1699,13 +1822,23 @@ function renderAnalysis(){
 
 function renderTips(){
   const s=currentSeason();
-  const filters=[['all','Todas'],['season',`Estação: ${SEASON_LABEL[s]}`],['ph','pH'],['cloro','Cloro'],['alcalinidade','Alcalinidade'],['dureza','Dureza'],['filtragem','Filtragem']];
+  const TODAS_ESTACOES={verao:'Verão ☀️',outono:'Outono 🍂',inverno:'Inverno ❄️',primavera:'Primavera 🌸'};
+  const filters=[['all','Para agora ⭐'],['season',`Minha Estação 📍 ${SEASON_LABEL[s]}`],
+    ...Object.entries(TODAS_ESTACOES).filter(([k])=>k!==s).map(([k,l])=>[k,l]),
+    ['ph','pH'],['cloro','Cloro'],['alcalinidade','Alcalinidade'],['dureza','Dureza'],['filtragem','Filtragem']];
   $('tipSub').textContent=`estação atual: ${SEASON_LABEL[s]}`;
   $('tipFilters').innerHTML=filters.map(([k,l])=>chip(l,tipFilter===k,`App.tipFilter('${k}')`)).join('');
-  let list=tipFilter==='all'?TIPS
-    :tipFilter==='season'?TIPS.filter(t=>t.tags.season===s)
-    :TIPS.filter(t=>t.tags.param===tipFilter);
-  if(!list.length)list=TIPS.filter(t=>t.tags.season===s);
+  let list;
+  if(tipFilter==='all'){
+    list=[...TIPS.filter(t=>t.tags.season===s),...TIPS.filter(t=>!t.tags.season)];
+  }else if(tipFilter==='season'){
+    list=TIPS.filter(t=>t.tags.season===s);
+  }else if(TODAS_ESTACOES[tipFilter]){
+    list=TIPS.filter(t=>t.tags.season===tipFilter);
+  }else{
+    list=TIPS.filter(t=>t.tags.param===tipFilter);
+  }
+  if(!list.length)list=[...TIPS.filter(t=>t.tags.season===s),...TIPS.filter(t=>!t.tags.season)];
   $('tipList').innerHTML=list.length?list.map(tipCard).join('')
     :'<div class="hint">Nenhuma dica neste filtro.</div>';
 }
@@ -1885,7 +2018,7 @@ function renderPool(){
     <p>Dados salvos <b>apenas neste dispositivo</b>. Só coordenadas anônimas vão para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">v2.2 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">v2.5 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
@@ -1902,7 +2035,7 @@ function boot(){
     $('v-ob').classList.add('on');
     App.obStart();
   }else{
-    App.go('home');loadWeather();
+    App.go('home');loadWeather(); /* carregamento automático ao abrir o app */
   }
 }
 document.addEventListener('DOMContentLoaded',boot);
