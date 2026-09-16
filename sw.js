@@ -1,21 +1,23 @@
-/* Piscina Inteligente v3.0 — Service Worker */
-const CACHE = 'poolcare-v3';
-const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png'];
+/* Piscina Inteligente v3.4 — Service Worker (network first no clima) */
+const CACHE = 'poolcare-v3.4-final';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE)
-      .then(c => Promise.allSettled(ASSETS.map(a => c.add(a)))) // não falha se faltar algum ícone
-      .then(() => self.skipWaiting())
-  );
+  e.waitUntil((async () => {
+    const c = await caches.open(CACHE);
+    await Promise.allSettled(SHELL.map(async a => {
+      try { const r = await fetch(a); if (r && r.ok) await c.put(a, r); } catch (_) {}
+    }));
+    self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys()
-      .then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+  e.waitUntil((async () => {
+    const ks = await caches.keys();
+    await Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('fetch', e => {
@@ -23,26 +25,48 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // API do clima: rede primeiro, guarda a última resposta, usa o cache se ficar sem sinal
+  /* CLIMA: network first — rede primeiro, guarda a última real, cache se cair o sinal */
   if (url.hostname === 'api.open-meteo.com') {
-    e.respondWith(
-      fetch(req).then(res => {
-        const cl = res.clone();
-        caches.open(CACHE).then(c => c.put(req, cl));
-        return res;
-      }).catch(() => caches.match(req))
-    );
+    e.respondWith((async () => {
+      try {
+        const r = await fetch(req);
+        if (r && r.ok) { const cl = r.clone(); caches.open(CACHE).then(c => c.put(req, cl)); }
+        return r;
+      } catch (_) {
+        const hit = await caches.match(req);
+        if (hit) return hit;
+        return new Response(JSON.stringify({ error: 'offline' }), { status: 503, headers: { 'Content-Type': 'application/json' } });
+      }
+    })());
     return;
   }
 
-  // App shell: cache primeiro, atualiza por trás
+  /* Geolocalização: sempre rede, nunca cache */
+  if (url.hostname === 'nominatim.openstreetmap.org' || url.hostname === 'ipapi.co' || url.hostname === 'api.bigdatacloud.net') return;
+
+  /* App shell: navegação = network first com fallback offline; demais = cache first */
   if (url.origin === location.origin) {
-    e.respondWith(
-      caches.match(req).then(hit => hit || fetch(req).then(res => {
-        const cl = res.clone();
-        caches.open(CACHE).then(c => c.put(req, cl));
-        return res;
-      }))
-    );
+    if (req.mode === 'navigate') {
+      e.respondWith((async () => {
+        try {
+          const r = await fetch(req);
+          if (r && r.ok) { const cl = r.clone(); caches.open(CACHE).then(c => c.put('./index.html', cl)); }
+          return r;
+        } catch (_) {
+          const hit = await caches.match('./index.html');
+          return hit || new Response('Offline', { status: 503 });
+        }
+      })());
+      return;
+    }
+    e.respondWith((async () => {
+      const hit = await caches.match(req);
+      if (hit) return hit;
+      try {
+        const r = await fetch(req);
+        if (r && r.ok) { const cl = r.clone(); caches.open(CACHE).then(c => c.put(req, cl)); }
+        return r;
+      } catch (_) { return new Response('', { status: 504 }); }
+    })());
   }
 });
