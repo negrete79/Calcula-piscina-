@@ -20,68 +20,67 @@ body{font-family:'Inter',system-ui,'Segoe UI',sans-serif;background:#D9E2E8;colo
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 input{font-family:inherit}
 .ic{display:inline-block;vertical-align:middle;flex:none}
-#app{max-width:480px;margin:0 auto;background:#EFF6F8;min-height:100dvh;position:relative;padding-bottom:96px;box-shadow:0 0 44px rgba(20,40,70,.15)}
+#app{max-width:430px;margin:0 auto;background:#EFF6F8;min-height:100dvh;position:relative;padding-bottom:92px;box-shadow:0 0 44px rgba(20,40,70,.15)}
 .page{padding-bottom:10px}
 
-/* ---------- cabeçalhos ---------- */
+/* cabeçalhos */
 .hdr{display:grid;grid-template-columns:70px 1fr 40px;align-items:center;padding:20px 18px 6px}
 .hdr .h-side{font-size:16px;font-weight:600;color:#7C8FA0}
-.hdr h1{font-size:22px;font-weight:800;text-align:center;letter-spacing:-.3px}
+.hdr h1{font-size:21px;font-weight:800;text-align:center;letter-spacing:-.3px}
 .hdr .h-btn{justify-self:end;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
 .thdr{background:#0B8FA8;color:#fff;display:grid;grid-template-columns:52px 1fr 52px;align-items:center;padding:16px 10px}
-.thdr h1{font-size:20px;font-weight:800;text-align:center;line-height:1.25}
+.thdr h1{font-size:19px;font-weight:800;text-align:center;line-height:1.25}
 .thdr .t-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff}
 .thdr .t-btn:active{background:rgba(255,255,255,.18)}
 .lhdr{background:#DFF2F2;padding:14px 12px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center}
-.lhdr h1{font-size:20px;font-weight:800;text-align:center;color:#0E4A5A}
+.lhdr h1{font-size:19px;font-weight:800;text-align:center;color:#0E4A5A}
 .lhdr .l-btn{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#0E4A5A}
 
-/* ---------- hero ---------- */
-.hero{margin:10px 16px 0;background:linear-gradient(105deg,#35C4B5 0%,#0B8FA8 100%);border-radius:22px;padding:24px 20px 30px;position:relative;overflow:hidden;display:flex;gap:16px;align-items:center;box-shadow:0 14px 30px -14px rgba(11,143,168,.55)}
+/* hero */
+.hero{margin:10px 16px 0;background:linear-gradient(105deg,#35C4B5 0%,#0B8FA8 100%);border-radius:22px;padding:24px 20px 30px;position:relative;overflow:hidden;display:flex;gap:14px;align-items:center;box-shadow:0 14px 30px -14px rgba(11,143,168,.55)}
 .hero-l{flex:none;position:relative;z-index:1}
-.hero-r{flex:1;position:relative;z-index:1;min-width:0}
-.hero-lit{font-size:34px;font-weight:800;color:#fff;letter-spacing:-.6px;line-height:1.1}
-.hero-shape{font-size:17px;font-weight:600;color:rgba(255,255,255,.95);margin-top:2px}
+.hero-r{flex:1;min-width:0;position:relative;z-index:1}
+.hero-lit{font-size:32px;font-weight:800;color:#fff;letter-spacing:-.6px;line-height:1.1}
+.hero-shape{font-size:16px;font-weight:600;color:rgba(255,255,255,.95);margin-top:2px}
 .hero-pill{margin-top:14px;display:flex;gap:9px;align-items:center;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.12);border-radius:13px;padding:8px 11px}
 .hero-pill small{display:block;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.9)}
-.hero-pill b{display:block;font-size:13px;font-weight:700;color:#fff;margin-top:1px}
+.hero-pill b{display:block;font-size:12.5px;font-weight:700;color:#fff;margin-top:1px}
 .waves{position:absolute;bottom:-2px;left:0;width:100%;height:44px;pointer-events:none}
 
-/* ---------- status água ---------- */
-.sec{font-size:24px;font-weight:800;margin:24px 18px 12px;letter-spacing:-.4px}
+/* status água */
+.sec{font-size:23px;font-weight:800;margin:24px 18px 12px;letter-spacing:-.4px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 16px}
 .stat{background:#fff;border-radius:18px;padding:14px;box-shadow:0 2px 6px rgba(20,40,70,.05),0 12px 26px -18px rgba(20,40,70,.25);text-align:left}
 .stat-top{display:flex;align-items:center;gap:10px}
-.stat-label{font-size:15px;font-weight:600;color:#22406B}
+.stat-label{font-size:14.5px;font-weight:600;color:#22406B}
 .c-ic{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
 .c-ic.ph{background:#DFF3D6;color:#4E9E4E;font-size:13.5px;font-weight:800}
 .c-ic.ocl{background:#FF9D2E}.c-ic.obl{background:#2FA7E0}
-.stat-val{font-size:33px;font-weight:800;letter-spacing:-1px;margin:8px 0 8px 2px;display:block}
-.stat-badges{display:flex;align-items:center;gap:8px;margin-left:2px;flex-wrap:wrap}
-.bdg{font-size:12px;font-weight:800;padding:5px 12px;border-radius:10px}
+.stat-val{font-size:32px;font-weight:800;letter-spacing:-1px;margin:8px 0 8px 2px;display:block}
+.stat-badges{display:flex;align-items:center;gap:6px;margin-left:2px;flex-wrap:wrap}
+.bdg{font-size:11px;font-weight:800;padding:5px 10px;border-radius:10px}
 .bdg.ok{background:#C0E8B8;color:#256B2F}
 .bdg.warn{background:#FFB55C;color:#7A3E00}
 .bdg.bad{background:#F8C1C1;color:#8E2020}
-.unit{font-size:12.5px;color:#7C8FA0;font-weight:600}
+.unit{font-size:12px;color:#7C8FA0;font-weight:600}
 
-/* ---------- banners e botões ---------- */
+/* banners e botões */
 .banner{margin:16px 16px 0;background:#FFE2B0;border-radius:16px;padding:14px;display:flex;gap:12px;align-items:flex-start;text-align:left;width:calc(100% - 32px)}
 .banner.grn{background:#D6F2D9}
 .banner.red{background:#FBE3E3;border:1.5px solid #F0B9B9}
 .banner .b-ic{width:34px;height:34px;border-radius:50%;background:#F08C00;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
 .banner.grn .b-ic{background:#2FA35A}
 .banner.red .b-ic{background:#D64545}
-.banner b{display:block;font-size:16.5px;font-weight:800;letter-spacing:-.2px}
+.banner b{display:block;font-size:16px;font-weight:800;letter-spacing:-.2px}
 .banner p{font-size:12.5px;color:#6B5636;line-height:1.5;margin-top:3px}
 .banner.grn p{color:#33604A}
 .banner.red b{color:#8E2020}
 .banner.red p{color:#9C4A4E}
 .p-link{background:none;color:#C6393F;font-size:13px;font-weight:800;padding:8px 0 0;display:flex;align-items:center;gap:4px}
-.banner.grn .p-link{color:#2FA35A}
-.bigbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:16px 16px 0;padding:17px;border-radius:14px;background:#0B8FA8;color:#fff;font-size:19px;font-weight:800;box-shadow:0 12px 24px -10px rgba(11,143,168,.6)}
+.bigbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:16px 16px 0;padding:16px;border-radius:14px;background:#0B8FA8;color:#fff;font-size:18px;font-weight:800;box-shadow:0 12px 24px -10px rgba(11,143,168,.6)}
 .bigbtn:active{transform:scale(.985)}
 
-/* ---------- ★ PWA CARD: escondido por padrão ---------- */
+/* PWA CARD: escondido por padrão */
 #pwaCard{display:none}
 .install{background:#5E3D9C;color:#fff;display:flex;align-items:center;gap:13px;margin:16px 16px 0;border-radius:18px;padding:14px}
 .i-ic{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;flex:none}
@@ -90,33 +89,33 @@ input{font-family:inherit}
 .i-txt span{display:block;font-size:11.5px;color:rgba(255,255,255,.82);margin-top:2px;line-height:1.45}
 .install button{background:#fff;color:#5E3D9C;border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:800}
 
-/* ---------- tabbar ---------- */
-.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:50;border-top:1px solid #E5EDF1}
-.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:#8A9BAA;padding:4px 0}
+/* tabbar com safe-area */
+.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:50;border-top:1px solid #E5EDF1}
+.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:600;color:#8A9BAA;padding:4px 0}
 .tabbar button.on{color:#0B8FA8;font-weight:700}
 
-/* ---------- CONFIG ---------- */
+/* CONFIG */
 .csec{padding:0 18px}
-.csec h2{font-size:23px;font-weight:800;color:#0E4A5A}
-.csec .sub{font-size:14.5px;color:#5F7385;margin-top:2px}
-.fmt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
-.fmt{position:relative;border:1.5px solid #D8E2E8;border-radius:16px;background:#fff;padding:14px 4px 11px;display:flex;flex-direction:column;align-items:center;gap:8px;color:#33475C}
-.fmt span{font-size:11.5px;font-weight:600}
+.csec h2{font-size:22px;font-weight:800;color:#0E4A5A}
+.csec .sub{font-size:14px;color:#5F7385;margin-top:2px}
+.fmt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+.fmt{position:relative;border:1.5px solid #D8E2E8;border-radius:16px;background:#fff;padding:13px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;color:#33475C}
+.fmt span{font-size:11px;font-weight:600}
 .fmt.on{border:2px solid #0B8FA8;background:#DDF3F8;color:#0B8FA8}
 .fmt .chk{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:#0B8FA8;color:#fff;display:none;align-items:center;justify-content:center;border:2.5px solid #EFF6F8}
 .fmt.on .chk{display:flex}
 .divider{height:1px;background:#E2EBF0;margin:20px 18px}
-.field{display:block;position:relative;background:#C9EBF2;border-radius:14px;padding:12px 48px 14px 12px;margin-top:12px;min-height:84px}
+.field{display:block;position:relative;background:#C9EBF2;border-radius:14px;padding:12px 46px 14px 12px;margin-top:12px;min-height:82px}
 .field .fchip{display:inline-block;background:#A5E1EE;color:#0E4A5A;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:8px;margin-bottom:2px}
-.field input{display:block;width:100%;background:transparent;border:none;outline:none;font-size:22px;font-weight:600;color:#0E4A5A;line-height:1.3;padding:2px 0 0}
-.field .fsuf{position:absolute;right:16px;bottom:14px;font-size:15px;color:#6E93A0}
+.field input{display:block;width:100%;background:transparent;border:none;outline:none;font-size:21px;font-weight:600;color:#0E4A5A;line-height:1.3;padding:2px 0 0}
+.field .fsuf{position:absolute;right:15px;bottom:13px;font-size:15px;color:#6E93A0}
 .volcard{margin-top:16px;background:#E4F8EE;border-radius:16px;padding:14px 16px;display:flex;gap:14px;align-items:center}
 .volcard .drop-c{width:46px;height:46px;border-radius:50%;border:2.5px solid #0B8FA8;display:flex;align-items:center;justify-content:center;color:#0B8FA8;flex:none}
 .volcard b{display:block;font-size:15px;font-weight:800;color:#0E4A5A}
-.volcard .m3{display:block;font-size:25px;font-weight:800;color:#0AA8BC;margin:1px 0}
+.volcard .m3{display:block;font-size:24px;font-weight:800;color:#0AA8BC;margin:1px 0}
 .volcard small{display:block;font-size:13px;color:#5F7385}
 .presets{display:flex;gap:10px;margin-top:14px}
-.preset{flex:1;padding:13px;border-radius:12px;background:#E8EDF0;color:#33475C;font-size:15px;font-weight:700}
+.preset{flex:1;padding:12px;border-radius:12px;background:#E8EDF0;color:#33475C;font-size:14.5px;font-weight:700}
 .preset.on{background:#0B8FA8;color:#fff}
 .linkmode{background:none;color:#0AA8BC;font-size:13px;font-weight:700;padding:12px 0 0}
 .foot-note{text-align:center;font-size:12px;color:#7C8FA0;margin:16px 18px 6px}
@@ -125,25 +124,25 @@ input{font-family:inherit}
 .icon-card p{font-size:11.5px;color:#5F7385;line-height:1.5;margin-top:3px}
 .icon-card button{margin-top:10px;background:#0B8FA8;color:#fff;border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;gap:6px}
 
-/* ---------- CLIMA ---------- */
+/* CLIMA */
 .wx-big{display:flex;justify-content:center;margin-top:22px}
-.wx-temp-line{text-align:center;font-size:32px;font-weight:800;letter-spacing:-1px;margin-top:8px}
+.wx-temp-line{text-align:center;font-size:31px;font-weight:800;letter-spacing:-1px;margin-top:8px}
 .wx-place{text-align:center;font-size:13.5px;color:#5F7385;margin-top:4px;padding:0 16px}
 .wx-extra{text-align:center;font-size:12px;color:#7C8FA0;margin-top:2px}
 .mini-refresh{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#DFF0F5;color:#0B8FA8;vertical-align:middle;margin-left:8px}
-.slab{display:flex;gap:8px;align-items:center;margin:22px 18px 10px;color:#0B8FA8;font-weight:800;letter-spacing:1.2px;font-size:13.5px;text-transform:uppercase}
+.slab{display:flex;gap:8px;align-items:center;margin:22px 18px 10px;color:#0B8FA8;font-weight:800;letter-spacing:1.2px;font-size:13px;text-transform:uppercase}
 .hscroll{display:flex;gap:10px;overflow-x:auto;padding:2px 18px 8px;scrollbar-width:none}
 .hscroll::-webkit-scrollbar{display:none}
-.hcard{flex:none;width:70px;background:#D3F0F7;border-radius:14px;padding:9px 6px;text-align:center}
-.hcard .hc-t{display:block;font-size:16.5px;font-weight:800}
-.hcard b{display:block;font-size:14.5px;font-weight:800;color:#22406B;margin-top:2px}
+.hcard{flex:none;width:68px;background:#D3F0F7;border-radius:14px;padding:9px 6px;text-align:center}
+.hcard .hc-t{display:block;font-size:16px;font-weight:800}
+.hcard b{display:block;font-size:14px;font-weight:800;color:#22406B;margin-top:2px}
 .hcard .hc-h{display:block;font-size:11px;font-weight:700;color:#5F7385;margin-top:3px}
-.days{background:#fff;border-radius:18px;margin:0 16px;padding:4px 16px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
-.day{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #EEF3F5}
+.days{background:#fff;border-radius:18px;margin:0 16px;padding:4px 14px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
+.day{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #EEF3F5}
 .day:last-child{border-bottom:none}
-.d-name{font-size:14.5px;font-weight:800;width:92px;flex:none}
-.d-temp{font-size:14.5px;font-weight:600;color:#22406B;flex:1;white-space:nowrap}
-.wbg{font-size:12px;font-weight:800;padding:5px 12px;border-radius:999px;white-space:nowrap}
+.d-name{font-size:13.5px;font-weight:800;width:86px;flex:none}
+.d-temp{font-size:14px;font-weight:600;color:#22406B;flex:1;white-space:nowrap}
+.wbg{font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap}
 .wbg.red{background:#F45B5B;color:#fff}.wbg.or{background:#F58B2D;color:#fff}
 .wbg.yl{background:#FFD54F;color:#6B4E00}.wbg.gr{background:#35B558;color:#fff}
 .wx-btns{display:flex;gap:10px;margin:20px 18px 4px}
@@ -163,7 +162,7 @@ input{font-family:inherit}
 .offcard.blue b{color:#14486B}
 .offcard.blue button{background:#2FA7E0}
 
-/* ---------- HISTÓRICO ---------- */
+/* HISTÓRICO */
 .ranges{background:#fff;border-radius:16px;padding:6px;display:flex;gap:8px;margin:14px 16px 0;box-shadow:0 2px 6px rgba(20,40,70,.05)}
 .ranges button{flex:1;padding:11px;border-radius:11px;border:1.5px solid #DCE6EA;background:#fff;color:#22406B;font-size:14px;font-weight:700}
 .ranges button.on{background:#0B8FA8;border-color:#0B8FA8;color:#fff}
@@ -198,15 +197,7 @@ input{font-family:inherit}
 .tl-item b{display:block;font-size:14px;font-weight:700;line-height:1.35}
 .tl-item p{font-size:12px;color:#5F7385;line-height:1.5;margin-top:3px}
 
-/* ---------- DICAS ---------- */
-.tip{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;margin:0 16px 12px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
-.tip-ic{width:40px;height:40px;border-radius:12px;background:#DFF0F5;color:#0B8FA8;display:flex;align-items:center;justify-content:center;flex:none}
-.tip-body{flex:1}
-.tip-body b{font-size:14.5px}
-.tip-body p{font-size:12.5px;color:#5F7385;line-height:1.5;margin-top:3px}
-.tip-btn{color:#0AA8BC;font-size:13px;font-weight:800;padding:8px 0 0;display:flex;align-items:center;gap:4px}
-
-/* ---------- PLANO ---------- */
+/* PLANO */
 .ban{background:#E15454;color:#fff;border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin:14px 16px 0}
 .ban b{display:block;font-size:15px}
 .ban span{display:block;font-size:11.5px;color:rgba(255,255,255,.9);margin-top:3px;line-height:1.45}
@@ -229,10 +220,18 @@ input{font-family:inherit}
 .fine{font-size:11px;color:#8FA3B0;margin:14px 18px 0;line-height:1.55}
 .center{text-align:center}
 
-/* ---------- MODAIS ---------- */
+/* DICAS */
+.tip{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;margin:0 16px 12px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
+.tip-ic{width:40px;height:40px;border-radius:12px;background:#DFF0F5;color:#0B8FA8;display:flex;align-items:center;justify-content:center;flex:none}
+.tip-body{flex:1}
+.tip-body b{font-size:14.5px}
+.tip-body p{font-size:12.5px;color:#5F7385;line-height:1.5;margin-top:3px}
+.tip-btn{color:#0AA8BC;font-size:13px;font-weight:800;padding:8px 0 0;display:flex;align-items:center;gap:4px}
+
+/* MODAIS */
 .m-back{position:fixed;inset:0;background:rgba(10,30,40,.55);display:flex;align-items:flex-end;justify-content:center;z-index:80;animation:fade .2s}
 @keyframes fade{from{opacity:0}}
-.m-card{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));animation:up .28s cubic-bezier(.2,.9,.3,1);max-height:88dvh;overflow:auto}
+.m-card{background:#fff;width:100%;max-width:430px;border-radius:24px 24px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));animation:up .28s cubic-bezier(.2,.9,.3,1);max-height:88dvh;overflow:auto}
 @keyframes up{from{transform:translateY(60px);opacity:.4}}
 .m-card h3{font-size:18px;font-weight:800;color:#0E4A5A}
 .m-card .m-p{font-size:13px;color:#5F7385;line-height:1.55;margin-top:6px}
@@ -260,27 +259,24 @@ input{font-family:inherit}
 .med-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #EEF3F5;font-size:13px}
 .med-row i{font-style:normal;color:#7C8FA0;font-size:12px}
 
-/* ---------- lista de compras ---------- */
-.shop-card{position:relative;background:#EAF9F6;width:100%;max-width:440px;margin:0 16px;border-radius:24px;padding:22px 20px 20px;max-height:88dvh;overflow:auto;animation:up .28s cubic-bezier(.2,.9,.3,1)}
+/* modal lista de compras */
 .m-back.center{align-items:center}
-.shop-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:#B9C6CD;color:#fff;display:flex;align-items:center;justify-content:center}
-.shop-card h2{font-size:27px;font-weight:800;color:#0E7183;letter-spacing:-.6px;line-height:1.1;padding-right:36px}
-.shop-card .ssub{font-size:16px;color:#6E8CA0;margin-top:2px}
-.shop-bar{height:10px;border-radius:8px;background:linear-gradient(90deg,#BDEFF8,#8FE3F0);margin:16px -20px}
-.shop-it{padding:15px 0;border-bottom:1px solid #D5EDEA}
-.shop-cat{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.8px;color:#fff;padding:4px 11px;border-radius:8px;margin-bottom:9px}
-.shop-row{display:flex;gap:12px;align-items:flex-start}
-.shk{width:30px;height:30px;border-radius:9px;border:3px solid #0B8FA8;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;flex:none;margin-top:2px}
+.shop-card{position:relative;background:#EAF9F6;width:100%;max-width:410px;margin:0 16px;border-radius:24px;padding:20px 18px 18px;max-height:88dvh;overflow:auto;animation:up .28s cubic-bezier(.2,.9,.3,1)}
+.shop-x{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#B9C6CD;color:#fff;display:flex;align-items:center;justify-content:center}
+.shop-card h2{font-size:24px;font-weight:800;color:#0E7183;letter-spacing:-.5px;padding-right:36px}
+.shop-card .ssub{font-size:13px;color:#6E8CA0;margin-top:2px}
+.shop-bar{height:8px;border-radius:8px;background:linear-gradient(90deg,#BDEFF8,#8FE3F0);margin:14px -18px}
+.shop-it{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #D5EDEA}
+.shk{width:26px;height:26px;border-radius:8px;border:3px solid #0B8FA8;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
 .shk.on{color:#3DBE7C}
-.shop-t{flex:1;min-width:0}
-.shop-t b{display:block;font-size:16.5px;font-weight:800;color:#22384E;text-transform:uppercase}
-.shop-t span{display:block;font-size:12.5px;color:#5F7385;line-height:1.5;margin-top:3px}
-.shop-total{background:#CFF2F8;border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-top:16px}
-.shop-total b{font-size:16px;font-weight:800;color:#0E4A5A}
-.shop-total span{font-size:20px;font-weight:800;color:#0AA8BC}
-.shop-foot{text-align:center;font-size:11.5px;color:#7C8FA0;margin-top:12px}
+.shop-n{flex:1;min-width:0}
+.shop-n b{display:block;font-size:12px;font-weight:800;color:#22384E;text-transform:uppercase;line-height:1.3}
+.shop-n small{display:block;font-size:10px;color:#7C8FA0;margin-top:1px}
+.qin{width:104px;flex:none;padding:8px 8px;border:1.5px solid #BFE3EC;border-radius:10px;background:#fff;font-size:12px;font-weight:700;color:#0E4A5A;text-align:center;outline:none}
+.qin:focus{border-color:#0B8FA8}
+.shop-cnt{background:#CFF2F8;border-radius:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-weight:800;color:#0E4A5A}
 
-/* ---------- toast ---------- */
+/* toast */
 .toast{position:fixed;bottom:96px;left:50%;transform:translate(-50%,14px);background:#0E4A5A;color:#fff;padding:11px 17px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:.28s;z-index:99;max-width:88vw;text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.warn{background:#B3540E}
@@ -294,13 +290,13 @@ input{font-family:inherit}
 
 <script>
 /* =========================================================
-   PISCINA INTELIGENTE v3.4 FINAL
-   ★ getPhStatus(): fonte única p/ Home, banner, Histórico e Plano
-     - cloro < 1  → modo CHOQUE: ideal 7,0–7,4
-     - cloro >= 1 → modo BANHO: ideal 7,2–7,6
-   ★ Sulfato: aspirar em ESGOTO/DRENAR bem devagar
-   ★ pwaCard: some ao instalar, volta nunca
-   ★ Clima: GPS real → Nominatim → ipapi.co → fallback Miguel Burnier
+   PISCINA INTELIGENTE v3.6.2
+   Abas: Início · Clima · HISTÓRICO · Dicas (Plano via botões)
+   ★ getPhStatus(): cloro<1 → choque 7,0–7,4 | banho 7,2–7,6
+   ★ Histórico restaurado: filtros, gráficos, linha do tempo
+   ★ Lista de compras com quantidades editáveis por você
+   ★ PDF nativo offline, download automático
+   ★ Clima GPS real; pwaCard some ao instalar
    ========================================================= */
 const $=s=>document.querySelector(s);
 const f1=v=>(+v).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
@@ -309,7 +305,6 @@ const fmt=v=>{const n=+v;return n%1?f1(n):f0(n);};
 const round5=v=>Math.max(5,Math.round(v/5)*5);
 const gW=v=>v>=1000?f1(v/1000)+' kg':round5(v)+' g';
 const mlW=v=>v>=1000?f1(v/1000)+' L':round5(v)+' ml';
-const brl=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const ddmm=d=>d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
 const DOW=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 
@@ -318,6 +313,7 @@ const ICONS={
  home:'<path d="M3.5 11 12 3.5 20.5 11"/><path d="M5.5 9.8V20.5h13V9.8"/>',
  cloud:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
  bars:'<path d="M5 20v-8M12 20V5M19 20v-6"/><path d="M3 20.5h18"/>',
+ pill:'<g transform="rotate(-35 12 12)"><rect x="3.2" y="8.7" width="17.6" height="6.6" rx="3.3"/><path d="M12 8.7v6.6"/></g>',
  bulb:'<path d="M9.2 18h5.6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 1 3.6 10.8c-.7.5-1.1 1.3-1.1 2.2H9.5c0-.9-.4-1.7-1.1-2.2A6 6 0 0 1 12 3Z"/>',
  gear:'<circle cx="12" cy="12" r="3.1"/><path d="M12 2.8v2.6M12 18.6v2.6M2.8 12h2.6M18.6 12h2.6M5.4 5.4l1.9 1.9M16.7 16.7l1.9 1.9M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9"/>',
  alert:'<path d="M10.3 4.4 2.6 17.6a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.4a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4M12 16.8h.01"/>',
@@ -334,11 +330,10 @@ const ICONS={
  save:'<path d="M5.5 4.5h10.4l2.6 2.6v12.4h-13Z"/><path d="M8.5 4.5v4.6h7V4.5"/><path d="M8.5 13.5h7v6"/>',
  snow:'<path d="M12 3.5v17M4.6 7.8l14.8 8.4M19.4 7.8 4.6 16.2"/>',
  refresh:'<path d="M20.5 11A8.5 8.5 0 0 0 6.8 5.9L4.5 8.1"/><path d="M4.5 3.5v4.6h4.6"/><path d="M3.5 13a8.5 8.5 0 0 0 13.7 4.9l2.3-2.2"/><path d="M19.5 20.5v-4.6h-4.6"/>',
- pencil:'<path d="M16.8 3.7a2.6 2.6 0 0 1 3.7 3.7L7.6 20.3 2.8 21.5l1.2-4.8Z"/>',
+ pin:'<path d="M12 21.5S5.5 15.8 5.5 11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 10.5-6.5 10.5Z"/><circle cx="12" cy="10.8" r="2.3"/>',
  umbrella:'<path d="M12 3a9 9 0 0 1 9 9.5H3A9 9 0 0 1 12 3Z"/><path d="M12 12.5v6a2 2 0 0 0 4 0"/>',
  wrench:'<path d="M14.3 6.8a3.9 3.9 0 0 0-5.4 4.9L4 16.6 7.4 20l4.9-4.9a3.9 3.9 0 0 0 4.9-5.4L14.6 12 12 9.4Z"/>',
  zap:'<path d="M13 2.5 4.5 13.5h6l-1.5 8 8.5-11h-6l1.5-8Z"/>',
- sparkle:'<path d="M12 4.5 13.5 9 18 10.5 13.5 12 12 16.5 10.5 12 6 10.5 10.5 9Z"/>',
  shieldA:'<path d="M12 2.8 4.8 5.6v5.2c0 4.6 3.1 8.1 7.2 9.7 4.1-1.6 7.2-5.1 7.2-9.7V5.6Z"/><path d="M12 8v4M12 15.2h.01"/>'
 };
 const icon=(n,s=18)=>'<svg class="ic" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[n]||'')+'</svg>';
@@ -382,7 +377,7 @@ function dayBadge(code){
  return{cls:'gr',txt:'Seguro para abrir'};
 }
 
-/* ---------- estado ---------- */
+/* ---------- estado (poolcare_v1) ---------- */
 const PLACE_FALLBACK='Miguel Burnier, Ouro Preto - MG';
 const FALLBACK_LAT=-20.2977,FALLBACK_LON=-43.7833;
 const SHAPES={rect:{label:'Retangular',f:1},round:{label:'Redonda',f:0.785},oval:{label:'Oval',f:0.85},oct:{label:'Oitavada',f:0.87}};
@@ -404,10 +399,11 @@ function defaultState(){return{
   alk:[{v:60,d:ddmm(lab(14))},{v:70,d:ddmm(lab(9))},{v:80,d:ddmm(lab(4))},{v:80,d:ddmm(lab(0))}],
   hard:[{v:180,d:ddmm(lab(14))},{v:190,d:ddmm(lab(9))},{v:200,d:ddmm(lab(4))},{v:200,d:ddmm(lab(0))}]
  },
- events:[],histRange:'30',details:false,
+ events:[],
+ histRange:'30',details:false,
  weather:null,wxLoading:false,
  alerts:{storm:true,cloro:true},
- shopChecks:{}
+ shopChecks:{},shopQty:{}
 };}
 let state=defaultState();
 function seedEvents(){
@@ -426,9 +422,11 @@ function loadState(){
   if(j.hist)['ph','cl','alk','hard'].forEach(k=>{if(Array.isArray(j.hist[k])&&j.hist[k].length)state.hist[k]=j.hist[k];});
   if(j.water)state.water=j.water;
   if(j.alerts)Object.assign(state.alerts,j.alerts);
+  if(j.shopChecks)state.shopChecks=j.shopChecks;
+  if(j.shopQty)state.shopQty=j.shopQty;
  }catch(e){}
 }
-function persist(){try{localStorage.setItem('poolcare_v1',JSON.stringify({cfg:state.cfg,readings:state.readings,hist:state.hist,water:state.water,alerts:state.alerts}));}catch(e){}}
+function persist(){try{localStorage.setItem('poolcare_v1',JSON.stringify({cfg:state.cfg,readings:state.readings,hist:state.hist,water:state.water,alerts:state.alerts,shopChecks:state.shopChecks,shopQty:state.shopQty}));}catch(e){}}
 
 /* ---------- litragem ---------- */
 function calcLiters(c){
@@ -440,91 +438,84 @@ const litersOf=()=>state.cfg.litersMode==='direct'?(+state.cfg.liters||0):calcLi
 const m3=L=>(L/1000).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' m³';
 
 /* ============================================================
-   ★★★ getPhStatus — FONTE ÚNICA DE VERDADE DO pH ★★★
-   cloro < 1 ppm → modo CHOQUE: ideal 7,0–7,4
+   ★ getPhStatus — LÓGICA OBRIGATÓRIA
+   cloro < 1 ppm → modo CHOQUE: ideal 7,0–7,4 (7,4 = Ideal)
    cloro >= 1    → modo BANHO:  ideal 7,2–7,6
    ============================================================ */
-function getPhStatus(ph,cloro){
- const L=litersOf();
- if(cloro<1){
+function getPhStatus(ph,cl){
+ if(cl<1){
   if(ph>7.4){
-   return{label:'ALTO P/ CHOQUE',classe:'orange',
-    texto:'pH '+f1(ph)+' perde até 50% da eficácia do cloro. Abaixe para 7,2 antes do choque (faixa do choque: 7,0–7,4).',
-    precisaCorrigir:true,
-    dose:round5(Math.abs(ph-7.2)*10*4*(L/1000))};   /* 7,6→7,2 em 45.000 L = 720 ml */
+   const ml=round5(Math.abs(ph-7.2)*10*4*(litersOf()/1000));   /* 7,6→7,2 em 45.000 L = 720 ml */
+   return{label:'ALTO P/ CHOQUE',cor:'orange',dose:ml+' ml de ácido',ml:ml,precisaCorrigir:true,
+    texto:'pH '+f1(ph)+' perde até 50% da eficácia do cloro. Abaixe para 7,2 antes do choque (faixa do choque: 7,0–7,4).'};
   }
   if(ph<7.0){
-   return{label:'BAIXO P/ CHOQUE',classe:'orange',
-    texto:'pH '+f1(ph)+' abaixo da faixa do choque. Suba para 7,2 com barrilha (faixa do choque: 7,0–7,4).',
-    precisaCorrigir:true,
-    dose:round5((7.2-ph)*10*18*(L/1000))};
+   const g=round5((7.2-ph)*10*18*(litersOf()/1000));
+   return{label:'BAIXO P/ CHOQUE',cor:'orange',dose:gW(g)+' de barrilha',precisaCorrigir:true,
+    texto:'pH '+f1(ph)+' abaixo da faixa do choque. Suba para 7,2 com barrilha (faixa do choque: 7,0–7,4).'};
   }
-  return{label:'Ideal',classe:'green',precisaCorrigir:false,
+  return{label:'Ideal',cor:'green',precisaCorrigir:false,
    texto:'pH '+f1(ph)+' dentro da faixa do choque (7,0–7,4). Pode aplicar o cloro.'};
  }
- if(ph>7.6)return{label:'ALTO',classe:'orange',precisaCorrigir:true,
-  texto:'pH '+f1(ph)+' acima do teto 7,6. Aplique redutor de pH.',
-  dose:round5((ph-7.4)*10*4*(L/1000))};
- if(ph<7.2)return{label:'BAIXO',classe:'orange',precisaCorrigir:true,
-  texto:'pH '+f1(ph)+' abaixo da faixa 7,2–7,6. Aplique barrilha.',
-  dose:round5((7.4-ph)*10*18*(L/1000))};
- return{label:'Ideal',classe:'green',precisaCorrigir:false,
-  texto:'pH '+f1(ph)+' dentro da faixa normal 7,2–7,6 (com cloro presente).'};
+ if(ph>7.6){
+  const ml=round5((ph-7.4)*10*4*(litersOf()/1000));
+  return{label:'ALTO',cor:'orange',dose:ml+' ml de ácido',precisaCorrigir:true,
+   texto:'pH '+f1(ph)+' acima do teto 7,6. Aplique redutor de pH.'};
+ }
+ if(ph<7.2){
+  const g=round5((7.4-ph)*10*18*(litersOf()/1000));
+  return{label:'BAIXO',cor:'orange',dose:gW(g)+' de barrilha',precisaCorrigir:true,
+   texto:'pH '+f1(ph)+' abaixo da faixa 7,2–7,6. Aplique barrilha.'};
+ }
+ return{label:'Ideal',cor:'green',precisaCorrigir:false,
+  texto:'pH '+f1(ph)+' dentro da faixa normal 7,2–7,6.'};
 }
 const phOkCtx=(ph,cl)=>cl<1?(ph>=7.0&&ph<=7.4):(ph>=7.2&&ph<=7.6);
-
-/* ---------- problemas / banner / dicas ---------- */
 function statOf(k,v){const r=RANGES[k];return(v>=r.lo&&v<=r.hi)?{cls:'ok',txt:'Ideal'}:{cls:'warn',txt:v<r.lo?'Baixo':'Alto'};}
-function problems(){
- const r=state.readings,p=[];
- if(!phOkCtx(r.ph,r.cl))p.push({k:'ph'});
- if(r.cl<1)p.push({k:'cl',lo:true});else if(r.cl>3)p.push({k:'cl'});
- if(r.alk<80||r.alk>120)p.push({k:'alk',hi:r.alk>120});
- if(r.hard<200||r.hard>400)p.push({k:'hard',hi:r.hard>400});
- if(state.water==='verde')p.push({k:'agua'});
- return p;
-}
 function isBanhoProibido(){return state.readings.cl<1||state.water==='verde';}
 function otherProblemBanner(){
  const r=state.readings;
- const ps=problems().filter(p=>!(isBanhoProibido()&&((p.k==='cl'&&p.lo)||p.k==='agua')));
- if(!ps.length)return null;
- const first=ps[0];
- if(first.k==='ph'){const s=getPhStatus(r.ph,r.cl);return{t:'Atenção: pH '+s.label.toLowerCase(),p:s.texto};}
- if(first.k==='cl')return{t:'Atenção: Cloro alto',p:'O nível de cloro está acima do recomendado (1,0–3,0 ppm). Suspenda a dosagem e re-meça em 24 h.'};
- if(first.k==='alk')return{t:'Atenção: Alcalinidade '+(first.hi?'alta':'baixa'),p:'A alcalinidade está fora do ideal (80–120 mg/L). Ajuste com barrilha ou redutor de pH.'};
- if(first.k==='hard')return{t:'Atenção: Dureza '+(first.hi?'alta':'baixa'),p:'A dureza está fora do ideal (200–400 mg/L). Corrija em outro dia do choque de cloro.'};
+ if(!phOkCtx(r.ph,r.cl)){const s=getPhStatus(r.ph,r.cl);return{t:'Atenção: pH '+s.label.toLowerCase(),p:s.texto};}
+ if(r.alk<80||r.alk>120)return{t:'Atenção: Alcalinidade '+(r.alk>120?'alta':'baixa'),p:'A alcalinidade está fora do ideal (80–120 mg/L). Ajuste com barrilha ou redutor de pH.'};
+ if(r.hard<200||r.hard>400)return{t:'Atenção: Dureza '+(r.hard>400?'alta':'baixa'),p:'A dureza está fora do ideal (200–400 mg/L). Corrija em outro dia do choque de cloro.'};
+ if(r.cl>3)return{t:'Atenção: Cloro alto',p:'Cloro acima de 3,0 ppm. Suspenda a dosagem e re-meça em 24 h.'};
  return null;
 }
 function poolVerdict(){
- const w=state.weather;if(!w)return null;
+ const w=state.weather;if(!w||!w.daily||!w.daily[0])return null;
  const c=w.current.code,pop=w.daily[0].pop;
  if(c>=95||c===65||c===82)return{cls:'bad',t:'Tempestade',d:'Cubra a piscina, suspenda a dosagem e re-meça o cloro depois da chuva.'};
  if(c>=60||pop>=60)return{cls:'warn',t:'Chuva no radar',d:'Cubra a piscina hoje; chuva dilui o cloro — re-meça amanhã cedo.'};
  return{cls:'ok',t:'Condições ótimas',d:'Dia perfeito para dosar produtos e deixar o filtro trabalhando.'};
 }
-function dicasHoje(){
- const r=state.readings,list=[],vd=poolVerdict();
- if(r.cl<1)list.push({ic:'zap',t:'Reativação da piscina',p:'Com cloro em '+f1(r.cl)+', a água parou de ser desinfetada. Abaixe o pH para 7,2 (se estiver acima de 7,4) e faça o choque noturno.',cta:'Resolver agora'});
- if(state.water==='verde')list.push({ic:'drop',t:'Água verde',p:'Algas instaladas: choque duplo, escovação e filtro 24 h. Banho proibido até clarear.'});
- if(vd&&vd.cls!=='ok')list.push({ic:'umbrella',t:'Tempestade no radar',p:'Cubra a piscina e adie qualquer dosagem para o próximo dia firme.'});
- list.push({ic:'pencil',t:'Limpeza de borda',p:'Aplique limpa borda nas paredes a cada 15 dias para evitar linha amarelada na superfície.'});
- list.push({ic:'sparkle',t:'Manutenção semanal',p:'Peneire a superfície, escove as paredes e mantenha o filtro ligado 6 h por dia.'});
- return list;
-}
 
 /* ---------- navegação ---------- */
-function go(v){state.view=v;render();window.scrollTo(0,0);}
+let lastView=null;
+function go(v){
+ if(v==='clima'&&!state.weather&&!state.wxLoading)loadWeather(false);
+ state.view=v;render();window.scrollTo(0,0);
+}
 function render(){
  const v=state.view;
- $('#app').innerHTML=v==='home'?vHome():v==='clima'?vClima():v==='hist'?vHist():v==='dicas'?vDicas():v==='config'?vConfig():vPlano();
+ const y=(v===lastView)?window.scrollY:0;
+ let html;
+ try{
+  html=v==='home'?vHome():v==='clima'?vClima():v==='hist'?vHist():v==='plano'?vPlano():v==='dicas'?vDicas():vConfig();
+ }catch(err){
+  console.error('Falha ao renderizar',v,err);
+  if(v==='clima'){state.weather=null;state.wxLoading=false;
+   html=climaTop()+'<div class="wx-load"><p>Não consegui exibir os dados salvos.</p><button class="t-btn" style="margin:16px auto 0;max-width:260px" onclick="loadWeather(false)">Recarregar previsão</button></div>';}
+  else{state=defaultState();seedEvents();html=vHome();}
+ }
+ $('#app').innerHTML=html;
+ window.scrollTo(0,y);lastView=v;
  document.querySelectorAll('.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
  syncPwaCard();
 }
 
 /* ============================ HOME ============================ */
 function poolSvg(){
- return '<svg width="120" height="76" viewBox="0 0 140 84" fill="none" aria-hidden="true">'
+ return '<svg width="112" height="72" viewBox="0 0 140 84" fill="none" aria-hidden="true">'
  +'<path d="M10 66 34 16h72l24 50Z" stroke="#fff" stroke-width="4.5" stroke-linejoin="round"/>'
  +'<path d="M26 60 45 24h50l19 36Z" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" opacity=".9"/>'
  +'<path d="M42 50h56" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg>';
@@ -539,14 +530,13 @@ function vHome(){
  const banho=isBanhoProibido();
  let h='<div class="page">'
  +'<header class="hdr"><span class="h-side">Início</span><h1>Piscina Inteligente</h1>'
- +'<button class="h-btn" onclick="go(\'config\')" aria-label="Configuração">'+icon('gear',24)+'</button></header>'
+ +'<button class="h-btn" onclick="go(\'config\')" aria-label="Ajustes">'+icon('gear',24)+'</button></header>'
  +'<section class="hero"><div class="hero-l">'+poolSvg()+'</div><div class="hero-r">'
-  +'<div class="hero-lit">'+f0(L)+' <span style="font-size:22px;font-weight:700">litros</span></div>'
+  +'<div class="hero-lit">'+f0(L)+' <span style="font-size:21px;font-weight:700">litros</span></div>'
   +'<div class="hero-shape">'+SHAPES[c.shape].label+'</div>'
   +'<div class="hero-pill"><span style="color:#fff">'+icon('snow',20)+'</span><span><small>Temperatura</small><b>'+temp+' • Limpeza: Automática</b></span></div>'
  +'</div>'+heroWaves()+'</section>'
  +'<h2 class="sec">Status da água</h2><div class="grid2">';
- /* ★ badge do pH vem de getPhStatus(ph, cloro) */
  const cards={
   ph:{cls:'ph',html:'<span style="font-size:13.5px;font-weight:800">pH</span>'},
   cl:{cls:'ocl',html:icon('alert',22)},
@@ -556,7 +546,7 @@ function vHome(){
  ['ph','cl','alk','hard'].forEach(k=>{
   const unit=RANGES[k].unit?' <span class="unit">mg/L</span>':'';
   let st;
-  if(k==='ph'){const ps=getPhStatus(r.ph,r.cl);st={cls:ps.classe==='green'?'ok':(ps.classe==='red'?'bad':'warn'),txt:ps.label};}
+  if(k==='ph'){const ps=getPhStatus(r.ph,r.cl);st={cls:ps.cor==='green'?'ok':'warn',txt:ps.label};}
   else st=statOf(k,r[k]);
   h+='<button class="stat" onclick="editReading(\''+k+'\')">'
    +'<span class="stat-top"><span class="c-ic '+cards[k].cls+'">'+cards[k].html+'</span><span class="stat-label">'+RANGES[k].label+'</span></span>'
@@ -564,19 +554,16 @@ function vHome(){
    +'<span class="stat-badges"><span class="bdg '+st.cls+'">'+st.txt+'</span>'+unit+'</span></button>';
  });
  h+='</div>';
- /* ★ banner vermelho BANHO PROIBIDO */
  if(banho){
   h+='<div class="banner red"><span class="b-ic">'+icon('shieldA',18)+'</span><span>'
    +'<b>BANHO PROIBIDO por 24 h</b>'
    +'<p>'+(state.water==='verde'?'Água verde e cloro em '+f1(r.cl)+' ppm':'Cloro em '+f1(r.cl)+' ppm')+' — ninguém entra até o choque assentar e o cloro voltar para 1–3 ppm.</p>'
-   +'<button class="p-link" onclick="go(\'plano\')">Corrigir agora — ver meu plano →</button></span></div>';
+   +'<button class="p-link" onclick="go(\'plano\')">Ver meu plano de correção →</button></span></div>';
  }
- /* banner âmbar do próximo problema (pH contextual, AT, dureza...) */
  const op=otherProblemBanner();
  if(op)h+='<button class="banner" onclick="go(\'plano\')"><span class="b-ic">'+icon('alert',18)+'</span><span><b>'+op.t+'</b><p>'+op.p+'</p></span></button>';
- else if(!banho)h+='<div class="banner grn"><span class="b-ic">'+icon('check',18)+'</span><span><b>Tudo em ordem</b><p>Todos os parâmetros estão dentro das faixas ideais. Mantenha a rotina semanal.</p></span></div>';
- h+='<button class="bigbtn" onclick="go(\'plano\')">'+pillSparkle(24)+' Dosificar</button>'
- /* ★ pwaCard — o CSS mantém display:none até o JS liberar */
+ else if(!banho)h+='<div class="banner grn"><span class="b-ic">'+icon('check',18)+'</span><span><b>Tudo em ordem</b><p>Parâmetros dentro das faixas ideais. Mantenha a rotina semanal.</p></span></div>';
+ h+='<button class="bigbtn" onclick="go(\'plano\')">'+pillSparkle(24)+' Ver meu plano / Dosificar</button>'
  +'<section class="install" id="pwaCard"><div class="i-ic">'+icon('download',20)+'</div>'
   +'<div class="i-txt"><b>Instale o Piscina App</b><span>Adicione à tela inicial para abrir na hora — funciona até sem sinal.</span></div>'
   +'<button onclick="installPWA()">Instalar</button></section>'
@@ -584,10 +571,22 @@ function vHome(){
  return h;
 }
 
-/* ==================== CLIMA REAL (GPS → Nominatim → ipapi → fallback) ==================== */
+/* ==================== CLIMA REAL BLINDADO ==================== */
+function climaTop(){
+ return '<header class="thdr"><button class="t-btn" onclick="go(\'home\')" aria-label="Voltar">'+icon('back',22)+'</button>'
+  +'<h1>Clima e Piscina</h1><button class="t-btn" onclick="go(\'home\')" aria-label="Fechar">'+icon('x',22)+'</button></header>';
+}
 function fetchT(url,ms){const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),ms);
  return fetch(url,{signal:ctl.signal}).finally(()=>clearTimeout(t));}
-
+function validWx(f){
+ try{
+  if(!f||typeof f!=='object')return false;
+  if(!f.current||typeof f.current.temp!=='number'||typeof f.current.code!=='number')return false;
+  if(!Array.isArray(f.hourly)||!f.hourly.length||!Array.isArray(f.daily)||!f.daily.length)return false;
+  if(typeof f.hourly[0].temp!=='number'||typeof f.daily[0].min!=='number')return false;
+  return true;
+ }catch(e){return false;}
+}
 function getGpsCoords(ms){
  return new Promise(res=>{
   if(!('geolocation' in navigator)||location.protocol==='file:'){res(null);return;}
@@ -596,8 +595,7 @@ function getGpsCoords(ms){
   navigator.geolocation.getCurrentPosition(
    p=>{if(done)return;done=true;clearTimeout(t);res({lat:p.coords.latitude,lon:p.coords.longitude});},
    ()=>{if(done)return;done=true;clearTimeout(t);res(null);},
-   {enableHighAccuracy:true,timeout:ms,maximumAge:300000}
-  );
+   {enableHighAccuracy:true,timeout:ms,maximumAge:300000});
  });
 }
 async function reverseNominatim(lat,lon){
@@ -606,10 +604,7 @@ async function reverseNominatim(lat,lon){
   if(r.ok){
    const j=await r.json(),a=j.address||{};
    const nome=a.village||a.town||a.suburb||a.city_district||a.city||a.county||'';
-   if(nome){
-    const uf=((a['ISO3166-2-lvl4']||'').split('-')[1])||'';
-    return nome+(uf?' - '+uf:'');
-   }
+   if(nome){const uf=((a['ISO3166-2-lvl4']||'').split('-')[1])||'';return nome+(uf?' - '+uf:'');}
   }
  }catch(e){}
  return null;
@@ -619,22 +614,20 @@ async function ipapiLoc(){
   const r=await fetchT('https://ipapi.co/json/',5000);
   if(r.ok){
    const j=await r.json();
-   if(typeof j.latitude==='number'&&typeof j.longitude==='number'){
+   if(typeof j.latitude==='number'&&typeof j.longitude==='number')
     return{lat:j.latitude,lon:j.longitude,place:[j.city,j.region].filter(Boolean).join(', ')||null};
-   }
   }
  }catch(e){}
  return null;
 }
-/* Cadeia oficial: GPS 8s → Nominatim → ipapi.co → fallback fixo Miguel Burnier */
 async function getRealLocation(){
  const gps=await getGpsCoords(8000);
  if(gps){
-  const nome=await reverseNominatim(gps.lat,gps.lon);
+  const nome=await reverseNominatim(gps.lat,gps.lon).catch(()=>null);
   return{lat:gps.lat,lon:gps.lon,place:nome||'Minha localização (GPS)',gps:true};
  }
  const ip=await ipapiLoc();
- if(ip)return{lat:ip.lat,lon:ip.lon,place:ip.place||'Localização aproximada (rede)',gps:false};
+ if(ip)return{lat:ip.lat,lon:ip.lon,place:ip.place||'Localização aproximada',gps:false};
  return{lat:FALLBACK_LAT,lon:FALLBACK_LON,place:PLACE_FALLBACK,gps:false};
 }
 async function fetchForecast(lat,lon){
@@ -659,28 +652,30 @@ async function fetchForecast(lat,lon){
      pop:(j.daily.precipitation_probability_max[i]??0),code:j.daily.weather_code[i]};})};
  }catch(e){return null;}
 }
-/* Simulada igual ao print real do usuário: 25° Chuva leve, sensação 26°, 60% agora... */
-function simulateForecast(){
+function simulateFallback(){
  const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[ri(0,a.length-1)];
  const base=new Date();const hours=[],days=[];
- const pops=[60,40,40,40,30,25,20,20,15,15,10,10];
- const codes=[61,95,95,95,80,61,80,61,3,3,2,2];
+ const pops=[60,40,40,40,30,25,20,20,15,15,10,10],codes=[61,95,95,95,80,61,80,61,3,3,2,2];
  for(let i=0;i<12;i++)hours.push({label:i===0?'Agora':((base.getHours()+i)%24)+'h',temp:25-((i/4)|0),pop:pops[i],code:codes[i]});
+ const seq=[95,3,2,2,0,0,2];
  for(let i=0;i<7;i++){const d=new Date(base);d.setDate(base.getDate()+i);
-  const mn=16+ri(0,2);
-  const seq=[95,3,2,2,0,0,2];
-  days.push({label:i===0?'Hoje, '+ddmm(d):DOW[d.getDay()]+', '+ddmm(d),min:mn-1,max:25+i-((i/2)|0)+ri(-1,1),pop:seq[i]===95?60:ri(5,30),code:seq[i]});}
+  days.push({label:i===0?'Hoje, '+ddmm(d):DOW[d.getDay()]+', '+ddmm(d),min:15+ri(0,2),max:25+i-((i/2)|0),
+   pop:seq[i]===95?60:ri(5,30),code:seq[i]});}
  return{simulated:true,place:PLACE_FALLBACK,at:new Date(),
   current:{temp:25,feels:26,code:61,wind:3,hum:88},hourly:hours,daily:days};
 }
 function cacheWx(w){try{localStorage.setItem('poolcare_wx',JSON.stringify({w:w,ts:Date.now()}));}catch(e){}}
-function readWxCache(){try{const j=JSON.parse(localStorage.getItem('poolcare_wx')||'null');
- if(j&&j.w&&j.w.current&&!j.w.simulated)return j;}catch(e){}return null;}
+function readWxCache(){
+ try{
+  const j=JSON.parse(localStorage.getItem('poolcare_wx')||'null');
+  if(j&&j.w&&!j.w.simulated&&validWx(j.w))return j;
+ }catch(e){}
+ return null;
+}
 function cacheGeo(g){try{localStorage.setItem('poolcare_geo',JSON.stringify(g));}catch(e){}}
 function readGeo(){try{return JSON.parse(localStorage.getItem('poolcare_geo')||'null');}catch(e){return null;}}
 
 let wxToken=0,geoToasted=false;
-/* Watchdog 6s: nunca trava. Real sempre substitui simulada/cache quando chegar. */
 function loadWeather(silent){
  const my=++wxToken;
  if(!silent){state.wxLoading=true;render();}
@@ -688,6 +683,7 @@ function loadWeather(silent){
  const wd=setTimeout(fallback,6000);
  function paint(f,note){
   if(my!==wxToken)return;
+  if(!f||!validWx(f))return;
   clearTimeout(wd);painted=true;
   state.wxLoading=false;state.weather=f;
   if(!f.simulated)cacheWx(f);
@@ -699,7 +695,7 @@ function loadWeather(silent){
   clearTimeout(wd);painted=true;
   const c=readWxCache();
   state.wxLoading=false;
-  state.weather=c?Object.assign({},c.w,{cached:true}):simulateForecast();
+  state.weather=c?Object.assign({},c.w,{cached:true}):simulateFallback();
   render();
  }
  let pend=2;
@@ -707,11 +703,9 @@ function loadWeather(silent){
  const geo=readGeo();
  const base=(geo&&geo.lat)?{lat:geo.lat,lon:geo.lon,place:geo.place||PLACE_FALLBACK}
                           :{lat:FALLBACK_LAT,lon:FALLBACK_LON,place:PLACE_FALLBACK};
- /* Via A: previsão real rápida (última posição conhecida) */
  fetchForecast(base.lat,base.lon)
-  .then(f=>{if(my!==wxToken)return;if(f)paint(Object.assign(f,{place:base.place}),null);})
+  .then(f=>{if(my!==wxToken)return;if(f)paint(Object.assign(f,{place:base.place,approx:!geo}),null);})
   .catch(()=>{}).finally(settle);
- /* Via B: localização real do aparelho → previsão do SEU local */
  getRealLocation().then(async loc=>{
   if(my!==wxToken)return;
   const f=await fetchForecast(loc.lat,loc.lon);
@@ -725,35 +719,40 @@ function loadWeather(silent){
   }
  }).catch(()=>{}).finally(settle);
 }
-function curAlert(){
- const w=state.weather;if(!w)return null;const c=w.current.code;
- const stormSoon=(w.hourly||[]).slice(0,4).some(x=>x.code>=95);
- if((c>=95||stormSoon)&&state.alerts.storm)return{t:'Alerta amarelo: tempestade',p:'Tempestade prevista nas próximas horas. Recomenda-se cobrir a piscina para evitar detritos e contaminação da água.'};
- if(c>=61&&c<=82&&state.alerts.storm)return{t:'Alerta: Chuva prevista',p:'Chuva nas próximas horas. Cubra a piscina e adie a dosagem de produtos para um dia firme.'};
- return null;
-}
+window.wxShowNow=()=>{
+ wxToken++;
+ state.wxLoading=false;
+ const c=readWxCache();
+ state.weather=c?Object.assign({},c.w,{cached:true}):simulateFallback();
+ render();
+};
 function vClima(){
- const top='<header class="thdr"><button class="t-btn" onclick="go(\'home\')" aria-label="Voltar">'+icon('back',22)+'</button>'
-  +'<h1>Clima e Piscina</h1><button class="t-btn" onclick="go(\'home\')" aria-label="Fechar">'+icon('x',22)+'</button></header>';
  if(state.wxLoading){
-  return top+'<div class="wx-load"><div class="spinner"></div><p>⏳ Carregando previsão...</p><small>buscando GPS e tempo real • timeout automático de 6s</small></div>';
+  return climaTop()+'<div class="wx-load"><div class="spinner"></div><p>⏳ Carregando previsão...</p>'
+   +'<small>GPS + tempo real • timeout automático de 6s</small>'
+   +'<button class="o-btn" style="margin:16px auto 0;max-width:250px" onclick="wxShowNow()">Ver previsão salva agora</button></div>';
  }
- const w=state.weather;
- if(!w)return top+'<div class="wx-load"><p>Previsão não carregada</p><button class="t-btn" style="margin:16px auto 0;max-width:220px" onclick="loadWeather(false)">Carregar agora</button></div>';
+ let w=state.weather;
+ if(w&&!validWx(w)){state.weather=null;w=null;}
+ if(!w){
+  return climaTop()+'<div class="wx-load"><p>Previsão não carregada</p>'
+   +'<button class="t-btn" style="margin:16px auto 0;max-width:220px" onclick="loadWeather(false)">Carregar agora</button></div>';
+ }
  const c=w.current;
  const hora=w.at?w.at.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'';
  const upd=w.cached?('última previsão real • '+hora):('Atualizado hoje às '+hora);
- let h=top+'<div class="page">'
+ let h=climaTop()+'<div class="page">'
  +'<div class="wx-big">'+bigWx(c.code,120)+'</div>'
  +'<div class="wx-temp-line">'+c.temp+'° • '+describeCode(c.code)+'</div>'
  +'<div class="wx-place">'+(w.place||PLACE_FALLBACK)+' • Agora • '+upd+'</div>'
  +'<div class="wx-extra">Sensação '+c.feels+'° • Vento '+c.wind+' km/h • Umidade '+c.hum+'%'
-  +' <button class="mini-refresh" onclick="loadWeather(true)" aria-label="Atualizar previsão">'+icon('refresh',14)+'</button></div>';
- const al=curAlert();
- if(al)h+='<button class="banner" onclick="go(\'plano\')"><span class="b-ic">'+icon('alert',18)+'</span><span><b>'+al.t+'</b><p>'+al.p+'</p></span></button>';
+  +' <button class="mini-refresh" onclick="loadWeather(true)" aria-label="Atualizar">'+icon('refresh',14)+'</button></div>';
+ const stormSoon=(w.hourly||[]).slice(0,4).some(x=>x.code>=95);
+ if((c>=95||stormSoon)&&state.alerts.storm)h+='<button class="banner" onclick="go(\'plano\')"><span class="b-ic">'+icon('alert',18)+'</span><span><b>Alerta amarelo: tempestade</b><p>Tempestade prevista nas próximas horas. Cubra a piscina para evitar detritos e contaminação da água.</p></span></button>';
  else{const vd=poolVerdict();if(vd)h+='<div class="banner grn"><span class="b-ic">'+icon('check',18)+'</span><span><b>Condições ótimas</b><p>'+vd.d+'</p></span></div>';}
- if(w.simulated)h+='<div class="offcard"><b>Previsão de exemplo por enquanto</b><span>Assim que a rede/GPS responder, o tempo real substitui automaticamente.</span><button onclick="loadWeather(false)">'+icon('refresh',13)+' Tentar novamente</button></div>';
+ if(w.simulated)h+='<div class="offcard"><b>Previsão de exemplo por enquanto</b><span>Quando a rede/GPS responder, o tempo real substitui automaticamente.</span><button onclick="loadWeather(false)">'+icon('refresh',13)+' Tentar novamente</button></div>';
  else if(w.cached)h+='<div class="offcard blue"><b>Você está offline — última previsão real ('+hora+')</b><button onclick="loadWeather(false)">'+icon('refresh',13)+' Atualizar agora</button></div>';
+ if(w.approx)h+='<div class="offcard blue"><b>Local padrão em uso — não é sua posição real</b><button onclick="useMyLocation()">'+icon('pin',13)+' Usar minha localização</button></div>';
  h+='<h3 class="slab">'+icon('clock',17)+' Próximas 12 horas</h3><div class="hscroll">'
   +w.hourly.map(x=>'<div class="hcard"><span class="hc-t">'+x.temp+'°</span>'+bigWx(x.code,28)+'<b>'+x.pop+'%</b><span class="hc-h">'+x.label+'</span></div>').join('')
   +'</div>'
@@ -767,6 +766,17 @@ function vClima(){
  +'<p class="wx-foot">Tempo real por Open-Meteo • GPS → Nominatim → ipapi.co</p></div>';
  return h;
 }
+window.useMyLocation=async()=>{
+ toast('Buscando sua localização real...');
+ const loc=await getRealLocation();
+ const f=await fetchForecast(loc.lat,loc.lon);
+ if(f&&validWx(f)){
+  f.place=loc.place;
+  cacheGeo({lat:loc.lat,lon:loc.lon,place:loc.place});
+  state.weather=f;cacheWx(f);render();
+  toast('Localização atualizada: '+loc.place);
+ }else toast('Sem internet para atualizar o clima agora.','warn');
+};
 window.openAlerts=()=>{
  openModal('<h3>Configurar alertas</h3><p class="m-p">Escolha quais avisos aparecem no app.</p>'
  +'<div class="al-row"><span><b>Tempestade e chuva forte</b><small>Avisa para cobrir a piscina e adiar a dosagem</small></span>'
@@ -809,7 +819,6 @@ function histSlice(k){
 }
 function vHist(){
  const r=state.readings,now=new Date();
- /* ★ análise com julgamento contextual do pH */
  const phOk=phOkCtx(r.ph,r.cl),clOk=r.cl>=1;
  const upd='Atualizado hoje • '+ddmm(now)+' • '+now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
  const charts=[
@@ -867,19 +876,29 @@ window.openMedList=()=>{
 
 /* ============================ DICAS ============================ */
 function vDicas(){
- let h='<header class="lhdr"><span></span><h1>Dicas para hoje</h1><span class="l-btn" style="color:#0B8FA8">'+icon('bulb',22)+'</span></header><div class="page" style="padding-top:14px">';
- dicasHoje().forEach(t=>{
+ const r=state.readings,vd=poolVerdict(),list=[];
+ if(r.cl<1)list.push({ic:'zap',t:'Reativação da piscina',p:'Cloro em '+f1(r.cl)+' ppm: a água parou de ser desinfetada. Abaixe o pH para 7,2 (se estiver acima de 7,4) e faça o choque noturno.',cta:'Resolver agora'});
+ if(r.cl>=1&&!phOkCtx(r.ph,r.cl)){const s=getPhStatus(r.ph,r.cl);list.push({ic:'drop',t:'pH '+s.label.toLowerCase(),p:s.texto,cta:'Ver no plano'});}
+ if(state.water==='verde')list.push({ic:'drop',t:'Água verde',p:'Algas instaladas: choque duplo, escovação e filtro 24 h. Banho proibido até clarear.'});
+ if(state.water==='turva')list.push({ic:'drop',t:'Água turva',p:'Flocule com sulfato em RECIRCULAR, decante 12 h e aspire o fundo em ESGOTO/DRENAR devagar.'});
+ if(vd&&vd.cls!=='ok')list.push({ic:'umbrella',t:vd.t+' no radar',p:'Cubra a piscina e adie qualquer dosagem para o próximo dia firme.'});
+ list.push({ic:'drop',t:'Limpeza de borda',p:'Aplique limpa borda nas paredes a cada 15 dias para evitar linha amarelada.'});
+ list.push({ic:'shieldA',t:'Manutenção semanal',p:'Peneire a superfície, escove as paredes e mantenha o filtro ligado 6 h por dia.'});
+ let h='<header class="lhdr"><span></span><h1>Dicas para hoje</h1>'
+  +'<button class="l-btn" onclick="go(\'config\')" aria-label="Ajustes">'+icon('gear',22)+'</button></header>'
+ +'<div class="page" style="padding-top:14px">';
+ list.forEach(t=>{
   h+='<div class="tip"><span class="tip-ic">'+icon(t.ic,20)+'</span><div class="tip-body"><b>'+t.t+'</b><p>'+t.p+'</p>'
    +(t.cta?'<button class="tip-btn" onclick="go(\'plano\')">'+t.cta+' →</button>':'')+'</div></div>';
  });
- h+='<p class="fine center">Dicas geradas a partir das suas medições e da previsão do tempo real.</p></div>';
+ h+='<p class="fine center">Dicas geradas a partir das suas medições e da previsão do tempo real.<br>Ajustes ficam na engrenagem aqui no topo ou no Início.</p></div>';
  return h;
 }
 
 /* ============================ CONFIG ============================ */
 const PRESETS={pequena:{l:5,w:3,sh:1.0,dp:1.4},media:{l:9,w:4,sh:1.0,dp:1.5},grande:{l:12,w:6,sh:1.2,dp:1.8}};
 function shapeSvg(k){
- const s='<svg width="36" height="30" viewBox="0 0 36 30" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true">';
+ const s='<svg width="34" height="28" viewBox="0 0 36 30" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true">';
  if(k==='rect')return s+'<rect x="4" y="7" width="28" height="16" rx="2.5"/></svg>';
  if(k==='round')return s+'<circle cx="18" cy="15" r="10.5"/></svg>';
  if(k==='oval')return s+'<ellipse cx="18" cy="15" rx="12" ry="8" transform="rotate(-18 18 15)"/></svg>';
@@ -925,7 +944,7 @@ function vConfig(){
   +'<button class="preset'+(activePreset()==='media'?' on':'')+'" onclick="applyPreset(\'media\')">Média</button>'
   +'<button class="preset'+(activePreset()==='grande'?' on':'')+'" onclick="applyPreset(\'grande\')">Grande</button></div></section>'
  +'<button class="bigbtn" style="margin-top:22px" onclick="saveCfg()">'+icon('save',22)+' Salvar</button>'
- +'<p class="foot-note">O volume é calculado automaticamente com base nas dimensões</p>'
+ +'<p class="foot-note">Volume = prof. média × C × L × fator do formato × 1000</p>'
  +'<div class="icon-card"><b>Ícones do app (PWA)</b>'
   +'<p>Sem icon-192.png e icon-512.png na pasta, o Chrome não oferece o botão de instalação. Baixe uma única vez e mova os 2 arquivos para a pasta do index.html.</p>'
   +'<button onclick="downloadIcons()">'+icon('download',14)+' Baixar os 2 ícones</button></div>'
@@ -947,7 +966,7 @@ window.saveCfg=()=>{persist();toast('Configuração salva!');go('home');};
 window.openInfo=()=>{
  openModal('<h3>Como o volume é calculado</h3><p class="m-p">Volume = profundidade média × comprimento × largura × fator do formato × 1000.</p>'
  +'<div class="mstep"><b>Fatores por formato</b><span>Retangular 1,0 • Redonda 0,785 (π·Ø²/4) • Oval 0,85 • Oitavada 0,87</span></div>'
- +'<div class="mstep"><b>pH e choque</b><span>Com cloro zerado (< 1 ppm), o pH ideal para o choque é 7,0–7,4 (meta 7,2) — acima disso o cloro perde até 50% da eficácia. A faixa normal 7,2–7,6 vale com cloro presente.</span></div>'
+ +'<div class="mstep"><b>pH e choque</b><span>Com cloro abaixo de 1 ppm, o pH ideal para o choque é 7,0–7,4 (meta 7,2) — acima disso o cloro perde até 50% da eficácia. A faixa 7,2–7,6 vale com cloro presente.</span></div>'
  +'<div class="mstep"><b>Dosagens do plano</b><span>Choque simples 14 g e duplo 28 g por 1.000 L; sulfato 10 g; clarificante 2 ml; algicida de choque 6 ml por 1.000 L.</span></div>'
  +'<button class="m-btn" onclick="closeModal()">Entendi</button>');
 };
@@ -957,7 +976,6 @@ window.askReset=()=>{openModal('<h3>Apagar dados?</h3><p class="m-p">Medidas, me
 window.doReset=()=>{try{localStorage.removeItem('poolcare_v1');}catch(e){}
  state=defaultState();seedEvents();state.view='config';persist();closeModal();render();toast('Dados restaurados ao padrão.');};
 
-/* ---------- gerador de ícones PWA (baixa icon-192.png e icon-512.png) ---------- */
 window.downloadIcons=()=>{
  const draw=S=>{
   const c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');const u=S/512;
@@ -981,15 +999,17 @@ window.downloadIcons=()=>{
  toast('Ícones baixados! Mova os 2 PNGs para a pasta do index.html e recarregue 2x.');
 };
 
-/* ---------- medição ---------- */
+/* ---------- medição (alimenta o Histórico) ---------- */
 let waterPick=null;
 window.editReading=k=>{
  waterPick=state.water;const rg=RANGES[k];
- const dicaPh=(k==='ph'&&state.readings.cl<1)?'<p class="m-p" style="color:#8A5200;background:#FFE2B0;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:12px">Cloro zerado: para o choque, o pH ideal agora é 7,0–7,4 (meta 7,2).</p>':'';
+ const isPh=k==='ph',clZ=state.readings.cl<1;
+ const faixa=isPh&&clZ?'7,0 a 7,4 (modo choque)':f1(rg.lo)+' a '+f1(rg.hi);
+ const dica=(isPh&&clZ)?'<p class="m-p" style="color:#8A5200;background:#FFE2B0;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:12px">Cloro zerado: para o choque, o pH ideal agora é 7,0–7,4 (meta 7,2).</p>':'';
  openModal('<h3>Registrar medição</h3><p class="m-p">Meça com fitas ou kit de teste e digite o valor de hoje.</p>'
- +'<label class="f-label">'+rg.label+(rg.unit?' ('+rg.unit.trim()+')':'')+' — ideal '+(k==='ph'&&state.readings.cl<1?'7,0 a 7,4 (modo choque)':f1(rg.lo)+' a '+f1(rg.hi))+'</label>'
+ +'<label class="f-label">'+rg.label+(rg.unit?' ('+rg.unit.trim()+')':'')+' — ideal '+faixa+'</label>'
  +'<input id="rdVal" class="in" type="text" inputmode="decimal" value="'+fmt(state.readings[k])+'">'
- +dicaPh
+ +dica
  +'<label class="f-label">Aparência da água</label>'
  +'<div class="seg" style="margin-top:0">'+['cristalina','turva','verde'].map(o=>'<button class="'+(state.water===o?'on':'')+'" onclick="pickWater(\''+o+'\')">'+o[0].toUpperCase()+o.slice(1)+'</button>').join('')+'</div>'
  +'<button class="m-btn" onclick="saveReading(\''+k+'\')">Salvar medição</button>'
@@ -1001,7 +1021,7 @@ window.saveReading=k=>{
  const el=document.getElementById('rdVal'),v=parseFloat(String(el.value).replace(',','.'));
  if(isNaN(v)){toast('Digite um número válido.','warn');return;}
  state.readings[k]=v;
- state.hist[k].push({v,d:ddmm(new Date())});
+ state.hist[k].push({v,d:ddmm(new Date())});          /* alimenta os gráficos */
  if(state.hist[k].length>10)state.hist[k]=state.hist[k].slice(-10);
  state.water=waterPick||state.water;
  state.events.unshift({type:(k==='cl'&&v<1)?'warn':'ok',d:new Date(),
@@ -1011,111 +1031,86 @@ window.saveReading=k=>{
 };
 
 /* ============================================================
-   PLANO 5 ETAPAS — pH contextual via getPhStatus()
-   Fatores: choque simples 14 g/1.000 L • duplo 28 • sulfato 10
-            clarificante 2 ml • algicida choque 6 ml
+   PLANO 5 ETAPAS — Fatores: choque 14/28 g, sulfato 10 g,
+   clarificante 2 ml, algicida 6 ml (por 1.000 L)
    ============================================================ */
-function gerarPlanoCompleto(){
+function gerarPlano(){
  const L=litersOf(),k=L/1000,r=state.readings,verde=state.water==='verde',turva=state.water==='turva';
- const FATOR={choqueSimples14:14,choqueDuplo28:28,sulfato10:10,clarificante2:2,algicidaChoque6:6};
- const etapas=[],compras=[];
- const addB=(cat,name,desc,qty,price)=>compras.push({cat,name,desc,qty,price});
+ const F={choqueSimples:14,choqueDuplo:28,sulfato:10,clarificante:2,algicida:6};
+ const etapas=[];
  const choqueNec=r.cl<1||verde;
- const banho=r.cl<1||verde;
 
- /* ---- 1 pH: julgamento contextual (choque x banho) ---- */
+ /* Etapa 1 — pH contextual */
  {
   const ps=getPhStatus(r.ph,r.cl);
-  if(!ps.precisaCorrigir){
-   etapas.push({t:'pH da água',bdg:['ok',choqueNec?'Ideal p/ choque':'Em ordem'],
-    inst:[choqueNec
-     ?'pH '+f1(r.ph)+' dentro da faixa do choque (7,0–7,4). Pode aplicar o cloro da etapa 3.'
-     :'pH '+f1(r.ph)+' dentro da faixa normal 7,2–7,6 (com cloro presente).']});
+  if(ps.label==='Ideal'){
+   etapas.push({t:'pH da água',bdg:['ok',choqueNec?'IDEAL P/ CHOQUE':'EM ORDEM'],inst:[ps.texto]});
   }else{
-   const barrilha=(ps.label==='BAIXO'||ps.label==='BAIXO P/ CHOQUE');
-   const pChoque=(ps.label==='ALTO P/ CHOQUE'||ps.label==='BAIXO P/ CHOQUE');
-   const dose=ps.dose||5;
-   etapas.push({t:'pH da água',
-    bdg:['warn',pChoque?(barrilha?'Baixo p/ choque':'Alto p/ choque'):(barrilha?'Baixo':'Alto')],
-    prod:barrilha?'Elevador de pH (barrilha)':'Redutor de pH (ácido muriático)',
+   const barrilha=ps.label.indexOf('BAIXO')===0;
+   const pChoque=ps.label.indexOf('CHOQUE')>-1;
+   etapas.push({t:'pH da água',bdg:['warn',ps.label],prod:barrilha?'Elevador de pH (barrilha)':'Redutor de pH (ácido muriático)',
     chem:pChoque?(barrilha?'suba o pH ANTES do choque':'abaixe o pH ANTES do choque'):'faixa normal: 7,2–7,6',
-    dose:barrilha?gW(dose):mlW(dose),
+    dose:ps.dose,
     inst:pChoque?[
-      'Cloro com pH '+f1(r.ph)+' perde até 50% da eficácia — '+(barrilha?'suba':'abaixe')+' para 7,2 antes do choque (faixa do choque: 7,0–7,4).',
-      'Aplique 1/3 da dose com o filtro ligado, espere 4 h, re-meça e complete se precisar.',
-      'Só parta para o choque da etapa 3 com o pH em 7,0–7,4.']
-     :(barrilha?['pH '+f1(r.ph)+' abaixo da faixa 7,2–7,6. Dilua em balde e distribua com o filtro ligado; re-meça em 4–6 h.']
-               :['pH '+f1(r.ph)+' acima do teto. Aplique 1/3 da dose, espere 4 h e re-meça.'])});
-   if(barrilha)addB('limpeza','BARRILHA (ELEVADOR DE PH)','carbonato de sódio — '+(pChoque?'subir pH para 7,2 antes do choque':'sobe o pH'),gW(dose),dose/1000*4.80);
-   else addB('limpeza','REDUTOR DE PH','ácido muriático — '+(pChoque?'abaixar pH de '+f1(r.ph)+' para 7,2 antes do choque':'pH acima de 7,6'),mlW(dose),dose/1000*7.90);
+     'Cloro com pH '+f1(r.ph)+' perde até 50% da eficácia — '+(barrilha?'suba':'abaixe')+' para 7,2 antes do choque (faixa do choque: 7,0–7,4).',
+     'Aplique 1/3 da dose com o filtro ligado, espere 4 h, re-meça e complete se precisar.',
+     'Só parta para o choque da etapa 3 com o pH em 7,0–7,4.']
+    :(barrilha?['pH '+f1(r.ph)+' abaixo da faixa 7,2–7,6. Dilua em balde e distribua com o filtro ligado; re-meça em 4–6 h.']
+              :['pH '+f1(r.ph)+' acima do teto. Aplique 1/3 da dose com o filtro ligado, espere 4 h, re-meça e complete se precisar.'])});
   }
  }
 
- /* ---- 2 Alcalinidade 80–120 ---- */
+ /* Etapa 2 — Alcalinidade */
  if(r.alk<80){const g=round5(((80-r.alk)/10)*18*k);
   etapas.push({t:'Alcalinidade (AT)',bdg:['warn','Ajustar'],prod:'Barrilha',chem:'carbonato de sódio — sobe a AT',dose:gW(g),
-   inst:['Aplique com o filtro ligado e re-meça a AT em 6 h.','Barrilha sobe o pH junto: confira o pH depois desta etapa.']});
-  addB('limpeza','BARRILHA','carbonato de sódio — eleva a alcalinidade',gW(g),g/1000*4.80);}
+   inst:['Aplique com o filtro ligado e re-meça a AT em 6 h.','Barrilha sobe o pH junto: confira o pH depois desta etapa.']});}
  else if(r.alk>120){const ml=round5(((r.alk-120)/10)*10*k);
   etapas.push({t:'Alcalinidade (AT)',bdg:['warn','Ajustar'],prod:'Redutor de pH (ácido muriático)',chem:'também derruba a AT',dose:mlW(ml),
-   inst:['Dosifique aos poucos, com filtro ligado.','Re-meça após 6 h de filtração.']});
-  addB('limpeza','REDUTOR DE PH','ácido muriático — pH e alcalinidade',mlW(ml),ml/1000*7.90);}
- else etapas.push({t:'Alcalinidade (AT)',bdg:['ok','Em ordem'],inst:['AT em '+f0(r.alk)+' mg/L, dentro da faixa 80–120. A AT estabiliza o pH.']});
+   inst:['Dosifique aos poucos, com filtro ligado.','Re-meça após 6 h de filtração.']});}
+ else etapas.push({t:'Alcalinidade (AT)',bdg:['ok','EM ORDEM'],inst:['AT em '+f0(r.alk)+' mg/L, dentro da faixa 80–120. A AT estabiliza o pH.']});
 
- /* ---- 3 Cloro: choque simples 14 g / duplo 28 g por 1.000 L ---- */
+ /* Etapa 3 — Cloro */
  if(r.cl<1){
-  const g=verde?FATOR.choqueDuplo28*k:FATOR.choqueSimples14*k;
-  etapas.push({t:verde?'Cloro — choque duplo':'Cloro — choque simples',bdg:['bad','Choque'],
+  const g=verde?F.choqueDuplo*k:F.choqueSimples*k;
+  etapas.push({t:verde?'Cloro — choque duplo':'Cloro — choque simples',bdg:['bad','CHOQUE'],
    prod:'Cloro granulado 65%',chem:'hipoclorito de cálcio',dose:gW(g)+(verde?' • 2× '+gW(g/2):''),
    inst:['Confirme o pH em 7,0–7,4 (etapa 1) antes de aplicar.',
-    'Aplique ao anoitecer, com filtro ligado — o sol queima o cloro livre.',
-    'Meça de novo em 12–24 h e só libere o banho entre 1 e 3 ppm.',
-    verde?'Água verde: repita a dose em 24 h se continuar esverdeada.':'Dissolva em balde e distribua; escove as paredes antes.']});
-  addB('limpeza','CLORO GRANULADO 65%','hipoclorito de cálcio — choque '+(verde?'duplo':'simples'),gW(g),g/1000*16.90);
+    'Aplique ao anoitecer, com o filtro ligado.',
+    'Dissolva em balde e distribua; escove as paredes antes.',
+    'Meça em 12–24 h — banho liberado entre 1 e 3 ppm.',
+    verde?'Água verde: repita a dose em 24 h se continuar esverdeada.':'']});
  }else if(r.cl>3){
   etapas.push({t:'Cloro',bdg:['warn','Aguardar'],inst:['Cloro em '+f1(r.cl)+' ppm: suspenda a dosagem, retire a capa e deixe o sol agir.','Meça amanhã — banho liberado entre 1 e 3 ppm.']});
- }else{const g=round5(3*k);
-  etapas.push({t:'Cloro',bdg:['ok','Em ordem'],inst:['Cloro em '+f1(r.cl)+' ppm. Manutenção diária: '+gW(g)+' de cloro, de preferência à noite.']});
-  addB('limpeza','CLORO ESTABILIZADO','manutenção diária',gW(g),g/1000*14.50);}
+ }else{
+  etapas.push({t:'Cloro',bdg:['ok','EM ORDEM'],inst:['Cloro em '+f1(r.cl)+' ppm. Manutenção diária: '+gW(round5(3*k))+' de cloro, de preferência à noite.']});
+ }
 
- /* ---- 4 Dureza — sempre em outro dia ---- */
+ /* Etapa 4 — Dureza: sempre OUTRO DIA */
  if(r.hard<200){const kg=Math.max(1,Math.round(((200-r.hard)/10)*0.85*(L/10000)*10)/10);
-  etapas.push({t:'Dureza cálcica',bdg:['later','Outro dia'],prod:'Cloreto de cálcio',chem:'elevador de dureza',dose:f1(kg)+' kg',
-   inst:['Etapa para outro dia: nunca misture com o dia do choque de cloro.','Espalhe o produto com o filtro ligado e filtre 8 h.']});
-  addB('dureza','ELEVADOR DE DUREZA 4KG','produto para elevar a dureza da água',f1(kg)+' kg',Math.ceil(kg/4)*52.90);}
+  etapas.push({t:'Dureza cálcica',bdg:['later','OUTRO DIA'],prod:'Cloreto de cálcio',chem:'elevador de dureza',dose:f1(kg)+' kg',
+   inst:['Etapa para outro dia: nunca misture com o dia do choque de cloro.','Espalhe o produto com o filtro ligado e filtre 8 h.']});}
  else if(r.hard>400){
-  etapas.push({t:'Dureza cálcica',bdg:['later','Outro dia'],prod:'Rebosamento',chem:'sem produto químico',dose:f0(L*0.25)+' L',
-   inst:['Drene cerca de 25% do volume ('+f0(L*0.25)+' L) e complete com água nova.','Meça de novo antes de qualquer química.']});
-  addB('dureza','ÁGUA NOVA PARA REBOSAMENTO','drenar 25% e completar',f0(L*0.25)+' L',null);}
- else{etapas.push({t:'Dureza cálcica',bdg:['later','Outro dia'],inst:['Dureza em '+f0(r.hard)+' mg/L, dentro da faixa 200–400. Mantenha cloreto de cálcio em estoque.']});
-  addB('dureza','CLORETO DE CÁLCIO','reposição de estoque — dureza em ordem','—',null);}
+  etapas.push({t:'Dureza cálcica',bdg:['later','OUTRO DIA'],prod:'Rebosamento',chem:'sem produto químico',dose:f0(L*0.25)+' L',
+   inst:['Drene cerca de 25% do volume ('+f0(L*0.25)+' L) e complete com água nova.','Meça de novo antes de qualquer química.']});}
+ else etapas.push({t:'Dureza cálcica',bdg:['later','OUTRO DIA'],inst:['Dureza em '+f0(r.hard)+' mg/L, dentro da faixa 200–400. Corrija (se precisar) em outro dia do choque.']});
 
- /* ---- 5 Aparência ---- */
- if(verde){const al=round5(FATOR.algicidaChoque6*k),cl=round5(FATOR.clarificante2*k);
-  etapas.push({t:'Água verde — aparência',bdg:['bad','Tratar'],prod:'Algicida de choque + clarificante',chem:'aplicar depois do choque de cloro',dose:mlW(al)+' + '+mlW(cl),
+ /* Etapa 5 — Aparência */
+ if(verde){const al=round5(F.algicida*k),cl=round5(F.clarificante*k);
+  etapas.push({t:'Água verde — aparência',bdg:['bad','TRATAR'],prod:'Algicida de choque + clarificante',chem:'aplicar depois do choque de cloro',dose:mlW(al)+' + '+mlW(cl),
    inst:['Escove paredes e fundo antes de aplicar o algicida de choque.','Filtro por 24 h ininterruptas; aspire o sedimento no dia seguinte.','Complete com clarificante e mantenha o filtro rodando.']});
-  addB('agua','ALGICIDA DE CHOQUE','quaternário de amônio — combate algas',mlW(al),al/1000*22.50);
-  addB('agua','CLARIFICANTE','polímero concentrado — água turva',mlW(cl),cl/1000*18.90);
- }else if(turva){const su=round5(FATOR.sulfato10*k),cl=round5(FATOR.clarificante2*k);
-  etapas.push({t:'Água turva — aparência',bdg:['warn','Tratar'],prod:'Sulfato de alumínio + clarificante',chem:'floculante',dose:gW(su)+' + '+mlW(cl),
-   inst:['Filtro em "recircular": aplique o sulfato e recircule 30 min — recircular é obrigatório para não entupir o filtro com o floculante.',
+ }else if(turva){const su=round5(F.sulfato*k),cl=round5(F.clarificante*k);
+  etapas.push({t:'Água turva — aparência',bdg:['warn','TRATAR'],prod:'Sulfato de alumínio + clarificante',chem:'floculante',dose:gW(su)+' + '+mlW(cl),
+   inst:['Filtro em RECIRCULAR: aplique o sulfato e recircule 30 min.',
     'Desligue o filtro por 12 h e deixe o sedimento decantar no fundo.',
-    'Aspire o fundo em ESGOTO/DRENAR bem devagar, sem levantar a sujeira; só depois volte a válvula para "filtrar".',
-    'Complete com clarificante ('+mlW(cl)+') e filtre 24 h.']});
-  addB('agua','SULFATO DE ALUMÍNIO','floculante — decanta a água turva',gW(su),su/1000*6.50);
-  addB('agua','CLARIFICANTE','polímero concentrado',mlW(cl),cl/1000*18.90);
- }else{const cl=round5(1*k);
-  etapas.push({t:'Aparência da água',bdg:['ok','Em ordem'],inst:['Água '+state.water+'. Peneire a superfície, escove as paredes e mantenha 6 h/dia de filtração.','Clarificante de manutenção a cada 15 dias ('+mlW(cl)+').']});
-  addB('agua','CLARIFICANTE','polímero — manutenção quinzenal',mlW(cl),cl/1000*18.90);}
-
- addB('limpeza','LIMPA BORDA 1L','limpeza de borda da piscina','1 L',24.90);
- addB('limpeza','FITAS TESTE 3 EM 1','pH, cloro e alcalinidade','1 cart.',39.90);
- addB('limpeza','PENEIRA + ESCOVA DE FUNDO','kit de limpeza manual','1 un.',89.90);
-
- return{L,k,FATOR,etapas,compras,banho,choqueNec};
+    'Aspire o fundo em ESGOTO/DRENAR bem devagar, sem levantar a sujeira.',
+    'Volte a válvula para FILTRAR, complete com clarificante e filtre 24 h.']});
+ }else{
+  etapas.push({t:'Aparência da água',bdg:['ok','EM ORDEM'],inst:['Água '+state.water+'. Peneire a superfície, escove as paredes e mantenha 6 h/dia de filtração.','Clarificante de manutenção a cada 15 dias ('+mlW(round5(F.clarificante*k))+').']});
+ }
+ return{L,k,F,etapas,choqueNec,banho:r.cl<1||verde};
 }
 function vPlano(){
- const p=gerarPlanoCompleto();
+ const p=gerarPlano();
  let h='<header class="thdr"><button class="t-btn" onclick="go(\'home\')" aria-label="Voltar">'+icon('back',22)+'</button>'
   +'<h1>Meu Plano de Correção</h1><span></span></header><div class="page">'
  +'<p class="plan-meta">5 etapas • '+f0(p.L)+' L • siga a ordem 1 a 5'+(p.choqueNec?' • meta do pH p/ choque: 7,0–7,4':'')+'</p>';
@@ -1125,82 +1120,172 @@ function vPlano(){
   h+='<section class="step"><div class="step-n">'+(i+1)+'</div><div>'
    +'<div class="step-head"><h4>'+e.t+'</h4><span class="sbdg '+e.bdg[0]+'">'+e.bdg[1]+'</span></div>'
    +(e.prod?'<div class="dose"><div><b>'+e.prod+'</b>'+(e.chem?'<small>'+e.chem+'</small>':'')+'</div><span class="dose-v">'+e.dose+'</span></div>':'')
-   +'<ul class="inst">'+e.inst.map(x=>'<li>'+x+'</li>').join('')+'</ul></div></section>';
+   +'<ul class="inst">'+e.inst.filter(Boolean).map(x=>'<li>'+x+'</li>').join('')+'</ul></div></section>';
  });
- h+='<button class="bigbtn" onclick="openShopModal()">'+icon('download',22)+' Lista de compras</button>'
- +'<p class="fine">Doses calculadas pelos fatores do app (choque simples '+p.FATOR.choqueSimples14+' g/1.000 L • duplo '+p.FATOR.choqueDuplo28+' g • sulfato '+p.FATOR.sulfato10+' g • clarificante '+p.FATOR.clarificante2+' ml • algicida choque '+p.FATOR.algicidaChoque6+' ml). Confirme o rótulo do fabricante e meça após cada etapa.</p></div>';
+ h+='<button class="bigbtn" onclick="openShopModal()">'+icon('download',22)+' Lista de compras (revisar e baixar PDF)</button>'
+ +'<p class="fine">Doses pelos fatores do app (choque simples '+p.F.choqueSimples+' g/1.000 L • duplo '+p.F.choqueDuplo+' g • sulfato '+p.F.sulfato+' g • clarificante '+p.F.clarificante+' ml • algicida '+p.F.algicida+' ml). Confirme o rótulo do fabricante e meça após cada etapa.</p></div>';
  return h;
 }
 
-/* ============================ LISTA DE COMPRAS ============================ */
-const CATS=[['dureza','DUREZA','#FF9800'],['agua','AGUA TURVA','#03A9F4'],['limpeza','LIMPEZA','#4CAF50']];
+/* ============================================================
+   LISTA DE COMPRAS — você edita as quantidades antes do PDF
+   ============================================================ */
+const SHOP_LIST=[
+ {cat:'QUÍMICOS',  name:'BALDE CLORO GRANULADO 10KG',                    qty:'1 UNIDADE'},
+ {cat:'QUÍMICOS',  name:'PASTILHAS CLORO 200G',                          qty:'7 UNIDADES'},
+ {cat:'QUÍMICOS',  name:'ALGICIDA CHOQUE',                               qty:'1 LITRO'},
+ {cat:'QUÍMICOS',  name:'AREIA FILTRO 25KG',                             qty:'2 SACOS'},
+ {cat:'QUÍMICOS',  name:'KIT TESTE MEDIDOR PARÂMETROS',                  qty:'1 KIT'},
+ {cat:'QUÍMICOS',  name:'ESSÊNCIA SUNA',                                 qty:'1 LITRO'},
+ {cat:'QUÍMICOS',  name:'KIT TRATAMENTO REDUTOR PH / SULFATO / CLARIFICANTE', qty:'1 KIT'},
+ {cat:'ACESSÓRIOS',name:'PENEIRA PROFISSIONAL',                          qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'CABO TELESCÓPICO 3M UNIVERSAL (SERVE 3)',       qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'ASPIRADOR 8 RODINHAS',                          qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'MANGUEIRA ASPIRADOR 10M',                       qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'ESCOVA CURVA',                                  qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'ÓCULOS PROTEÇÃO',                               qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'LUVAS',                                         qty:'1 PAR'},
+ {cat:'ACESSÓRIOS',name:'BORRIFADOR',                                    qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'LÂMPADA LED PISCINA',                           qty:'1 UNIDADE'},
+ {cat:'ACESSÓRIOS',name:'BATERIA CONTROLE CR2032',                       qty:'2 UNIDADES'}
+];
+function shopItems(){
+ return SHOP_LIST
+  .map((i,idx)=>({cat:i.cat,name:i.name,qty:((state.shopQty[idx]||'').trim()||i.qty),idx:idx}))
+  .filter(i=>state.shopChecks[i.idx]!==false);
+}
 window.openShopModal=()=>{
- gerarPlanoCompleto().compras.forEach(i=>{if(!(i.name in state.shopChecks))state.shopChecks[i.name]=true;});
- $('#modal-root').innerHTML='<div class="m-back center" onclick="if(event.target===this)closeModal()"><div class="shop-card" id="shopBody" onclick="event.stopPropagation()"></div></div>';
+ openModal('<div class="shop-card" onclick="event.stopPropagation()">'
+ +'<button class="shop-x" onclick="closeModal()" aria-label="Fechar">'+icon('x',16)+'</button>'
+ +'<h2>Lista de Compras</h2><div class="ssub">edite as quantidades — você quem decide</div>'
+ +'<div class="shop-bar"></div><div id="shopBody"></div>'
+ +'<div class="shop-cnt" id="shopCnt"></div>'
+ +'<button class="m-btn" onclick="btnBaixarPDF()">'+icon('download',20)+' Baixar PDF</button>'
+ +'<button class="m-ghost" onclick="resetShopQty()">Restaurar quantidades padrão</button>'
+ +'</div>');
  renderShop();
 };
 function renderShop(){
- const itens=gerarPlanoCompleto().compras;
- let body='';
- CATS.forEach(cat=>{
-  const list=itens.filter(i=>i.cat===cat[0]);if(!list.length)return;
-  list.forEach(i=>{
-   const on=state.shopChecks[i.name]!==false;
-   body+='<div class="shop-it"><span class="shop-cat" style="background:'+cat[2]+'">'+cat[1]+'</span>'
-    +'<div class="shop-row"><button class="shk'+(on?' on':'')+'" onclick="toggleShop(\''+i.name.replace(/'/g,"\\'")+'\')" aria-label="Marcar">'+icon('check',17)+'</button>'
-    +'<div class="shop-t"><b>'+i.name+'</b><span>• '+i.desc+'<br>• '+i.qty+(i.price?' • '+brl(i.price):'')+'</span></div></div></div>';
-  });
- });
- const tot=itens.reduce((s,i)=>s+((state.shopChecks[i.name]!==false&&i.price)?i.price:0),0);
- $('#shopBody').innerHTML='<button class="shop-x" onclick="closeModal()" aria-label="Fechar">'+icon('x',18)+'</button>'
-  +'<h2>Lista de Compras</h2><div class="ssub">produtos piscina</div><div class="shop-bar"></div>'
-  +body
-  +'<div class="shop-total"><b>Total estimado:</b><span>'+brl(tot)+'</span></div>'
-  +'<button class="m-btn" onclick="openShoppingPdf()">'+icon('download',20)+' Baixar PDF</button>'
-  +'<p class="shop-foot">Documento PDF gerado com a lista e instruções de uso</p>';
+ const el=document.getElementById('shopBody');if(!el)return;
+ el.innerHTML=SHOP_LIST.map((i,idx)=>{
+  const on=state.shopChecks[idx]!==false;
+  const q=((state.shopQty[idx]||'').trim()||i.qty).replace(/"/g,'&quot;');
+  return '<div class="shop-it">'
+   +'<button class="shk'+(on?' on':'')+'" onclick="toggleShop('+idx+')" aria-label="Incluir no PDF">'+icon('check',14)+'</button>'
+   +'<span class="shop-n"><b>'+i.name+'</b><small>'+i.cat+'</small></span>'
+   +'<input class="qin" type="text" value="'+q+'" oninput="setShopQty('+idx+',this.value)" aria-label="Quantidade de '+i.name+'">'
+   +'</div>';
+ }).join('');
+ const cnt=document.getElementById('shopCnt');
+ if(cnt)cnt.innerHTML='<span>Itens no PDF</span><span>'+shopItems().length+' de '+SHOP_LIST.length+'</span>';
 }
-window.toggleShop=n=>{state.shopChecks[n]=state.shopChecks[n]===false?true:false;renderShop();};
-window.closeModal=()=>{$('#modal-root').innerHTML='';};
-function openModal(html){$('#modal-root').innerHTML='<div class="m-back" onclick="if(event.target===this)closeModal()"><div class="m-card">'+html+'</div></div>';}
-
-/* ============================ PDF ============================ */
-function openShoppingPdf(){
- const p=gerarPlanoCompleto();
- const byCat={dureza:[],agua:[],limpeza:[]};
- p.compras.forEach(i=>byCat[i.cat].push(i));
- const agora=new Date();
- const dataTxt=agora.toLocaleDateString('pt-BR')+' '+agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
- const cidade=(state.weather&&state.weather.place)||PLACE_FALLBACK;
- const itens=CATS.map(c=>'<div class="cat"><div class="cat-t" style="border-color:'+c[2]+'">'+c[1]+'</div>'
-  +byCat[c[0]].map(i=>'<div class="it"><span class="bx"></span><div class="it-t"><span class="nm">'+i.name+'</span><span class="qm">'+i.desc+'</span></div><span class="qt">'+i.qty+'</span></div>').join('')
-  +'</div>').join('');
- const html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Lista de compras — Piscina Inteligente</title><style>'
- +'*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;color:#222;padding:16px 15px 58px}'
- +'.head{border:2.5px solid #0B8FA8;border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}'
- +'.head h1{font-size:13px;letter-spacing:1.5px;color:#0B8FA8}.head .sub{font-size:8.5px;color:#777;margin-top:3px}'
- +'.head .dt{font-size:8px;color:#999;text-align:right;line-height:1.5}'
- +'.cat{margin-bottom:13px}.cat-t{font-size:8.5px;font-weight:bold;letter-spacing:1.3px;color:#555;border-left:3px solid;padding-left:6px;margin-bottom:5px}'
- +'.it{display:flex;align-items:center;gap:8px;padding:5px 2px;border-bottom:1px solid #EEE}'
- +'.bx{width:13px;height:13px;border:1.5px solid #AAA;border-radius:3px;flex:none}'
- +'.it-t{min-width:0}.nm{display:block;font-size:9.5px;font-weight:bold;letter-spacing:.3px;text-transform:uppercase}'
- +'.qm{display:block;font-size:7.5px;color:#999;margin-top:1px}.qt{margin-left:auto;font-size:9px;font-weight:bold;white-space:nowrap;color:#333}'
- +'.ft{position:fixed;left:0;right:0;bottom:0;height:40px;background:#F5F5F5;border-top:1px solid #E4E4E4;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 10px;font-size:6.5px;color:#666}'
- +'@page{margin:10mm 8mm 14mm}@media print{body{padding-bottom:52px}}'
- +'</style></head><body>'
- +'<div class="head"><div><h1>PISCINA INTELIGENTE</h1><div class="sub">'+f0(p.L)+'L • '+SHAPES[state.cfg.shape].label+' • '+cidade+'</div></div>'
- +'<div class="dt">lista de<br>compras</div></div>'
- +itens
- +'<div class="ft"><span>Criado por Elias Costa NEGRET&#39;S | Whatsapp (31) 98251-7147 | Telegram @EliasNegrets | Miguel Burnier, Ouro Preto - MG</span><span>'+dataTxt+'</span></div>'
- +'</body></html>';
- const w=window.open('','_blank','width=760,height=900');
- if(!w){toast('Libere os pop-ups do navegador para gerar o PDF.','warn');return;}
- w.document.open();w.document.write(html);w.document.close();
- let printed=false;const doPrint=()=>{if(printed)return;printed=true;try{w.focus();w.print();}catch(e){}};
- w.onload=doPrint;setTimeout(doPrint,600);
-}
+window.toggleShop=i=>{state.shopChecks[i]=state.shopChecks[i]===false?true:false;persist();renderShop();};
+window.setShopQty=(i,v)=>{state.shopQty[i]=v;persist();};
+window.resetShopQty=()=>{state.shopQty={};state.shopChecks={};persist();renderShop();toast('Quantidades restauradas ao padrão.');};
 
 /* ============================================================
-   PWA: botão instalar some ao instalar, volta NUNCA
+   PDF nativo (vanilla JS) — download automático, multi-página,
+   rodapé fixo com créditos em TODAS as páginas
+   ============================================================ */
+const PDF_H=297,MPT=2.83465;
+const C_NAVY=[0.043,0.184,0.353],C_LINE=[0.894,0.894,0.894],C_BLACK=[0,0,0],
+      C_WHITE=[1,1,1],C_FOOT=[0.4,0.4,0.4],C_FBG=[0.96,0.96,0.96],C_FLN=[0.85,0.85,0.85];
+function pNum(v){return (Math.round(v*100)/100).toString();}
+function pEsc(s){let o='';for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);
+ if(c>255){o+='?';continue;}
+ if(c===92){o+='\\\\';continue;}
+ if(c===40){o+='\\(';continue;}
+ if(c===41){o+='\\)';continue;}
+ o+=s[i];}return o;}
+function pRect(x,y,w,h,rgb,fill,lw){const yy=pNum((PDF_H-y-h)*MPT);
+ return pNum(rgb[0])+' '+pNum(rgb[1])+' '+pNum(rgb[2])+(fill?' rg ':' RG ')
+  +(fill?'':pNum((lw||0.4)*MPT)+' w ')
+  +pNum(x*MPT)+' '+yy+' '+pNum(w*MPT)+' '+pNum(h*MPT)+' re '+(fill?'f':'S')+'\n';}
+function pLine(x1,y1,x2,y2,rgb,wmm){const Y=v=>pNum((PDF_H-v)*MPT);
+ return pNum(rgb[0])+' '+pNum(rgb[1])+' '+pNum(rgb[2])+' RG '+pNum(wmm*MPT)+' w '
+  +pNum(x1*MPT)+' '+Y(y1)+' m '+pNum(x2*MPT)+' '+Y(y2)+' l S\n';}
+function pText(x,y,s,bold,pt,rgb,xRight){const Y=pNum((PDF_H-y)*MPT);
+ let tx=x*MPT;
+ if(xRight){const w=s.length*pt*(bold?0.58:0.52)/MPT;tx=(xRight-w)*MPT;}
+ return 'BT /'+(bold?'F2':'F1')+' '+pNum(pt)+' Tf '+pNum(rgb[0])+' '+pNum(rgb[1])+' '+pNum(rgb[2])+' rg '
+  +pNum(tx)+' '+Y+' Td ('+pEsc(s)+') Tj ET\n';}
+
+function buildShoppingPages(){
+ const L=litersOf();
+ const pages=[];let cur=[];
+ const newPage=()=>{cur=[];pages.push(cur);return cur;};
+ newPage();
+ cur.push(pRect(0,0,210,24,C_NAVY,true));
+ cur.push(pText(14,11,'PISCINA INTELIGENTE',true,13.5,C_WHITE));
+ cur.push(pText(14,18.5,f0(L)+' L • '+SHAPES[state.cfg.shape].label+' • Miguel Burnier, Ouro Preto - MG',false,8,C_WHITE));
+ let y=34;
+ ['QUÍMICOS','ACESSÓRIOS'].forEach(cat=>{
+  if(y>PDF_H-40){newPage();y=24;}
+  cur.push(pText(14,y,cat,true,8.3,C_NAVY));
+  cur.push(pLine(14,y+1.7,14+cat.length*8.3*0.62/MPT,y+1.7,C_NAVY,0.5));
+  y+=9;
+  shopItems().filter(i=>i.cat===cat).forEach(it=>{
+   if(y>PDF_H-22){newPage();y=24;}
+   cur.push(pRect(14,y-3.4,4,4,C_NAVY,false,0.4));
+   cur.push(pText(21,y,it.name,true,7.5,C_BLACK));
+   cur.push(pText(0,y,it.qty,false,6.75,C_NAVY,196));
+   y+=5.2;
+   cur.push(pLine(14,y,196,y,C_LINE,0.2));
+   y+=1.8;
+  });
+  y+=3;
+ });
+ pages.forEach((pg,i)=>{
+  const agora=new Date();
+  pg.push(pRect(0,PDF_H-10.6,210,10.6,C_FBG,true));
+  pg.push(pLine(0,PDF_H-10.6,210,PDF_H-10.6,C_FLN,0.2));
+  pg.push(pText(8,PDF_H-6.6,"Criado por Elias Costa NEGRET'S | Whatsapp (31) 98251-7147 | Telegram @EliasNegrets | Cachoeira do Campo - MG",false,5,C_FOOT));
+  pg.push(pText(0,PDF_H-6.6,agora.toLocaleDateString('pt-BR')+' '+agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'  •  pág '+(i+1)+'/'+pages.length,false,5,C_FOOT,202));
+ });
+ return pages;
+}
+function buildPdf(pages){
+ const nP=pages.length,infoObj=5+2*nP;
+ let pdf='%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
+ const offs=[];
+ const obj=s=>{offs.push(pdf.length);pdf+=s+'\n';};
+ obj('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj');
+ obj('2 0 obj\n<< /Type /Pages /Kids ['+pages.map((_,i)=>(5+2*i)+' 0 R').join(' ')+'] /Count '+nP+' >>\nendobj');
+ obj('3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj');
+ obj('4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj');
+ pages.forEach((ops,i)=>{
+  const stream=ops.join('');
+  obj((5+2*i)+' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents '+(6+2*i)+' 0 R >>\nendobj');
+  obj((6+2*i)+' 0 obj\n<< /Length '+stream.length+' >>\nstream\n'+stream+'endstream\nendobj');
+ });
+ obj(infoObj+' 0 obj\n<< /Title (Lista de Compras - Piscina Inteligente) /Producer (Piscina App v3.6) >>\nendobj');
+ const xref=pdf.length;
+ pdf+='xref\n0 '+(infoObj+1)+'\n0000000000 65535 f \n';
+ offs.forEach(o=>{pdf+=String(o).padStart(10,'0')+' 00000 n \n';});
+ pdf+='trailer\n<< /Size '+(infoObj+1)+' /Root 1 0 R /Info '+infoObj+' 0 R >>\nstartxref\n'+xref+'\n%%EOF';
+ const bytes=new Uint8Array(pdf.length);
+ for(let i=0;i<pdf.length;i++)bytes[i]=pdf.charCodeAt(i)&0xFF;
+ return bytes;
+}
+window.btnBaixarPDF=()=>{
+ try{
+  if(!shopItems().length){toast('Marque pelo menos 1 item na lista.','warn');return;}
+  const L=litersOf();
+  const bytes=buildPdf(buildShoppingPages());
+  const blob=new Blob([bytes],{type:'application/pdf'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='Lista-Piscina-'+Math.round(L/1000)+'kL-'+new Date().toISOString().slice(0,10)+'.pdf';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),4000);
+  closeModal();
+  toast('PDF baixado: '+a.download);
+ }catch(e){console.error(e);toast('Não consegui gerar o PDF.','warn');}
+};
+
+/* ============================================================
+   PWA — botão instalar some ao instalar, volta NUNCA
    ============================================================ */
 let deferredPrompt=null,canInstall=false;
 function isAppInstalled(){
@@ -1216,11 +1301,8 @@ window.installPWA=()=>{
  if(deferredPrompt){
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then(ch=>{
-   if(ch&&ch.outcome==='accepted'){
-    try{localStorage.setItem('pwa_installed','1');}catch(e){}
-   }
-   deferredPrompt=null;
-   syncPwaCard();
+   if(ch&&ch.outcome==='accepted'){try{localStorage.setItem('pwa_installed','1');}catch(e){}}
+   deferredPrompt=null;syncPwaCard();
    if(state.view==='home')render();
   }).catch(()=>{deferredPrompt=null;});
   return;
@@ -1234,15 +1316,17 @@ window.addEventListener('beforeinstallprompt',e=>{
  e.preventDefault();
  deferredPrompt=e;
  canInstall=true;
- if(!isAppInstalled())syncPwaCard();   /* só mostra se NÃO instalado */
+ if(!isAppInstalled())syncPwaCard();
 });
 window.addEventListener('appinstalled',()=>{
  canInstall=false;deferredPrompt=null;
- try{localStorage.setItem('pwa_installed','1');}catch(e){}   /* some para sempre */
+ try{localStorage.setItem('pwa_installed','1');}catch(e){}
  const el=document.getElementById('pwaCard');
  if(el)el.style.display='none';
  toast('Piscina App instalado! Botão removido do Início.');
 });
+function openModal(html){$('#modal-root').innerHTML='<div class="m-back" onclick="if(event.target===this)closeModal()"><div class="m-card">'+html+'</div></div>';}
+window.closeModal=()=>{$('#modal-root').innerHTML='';};
 function toast(msg,type){const t=document.createElement('div');t.className='toast'+(type?' '+type:'');t.textContent=msg;
  $('#toast-root').appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));
  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),320);},2600);}
@@ -1253,25 +1337,29 @@ function toast(msg,type){const t=document.createElement('div');t.className='toas
 ].map(x=>'<button data-v="'+x[0]+'" onclick="go(\''+x[0]+'\')">'+icon(x[2],22)+'<span>'+x[1]+'</span></button>').join('');
 
 document.addEventListener('DOMContentLoaded',()=>{
+ const APP_VER='3.6.2';
+ try{
+  if(localStorage.getItem('poolcare_ver')!==APP_VER){
+   localStorage.removeItem('poolcare_wx');
+   localStorage.removeItem('poolcare_geo');
+   localStorage.setItem('poolcare_ver',APP_VER);
+  }
+ }catch(e){}
  loadState();seedEvents();
- /* se já instalado, o card nunca aparece */
- if(isAppInstalled()){canInstall=false;}
+ if(isAppInstalled())canInstall=false;
  render();
- /* clima: cache fresco abre sem spinner; senão spinner + watchdog 6s */
  const c=readWxCache();
  if(c&&Date.now()-c.ts<3600000){
   state.weather=Object.assign({},c.w,{cached:Date.now()-c.ts>1800000});
   render();loadWeather(true);
- }else{
-  loadWeather(false);
- }
- setInterval(()=>loadWeather(true),30*60*1000);   /* renova a cada 30 min, silencioso */
+ }else loadWeather(false);
+ setInterval(()=>loadWeather(true),30*60*1000);
  if('serviceWorker' in navigator&&location.protocol!=='file:'){
   window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
  }
  if(window.matchMedia){
   const mq=window.matchMedia('(display-mode: standalone)');
-  const fn=()=>{render();};
+  const fn=()=>render();
   try{mq.addEventListener('change',fn);}catch(e){mq.addListener(fn);}
  }
 });
