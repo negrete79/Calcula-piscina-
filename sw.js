@@ -1,80 +1,125 @@
-/* sw.js — Piscina Inteligente v1 */
-'use strict';
-const VERSION = 'v1.8.0';                    // ↑ bump a cada release
-const SHELL = 'shell-' + VERSION;
-const APIS  = 'api-' + VERSION;
-const SHELL_FILES = [
+/* ============================================================
+   Piscina Inteligente — Service Worker
+   Estratégias:
+   - HTML (navegação): NETWORK-FIRST → o app sempre atualiza ao
+     abrir com internet; se offline, cai para o cache.
+   - APIs de clima (Open-Meteo / ipwho.is): NETWORK-FIRST com
+     fallback para a última resposta em cache (offline real).
+   - Estáticos (ícones/fontes): CACHE-FIRST → velocidade e
+     funcionamento 100% offline.
+   - skipWaiting + clients.claim → nova versão assume na hora.
+   v5: sincronizado com o index.html v2.1 (Redutor de pH no
+   teto + ATENÇÃO no sulfato). Nenhuma outra mudança — só o
+   bump do nome do cache.
+   ============================================================ */
+
+const CACHE_NAME = 'poolcare-v5';
+
+/* Pré-cache do shell (try/catch por arquivo: um faltando não trava o install) */
+const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './manifest.json',
   './icon.svg',
   './icon-maskable.svg',
+  './icon-180.png',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
-self.addEventListener('install', e => {
-  e.waitUntil((async () => {
-    const c = await caches.open(SHELL);
-    await c.addAll(SHELL_FILES);
-    self.skipWaiting();
+/* ---------- INSTALL: pré-cache + assume a ativação ---------- */
+self.addEventListener('install', (event) => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.all(PRECACHE_URLS.map(async (url) => {
+      try {
+        await cache.add(new Request(url, { cache: 'reload' }));
+      } catch (err) {
+        console.warn('[SW] Pré-cache falhou para:', url, err);
+      }
+    }));
+    await self.skipWaiting();
   })());
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys
-      .filter(k => (k.startsWith('shell-') || k.startsWith('api-')) && !k.endsWith(VERSION))
-      .map(k => caches.delete(k)));
+/* ---------- ACTIVATE: limpa caches antigos + claim ---------- */
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    const nomes = await caches.keys();
+    await Promise.all(
+      nomes
+        .filter((n) => n !== CACHE_NAME && n !== CACHE_NAME + '-api')
+        .map((n) => caches.delete(n))
+    );
     await self.clients.claim();
   })());
 });
 
-self.addEventListener('fetch', e => {
-  const req = e.request;
+/* ---------- FETCH: roteamento por tipo de requisição ---------- */
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+
+  // Só intercepta GET (POST/PUT vão direto para a rede)
   if (req.method !== 'GET') return;
+
   const url = new URL(req.url);
 
-  /* 1) Navegação: network-first com fallback offline para o shell */
-  if (req.mode === 'navigate') {
-    e.respondWith((async () => {
+  const ehNavegacao =
+    req.mode === 'navigate' ||
+    (req.headers.get('accept') || '').includes('text/html');
+
+  const ehApiClima =
+    url.hostname.includes('open-meteo.com') ||
+    url.hostname.includes('ipwho.is');
+
+  /* ===== HTML → NETWORK-FIRST ===== */
+  if (ehNavegacao) {
+    event.respondWith((async () => {
       try {
-        const fresh = await fetch(req);
-        const c = await caches.open(SHELL);
-        c.put('./index.html', fresh.clone());
-        return fresh;
-      } catch {
-        const c = await caches.open(SHELL);
-        return (await c.match('./index.html')) || Response.error();
+        const rede = await fetch(req);
+        const cache = await caches.open(CACHE_NAME);
+        cache.put('./index.html', rede.clone());
+        return rede;
+      } catch (err) {
+        const cache = await caches.open(CACHE_NAME);
+        return (
+          (await cache.match(req, { ignoreSearch: true })) ||
+          (await cache.match('./index.html')) ||
+          Response.error()
+        );
       }
     })());
     return;
   }
 
-  /* 2) APIs de clima/geo: network-first, serve último dado real offline */
-  if (url.hostname.includes('open-meteo.com') || url.hostname.includes('ipwho.is')) {
-    e.respondWith((async () => {
-      const c = await caches.open(APIS);
+  /* ===== APIs DE CLIMA → NETWORK-FIRST com fallback de cache =====
+     Offline: serve a última previsão real obtida. Sem cache,
+     a falha propaga e o app cai na previsão simulada. */
+  if (ehApiClima) {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME + '-api');
       try {
-        const fresh = await fetch(req);
-        if (fresh.ok) c.put(req, fresh.clone());
-        return fresh;
-      } catch {
-        const hit = await c.match(req);
+        const rede = await fetch(req);
+        if (rede.ok) cache.put(req, rede.clone());
+        return rede;
+      } catch (err) {
+        const hit = await cache.match(req);
         if (hit) return hit;
-        throw new Error('offline-sem-cache');   // o app cai no fallback simulado
+        throw err;
       }
     })());
     return;
   }
 
-  /* 3) Demais assets (fontes, ícones): stale-while-revalidate */
-  e.respondWith((async () => {
-    const c = await caches.open(SHELL);
-    const hit = await c.match(req, { ignoreSearch: true });
-    const net = fetch(req).then(res => {
-      if (res.ok) c.put(req, res.clone());
+  /* ===== ESTÁTICOS → CACHE-FIRST com atualização em segundo plano ===== */
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const hit = await cache.match(req, { ignoreSearch: true });
+    const rede = fetch(req).then((res) => {
+      if (res.ok) cache.put(req, res.clone());
       return res;
     }).catch(() => hit);
-    return hit || net;
+    return hit || rede;
   })());
 });
