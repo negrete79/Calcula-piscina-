@@ -1,20 +1,20 @@
 {
-  "name": "Piscina Inteligente",
+  "name": "Piscina Inteligente — Dosagem Guiada",
   "short_name": "Piscina App",
-  "description": "Controle da água, clima e correção da sua piscina — funciona offline.",
+  "description": "Criado por Elias Costa NEGRET'S | Whatsapp (31) 98251-7147 | Telegram @EliasNegrets | Miguel Burnier Ouro Preto MG",
   "lang": "pt-BR",
   "dir": "ltr",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#EDF2F6",
-  "theme_color": "#14B8C9",
+  "background_color": "#EFF6F8",
+  "theme_color": "#0B8FA8",
   "categories": ["utilities", "lifestyle"],
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
