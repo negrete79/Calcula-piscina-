@@ -164,6 +164,7 @@ details.gwrap[open] summary::after{content:'▴'}
 .pcard .bigdose .n{font-size:38px;font-weight:800;letter-spacing:-.02em}
 .pcard .bigdose .eq{font-size:13px;font-weight:600;opacity:.92;margin-top:4px}
 .pcard .espera{display:flex;align-items:center;gap:8px;background:#E9F6F9;color:var(--dark);border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:700;margin-top:8px}
+.pcard .sembanho{display:flex;align-items:center;gap:8px;background:#FDE8EE;color:#9F1239;border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:800;margin-top:8px}
 </style>
 </head>
 <body>
@@ -339,15 +340,18 @@ details.gwrap[open] summary::after{content:'▴'}
 <script>
 'use strict';
 /* ================================================================
-   PISCINA INTELIGENTE v2.1
+   PISCINA INTELIGENTE v2.2
    Núcleo: gerarPlanoCompleto() — ordem 1ºpH → 2ºAT → 3ºCloro →
    4ºDureza (outro dia) → 5ºAparência. Fatores /1000L:
    Choque simples 14g · Duplo 28g · Manutenção 4g · Sulfato 10g ·
    Clarificante 2mL · Algicida choque 6mL.
-   v2.1: (1) pH 7,6 sugere Redutor p/ descer a 7,2 ANTES do choque
-   (5 mL/1000L — cloro rende 50% a mais); (2) card de Sulfato com
-   ATENÇÃO em negrito: nunca sulfato + algicida juntos, 4h de
-   intervalo, filtro DESLIGADO, aspirar no ESGOTO.
+   v2.1: pH no teto → Redutor p/ 7,2 (cloro rende 50% a mais) +
+   ATENÇÃO no sulfato (nunca com algicida; 4h; filtro off; esgoto).
+   v2.2 — REGRA DE BANHO CONDICIONAL (temChoqueNoPlano):
+   se cloro<1 OU água verde → NENHUMA etapa intermediária libera
+   banho ("NÃO LIBERE O BANHO — choque em andamento, PROIBIDO
+   24h"). Só o ÚLTIMO passo libera: "banho liberado APÓS re-testar
+   cloro 1–3 ppm". pH isolado sem choque mantém "liberado após 1h".
    ================================================================ */
 
 const ICONS={
@@ -489,6 +493,9 @@ function poolVolume(p){
 
 /* ==================================================================
    calculos_piscina — gerarPlanoCompleto()
+   REGRA v2.2: temChoqueNoPlano = (cloro<1 OU verde) → etapas
+   intermediárias NÃO liberam banho; só o último passo libera
+   condicionado ao re-teste de cloro 1–3 ppm.
    Teste no console:
    gerarPlanoCompleto({litros:45000,ph:7.6,cloro:0,alcalinidade:80,dureza:200,aparencia:'verde'})
    ================================================================== */
@@ -506,6 +513,9 @@ function gerarPlanoCompleto(dados){
   const et=[];
   const X=f=>Math.round(FATOR[f]*V/1000/5)*5;
 
+  /* REGRA DE BANHO (v2.2): choque no plano → nada intermediário libera banho */
+  const temChoqueNoPlano=(cl!=null&&cl<1)||ap==='verde';
+
   /* 1º pH */
   if(ph==null){
     et.push({step:1,tipo:'aviso',titulo:'Meça o pH antes de tudo',
@@ -521,8 +531,12 @@ function gerarPlanoCompleto(dados){
       como:['Dissolva em um BALDE com água da piscina (nunca despeje água sobre o ácido).',
         'Espalhe caminhando pela borda, com o filtro LIGADO.',
         'Filtração: mantenha ligada por 1 h.',
-        'Banho liberado após 1 h.'],
-      espera:'⏱️ Aguarde 1 h antes do próximo produto. Re-teste o pH após 4 h de filtração.'});
+        temChoqueNoPlano
+          ?'NÃO LIBERE O BANHO — estamos em tratamento de choque, banho segue PROIBIDO por 24h até o final do tratamento.'
+          :'Banho liberado após 1 h.'],
+      espera:temChoqueNoPlano
+        ?'⏱️ Aguarde 1 h antes do choque. Banho liberado só no FINAL do tratamento.'
+        :'⏱️ Aguarde 1 h antes do próximo produto. Re-teste o pH após 4 h de filtração.'});
   }else if(ph>=7.5){
     const ml=Math.round(5*V/1000/5)*5;
     et.push({step:1,tipo:'produto',sku:'acido',titulo:'Baixar o pH para 7,2 ANTES do choque',
@@ -531,8 +545,12 @@ function gerarPlanoCompleto(dados){
       como:['Dissolva em um BALDE com água da piscina (nunca despeje água sobre o ácido).',
         'Espalhe caminhando pela borda, com o filtro LIGADO.',
         'Filtração: mantenha ligada por 1 h.',
-        'Banho liberado após 1 h.'],
-      espera:'⏱️ Aguarde 1 h e aplique o choque — o cloro rende 50% a mais com o pH em 7,2. Re-teste o pH amanhã.'});
+        temChoqueNoPlano
+          ?'NÃO LIBERE O BANHO — estamos em tratamento de choque, banho segue PROIBIDO por 24h até o final do tratamento.'
+          :'Banho liberado após 1 h.'],
+      espera:temChoqueNoPlano
+        ?'⏱️ Aguarde 1 h e aplique o choque — o cloro rende 50% a mais com o pH em 7,2. Banho liberado só no FINAL do tratamento.'
+        :'⏱️ Aguarde 1 h e re-teste o pH amanhã.'});
   }else if(ph<7.2){
     const d=Math.min(7.4-ph,0.8);
     const tb=[{dd:.2,v:100},{dd:.4,v:200},{dd:.6,v:300},{dd:.8,v:400}];
@@ -544,8 +562,12 @@ function gerarPlanoCompleto(dados){
       como:['Espalhe sobre a superfície caminhando pela borda.',
         'Filtro LIGADO por 2 h.',
         'Não misture com cloro concentrado no mesmo balde.',
-        'Banho liberado após 1 h.'],
-      espera:'⏱️ Aguarde 1 h antes do próximo produto.'});
+        temChoqueNoPlano
+          ?'NÃO LIBERE O BANHO — estamos em tratamento de choque, banho segue PROIBIDO por 24h até o final do tratamento.'
+          :'Banho liberado após 1 h.'],
+      espera:temChoqueNoPlano
+        ?'⏱️ Aguarde 1 h antes do choque. Banho liberado só no FINAL do tratamento.'
+        :'⏱️ Aguarde 1 h antes do próximo produto.'});
   }else{
     et.push({step:1,tipo:'ok',titulo:`pH OK — ${fmt1(ph)} (não mexer)`});
   }
@@ -561,9 +583,13 @@ function gerarPlanoCompleto(dados){
       dose:{v:g,u:'g',caseira:caseiraPo(g)},
       como:['Espalhe direto na superfície (não precisa balde).',
         'Filtro LIGADO por 4 h.',
-        'Banho liberado após 2 h.',
+        temChoqueNoPlano
+          ?'NÃO LIBERE O BANHO — tratamento de choque em andamento, banho PROIBIDO por 24h.'
+          :'Banho liberado após 2 h.',
         'Re-teste após 4 h de filtração.'],
-      espera:'⏱️ Aguarde 1 h antes do cloro.'});
+      espera:temChoqueNoPlano
+        ?'⏱️ Aguarde 1 h antes do cloro. Banho liberado só no FINAL do tratamento.'
+        :'⏱️ Aguarde 1 h antes do cloro.'});
   }else if(at>120){
     et.push({step:2,tipo:'aviso',titulo:'Alcalinidade alta — não mexer agora',
       porque:`${fmt(at)} ppm. Ela desce sozinha quando o pH é corrigido com ácido. Corrija o pH e re-teste em uma semana.`});
@@ -584,7 +610,7 @@ function gerarPlanoCompleto(dados){
       como:[verde?'Escove PAREDES e FUNDO antes — algas soltas morrem mais rápido.':'Dissolva em um balde com água da piscina.',
         'Aplique ao ENTARDECER, espalhando por toda a superfície.',
         'Filtro LIGADO por 8–12 h seguidas.',
-        verde?'Banho PROIBIDO por 24 h.':'Banho PROIBIDO por 12 h.'],
+        verde?'Banho PROIBIDO por 24 h (até o final de todo o tratamento).':'Banho PROIBIDO por 12 h.'],
       espera:verde?'⏱️ Após 4 h, aplique o ALGICIDA DE CHOQUE (próximo passo).':'⏱️ Aguarde 2 h antes do clarificante.'});
     if(verde){
       const m=X('algicidaChoque');
@@ -593,7 +619,7 @@ function gerarPlanoCompleto(dados){
         dose:{v:m,u:'mL',caseira:caseiraLiq(m)},
         como:['Despeje perto das saídas de retorno, 4 h APÓS o cloro.',
           'Filtro permanece LIGADO.',
-          'Banho continua proibido (total 24 h).',
+          'Banho continua PROIBIDO (total 24 h).',
           'À noite, siga para o SULFATO DE ALUMÍNIO (Etapa 5) com o filtro DESLIGADO.'],
         espera:'⏱️ À noite: decantador (Etapa 5).'});
     }
@@ -619,7 +645,7 @@ function gerarPlanoCompleto(dados){
       como:['DIAS DEPOIS do choque: pH e alcalinidade já em ordem, sem cloro em choque.',
         'Dissolva em um balde (produto na água, nunca água no produto).',
         'Espalhe com o filtro LIGADO por 6 h.',
-        'Banho liberado após 2 h.'],
+        'Banho liberado após 2 h (aqui o choque já terminou).'],
       espera:'⏱️ DIA SEGUINTE ao choque — nunca no mesmo dia.'});
   }else if(dur<=400){
     et.push({step:4,tipo:'ok',titulo:`Dureza OK — ${fmt(dur)} ppm (não mexer)`});
@@ -638,9 +664,13 @@ function gerarPlanoCompleto(dados){
       como:['Aplique à NOITE com a filtração DESLIGADA.',
         'Deixe a água PARADA 8–12 h, sem banho.',
         'De manhã, aspire TODO o fundo mandando a água DIRETO NO ESGOTO.',
-        'Só então complete o nível e ligue a filtração normal.'],
+        temChoqueNoPlano
+          ?'Só então complete o nível, ligue a filtração e banho liberado APÓS re-testar cloro entre 1–3 ppm (geralmente 24 h após o choque).'
+          :'Só então complete o nível e ligue a filtração normal.'],
       alerta:AVISO_SULFATO,
-      espera:'⏱️ Depois: re-teste pH e cloro e salve a análise no app.'});
+      espera:temChoqueNoPlano
+        ?'⏱️ ÚLTIMO PASSO do tratamento. Banho liberado após o re-teste de cloro (1–3 ppm). Depois: salve a nova análise no app.'
+        :'⏱️ Depois: re-teste pH e cloro e salve a análise no app.'});
   }else if(ap==='leitosa'){
     const g=X('sulfato');
     et.push({step:5,tipo:'produto',sku:'sulfato-aluminio',titulo:'Decantação (água leitosa)',
@@ -649,7 +679,9 @@ function gerarPlanoCompleto(dados){
       como:['Aplique à NOITE com a filtração DESLIGADA.',
         'Água parada 8–12 h, sem banho.',
         'De manhã, aspire TODO o fundo direto NO ESGOTO.',
-        'Só então ligue a filtração.'],
+        temChoqueNoPlano
+          ?'Só então complete o nível, ligue a filtração e banho liberado APÓS re-testar cloro entre 1–3 ppm (geralmente 24 h após o choque).'
+          :'Só então ligue a filtração.'],
       alerta:AVISO_SULFATO,
       espera:'⏱️ Leitosa persistente = pH/dureza fora. Re-teste depois.'});
   }else if(ap==='turva'){
@@ -659,7 +691,9 @@ function gerarPlanoCompleto(dados){
       dose:{v:m,u:'mL',caseira:caseiraLiq(m)},
       como:['Aplique 2 h APÓS o choque de cloro.',
         'Filtro LIGADO por 6 h seguidas; limpe o pré-filtro depois.',
-        'Banho liberado após 8 h.',
+        temChoqueNoPlano
+          ?'Banho liberado APÓS re-testar cloro entre 1–3 ppm (geralmente 12–24 h após o choque).'
+          :'Banho liberado após 8 h.',
         'Aspire o fundo se sobrar sedimentado.'],
       espera:'⏱️ Turva após 48 h? Re-teste pH e alcalinidade.'});
   }else if(ap==='amarelada'){
@@ -669,7 +703,9 @@ function gerarPlanoCompleto(dados){
       dose:{v:m,u:'mL',caseira:caseiraLiq(m)},
       como:['Escove as manchas amareladas antes de tudo.',
         'Aplique com o filtro LIGADO por 6 h.',
-        'Banho liberado após 8 h.',
+        temChoqueNoPlano
+          ?'Banho liberado APÓS re-testar cloro entre 1–3 ppm (geralmente 12–24 h após o choque).'
+          :'Banho liberado após 8 h.',
         'Voltou a amarelar? Pode ser ferro da água de poço — leve amostra a uma loja.'],
       espera:'⏱️ Re-teste o cloro em 24 h.'});
   }
@@ -697,7 +733,7 @@ function planoCardHTML(o,rotulo){
   </div>`;
 }
 function renderPlanoCompleto(etapas){
-  let html=`<div class="ordnote">🎯 Siga <b>NA ORDEM</b>: 1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza (outro dia) → 5º Aparência.</div>`;
+  let html=`<div class="ordnote">🎯 Siga <b>NA ORDEM</b>: 1º pH → 2º Alcalinidade → 3º Cloro → 4º Dureza (outro dia) → 5º Aparência. O banho só é liberado no FINAL, se houver choque.</div>`;
   for(const e of etapas){
     const hot=e.step===3&&e.tipo==='produto';
     const badge=`<span class="stepbadge ${hot?'hot':''}">${e.step}º · ${({1:'pH',2:'Alcalinidade',3:'Cloro',4:'Dureza',5:'Aparência'})[e.step]||''}</span>`;
@@ -1849,7 +1885,7 @@ function renderPool(){
     <p>Dados salvos <b>apenas neste dispositivo</b>. Só coordenadas anônimas vão para a API de clima.</p>
     <div style="margin-top:12px"><button class="btn danger" onclick="App.poolReset()">${ic('trash',17)} Apagar dados e recomeçar</button></div>
   </div>
-  <footer class="fnote">v2.1 · cálculos de referência — confirme as doses na bula.</footer>`;
+  <footer class="fnote">v2.2 · cálculos de referência — confirme as doses na bula.</footer>`;
   App.poolDim();
 }
 
