@@ -1,14 +1,15 @@
 /* =========================================================
-   Piscina Inteligente v3.7.1 — Service Worker
-   - CACHE novo a cada versão (força o celular a pegar o app atualizado)
+   Piscina Inteligente v4.2 — Service Worker
+   - CACHE novo a cada versão (obrigatório para o celular
+     pegar o app atualizado; recarregar 2x após trocar)
    - Clima (Open-Meteo): NETWORK FIRST — rede primeiro,
-     guarda a última previsão REAL e serve do cache se cair o sinal
+     guarda a última previsão REAL, serve do cache se cair o sinal
    - Geolocalização (Nominatim / ipapi.co): sempre rede, nunca cache
    - App shell: navegação = rede primeiro com fallback offline;
      demais arquivos = cache primeiro
    ========================================================= */
 
-const CACHE = 'poolcare-v3.7.1';   /* ★ suba esta versão a cada atualização do app */
+const CACHE = 'poolcare-v4.2';
 
 const SHELL = [
   './',
