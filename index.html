@@ -89,7 +89,7 @@ input{font-family:inherit}
 .i-txt span{display:block;font-size:11.5px;color:rgba(255,255,255,.82);margin-top:2px;line-height:1.45}
 .install button{background:#fff;color:#5E3D9C;border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:800}
 
-/* tabbar (NÃO MEXER) */
+/* tabbar */
 .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:50;border-top:1px solid #E5EDF1}
 .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:600;color:#8A9BAA;padding:4px 0}
 .tabbar button.on{color:#0B8FA8;font-weight:700}
@@ -105,7 +105,6 @@ input{font-family:inherit}
 .fmt .chk{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:#0B8FA8;color:#fff;display:none;align-items:center;justify-content:center;border:2.5px solid #EFF6F8}
 .fmt.on .chk{display:flex}
 .divider{height:1px;background:#E2EBF0;margin:20px 18px}
-/* ★ NOVO: chips de revestimento */
 .rev-chips{display:flex;gap:10px;margin-top:14px}
 .rev-chips button{flex:1;padding:12px;border-radius:12px;background:#E8EDF0;color:#33475C;font-size:14px;font-weight:700}
 .rev-chips button.on{background:#0B8FA8;color:#fff}
@@ -128,7 +127,7 @@ input{font-family:inherit}
 .icon-card p{font-size:11.5px;color:#5F7385;line-height:1.5;margin-top:3px}
 .icon-card button{margin-top:10px;background:#0B8FA8;color:#fff;border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;gap:6px}
 
-/* CLIMA (intacto) */
+/* CLIMA */
 .wx-big{display:flex;justify-content:center;margin-top:22px}
 .wx-temp-line{text-align:center;font-size:31px;font-weight:800;letter-spacing:-1px;margin-top:8px}
 .wx-place{text-align:center;font-size:13.5px;color:#5F7385;margin-top:4px;padding:0 16px}
@@ -146,7 +145,7 @@ input{font-family:inherit}
 .day:last-child{border-bottom:none}
 .d-name{font-size:13.5px;font-weight:800;width:86px;flex:none}
 .d-temp{font-size:14px;font-weight:600;color:#22406B;flex:1;white-space:nowrap}
-.wbg{font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap}
+.wbg{font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap;cursor:pointer}
 .wbg.red{background:#F45B5B;color:#fff}.wbg.or{background:#F58B2D;color:#fff}
 .wbg.yl{background:#FFD54F;color:#6B4E00}.wbg.gr{background:#35B558;color:#fff}
 .wx-btns{display:flex;gap:10px;margin:20px 18px 4px}
@@ -165,8 +164,9 @@ input{font-family:inherit}
 .offcard.blue{background:#EAF3FA;border-left-color:#2FA7E0}
 .offcard.blue b{color:#14486B}
 .offcard.blue button{background:#2FA7E0}
+.vtap{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:800;color:inherit;opacity:.85;margin-top:7px}
 
-/* HISTÓRICO (intacto) */
+/* HISTÓRICO */
 .ranges{background:#fff;border-radius:16px;padding:6px;display:flex;gap:8px;margin:14px 16px 0;box-shadow:0 2px 6px rgba(20,40,70,.05)}
 .ranges button{flex:1;padding:11px;border-radius:11px;border:1.5px solid #DCE6EA;background:#fff;color:#22406B;font-size:14px;font-weight:700}
 .ranges button.on{background:#0B8FA8;border-color:#0B8FA8;color:#fff}
@@ -220,7 +220,6 @@ input{font-family:inherit}
 .inst{list-style:none;margin-top:9px}
 .inst li{position:relative;padding-left:14px;font-size:11.5px;color:#5F7385;line-height:1.5;margin-top:5px}
 .inst li::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%;background:#9DB8C4}
-/* ★ NOVO: aviso de vinil nas etapas 1 e 5 */
 .vinilwarn{background:#FFF3E0;color:#8A5200;font-size:11.5px;font-weight:700;border-radius:10px;padding:8px 10px;margin-top:9px;line-height:1.45}
 .plan-meta{margin:12px 18px 0;font-size:12px;color:#7C8FA0;font-weight:600}
 .fine{font-size:11px;color:#8FA3B0;margin:14px 18px 0;line-height:1.55}
@@ -233,29 +232,42 @@ input{font-family:inherit}
 .tip-body b{font-size:14.5px}
 .tip-body p{font-size:12.5px;color:#5F7385;line-height:1.5;margin-top:3px}
 .tip-btn{color:#0AA8BC;font-size:13px;font-weight:800;padding:8px 0 0;display:flex;align-items:center;gap:4px}
-/* ★ NOVO: cards de revestimento com borda turquesa */
 .revtip{background:#fff;border:1.5px solid #0B8FA8;border-radius:16px;padding:13px 14px;margin:0 16px 12px}
 .revtip b{display:block;font-size:14px;color:#0E4A5A}
 .revtip p{font-size:12.5px;color:#5F7385;line-height:1.5;margin-top:3px}
 
-/* ====== ★ NOVO: v-filtro — válvula seletora + manômetro ====== */
-.vhlp{margin:14px 16px 0;background:#FFF8E1;border-radius:14px;padding:13px 14px;border-left:4px solid #F0B429}
-.vhlp b{display:block;font-size:13px;color:#7A5A00}
-.vhlp p{font-size:12.5px;color:#8A6A34;line-height:1.5;margin-top:3px}
-.vsvg-wrap{margin:14px 16px 0;background:#fff;border-radius:18px;padding:10px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
-.vsvg-wrap svg{width:100%;height:auto;display:block}
-.vsec{cursor:pointer}
-.vsec .wedge{fill:#FBFDFE;transition:fill .3s}
-.vsec:hover .wedge{fill:#EEF8FB}
-.vsec.on .wedge{fill:#D9F2F8}
-.vband{margin:12px 16px 0;background:#0B8FA8;color:#fff;border-radius:12px;padding:10px;text-align:center;font-weight:800;letter-spacing:1px;font-size:12.5px}
-.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 16px 0}
-.vcard{background:#fff;border:2px solid #E2EBF0;border-radius:14px;padding:12px;text-align:left}
-.vcard.on{border-color:#0B8FA8;background:#F2FBFD}
-.vcard b{display:block;font-size:13px;color:#0E4A5A}
-.vcard small{display:block;font-size:11px;color:#7C8FA0;margin-top:3px;line-height:1.4}
-.vcard p{font-size:11.5px;color:#5F7385;line-height:1.45;margin-top:5px}
-.man-card{margin:18px 16px 0;background:#fff;border-radius:18px;padding:15px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
+/* ===== v-filtro — ★ v4.2: setores .setor-v / cards únicos / pulse ===== */
+.filtro-view{height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.filtro-body{flex:1;overflow-y:auto}
+#valvulaSticky{position:sticky;top:0;z-index:50;background:#EFF6F8;padding:12px 16px;border-bottom:1px solid #D0E6EB;transition:all .3s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#valvulaSticky.mini{max-height:20vh;padding:4px 16px}
+#valvulaSticky.mini #valvulaSVGContainer{transform:scale(.5);margin-bottom:-56px;transform-origin:top center}
+#valvulaSticky.mini #faixaValvula{display:none}
+#valvulaSVGContainer{position:relative;background:#fff;border-radius:16px;padding:8px;display:flex;justify-content:center;transform-origin:top center;transition:all .3s;box-shadow:0 2px 6px rgba(20,40,70,.05)}
+#valvulaSVGContainer svg{width:100%;max-width:340px;height:auto;display:block}
+.bomba-chip{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);background:#FF8C00;color:#fff;font-size:10px;font-weight:bold;padding:3px 10px;border-radius:12px;white-space:nowrap;box-shadow:0 2px 6px rgba(255,140,0,.4)}
+.faixa-turquesa{background:#0B8FA8;color:#fff;border-radius:12px;padding:10px;text-align:center;font-weight:800;letter-spacing:1px;font-size:12.5px;margin-top:8px}
+#listaPosicoes{padding:16px;display:flex;flex-direction:column;gap:12px;scroll-padding-top:25vh}
+/* ★ card da posição selecionada */
+.card-pos{background:#fff;border-radius:12px;padding:14px;border:2px solid #E2EBF0;box-shadow:0 2px 6px rgba(20,40,70,.05);text-align:left}
+.card-pos.ativo{border:2.5px solid #0B8FA8;background:#E6F4F7;animation:pulse .4s}
+@keyframes pulse{0%{transform:scale(.97)}100%{transform:scale(1)}}
+.card-pos h3{font-size:14.5px;font-weight:800;color:#0E4A5A}
+.card-pos .langs{display:block;font-size:10px;color:#9AAFB8;margin-top:3px;letter-spacing:.3px}
+.card-pos p{font-size:12.5px;color:#5F7385;line-height:1.5;margin-top:5px}
+.card-pos small{display:block;font-size:11px;color:#7C8FA0;margin-top:6px}
+/* ★ setores do SVG */
+.setor-v{cursor:pointer}
+.setor-v path{fill:#FBFDFE;stroke:#0B8FA8;stroke-width:2;transition:fill .25s}
+.setor-v:hover path{fill:#EEF8FB}
+.setor-ativo path{fill:#CDEEF5 !important;stroke-width:2.5px}
+/* ★ aviso final */
+.card-aviso-final{margin-top:16px;background:#FFF3CD;border:2px solid #FF9800;border-radius:12px;padding:14px;display:flex;gap:10px}
+.card-aviso-final .av-ico{font-size:28px;flex:none;line-height:1}
+.card-aviso-final b{color:#7A4A00;font-size:13.5px;display:block}
+.card-aviso-final p{margin:6px 0 0;font-size:13px;line-height:1.4;color:#5D4037}
+.card-aviso-final p b{display:inline;color:#7A4A00;font-size:13px}
+.man-card{margin:16px 16px 0;background:#fff;border-radius:18px;padding:15px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
 .man-card h4{font-size:15px;font-weight:800;color:#0E4A5A}
 .man-field{margin-top:10px}
 .man-field label{display:block;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#7C8FA0;margin-bottom:5px}
@@ -268,6 +280,42 @@ input{font-family:inherit}
 .mres.red{background:#FBE3E3;color:#8E2020;border:1.5px solid #F0B9B9}
 .mres.grn{background:#DFF3D6;color:#256B2F;border:1.5px solid #BFE0B4}
 .mres.org{background:#FFE2B0;color:#8A5200;border:1.5px solid #F0D09A}
+
+/* sheet clima */
+.sheet{position:fixed;inset:0;z-index:90}
+.sheet.hidden{display:none}
+.sheet.active{display:block}
+.sheet-overlay{position:absolute;inset:0;background:rgba(10,30,40,.55);animation:fade .2s}
+.sheet-content{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#EFF6F8;border-radius:24px 24px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));max-height:88dvh;overflow:auto;animation:up .28s cubic-bezier(.2,.9,.3,1)}
+.sheet-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.sheet-header h3{font-size:18px;font-weight:800;color:#0E4A5A;line-height:1.3;padding-top:4px}
+.sheet-x{width:34px;height:34px;border-radius:50%;background:#B9C6CD;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.scard{background:#fff;border-radius:16px;padding:14px;margin-top:12px;box-shadow:0 2px 6px rgba(20,40,70,.05)}
+.scard>b{display:block;font-size:14px;color:#0E4A5A;letter-spacing:-.2px}
+.scard>p{font-size:13px;color:#5F7385;line-height:1.55;margin-top:6px}
+.scard>p b{color:#1B2C5E}
+.dica-row{display:flex;gap:8px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed #E5EDF1;font-size:12.5px;font-weight:600;color:#22406B;line-height:1.5}
+.dica-row:last-child{border-bottom:none}
+.sheet .m-btn{margin-bottom:6px}
+
+/* sheetShop — 2 abas */
+#sheetShop .tabs{display:flex;gap:8px;margin-top:12px}
+.tab{flex:1;padding:10px 6px;border-radius:10px;background:#E7EEF0;color:#5F7385;font-size:11px;font-weight:800;letter-spacing:.4px;border:1.5px solid transparent}
+.tab.active{background:#0B8FA8;color:#fff}
+.tab-hint{font-size:11px;color:#7C8FA0;margin-top:8px}
+#buscaCatalogo input{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid #D5E2E8;font-size:14px;font-weight:600;color:#0E4A5A;background:#F6FAFB;outline:none;margin-top:10px}
+#buscaCatalogo input:focus{border-color:#0B8FA8}
+.prod-row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #D5EDEA}
+.prod-row .shk{width:26px;height:26px;border-radius:8px;border:3px solid #0B8FA8;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+.prod-row .shk.on{color:#3DBE7C}
+.prod-n{flex:1;min-width:0}
+.prod-n b{display:block;font-size:12.5px;font-weight:800;color:#22384E;text-transform:uppercase;line-height:1.3}
+.prod-n small{display:block;font-size:10.5px;color:#7C8FA0;margin-top:2px;line-height:1.35}
+.prod-q{width:96px;flex:none;padding:8px;border:1.5px solid #BFE3EC;border-radius:10px;background:#fff;font-size:12px;font-weight:700;color:#0E4A5A;text-align:center;outline:none}
+.prod-q:focus{border-color:#0B8FA8}
+.prod-row.hoje{background:#F2FBFD;border-radius:12px;padding:10px;margin-top:8px;border:1.5px solid #C9EAF2}
+.cat-h{font-size:12px;font-weight:800;letter-spacing:1px;color:#0B8FA8;text-transform:uppercase;margin:14px 0 4px;border-bottom:2px solid #BDEFF8;padding-bottom:4px}
+.btn-turquesa{width:100%;margin-top:14px;padding:15px;border-radius:14px;background:#0B8FA8;color:#fff;font-size:15.5px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}
 
 /* MODAIS */
 .m-back{position:fixed;inset:0;background:rgba(10,30,40,.55);display:flex;align-items:flex-end;justify-content:center;z-index:80;animation:fade .2s}
@@ -300,23 +348,6 @@ input{font-family:inherit}
 .med-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #EEF3F5;font-size:13px}
 .med-row i{font-style:normal;color:#7C8FA0;font-size:12px}
 
-/* modal lista de compras */
-.m-back.center{align-items:center}
-.shop-card{position:relative;background:#EAF9F6;width:100%;max-width:410px;margin:0 16px;border-radius:24px;padding:20px 18px 18px;max-height:88dvh;overflow:auto;animation:up .28s cubic-bezier(.2,.9,.3,1)}
-.shop-x{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#B9C6CD;color:#fff;display:flex;align-items:center;justify-content:center}
-.shop-card h2{font-size:24px;font-weight:800;color:#0E7183;letter-spacing:-.5px;padding-right:36px}
-.shop-card .ssub{font-size:13px;color:#6E8CA0;margin-top:2px}
-.shop-bar{height:8px;border-radius:8px;background:linear-gradient(90deg,#BDEFF8,#8FE3F0);margin:14px -18px}
-.shop-it{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #D5EDEA}
-.shk{width:26px;height:26px;border-radius:8px;border:3px solid #0B8FA8;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
-.shk.on{color:#3DBE7C}
-.shop-n{flex:1;min-width:0}
-.shop-n b{display:block;font-size:12px;font-weight:800;color:#22384E;text-transform:uppercase;line-height:1.3}
-.shop-n small{display:block;font-size:10px;color:#7C8FA0;margin-top:1px}
-.qin{width:104px;flex:none;padding:8px 8px;border:1.5px solid #BFE3EC;border-radius:10px;background:#fff;font-size:12px;font-weight:700;color:#0E4A5A;text-align:center;outline:none}
-.qin:focus{border-color:#0B8FA8}
-.shop-cnt{background:#CFF2F8;border-radius:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-weight:800;color:#0E4A5A}
-
 /* toast */
 .toast{position:fixed;bottom:96px;left:50%;transform:translate(-50%,14px);background:#0E4A5A;color:#fff;padding:11px 17px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:.28s;z-index:99;max-width:88vw;text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -329,18 +360,55 @@ input{font-family:inherit}
 <div id="modal-root"></div>
 <div id="toast-root"></div>
 
+<!-- sheet clima -->
+<div id="sheetClima" class="sheet hidden">
+  <div class="sheet-overlay" onclick="closeSheetClima()"></div>
+  <div class="sheet-content">
+    <div class="sheet-header">
+      <h3 id="sheetClimaTitle"></h3>
+      <button class="sheet-x" onclick="closeSheetClima()" aria-label="Fechar">✕</button>
+    </div>
+    <div id="sheetClimaBody"></div>
+  </div>
+</div>
+
+<!-- sheetShop — lista de compras 2 abas -->
+<div id="sheetShop" class="sheet hidden">
+  <div class="sheet-overlay" onclick="closeSheetShop()"></div>
+  <div class="sheet-content">
+    <div class="sheet-header">
+      <h3>Produtos para Piscina</h3>
+      <button class="sheet-x" onclick="closeSheetShop()" aria-label="Fechar">✕</button>
+    </div>
+    <div class="tabs">
+      <button id="tabHoje" class="tab active" onclick="mostrarTab('hoje')">O QUE USAR HOJE</button>
+      <button id="tabTodos" class="tab" onclick="mostrarTab('todos')">CATÁLOGO COMPLETO</button>
+    </div>
+    <div class="tab-hint" id="tabHint">Itens calculados a partir do seu diagnóstico atual.</div>
+    <div style="padding:4px 0 0">
+      <div id="buscaCatalogo" style="display:none"><input id="inputBusca" placeholder="Buscar produto... ex: cloro, algicida" oninput="filtrarCatalogo(this.value)"></div>
+      <div id="listaHoje"></div>
+      <div id="listaTodos" style="display:none"></div>
+    </div>
+    <button class="btn-turquesa" onclick="confirmarUsoHoje()">Confirmar uso hoje ✓</button>
+    <button class="m-ghost" onclick="gerarPdfDaAba()">⬇ Baixar PDF da lista atual</button>
+  </div>
+</div>
+
 <script>
 /* =========================================================
-   PISCINA INTELIGENTE v3.7
-   REGRA DE OURO PRESERVADA — nada do que funcionava foi mexido:
-   ✔ clima blindado: wxLoading + watchdog setTimeout 6000ms → fallback
-   ✔ fetchT timeout 7s + Open-Meteo + fallback simulado
-   ✔ localStorage 'poolcare_v1' (apenas campos NOVOS dentro de cfg)
-   ✔ gráficos SVG do Histórico intactos
-   ✔ PDF com rodapé EXATO "Criado por Elias Costa NEGRET'S | ..."
-   ✔ manifest.webmanifest / sw.js / bottom nav intactos
-   ★ NOVO: gatilho 1 — Revestimento (Vinil/Fibra/Azulejo)
-   ★ NOVO: gatilho 2 — v-filtro (válvula seletora SVG + manômetro)
+   PISCINA INTELIGENTE v4.2
+   ✔ clima blindado (watchdog 6s, fetchT 7s, fallback) — intocado
+   ✔ poolcare_v1 / gráficos SVG / PDF rodapé exato — intocado
+   ✔ sheetClima + sheetShop (2 abas) — intocados
+   ★ v-filtro v4.2:
+     - SVG novo: hub r=42 (não cobre mais texto), setores R=125,
+       labels INTERNOS (ícone 18px + PT 11px bold + EN 8px,
+       y entre -50 e -80, nunca na borda)
+     - alavanca <line id="alavanca" y2="-90"> + ponteiro laranja
+     - selecionarPosicao(): gira alavanca+ponteiro, .setor-ativo,
+       mostra SÓ o card da posição (.ativo + pulse), âncora
+       automática no scroll interno, navigator.vibrate(50)
    ========================================================= */
 const $=s=>document.querySelector(s);
 const f1=v=>(+v).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
@@ -385,7 +453,7 @@ function pillSparkle(s=22){return '<svg class="ic" width="'+s+'" height="'+s+'" 
  +'<g transform="rotate(-35 11 13)"><rect x="2.6" y="9.7" width="16.8" height="6.6" rx="3.3"/><path d="M11 9.7v6.6"/></g>'
  +'<path d="M20.5 3.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8Z" fill="#fff" stroke="none"/></svg>';}
 
-/* ---------- ícones de clima preenchidos (intacto) ---------- */
+/* ---------- ícones de clima preenchidos ---------- */
 const CLOUDP='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z';
 function wDrop(x,y,s){return '<path transform="translate('+x+' '+y+') scale('+s+')" fill="#4FA8E0" d="M0 0C1.2 1.6 1.9 2.8 1.9 3.7 1.9 4.9 1 5.7 0 5.7S-1.9 4.9-1.9 3.7C-1.9 2.8-1.2 1.6 0 0Z"/>';}
 function wSun(cx,cy,r){let g='<g><circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#FFC53D"/>';
@@ -421,7 +489,7 @@ function dayBadge(code){
  return{cls:'gr',txt:'Seguro para abrir'};
 }
 
-/* ---------- estado (poolcare_v1 — só ADICIONOU revestimento e pressões) ---------- */
+/* ---------- estado (poolcare_v1) ---------- */
 const PLACE_FALLBACK='Miguel Burnier, Ouro Preto - MG';
 const FALLBACK_LAT=-20.2977,FALLBACK_LON=-43.7833;
 const SHAPES={rect:{label:'Retangular',f:1},round:{label:'Redonda',f:0.785},oval:{label:'Oval',f:0.85},oct:{label:'Oitavada',f:0.87}};
@@ -435,8 +503,7 @@ function lab(i){const t=new Date();t.setDate(t.getDate()-i);return t;}
 function defaultState(){return{
  view:'home',
  cfg:{shape:'rect',length:9,width:4,shallow:1.0,deep:1.5,liters:45000,litersMode:'calc',
-  revestimento:'azulejo',            /* ★ NOVO: default Azulejo */
-  pressaoLimpo:'',pressaoAgora:''},  /* ★ NOVO: manômetro */
+  revestimento:'azulejo',pressaoLimpo:'',pressaoAgora:''},
  water:'cristalina',
  readings:{ph:7.6,cl:0,alk:80,hard:200},
  hist:{
@@ -447,10 +514,10 @@ function defaultState(){return{
  },
  events:[],
  histRange:'30',details:false,
- filtroSel:'filtrar',               /* ★ NOVO: posição da manivela */
+ filtroSel:'filtrar',
+ shopTab:'hoje',shopChecks:{},shopQty:{},
  weather:null,wxLoading:false,
- alerts:{storm:true,cloro:true},
- shopChecks:{},shopQty:{}
+ alerts:{storm:true,cloro:true}
 };}
 let state=defaultState();
 function seedEvents(){
@@ -475,7 +542,7 @@ function loadState(){
 }
 function persist(){try{localStorage.setItem('poolcare_v1',JSON.stringify({cfg:state.cfg,readings:state.readings,hist:state.hist,water:state.water,alerts:state.alerts,shopChecks:state.shopChecks,shopQty:state.shopQty}));}catch(e){}}
 
-/* ---------- litragem (intacta) ---------- */
+/* ---------- litragem ---------- */
 function calcLiters(c){
  const f=SHAPES[c.shape].f,depth=((+c.shallow)+(+c.deep))/2;
  const area=c.shape==='round'?Math.pow(+c.length,2):(+c.length)*(+c.width);
@@ -484,7 +551,7 @@ function calcLiters(c){
 const litersOf=()=>state.cfg.litersMode==='direct'?(+state.cfg.liters||0):calcLiters(state.cfg);
 const m3=L=>(L/1000).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' m³';
 
-/* ---------- getPhStatus (intacta) ---------- */
+/* ---------- pH contextual ---------- */
 function getPhStatus(ph,cl){
  if(cl<1){
   if(ph>7.4){
@@ -532,9 +599,7 @@ function poolVerdict(){
  return{cls:'ok',t:'Condições ótimas',d:'Dia perfeito para dosar produtos e deixar o filtro trabalhando.'};
 }
 
-/* ============================================================
- ★ NOVO — GATILHO 2: getDicasPorRevestimento (exato do pedido)
- ============================================================ */
+/* ---------- dicas por revestimento ---------- */
 function getDicasPorRevestimento(tipo){
  if(tipo=='vinil') return [
   {t:'Vinil: só escova de nylon', d:'Escova de aço rasga o vinil. Use vassoura e nylon macio.'},
@@ -552,15 +617,14 @@ function getDicasPorRevestimento(tipo){
  ];
 }
 
-/* ---------- navegação (router: go() = router.navigate) ---------- */
-let lastView=null;
+/* ---------- navegação ---------- */
 function go(v){
  if(v==='clima'&&!state.weather&&!state.wxLoading)loadWeather(false);
  state.view=v;render();window.scrollTo(0,0);
 }
+window.closeView=()=>go('dicas');
 function render(){
  const v=state.view;
- const y=(v===lastView)?window.scrollY:0;
  let html;
  try{
   html=v==='home'?vHome():v==='clima'?vClima():v==='hist'?vHist():v==='plano'?vPlano():v==='dicas'?vDicas():v==='filtro'?vFiltro():vConfig();
@@ -571,13 +635,22 @@ function render(){
   else{state=defaultState();seedEvents();html=vHome();}
  }
  $('#app').innerHTML=html;
- if(v==='filtro')applyValve();   /* ★ NOVO: aplica ângulo salvo da manivela */
- window.scrollTo(0,y);lastView=v;
+ const fv=document.getElementById('v-filtro');
+ if(fv){
+  fv.addEventListener('scroll',function(e){
+   const st=document.getElementById('valvulaSticky');
+   if(!st)return;
+   if(e.target.scrollTop>60)st.classList.add('mini');
+   else st.classList.remove('mini');
+  });
+  applyValve();
+ }
+ window.scrollTo(0,0);
  document.querySelectorAll('.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
  syncPwaCard();
 }
 
-/* ============================ HOME (intacta) ============================ */
+/* ============================ HOME ============================ */
 function poolSvg(){
  return '<svg width="112" height="72" viewBox="0 0 140 84" fill="none" aria-hidden="true">'
  +'<path d="M10 66 34 16h72l24 50Z" stroke="#fff" stroke-width="4.5" stroke-linejoin="round"/>'
@@ -635,7 +708,7 @@ function vHome(){
  return h;
 }
 
-/* ==================== CLIMA REAL BLINDADO (INTACTO — NÃO MEXER) ==================== */
+/* ==================== CLIMA REAL BLINDADO (INTACTO) ==================== */
 function climaTop(){
  return '<header class="thdr"><button class="t-btn" onclick="go(\'home\')" aria-label="Voltar">'+icon('back',22)+'</button>'
   +'<h1>Clima e Piscina</h1><button class="t-btn" onclick="go(\'home\')" aria-label="Fechar">'+icon('x',22)+'</button></header>';
@@ -701,7 +774,7 @@ async function fetchForecast(lat,lon){
  +'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max'
  +'&forecast_days=7&timezone=auto';
  try{
-  const res=await fetchT(url,7000);   /* fetchT timeout 7s — INTACTO */
+  const res=await fetchT(url,7000);
   if(!res.ok)return null;
   const j=await res.json();
   let idx=j.hourly.time.findIndex(t=>new Date(t).getTime()>=Date.now()-36e5);if(idx<0)idx=0;
@@ -716,7 +789,6 @@ async function fetchForecast(lat,lon){
      pop:(j.daily.precipitation_probability_max[i]??0),code:j.daily.weather_code[i]};})};
  }catch(e){return null;}
 }
-/* simulateForecast — fallback igual ao print real (intacto) */
 function simulateFallback(){
  const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[ri(0,a.length-1)];
  const base=new Date();const hours=[],days=[];
@@ -741,7 +813,6 @@ function cacheGeo(g){try{localStorage.setItem('poolcare_geo',JSON.stringify(g));
 function readGeo(){try{return JSON.parse(localStorage.getItem('poolcare_geo')||'null');}catch(e){return null;}}
 
 let wxToken=0,geoToasted=false;
-/* watchdog setTimeout 6000ms — INTACTO: nunca trava em "Carregando..." */
 function loadWeather(silent){
  const my=++wxToken;
  if(!silent){state.wxLoading=true;render();}
@@ -792,6 +863,48 @@ window.wxShowNow=()=>{
  state.weather=c?Object.assign({},c.w,{cached:true}):simulateFallback();
  render();
 };
+
+/* ===== sheetClima (intacto) ===== */
+function getVereditoDia(dia){
+ const c=dia.code;
+ if(c>=95||c===65||c===82)return{cor:'red',label:'Tempestade',dicas:[
+  '⛔ Adie dosagem de sulfato e decantação',
+  '⚡ Desligue a bomba durante raios',
+  '🧹 Recolha capa e objetos soltos',
+  '📌 Cubra a piscina para evitar detritos e contaminação']};
+ if(c>=61||c===66||c===67||c===3||(c>=51&&c<=57))return{cor:'org',label:'Atenção',dicas:[
+  '✅ DOSE AGORA de manhã: pH e cloro antes da chuva',
+  '❌ NÃO aspire para esgoto hoje, vai transbordar',
+  '🌀 Deixe filtrar 6h hoje para não virar verde amanhã',
+  '📌 Cubra a piscina se tiver capa']};
+ return{cor:'grn',label:'Ótimas',dicas:[
+  '☀️ Dia ideal para choque e decantação à noite',
+  '✅ Aproveite para peneirar, escovar e medir os parâmetros',
+  '🌀 Mantenha 6h de filtração e deixe a capa fora durante o sol']};
+}
+window.openSheetClima=function(i){
+ const w=state.weather;
+ if(!w||!w.daily||!w.daily[i])return;
+ const dia=w.daily[i];
+ const v=getVereditoDia(dia);
+ const emoji={red:'⛈️',org:'☔',grn:'☀️'}[v.cor];
+ document.getElementById('sheetClimaTitle').textContent=dia.label+' - '+v.label+' '+emoji;
+ const vento=(i===0&&w.current&&w.current.wind)?(' Vento '+w.current.wind+' km/h.'):'';
+ let body='<div class="scard"><b>O que vai acontecer</b>'
+  +'<p>'+describeCode(dia.code)+' de <b>'+dia.max+'°/'+dia.min+'°</b> com <b>'+dia.pop+'%</b> de chance de chuva.'+vento+'</p></div>';
+ body+='<div class="scard"><b>O que fazer com a piscina '+(i===0?'HOJE':'neste dia')+'</b>'
+  +v.dicas.map(d=>'<div class="dica-row">'+d+'</div>').join('')+'</div>';
+ body+='<button class="m-btn" onclick="closeSheetClima();go(\'plano\')">Ver meu plano de correção ›</button>';
+ document.getElementById('sheetClimaBody').innerHTML=body;
+ document.getElementById('sheetClima').classList.remove('hidden');
+ document.getElementById('sheetClima').classList.add('active');
+};
+window.closeSheetClima=function(){
+ const s=document.getElementById('sheetClima');
+ s.classList.add('hidden');
+ s.classList.remove('active');
+};
+
 function vClima(){
  if(state.wxLoading){
   return climaTop()+'<div class="wx-load"><div class="spinner"></div><p>⏳ Carregando previsão...</p>'
@@ -814,8 +927,20 @@ function vClima(){
  +'<div class="wx-extra">Sensação '+c.feels+'° • Vento '+c.wind+' km/h • Umidade '+c.hum+'%'
   +' <button class="mini-refresh" onclick="loadWeather(true)" aria-label="Atualizar">'+icon('refresh',14)+'</button></div>';
  const stormSoon=(w.hourly||[]).slice(0,4).some(x=>x.code>=95);
- if((c>=95||stormSoon)&&state.alerts.storm)h+='<button class="banner" onclick="go(\'plano\')"><span class="b-ic">'+icon('alert',18)+'</span><span><b>Alerta amarelo: tempestade</b><p>Tempestade prevista nas próximas horas. Cubra a piscina para evitar detritos e contaminação da água.</p></span></button>';
- else{const vd=poolVerdict();if(vd)h+='<div class="banner grn"><span class="b-ic">'+icon('check',18)+'</span><span><b>Condições ótimas</b><p>'+vd.d+'</p></span></div>';}
+ if((c>=95||stormSoon)&&state.alerts.storm){
+  h+='<button class="banner red" onclick="openSheetClima(0)" style="cursor:pointer"><span class="b-ic">'+icon('alert',18)+'</span><span>'
+   +'<b>Alerta: Tempestade</b><p>Tempestade prevista nas próximas horas. Cubra a piscina para evitar detritos e contaminação da água.</p>'
+   +'<span class="vtap">Toque para ver o que fazer ›</span></span></button>';
+ }else{
+  const vd=poolVerdict();
+  if(vd){
+   const clsV=vd.cls==='ok'?'grn':(vd.cls==='bad'?'red':'');
+   h+='<button class="banner '+clsV+'" onclick="openSheetClima(0)" style="cursor:pointer">'
+    +'<span class="b-ic" style="'+(vd.cls==='ok'?'background:#2FA35A':'')+'">'+icon(vd.cls==='ok'?'check':'alert',18)+'</span><span>'
+    +'<b>'+vd.t+'</b><p>'+vd.d+'</p>'
+    +'<span class="vtap">Toque para ver o que fazer ›</span></span></button>';
+  }
+ }
  if(w.simulated)h+='<div class="offcard"><b>Previsão de exemplo por enquanto</b><span>Quando a rede/GPS responder, o tempo real substitui automaticamente.</span><button onclick="loadWeather(false)">'+icon('refresh',13)+' Tentar novamente</button></div>';
  else if(w.cached)h+='<div class="offcard blue"><b>Você está offline — última previsão real ('+hora+')</b><button onclick="loadWeather(false)">'+icon('refresh',13)+' Atualizar agora</button></div>';
  if(w.approx)h+='<div class="offcard blue"><b>Local padrão em uso — não é sua posição real</b><button onclick="useMyLocation()">'+icon('pin',13)+' Usar minha localização</button></div>';
@@ -823,9 +948,9 @@ function vClima(){
   +w.hourly.map(x=>'<div class="hcard"><span class="hc-t">'+x.temp+'°</span>'+bigWx(x.code,28)+'<b>'+x.pop+'%</b><span class="hc-h">'+x.label+'</span></div>').join('')
   +'</div>'
  +'<h3 class="slab">'+icon('cal',17)+' Próximos 7 dias</h3><div class="days">'
-  +w.daily.map(d=>{const b=dayBadge(d.code);
+  +w.daily.map((d,i)=>{const b=dayBadge(d.code);
    return '<div class="day"><span class="d-name">'+d.label+'</span>'+bigWx(d.code,26)
-    +'<span class="d-temp">'+d.max+'° / '+d.min+'°</span><span class="wbg '+b.cls+'">'+b.txt+'</span></div>';}).join('')
+    +'<span class="d-temp">'+d.max+'° / '+d.min+'°</span><button class="wbg '+b.cls+'" onclick="openSheetClima('+i+')" aria-label="Ver o que fazer: '+b.txt+'">'+b.txt+'</button></div>';}).join('')
   +'</div>'
  +'<div class="wx-btns"><button class="o-btn" onclick="openAlerts()">Configurar alertas</button>'
   +'<button class="t-btn" onclick="go(\'home\')">Entendi</button></div>'
@@ -854,7 +979,7 @@ window.openAlerts=()=>{
 window.toggleAl=k=>{state.alerts[k]=!state.alerts[k];openAlerts();};
 window.saveAlerts=()=>{persist();closeModal();if(state.view==='clima')render();toast('Alertas salvos neste dispositivo.');};
 
-/* ==================== HISTÓRICO (intacto — gráficos SVG) ==================== */
+/* ==================== HISTÓRICO ==================== */
 function smoothChart(pts){
  const W=300,H=64,iw=W-8;
  const vals=pts.map(p=>p.v);
@@ -913,7 +1038,7 @@ function vHist(){
    +'<div class="rng">'+c.rng+'</div>'+smoothChart(pts)
    +'<div class="dts">'+pts.map(p=>p.d).join(' · ')+'</div>'
    +(state.details?'<div class="det">mín '+fmt(Math.min.apply(null,pts.map(p=>p.v)))+' • máx '+fmt(Math.max.apply(null,pts.map(p=>p.v)))+'</div>':'')
-   +'</div>';
+   +"</div>";
  });
  h+='</div>'
  +'<div class="tl-h">'+icon('clock',22)+'<h2>Linha do tempo</h2></div><div class="tl">';
@@ -940,7 +1065,7 @@ window.openMedList=()=>{
   +'<button class="m-btn" onclick="closeModal()">Fechar</button>');
 };
 
-/* ==================== DICAS (v-tips) — ★ NOVO: revestimento + botão v-filtro ==================== */
+/* ==================== DICAS ==================== */
 function vDicas(){
  const r=state.readings,vd=poolVerdict(),list=[];
  const revMap={vinil:'Vinil',fibra:'Fibra',azulejo:'Azulejo'};
@@ -948,9 +1073,7 @@ function vDicas(){
  let h='<header class="lhdr"><span></span><h1>Dicas para hoje</h1>'
   +'<button class="l-btn" onclick="go(\'config\')" aria-label="Ajustes">'+icon('gear',22)+'</button></header>'
  +'<div class="page" style="padding-top:14px">'
- /* ★ NOVO: botão grande turquesa para a v-filtro (bottom nav intocado) */
- +'<button class="bigbtn" style="margin:2px 16px 0" onclick="go(\'filtro\')">🌀 Guia da Válvula Seletora e Manômetro ›</button>'
- /* ★ NOVO: cards de revestimento no topo, borda turquesa #0B8FA8 */
+ +'<button class="bigbtn" style="margin:2px 16px 0" onclick="go(\'filtro\')">🌀 Guia da Válvula do Filtro ›</button>'
  +'<h3 class="sec" style="font-size:19px;margin:22px 18px 10px">💡 Para sua piscina de '+revMap[rev]+'</h3>';
  getDicasPorRevestimento(rev).forEach(d=>{
   h+='<div class="revtip"><b>'+d.t+'</b><p>'+d.d+'</p></div>';
@@ -958,7 +1081,7 @@ function vDicas(){
  if(r.cl<1)list.push({ic:'zap',t:'Reativação da piscina',p:'Cloro em '+f1(r.cl)+' ppm: a água parou de ser desinfetada. Abaixe o pH para 7,2 (se estiver acima de 7,4) e faça o choque noturno.',cta:'Resolver agora'});
  if(r.cl>=1&&!phOkCtx(r.ph,r.cl)){const s=getPhStatus(r.ph,r.cl);list.push({ic:'drop',t:'pH '+s.label.toLowerCase(),p:s.texto,cta:'Ver no plano'});}
  if(state.water==='verde')list.push({ic:'drop',t:'Água verde',p:'Algas instaladas: choque duplo, escovação e filtro 24 h. Banho proibido até clarear.'});
- if(state.water==='turva')list.push({ic:'drop',t:'Água turva',p:'Flocule com sulfato em RECIRCULAR, decante 12 h e aspire o fundo em ESGOTO/DRENAR devagar.'});
+ if(state.water==='turva')list.push({ic:'drop',t:'Água turva',p:'Flocule com sulfato em RECIRCULAR, decante 12 h e aspire o fundo em DRENAR devagar.'});
  if(vd&&vd.cls!=='ok')list.push({ic:'umbrella',t:vd.t+' no radar',p:'Cubra a piscina e adie qualquer dosagem para o próximo dia firme.'});
  list.push({ic:'drop',t:'Limpeza de borda',p:'Aplique limpa borda nas paredes a cada 15 dias para evitar linha amarelada.'});
  list.push({ic:'shieldA',t:'Manutenção semanal',p:'Peneire a superfície, escove as paredes e mantenha o filtro ligado 6 h por dia.'});
@@ -970,7 +1093,7 @@ function vDicas(){
  return h;
 }
 
-/* ==================== CONFIG (v-pool) — ★ NOVO: seção Revestimento abaixo do Formato ==================== */
+/* ==================== CONFIG ==================== */
 const PRESETS={pequena:{l:5,w:3,sh:1.0,dp:1.4},media:{l:9,w:4,sh:1.0,dp:1.5},grande:{l:12,w:6,sh:1.2,dp:1.8}};
 function shapeSvg(k){
  const s='<svg width="34" height="28" viewBox="0 0 36 30" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true">';
@@ -997,7 +1120,6 @@ function vConfig(){
  +'<div class="page" style="padding-top:18px">'
  +'<section class="csec"><h2>Formato</h2><p class="sub">Selecione o formato da piscina</p>'
   +'<div class="fmt-grid">'+Object.keys(SHAPES).map(k=>'<button class="fmt'+(c.shape===k?' on':'')+'" onclick="setShapeFull(\''+k+'\')"><span class="chk">'+icon('check',12)+'</span>'+shapeSvg(k)+'<span>'+SHAPES[k].label+'</span></button>').join('')+'</div>'
-  /* ★ NOVO: Revestimento — abaixo dos chips de Formato, default Azulejo */
   +'<div style="height:1px;background:#E2EBF0;margin:18px 0 0"></div>'
   +'<h2 style="margin-top:16px">Revestimento</h2><p class="sub">De que é feito o interior da piscina?</p>'
   +'<div class="rev-chips">'
@@ -1036,7 +1158,6 @@ function vConfig(){
  +'</div>';
  return h;
 }
-/* ★ NOVO: salvar revestimento dentro de poolcare_v1 → {shape,length,...,revestimento} */
 window.setRev=r=>{state.cfg.revestimento=r;persist();render();toast('Revestimento: '+({vinil:'Vinil',fibra:'Fibra',azulejo:'Azulejo'})[r]);};
 function updateVolUI(){
  const L=litersOf(),a=$('#vm3'),b=$('#vlit');
@@ -1053,7 +1174,7 @@ window.openInfo=()=>{
  openModal('<h3>Como o volume é calculado</h3><p class="m-p">Volume = profundidade média × comprimento × largura × fator do formato × 1000.</p>'
  +'<div class="mstep"><b>Fatores por formato</b><span>Retangular 1,0 • Redonda 0,785 (π·Ø²/4) • Oval 0,85 • Oitavada 0,87</span></div>'
  +'<div class="mstep"><b>pH e choque</b><span>Com cloro abaixo de 1 ppm, o pH ideal para o choque é 7,0–7,4 (meta 7,2) — acima disso o cloro perde até 50% da eficácia.</span></div>'
- +'<div class="mstep"><b>Revestimento</b><span>Vinil e fibra pedem diluição prévia de produtos agressivos; azulejo aguenta escova de aço e cloro direto. As dicas se adaptam automaticamente.</span></div>'
+ +'<div class="mstep"><b>Revestimento</b><span>Vinil e fibra pedem diluição prévia de produtos agressivos; azulejo aguenta escova de aço e cloro direto.</span></div>'
  +'<button class="m-btn" onclick="closeModal()">Entendi</button>');
 };
 window.askReset=()=>{openModal('<h3>Apagar dados?</h3><p class="m-p">Medidas, medições e histórico voltam ao padrão de fábrica.</p>'
@@ -1085,7 +1206,7 @@ window.downloadIcons=()=>{
  toast('Ícones baixados! Mova os 2 PNGs para a pasta do index.html e recarregue 2x.');
 };
 
-/* ---------- medição (intacta) ---------- */
+/* ---------- medição ---------- */
 let waterPick=null;
 window.editReading=k=>{
  waterPick=state.water;const rg=RANGES[k];
@@ -1116,9 +1237,7 @@ window.saveReading=k=>{
  toast('Medição salva: '+RANGES[k].label+' '+fmt(v));
 };
 
-/* ============================================================
- PLANO (v-calc) — intacto; ★ NOVO: linha de VINIL nas etapas 1 e 5
- ============================================================ */
+/* ==================== PLANO ==================== */
 function gerarPlano(){
  const L=litersOf(),k=L/1000,r=state.readings,verde=state.water==='verde',turva=state.water==='turva';
  const F={choqueSimples:14,choqueDuplo:28,sulfato:10,clarificante:2,algicida:6};
@@ -1177,7 +1296,7 @@ function gerarPlano(){
   etapas.push({t:'Água turva — aparência',bdg:['warn','TRATAR'],prod:'Sulfato de alumínio + clarificante',chem:'floculante',dose:gW(su)+' + '+mlW(cl),
    inst:['Filtro em RECIRCULAR: aplique o sulfato e recircule 30 min.',
     'Desligue o filtro por 12 h e deixe o sedimento decantar no fundo.',
-    'Aspire o fundo em ESGOTO/DRENAR bem devagar, sem levantar a sujeira.',
+    'Aspire o fundo em DRENAR (Waste) bem devagar, sem levantar a sujeira.',
     'Volte a válvula para FILTRAR, complete com clarificante e filtre 24 h.']});
  }else{
   etapas.push({t:'Aparência da água',bdg:['ok','EM ORDEM'],inst:['Água '+state.water+'. Peneire a superfície, escove as paredes e mantenha 6 h/dia de filtração.','Clarificante de manutenção a cada 15 dias ('+mlW(round5(F.clarificante*k))+').']});
@@ -1186,7 +1305,7 @@ function gerarPlano(){
 }
 function vPlano(){
  const p=gerarPlano();
- const vinil=state.cfg.revestimento==='vinil';   /* ★ NOVO */
+ const vinil=state.cfg.revestimento==='vinil';
  let h='<header class="thdr"><button class="t-btn" onclick="go(\'home\')" aria-label="Voltar">'+icon('back',22)+'</button>'
   +'<h1>Meu Plano de Correção</h1><span></span></header><div class="page">'
  +'<p class="plan-meta">5 etapas • '+f0(p.L)+' L • siga a ordem 1 a 5'+(p.choqueNec?' • meta do pH p/ choque: 7,0–7,4':'')+'</p>';
@@ -1197,100 +1316,143 @@ function vPlano(){
    +'<div class="step-head"><h4>'+e.t+'</h4><span class="sbdg '+e.bdg[0]+'">'+e.bdg[1]+'</span></div>'
    +(e.prod?'<div class="dose"><div><b>'+e.prod+'</b>'+(e.chem?'<small>'+e.chem+'</small>':'')+'</div><span class="dose-v">'+e.dose+'</span></div>':'')
    +'<ul class="inst">'+e.inst.filter(Boolean).map(x=>'<li>'+x+'</li>').join('')+'</ul>'
-   /* ★ NOVO: etapas 1 e 5 — aviso laranja fundo #FFF3E0 quando revestimento = vinil */
    +(((i===0||i===4)&&vinil)?'<div class="vinilwarn">⚠️ VINIL: diluir produto em balde 10L antes de aplicar na borda, nunca direto no vinil</div>':'')
    +'</div></section>';
  });
- h+='<button class="bigbtn" onclick="openShopModal()">'+icon('download',22)+' Lista de compras (revisar e baixar PDF)</button>'
+ h+='<button class="bigbtn" onclick="openSheetShop()">'+icon('download',22)+' Produtos para piscina (hoje + catálogo)</button>'
  +'<p class="fine">Doses pelos fatores do app (choque simples '+p.F.choqueSimples+' g/1.000 L • duplo '+p.F.choqueDuplo+' g • sulfato '+p.F.sulfato+' g • clarificante '+p.F.clarificante+' ml • algicida '+p.F.algicida+' ml). Confirme o rótulo do fabricante e meça após cada etapa.</p></div>';
  return h;
 }
 
 /* ============================================================
- ★ NOVO — GATILHO 3: v-filtro (válvula seletora SVG + manômetro)
+ v-filtro — ★ v4.2: SVG novo + selecionarPosicao completa
  ============================================================ */
 const VALVE=[
- {id:'filtrar',   label:'FILTRAR',    en:'Filter',            ang:0,   fluxo:'da piscina → filtro → piscina (filtra normal)', txt:'Uso diário. 99% do tempo aqui.'},
- {id:'recircular',label:'RECIRCULAR', en:'Recirculate',       ang:60,  fluxo:'piscina → piscina (ignora o filtro)',           txt:'Use ao aplicar sulfato 30 min.'},
- {id:'retrolavar',label:'RETROLAVAR', en:'Backwash / Lavar',  ang:120, fluxo:'piscina → filtro → esgoto',                     txt:'Lava a areia. Use quando o manômetro subir 0,5. 1–2 min.'},
- {id:'enxague',   label:'ENXÁGUE',    en:'Rinse',             ang:180, fluxo:'filtro → esgoto',                               txt:'30 s após o retrolavar.'},
- {id:'drenar',    label:'DRENAR',     en:'Waste / Esgoto',    ang:240, fluxo:'piscina → esgoto',                              txt:'Aspirar sujeira decantada sem voltar pro filtro.'},
- {id:'fechado',   label:'FECHADO',    en:'Closed',            ang:300, fluxo:'fechado',                                       txt:'NUNCA ligue a bomba aqui.'}
+ {id:'filtrar',    emoji:'🔽', pt:'FILTRAR',    en:'FILTER',      ang:0,
+  h3:'FILTRAR - Uso diário', p:'Posição padrão: a água sai da piscina, passa pela areia do filtro e volta limpa.', uso:'Filtragem diária • Perda: Nenhuma'},
+ {id:'pre_filtrar',emoji:'🧽', pt:'PRÉ FILTRAR',en:'PRE-FILTER',  ang:60,
+  h3:'PRÉ FILTRAR (RINSE)', p:'Filtração reforçada — a água atravessa mais camada de areia. Também é a posição de enxágue depois do LAVAR, reacomodando a areia.', uso:'Água levemente suja / após LAVAR • 30 s'},
+ {id:'recircular', emoji:'🔄', pt:'RECIRCULAR', en:'RECIRCULATE', ang:120,
+  h3:'RECIRCULAR - Ignora o filtro', p:'A água circula da piscina direto de volta, sem passar pela areia. Obrigatório ao aplicar sulfato/floculante, para não entupir o filtro.', uso:'Aplicar sulfato • 30 min'},
+ {id:'lavar',      emoji:'💦', pt:'LAVAR',      en:'BACKWASH',    ang:180,
+  h3:'LAVAR (BACKWASH/RETROLAVAR)', p:'A água entra invertida no filtro e leva a sujeira da areia direto pro esgoto. Use quando o manômetro marcar 0,5 bar acima da pressão do filtro limpo.', uso:'Lavar areia • 1–2 min • Perde água'},
+ {id:'drenar',     emoji:'⬇️', pt:'DRENAR',     en:'WASTE',       ang:240,
+  h3:'DRENAR (WASTE)', p:'A água da piscina vai direto pro esgoto sem passar pelo filtro. Use para aspirar sujeira decantada no fundo (sem sujar o filtro) ou rebosar.', uso:'Aspirar fundo / rebosar • Perde água'},
+ {id:'fechado',    emoji:'🔒', pt:'FECHADO',    en:'CLOSED',      ang:300,
+  h3:'FECHADO (CLOSED)', p:'Bloqueia TUDO. NUNCA ligue a bomba em FECHADO — a pressão estoura o filtro. Só use com a bomba desligada, para manutenção.', uso:'Só com bomba desligada ⚠️'}
 ];
-const VICON={
- filtrar:'<path d="M-12,-11 H12 L4,1 V12 H-4 V1 Z"/>',
- recircular:'<path d="M-10,-5 A10,10 0 0 1 10,-5"/><path d="M10,-5 l-4,-3 M10,-5 l-4,3"/><path d="M10,5 A10,10 0 0 1 -10,5"/><path d="M-10,5 l4,-3 M-10,5 l4,3"/>',
- retrolavar:'<path d="M-8,10 V-4 M-12,0 L-8,-8 L-4,0"/><path d="M8,10 V-4 M4,0 L8,-8 L12,0"/>',
- enxague:'<path d="M0,-11 C4,-5 6,-2 6,1 A6,6 0 1 1 -6,1 C-6,-2 -4,-5 0,-11 Z"/><path d="M-9,9 A11,11 0 0 0 9,9" stroke-dasharray="2 3"/>',
- drenar:'<path d="M0,-11 V5 M-5,0 L0,7 L5,0"/><path d="M-10,12 H10"/>',
- fechado:'<rect x="-8" y="-2" width="16" height="12" rx="2"/><path d="M-5,-2 V-6 A5,5 0 0 1 5,-6 V-2"/>'
-};
+/* setores: cunha centralizada no topo (±30°), rotacionada por setor.
+   Labels INTERNOS: ícone R=80, PT R=60 (11px), EN R=50 (8px) — nunca na borda (R=125) nem colados no hub (r=42). */
+const SECTOR_WEDGE='M0 0 L-62.5 -108.25 A125 125 0 0 1 62.5 -108.25 Z';
 function valveSvg(){
- const wedge={
-  filtrar:'M200,200 L115,52.8 A170,170 0 0 1 285,52.8 Z',
-  recircular:'M200,200 L285,52.8 A170,170 0 0 1 370,200 Z',
-  retrolavar:'M200,200 L370,200 A170,170 0 0 1 285,347.2 Z',
-  enxague:'M200,200 L285,347.2 A170,170 0 0 1 115,347.2 Z',
-  drenar:'M200,200 L115,347.2 A170,170 0 0 1 30,200 Z',
-  fechado:'M200,200 L30,200 A170,170 0 0 1 115,52.8 Z'
+ /* posições por setor: [iconX,iconY, ptX,ptY, enX,enY] (coordenadas relativas ao centro 0,0) */
+ const P={
+  filtrar:   [0,-80,   0,-60,   0,-50],
+  pre_filtrar:[69.3,-40, 52,-30,  43,-25],
+  recircular:[69.3,40,  52,30,   43,25],
+  lavar:     [0,80,    0,60,    0,50],
+  drenar:    [-69.3,40,-52,30,  -43,25],
+  fechado:   [-69.3,-40,-52,-30,-43,-25]
  };
- const pos={   /* [x ícone, y ícone, x label, y label] */
-  filtrar:[200,68,200,106],recircular:[314,134,281,154],retrolavar:[314,266,281,250],
-  enxague:[200,330,200,298],drenar:[86,266,119,250],fechado:[86,134,119,154]
- };
+ const ROT={filtrar:0,pre_filtrar:60,recircular:120,lavar:180,drenar:240,fechado:300};
  let s='<svg viewBox="0 0 400 400" role="img" aria-label="Válvula seletora de 6 vias interativa">';
- s+='<circle cx="200" cy="200" r="178" fill="#F7FBFD" stroke="#D8E6EA" stroke-width="2"/>';
- /* setores clicáveis (gira a alavanca) */
+ s+='<g transform="translate(200,200)">';
+ /* fundo + anel externo */
+ s+='<circle cx="0" cy="0" r="132" fill="#F7FBFD" stroke="#D8E6EA" stroke-width="2"/>';
+ /* 6 setores clicáveis (cunha do topo rotacionada) */
  VALVE.forEach(v=>{
-  s+='<g class="vsec" data-pos="'+v.id+'" onclick="setValve(\''+v.id+'\')">'
-   +'<path class="wedge" d="'+wedge[v.id]+'"/></g>';
+  s+='<g class="setor-v" id="setor-'+v.id+'" onclick="selecionarPosicao(\''+v.id+'\')" style="cursor:pointer" transform="rotate('+ROT[v.id]+')">'
+   +'<path d="'+SECTOR_WEDGE+'"/></g>';
  });
- /* divisões turquesa #0B8FA8 */
- [[285,52.8],[370,200],[285,347.2],[115,347.2],[30,200],[115,52.8]].forEach(p=>{
-  s+='<line x1="200" y1="200" x2="'+p[0]+'" y2="'+p[1]+'" stroke="#0B8FA8" stroke-width="2.5" style="pointer-events:none"/>';
- });
- s+='<circle cx="200" cy="200" r="170" fill="none" stroke="#0B8FA8" stroke-width="2.5" style="pointer-events:none"/>';
- /* ícones + labels (overlay não interativo) */
+ /* textos e ícones por cima (não interceptam clique) */
  s+='<g style="pointer-events:none">';
  VALVE.forEach(v=>{
-  const p=pos[v.id];
-  s+='<g transform="translate('+p[0]+','+p[1]+')" fill="none" stroke="#123B4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+VICON[v.id]+'</g>'
-   +'<text x="'+p[2]+'" y="'+p[3]+'" text-anchor="middle" font-size="13" font-weight="800" fill="#123B4C" font-family="Inter,system-ui,sans-serif">'+v.label+'</text>';
+  const p=P[v.id];
+  s+='<text x="'+p[0]+'" y="'+p[1]+'" text-anchor="middle" font-size="18">'+v.emoji+'</text>'
+   +'<text x="'+p[2]+'" y="'+p[3]+'" text-anchor="middle" font-size="11" font-weight="800" fill="#0A3A4A" font-family="Inter,system-ui,sans-serif">'+v.pt+'</text>'
+   +'<text x="'+p[4]+'" y="'+p[5]+'" text-anchor="middle" font-size="8" fill="#5A7A85" font-family="Inter,system-ui,sans-serif">'+v.en+'</text>';
  });
  s+='</g>';
- /* centro preto + alavanca rotativa (transition 0.5s) */
- s+='<circle cx="200" cy="200" r="70" fill="#1F2E3A"/>'
-  +'<g id="alavanca" style="transform-origin:200px 200px;transition:transform .5s cubic-bezier(.4,0,.2,1)">'
-  +'<line x1="200" y1="200" x2="200" y2="102" stroke="#35C4B5" stroke-width="9" stroke-linecap="round"/>'
-  +'<circle cx="200" cy="102" r="14" fill="#0B8FA8" stroke="#fff" stroke-width="3"/>'
-  +'</g>'
-  +'<circle cx="200" cy="200" r="9" fill="#EFF6F8"/>'
-  +'<text x="200" y="240" text-anchor="middle" font-size="10" fill="#8FB0BC" font-family="Inter,system-ui,sans-serif" style="pointer-events:none">gire só com a bomba desligada</text>'
-  +'</svg>';
+ /* anel externo turquesa */
+ s+='<circle cx="0" cy="0" r="125" fill="none" stroke="#0B8FA8" stroke-width="2.5" style="pointer-events:none"/>';
+ /* ★ hub central r=42 (era 70 — não cobre mais os textos) */
+ s+='<circle cx="0" cy="0" r="42" fill="#1F2937"/>';
+ /* ★ alavanca + ponteiro (rotacionam via setAttribute transform) */
+ s+='<line id="alavanca" x1="0" y1="0" x2="0" y2="-90" stroke="#0B8FA8" stroke-width="6" stroke-linecap="round" style="transition:transform .5s cubic-bezier(.4,0,.2,1)"/>';
+ s+='<g id="ponteiro" style="transition:transform .5s cubic-bezier(.4,0,.2,1)">'
+  +'<circle cx="0" cy="-90" r="9" fill="#FF8C00" stroke="#fff" stroke-width="2.5"/></g>';
+ s+='<circle cx="0" cy="0" r="6" fill="#EFF6F8"/>';
+ s+='</g></svg>';
  return s;
 }
+const ANGULOS={filtrar:0,pre_filtrar:60,recircular:120,lavar:180,drenar:240,fechado:300};
+/* ★ selecionarPosicao completa: gira + destaca setor + TROCA O CARD + âncora + vibra */
+window.selecionarPosicao=function(pos){
+ const ang=ANGULOS[pos]||0;
+ /* 1. girar alavanca e ponteiro */
+ const al=document.getElementById('alavanca');
+ if(al)al.setAttribute('transform','rotate('+ang+')');
+ const po=document.getElementById('ponteiro');
+ if(po)po.setAttribute('transform','rotate('+ang+')');
+ state.filtroSel=pos;
+ /* 2. destacar setor selecionado no SVG */
+ document.querySelectorAll('.setor-v').forEach(s=>s.classList.remove('setor-ativo'));
+ const st=document.getElementById('setor-'+pos);
+ if(st)st.classList.add('setor-ativo');
+ /* 3. atualizar card embaixo — SÓ o selecionado fica visível */
+ document.querySelectorAll('.card-pos').forEach(c=>{c.style.display='none';c.classList.remove('ativo');});
+ const cardAlvo=document.getElementById('card-'+pos);
+ if(cardAlvo){
+  cardAlvo.style.display='block';
+  cardAlvo.classList.add('ativo');
+  /* 4. âncora automática — sobe/alinha sozinho no scroll interno */
+  setTimeout(()=>{
+   const container=document.getElementById('v-filtro');
+   const sticky=document.getElementById('valvulaSticky');
+   if(container&&sticky){
+    const stickyHeight=sticky.offsetHeight+16;
+    const topCard=cardAlvo.getBoundingClientRect().top+container.scrollTop-stickyHeight;
+    container.scrollTo({top:topCard,behavior:'smooth'});
+   }
+   /* 5. vibração leve no celular */
+   if(navigator.vibrate)navigator.vibrate(50);
+  },80);
+ }
+};
 function applyValve(){
  const id=state.filtroSel||'filtrar';
- const v=VALVE.find(x=>x.id===id)||VALVE[0];
+ const ang=ANGULOS[id]||0;
  const al=document.getElementById('alavanca');
- if(al)al.style.transform='rotate('+v.ang+'deg)';
- document.querySelectorAll('.vsec').forEach(g=>g.classList.toggle('on',g.dataset.pos===v.id));
- document.querySelectorAll('.vcard[data-pos]').forEach(c=>c.classList.toggle('on',c.dataset.pos===v.id));
+ if(al)al.setAttribute('transform','rotate('+ang+')');
+ const po=document.getElementById('ponteiro');
+ if(po)po.setAttribute('transform','rotate('+ang+')');
+ document.querySelectorAll('.setor-v').forEach(s=>s.classList.toggle('setor-ativo',s.id==='setor-'+id));
+ document.querySelectorAll('.card-pos').forEach(c=>{
+  const on=c.id==='card-'+id;
+  c.style.display=on?'block':'none';
+  c.classList.toggle('ativo',on);
+ });
 }
-window.setValve=id=>{state.filtroSel=id;applyValve();};
 function vFiltro(){
- let h='<header class="thdr"><button class="t-btn" onclick="go(\'dicas\')" aria-label="Voltar">'+icon('back',22)+'</button>'
-  +'<h1>Válvula Seletora (Manivela do Filtro) &amp; Manômetro</h1><span></span></header>'
- +'<div class="page" style="padding-top:14px">'
- +'<div class="vhlp"><b>💡 Onde fica?</b>'
-  +'<p>Essa manivela/alavanca fica em cima do filtro de areia, tem 6 posições e SÓ pode girar com a BOMBA DESLIGADA. Nome técnico: Válvula Seletora de 6 vias.</p></div>'
- +'<div class="vsvg-wrap">'+valveSvg()+'</div>'
- +'<div class="vband">VÁLVULA SELETORA 6 VIAS — COMO FUNCIONA</div>'
- +'<div class="vgrid">'
-  +VALVE.map(v=>'<button class="vcard" data-pos="'+v.id+'" onclick="setValve(\''+v.id+'\')">'
-   +'<b>'+v.label+'</b><small>'+v.en+'</small><small>Fluxo: '+v.fluxo+'</small><p>'+v.txt+'</p></button>').join('')
+ let h='<div id="v-filtro" class="filtro-view">'
+ +'<header class="thdr"><button class="t-btn" onclick="closeView()" aria-label="Fechar">'+icon('back',22)+'</button>'
+  +'<h1>Guia da Válvula do Filtro</h1><button class="t-btn" onclick="closeView()" aria-label="Fechar">'+icon('x',22)+'</button></header>'
+ +'<div id="valvulaSticky">'
+  +'<div id="valvulaSVGContainer" style="position:relative">'
+   +valveSvg()
+   +'<div class="bomba-chip">⚠️ BOMBA DESLIGADA</div>'
+   +'</div>'
+  +'<div class="faixa-turquesa" id="faixaValvula">VÁLVULA SELETORA 6 VIAS — COMO FUNCIONA</div>'
   +'</div>'
- /* manômetro */
+ +'<div class="filtro-body">'
+ +'<div id="listaPosicoes">'
+  +VALVE.map((v,i)=>'<div id="card-'+v.id+'" class="card-pos'+(i===0?'':'')+'" data-pos="'+v.id+'" style="display:'+(i===0?'block':'none')+'">'
+   +'<h3>'+v.h3+'</h3><span class="langs">'+v.pt+' • '+v.en+'</span><p>'+v.p+'</p><small>Uso: '+v.uso+'</small></div>').join('')
+  +'<div class="card-aviso-final"><div class="av-ico">⚠️</div><div>'
+   +'<b>DICA DE OURO - NÃO QUEBRE SUA VÁLVULA</b>'
+   +'<p>Essa manivela fica em cima do filtro de areia e tem 6 posições. <b>NUNCA gire com a bomba ligada</b> — a pressão da água trava a chave interna e você quebra a borracha de vedação. Desligue a bomba, gire, depois ligue de novo.</p>'
+   +'</div></div>'
+  +'</div>'
  +'<div class="man-card"><h4>Manômetro — precisa lavar o filtro?</h4>'
   +'<div class="man-field"><label>Pressão com filtro LIMPO (ligado) ex: 0,4</label>'
   +'<input id="pressaoLimpo" type="number" step="0.1" inputmode="decimal" placeholder="0,4" value="'+(state.cfg.pressaoLimpo!==''&&state.cfg.pressaoLimpo!=null?state.cfg.pressaoLimpo:'')+'" oninput="setPress(\'pressaoLimpo\',this.value)"></div>'
@@ -1299,10 +1461,10 @@ function vFiltro(){
   +'<label class="man-trav"><input type="checkbox" id="manTravado"> Com a bomba DESLIGADA o ponteiro NÃO volta ao zero</label>'
   +'<button class="bigbtn" style="margin:14px 0 0;width:100%" onclick="checkManometro()">Verificar se precisa lavar</button>'
   +'<div id="manResult"></div></div>'
- +'</div>';
+ +'<div style="height:90px"></div>'
+ +'</div></div>';
  return h;
 }
-/* ★ salva pressões no localStorage (dentro de poolcare_v1 → cfg) */
 window.setPress=(k,v)=>{const n=parseFloat(v);state.cfg[k]=isNaN(n)?'':n;persist();};
 window.checkManometro=function(){
  const li=document.getElementById('pressaoLimpo'),ag=document.getElementById('pressaoAgora');
@@ -1314,66 +1476,122 @@ window.checkManometro=function(){
  if(isNaN(agora)){el.innerHTML='<div class="mres org">Ligue a bomba e informe a pressão AGORA para verificar.</div>';return;}
  const dif=agora-limpo;
  if(agora>=limpo+0.5){
-  el.innerHTML='<div class="mres red">⚠️ LAVAR FILTRO AGORA — a pressão subiu '+dif.toFixed(1).replace('.',',')+' bar acima do limpo ('+f1(limpo)+'). Com a bomba desligada, gire para RETROLAVAR e ligue por 1–2 min; depois ENXÁGUE por 30 s e volte para FILTRAR.</div>';
+  el.innerHTML='<div class="mres red">⚠️ LAVAR FILTRO AGORA — a pressão subiu '+dif.toFixed(1).replace('.',',')+' bar acima do limpo ('+f1(limpo)+'). Com a bomba desligada, gire para LAVAR e ligue por 1–2 min; depois PRÉ FILTRAR (enxágue) por 30 s e volte para FILTRAR.</div>';
  }else{
   el.innerHTML='<div class="mres grn">✅ Pressão OK — '+f1(agora)+' bar (limpo: '+f1(limpo)+'). Verifique de novo quando subir 0,5 acima do limpo.</div>';
  }
 };
 
-/* ==================== LISTA DE COMPRAS + PDF (intactos, rodapé EXATO) ==================== */
-const SHOP_LIST=[
- {cat:'QUÍMICOS',  name:'BALDE CLORO GRANULADO 10KG',                    qty:'1 UNIDADE'},
- {cat:'QUÍMICOS',  name:'PASTILHAS CLORO 200G',                          qty:'7 UNIDADES'},
- {cat:'QUÍMICOS',  name:'ALGICIDA CHOQUE',                               qty:'1 LITRO'},
- {cat:'QUÍMICOS',  name:'AREIA FILTRO 25KG',                             qty:'2 SACOS'},
- {cat:'QUÍMICOS',  name:'KIT TESTE MEDIDOR PARÂMETROS',                  qty:'1 KIT'},
- {cat:'QUÍMICOS',  name:'ESSÊNCIA SUNA',                                 qty:'1 LITRO'},
- {cat:'QUÍMICOS',  name:'KIT TRATAMENTO REDUTOR PH / SULFATO / CLARIFICANTE', qty:'1 KIT'},
- {cat:'ACESSÓRIOS',name:'PENEIRA PROFISSIONAL',                          qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'CABO TELESCÓPICO 3M UNIVERSAL (SERVE 3)',       qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'ASPIRADOR 8 RODINHAS',                          qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'MANGUEIRA ASPIRADOR 10M',                       qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'ESCOVA CURVA',                                  qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'ÓCULOS PROTEÇÃO',                               qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'LUVAS',                                         qty:'1 PAR'},
- {cat:'ACESSÓRIOS',name:'BORRIFADOR',                                    qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'LÂMPADA LED PISCINA',                           qty:'1 UNIDADE'},
- {cat:'ACESSÓRIOS',name:'BATERIA CONTROLE CR2032',                       qty:'2 UNIDADES'}
+/* ==================== sheetShop — 2 ABAS (intacto) ==================== */
+const PRODUTOS_CATALOGO=[
+ {cat:'QUÍMICOS',  nome:'CLORO GRANULADO 65%',            qtd:'1 kg • choque 14 g/1.000 L'},
+ {cat:'QUÍMICOS',  nome:'PASTILHAS DE CLORO 200G',        qtd:'1 un • dosador flutuante'},
+ {cat:'QUÍMICOS',  nome:'REDUTOR DE PH (ÁCIDO MURIÁTICO)',qtd:'1 L • pH alto'},
+ {cat:'QUÍMICOS',  nome:'BARRILHA (ELEVADOR DE PH)',      qtd:'1 kg • pH/AT baixa'},
+ {cat:'QUÍMICOS',  nome:'SULFATO DE ALUMÍNIO',            qtd:'1 kg • água turva'},
+ {cat:'QUÍMICOS',  nome:'CLARIFICANTE',                   qtd:'1 L • águas turvas'},
+ {cat:'QUÍMICOS',  nome:'ALGICIDA DE CHOQUE',             qtd:'1 L • água verde'},
+ {cat:'QUÍMICOS',  nome:'ALGICIDA DE MANUTENÇÃO',         qtd:'1 L • dose semanal'},
+ {cat:'QUÍMICOS',  nome:'CLORETO DE CÁLCIO',              qtd:'4 kg • dureza baixa'},
+ {cat:'QUÍMICOS',  nome:'LIMPA BORDA',                    qtd:'1 L • linha amarelada'},
+ {cat:'QUÍMICOS',  nome:'ESSÊNCIA PARA PISCINA',          qtd:'1 L • aroma'},
+ {cat:'QUÍMICOS',  nome:'KIT TESTE 3 PARÂMETROS',         qtd:'1 kit • pH, cloro, AT'},
+ {cat:'ACESSÓRIOS',nome:'PENEIRA PROFISSIONAL',           qtd:'1 un • folhas e insetos'},
+ {cat:'ACESSÓRIOS',nome:'CABO TELESCÓPICO 3M UNIVERSAL',  qtd:'1 un • serve 3 acessórios'},
+ {cat:'ACESSÓRIOS',nome:'ASPIRADOR 8 RODINHAS',           qtd:'1 un • limpeza do fundo'},
+ {cat:'ACESSÓRIOS',nome:'MANGUEIRA ASPIRADOR 10M',        qtd:'1 un • conexão universal'},
+ {cat:'ACESSÓRIOS',nome:'ESCOVA CURVA',                   qtd:'1 un • paredes e fundo'},
+ {cat:'ACESSÓRIOS',nome:'ÓCULOS DE PROTEÇÃO',             qtd:'1 un • aplicação de químicos'},
+ {cat:'ACESSÓRIOS',nome:'LUVAS',                          qtd:'1 par • manuseio de produtos'},
+ {cat:'ACESSÓRIOS',nome:'BORRIFADOR',                     qtd:'1 un • diluição na borda'},
+ {cat:'ACESSÓRIOS',nome:'AREIA PARA FILTRO 25KG',         qtd:'2 sacos • troca a cada 2–3 anos'},
+ {cat:'ACESSÓRIOS',nome:'LÂMPADA LED PISCINA',            qtd:'1 un • iluminação 12V'},
+ {cat:'ACESSÓRIOS',nome:'BATERIA CR2032',                 qtd:'2 un • controle remoto LED'}
 ];
-function shopItems(){
- return SHOP_LIST
-  .map((i,idx)=>({cat:i.cat,name:i.name,qty:((state.shopQty[idx]||'').trim()||i.qty),idx:idx}))
-  .filter(i=>state.shopChecks[i.idx]!==false);
+function itensHoje(){
+ const r=state.readings,L=litersOf(),k=L/1000,items=[];
+ if(r.cl<1)items.push({nome:'CLORO GRANULADO 65%',qtd:'Choque simples: '+gW(round5(14*k))+' (duplo: '+gW(round5(28*k))+')'});
+ if(r.ph>7.4)items.push({nome:'REDUTOR DE PH (ÁCIDO MURIÁTICO)',qtd:'Abaixar pH: '+mlW(round5(Math.abs(r.ph-7.2)*10*4*k))});
+ if(r.ph<7.2)items.push({nome:'BARRILHA (ELEVADOR DE PH)',qtd:'Subir pH/AT: '+gW(round5((7.4-r.ph)*10*18*k))});
+ if(r.alk<80)items.push({nome:'BARRILHA (ELEVADOR DE PH)',qtd:'Subir AT: '+gW(round5(((80-r.alk)/10)*18*k))});
+ if(state.water==='turva')items.push({nome:'SULFATO DE ALUMÍNIO',qtd:'Floculante: '+gW(round5(10*k))});
+ if(state.water==='verde')items.push({nome:'ALGICIDA DE CHOQUE',qtd:'Água verde: '+mlW(round5(6*k))});
+ items.push({nome:'CLORO GRANULADO 65%',qtd:'Manutenção diária: '+gW(round5(3*k))});
+ const seen={},out=[];
+ items.forEach(i=>{if(!seen[i.nome]){seen[i.nome]=1;out.push(i);}});
+ return out;
 }
-window.openShopModal=()=>{
- openModal('<div class="shop-card" onclick="event.stopPropagation()">'
- +'<button class="shop-x" onclick="closeModal()" aria-label="Fechar">'+icon('x',16)+'</button>'
- +'<h2>Lista de Compras</h2><div class="ssub">edite as quantidades — você quem decide</div>'
- +'<div class="shop-bar"></div><div id="shopBody"></div>'
- +'<div class="shop-cnt" id="shopCnt"></div>'
- +'<button class="m-btn" onclick="btnBaixarPDF()">'+icon('download',20)+' Baixar PDF</button>'
- +'<button class="m-ghost" onclick="resetShopQty()">Restaurar quantidades padrão</button>'
- +'</div>');
- renderShop();
+window.openSheetShop=function(){
+ state.shopTab='hoje';
+ document.getElementById('sheetShop').classList.remove('hidden');
+ document.getElementById('sheetShop').classList.add('active');
+ mostrarTab('hoje');
 };
-function renderShop(){
- const el=document.getElementById('shopBody');if(!el)return;
- el.innerHTML=SHOP_LIST.map((i,idx)=>{
-  const on=state.shopChecks[idx]!==false;
-  const q=((state.shopQty[idx]||'').trim()||i.qty).replace(/"/g,'&quot;');
-  return '<div class="shop-it">'
-   +'<button class="shk'+(on?' on':'')+'" onclick="toggleShop('+idx+')" aria-label="Incluir no PDF">'+icon('check',14)+'</button>'
-   +'<span class="shop-n"><b>'+i.name+'</b><small>'+i.cat+'</small></span>'
-   +'<input class="qin" type="text" value="'+q+'" oninput="setShopQty('+idx+',this.value)" aria-label="Quantidade de '+i.name+'">'
-   +'</div>';
- }).join('');
- const cnt=document.getElementById('shopCnt');
- if(cnt)cnt.innerHTML='<span>Itens no PDF</span><span>'+shopItems().length+' de '+SHOP_LIST.length+'</span>';
-}
-window.toggleShop=i=>{state.shopChecks[i]=state.shopChecks[i]===false?true:false;persist();renderShop();};
+window.closeSheetShop=function(){
+ const s=document.getElementById('sheetShop');
+ s.classList.add('hidden');
+ s.classList.remove('active');
+};
+window.mostrarTab=function(tipo){
+ state.shopTab=tipo;
+ document.getElementById('tabHoje').classList.toggle('active',tipo=='hoje');
+ document.getElementById('tabTodos').classList.toggle('active',tipo=='todos');
+ document.getElementById('listaHoje').style.display=tipo=='hoje'?'block':'none';
+ document.getElementById('listaTodos').style.display=tipo=='todos'?'block':'none';
+ document.getElementById('buscaCatalogo').style.display=tipo=='todos'?'block':'none';
+ document.getElementById('tabHint').textContent=tipo=='hoje'
+  ?'Itens calculados a partir do seu diagnóstico atual.'
+  :'Catálogo completo — use a busca para achar rápido.';
+ if(tipo=='hoje')renderHoje();else renderTodos();
+};
+window.renderHoje=function(){
+ const itens=itensHoje();
+ document.getElementById('listaHoje').innerHTML=itens.map((i,ix)=>
+  '<div class="prod-row hoje"><span class="shk on">'+icon('check',14)+'</span>'
+  +'<span class="prod-n"><b>'+i.nome+'</b><small>Dose de hoje pelo seu diagnóstico</small></span>'
+  +'<input class="prod-q" type="text" value="'+i.qtd+'" oninput="setShopQty(\'hoje'+ix+'\',this.value)" aria-label="Quantidade"></div>'
+ ).join('')+'<div class="tab-hint">Dica: para ver todos os produtos (acessórios, areia, LED…), abra a aba CATÁLOGO COMPLETO.</div>';
+};
+window.renderTodos=function(filtro){
+ const q=(typeof filtro==='string'?filtro:(document.getElementById('inputBusca')?document.getElementById('inputBusca').value:'')).toLowerCase().trim();
+ const list=PRODUTOS_CATALOGO.filter(p=>!q||p.nome.toLowerCase().indexOf(q)>-1||p.cat.toLowerCase().indexOf(q)>-1);
+ const cats={};
+ list.forEach(p=>{(cats[p.cat]=cats[p.cat]||[]).push(p);});
+ let html='';
+ Object.keys(cats).sort().forEach(cat=>{
+  html+='<div class="cat-h">'+cat+'</div>';
+  html+=cats[cat].map(p=>{
+   const gi=PRODUTOS_CATALOGO.indexOf(p);
+   const on=state.shopChecks[gi]!==false;
+   const q2=((state.shopQty[gi]||'').trim()||p.qtd).replace(/"/g,'&quot;');
+   return '<div class="prod-row">'
+    +'<button class="shk'+(on?' on':'')+'" onclick="toggleShop('+gi+')" aria-label="Incluir no PDF">'+icon('check',14)+'</button>'
+    +'<span class="prod-n"><b>'+p.nome+'</b><small>'+p.qtd+'</small></span>'
+    +'<input class="prod-q" type="text" value="'+q2+'" oninput="setShopQty('+gi+',this.value)" aria-label="Quantidade de '+p.nome+'"></div>';
+  }).join('');
+ });
+ document.getElementById('listaTodos').innerHTML=html||'<div class="tab-hint">Nenhum produto encontrado para "'+q+'".</div>';
+};
+window.filtrarCatalogo=v=>renderTodos(v);
+window.toggleShop=i=>{state.shopChecks[i]=state.shopChecks[i]===false?true:false;persist();renderTodos(document.getElementById('inputBusca')?document.getElementById('inputBusca').value:'');};
 window.setShopQty=(i,v)=>{state.shopQty[i]=v;persist();};
-window.resetShopQty=()=>{state.shopQty={};state.shopChecks={};persist();renderShop();toast('Quantidades restauradas ao padrão.');};
+window.confirmarUsoHoje=()=>{
+ const itens=itensHoje();
+ toast('Confirmado! Use: '+itens.map(i=>i.nome.split(' ')[0]).join(', ')+'. Veja o Plano para a ordem.');
+ closeSheetShop();
+ go('plano');
+};
+window.gerarPdfDaAba=()=>{
+ if(state.shopTab==='hoje'){
+  const itens=itensHoje();
+  window._pdfOverride=itens.map(i=>({cat:'HOJE',name:i.name,qty:i.qtd}));
+ }else{
+  window._pdfOverride=null;
+ }
+ btnBaixarPDF();
+};
 
+/* ==================== PDF (rodapé EXATO — intocado) ==================== */
 const PDF_H=297,MPT=2.83465;
 const C_NAVY=[0.043,0.184,0.353],C_LINE=[0.894,0.894,0.894],C_BLACK=[0,0,0],
       C_WHITE=[1,1,1],C_FOOT=[0.4,0.4,0.4],C_FBG=[0.96,0.96,0.96],C_FLN=[0.85,0.85,0.85];
@@ -1397,6 +1615,15 @@ function pText(x,y,s,bold,pt,rgb,xRight){const Y=pNum((PDF_H-y)*MPT);
  return 'BT /'+(bold?'F2':'F1')+' '+pNum(pt)+' Tf '+pNum(rgb[0])+' '+pNum(rgb[1])+' '+pNum(rgb[2])+' rg '
   +pNum(tx)+' '+Y+' Td ('+pEsc(s)+') Tj ET\n';}
 
+function pdfItems(){
+ if(window._pdfOverride)return window._pdfOverride;
+ return shopItems();
+}
+function shopItems(){
+ return PRODUTOS_CATALOGO
+  .map((i,idx)=>({cat:i.cat,name:i.nome,qty:((state.shopQty[idx]||'').trim()||i.qtd),idx:idx}))
+  .filter(i=>state.shopChecks[i.idx]!==false);
+}
 function buildShoppingPages(){
  const L=litersOf();
  const pages=[];let cur=[];
@@ -1406,12 +1633,14 @@ function buildShoppingPages(){
  cur.push(pText(14,11,'PISCINA INTELIGENTE',true,13.5,C_WHITE));
  cur.push(pText(14,18.5,f0(L)+' L • '+SHAPES[state.cfg.shape].label+' • Miguel Burnier, Ouro Preto - MG',false,8,C_WHITE));
  let y=34;
- ['QUÍMICOS','ACESSÓRIOS'].forEach(cat=>{
+ const groups={};
+ pdfItems().forEach(i=>{(groups[i.cat]=groups[i.cat]||[]).push(i);});
+ Object.keys(groups).forEach(cat=>{
   if(y>PDF_H-40){newPage();y=24;}
   cur.push(pText(14,y,cat,true,8.3,C_NAVY));
   cur.push(pLine(14,y+1.7,14+cat.length*8.3*0.62/MPT,y+1.7,C_NAVY,0.5));
   y+=9;
-  shopItems().filter(i=>i.cat===cat).forEach(it=>{
+  groups[cat].forEach(it=>{
    if(y>PDF_H-22){newPage();y=24;}
    cur.push(pRect(14,y-3.4,4,4,C_NAVY,false,0.4));
    cur.push(pText(21,y,it.name,true,7.5,C_BLACK));
@@ -1426,7 +1655,6 @@ function buildShoppingPages(){
   const agora=new Date();
   pg.push(pRect(0,PDF_H-10.6,210,10.6,C_FBG,true));
   pg.push(pLine(0,PDF_H-10.6,210,PDF_H-10.6,C_FLN,0.2));
-  /* rodapé EXATO — NÃO MEXER */
   pg.push(pText(8,PDF_H-6.6,"Criado por Elias Costa NEGRET'S | Whatsapp (31) 98251-7147 | Telegram @EliasNegrets | Cachoeira do Campo - MG",false,5,C_FOOT));
   pg.push(pText(0,PDF_H-6.6,agora.toLocaleDateString('pt-BR')+' '+agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'  •  pág '+(i+1)+'/'+pages.length,false,5,C_FOOT,202));
  });
@@ -1446,7 +1674,7 @@ function buildPdf(pages){
   obj((5+2*i)+' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents '+(6+2*i)+' 0 R >>\nendobj');
   obj((6+2*i)+' 0 obj\n<< /Length '+stream.length+' >>\nstream\n'+stream+'endstream\nendobj');
  });
- obj(infoObj+' 0 obj\n<< /Title (Lista de Compras - Piscina Inteligente) /Producer (Piscina App) >>\nendobj');
+ obj(infoObj+' 0 obj\n<< /Title (Lista de Compras - Piscina Inteligente) /Producer (Piscina App v4.2) >>\nendobj');
  const xref=pdf.length;
  pdf+='xref\n0 '+(infoObj+1)+'\n0000000000 65535 f \n';
  offs.forEach(o=>{pdf+=String(o).padStart(10,'0')+' 00000 n \n';});
@@ -1457,9 +1685,10 @@ function buildPdf(pages){
 }
 window.btnBaixarPDF=()=>{
  try{
-  if(!shopItems().length){toast('Marque pelo menos 1 item na lista.','warn');return;}
+  if(!pdfItems().length){toast('Marque pelo menos 1 item na lista.','warn');return;}
   const L=litersOf();
   const bytes=buildPdf(buildShoppingPages());
+  window._pdfOverride=null;
   const blob=new Blob([bytes],{type:'application/pdf'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -1467,14 +1696,11 @@ window.btnBaixarPDF=()=>{
   a.download='Lista-Piscina-'+Math.round(L/1000)+'kL-'+new Date().toISOString().slice(0,10)+'.pdf';
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),4000);
-  closeModal();
   toast('PDF baixado: '+a.download);
  }catch(e){console.error(e);toast('Não consegui gerar o PDF.','warn');}
 };
 
-/* ============================================================
- PWA (intacto) — botão instalar some ao instalar
- ============================================================ */
+/* ==================== PWA ==================== */
 let deferredPrompt=null,canInstall=false;
 function isAppInstalled(){
  return (window.matchMedia&&matchMedia('(display-mode: standalone)').matches)
@@ -1519,13 +1745,13 @@ function toast(msg,type){const t=document.createElement('div');t.className='toas
  $('#toast-root').appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));
  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),320);},2600);}
 
-/* ---------- boot (bottom nav NÃO MEXIDA) ---------- */
+/* ---------- boot ---------- */
  $('#tabbar').innerHTML=[
  ['home','Início','home'],['clima','Clima','cloud'],['hist','Histórico','bars'],['dicas','Dicas','bulb']
 ].map(x=>'<button data-v="'+x[0]+'" onclick="go(\''+x[0]+'\')">'+icon(x[2],22)+'<span>'+x[1]+'</span></button>').join('');
 
 document.addEventListener('DOMContentLoaded',()=>{
- const APP_VER='3.7';
+ const APP_VER='4.2';
  try{
   if(localStorage.getItem('poolcare_ver')!==APP_VER){
    localStorage.removeItem('poolcare_wx');
