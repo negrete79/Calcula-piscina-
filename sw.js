@@ -1,5 +1,5 @@
 /* =========================================================
-   Piscina Inteligente v3.6.2 — Service Worker
+   Piscina Inteligente v3.7.2 — Service Worker
    - CACHE novo a cada versão (força o celular a pegar o app atualizado)
    - Clima (Open-Meteo): NETWORK FIRST — rede primeiro,
      guarda a última previsão REAL e serve do cache se cair o sinal
@@ -8,7 +8,7 @@
      demais arquivos = cache primeiro
    ========================================================= */
 
-const CACHE = 'poolcare-v3.6.2';   /* ★ suba esta versão a cada atualização do app */
+const CACHE = 'poolcare-v3.7.2';   /* ★ suba esta versão a cada atualização do app */
 
 const SHELL = [
   './',
